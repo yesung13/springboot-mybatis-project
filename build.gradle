@@ -1,0 +1,76 @@
+//오프라인
+buildscript {
+    ext {
+        springBootVersion = '2.2.4.RELEASE'
+    }
+
+    repositories {
+        maven {
+            url "${nexusUrl}/content/groups/public"
+        }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+//plugins {
+//    id 'org.springframework.boot' version '2.2.4.RELEASE'
+//    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+//    id 'java'
+//}
+
+group = 'com.spring'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven {
+        url "${nexusUrl}/content/groups/public"
+    }
+//    mavenCentral()
+}
+
+dependencies {
+
+    //init
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //spring security
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+    //embed Tomcat Starter
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    //Database
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
+    implementation 'org.mybatis:mybatis:3.5.3' // sql Mapper 라이브러리
+    implementation 'org.mybatis:mybatis-spring:2.0.3' // 스프링과 Mybatis를 연결
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc' // DataSource에 필요한 클래스 제공
+
+    //etc
+    compileOnly 'javax.servlet:jstl'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+}
+

@@ -1,0 +1,65 @@
+spring:
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+  #Encoding UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  #database
+  datasource:
+    # java config 수동 설정 시
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://127.0.0.1:3306/test
+      username: root
+      password: root
+  # java config 자동 설정 시
+  #    driver-class-name: org.mariadb.jdbc.Driver
+  #    url: jdbc:mariadb://127.0.0.1:3306/test
+  #    username: root
+  #    password: root
+
+  ## Mutipart
+#  servlet:
+#    multipart:
+#      # enable mutipart uploads
+#      enabled: true
+#      # Threshold after which files are written to disk
+#      file-size-threshold: 2KB
+#      # Max file size
+#      max-file-size: 200MB
+#      # Max Request Size
+#      max-request-size: 215MB
+
+#mybatis:
+#  mapper-locations: mybatis/mapper/**/*.xml
+#  type-aliases-package: com.spring.springbootmybatisproject.resources.mybatis.
+#  config-location: classpath:mybatis-config.xml
+
+server:
+  servlet:
+    context-path: /
+    jsp:
+      init-parameters:
+        development: true #서버 재시작없이 바로 업데이트됨
+  port: 8080
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
