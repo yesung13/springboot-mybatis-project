@@ -1,20 +1,17 @@
 package com.spring.springbootmybatisproject.board.controller;
 
+import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
 
@@ -22,20 +19,49 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    // 게시글 목록
+    @GetMapping("/list")
+    public ModelAndView boardList() {
+        ModelAndView mv = new ModelAndView();
+        List<BoardVO> boardVOList = boardService.getBoardList();
+        mv.addObject("boardList", boardVOList); // jstl로 호출
+        mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
+        return mv;
+    }
 
-    @GetMapping("")
-    public String home(Model model) {
-        Date date = new Date();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateResult = format.format(date);
-        model.addAttribute("date", dateResult);
+    // 게시글 상세보기
+    @GetMapping("/detail")
+    public String boardDetail(@RequestParam(value = "id") Long boardId, Model model) {
+        BoardVO boardVO = boardService.getBoardListDetail(boardId);
+        model.addAttribute("boardListDetail", boardVO);
+        return "board/boardDetail";
+    }
 
-        List<Integer> params = new ArrayList<Integer>();
-        params.add(28);
-        params.add(29);
-        params.add(30);
-        List<Map<String, Object>> list = boardService.getBoardList(params);
+    // 게시글 검색
+    @GetMapping("/search")
+    public List<BoardVO> boardSearch(@RequestParam(value = "type") String type,
+                                      @RequestParam(value = "keyword") String keyword) {
+        switch (type) {
+            case "title":
+                if (!keyword.equals("")) {
+                    return boardService.getSearchTitle(keyword);
+                }
+            case "content":
+                if (!keyword.equals("")) {
+                    return boardService.getSearchContent(keyword);
+                }
+            case "writer":
+                if (!keyword.equals("")) {
+                    return boardService.getSearchWriter(keyword);
+                }
+            default:
+                return null;
+        }
+    }
 
-        return "index";
+    // 게시글 조회수
+    @PutMapping("/viewCnt")
+    public void boardViewCnt(@RequestParam(value = "boardId") Long boardId){
+        boardService.increaseViewCnt(boardId);
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springbootmybatisproject.board.repository.BoardMapper">
+
+    <!--    <select id="getBoardList" resultType="java.util.Map" parameterType="java.util.List">-->
+    <!--        SELECT row_number() over (ORDER BY boardId) AS no,-->
+    <!--        boardId, title, writer, viewCnt, replyCnt, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') as boardDatetime-->
+    <!--        FROM bbs_board-->
+    <!--        ORDER BY no DESC;-->
+    <!--        &lt;!&ndash;        where boardId in&ndash;&gt;-->
+    <!--        &lt;!&ndash;        <if test="list != null and list.size() != 0">&ndash;&gt;-->
+    <!--        &lt;!&ndash;            <foreach collection="list" item="id" open="(" close=")" separator=",">&ndash;&gt;-->
+    <!--        &lt;!&ndash;                #{id}&ndash;&gt;-->
+    <!--        &lt;!&ndash;            </foreach>&ndash;&gt;-->
+    <!--        &lt;!&ndash;        </if>&ndash;&gt;-->
+    <!--    </select>-->
+
+    <!--    resultType에서 List 부분의 경우 List을 전달 하는 것이 아니라 결과 형(String, Map 등등)을 전달 하는것
+            출처: https://lahuman.jabsiri.co.kr/56 [lahuman & jabsiri 노트]
+     -->
+
+    <!-- 게시글 목록 -->
+    <select id="findAll" resultType="BoardVO">
+        SELECT row_number() over (ORDER BY boardId)            AS no,
+               boardId,
+               title,
+               writer,
+               viewCnt,
+               replyCnt,
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        FROM bbs_board
+        ORDER BY no DESC;
+    </select>
+
+    <!-- 게시글 상세보기 -->
+    <select id="findByBoardId" resultType="BoardVO">
+        SELECT title, content, writer, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        FROM bbs_board
+        WHERE boardId = #{boardId};
+    </select>
+
+    <!-- 게시글 검색 -->
+    <select id="findByTitleLike"
+
+    <!-- 게시글 조회수 -->
+    <update id="increaseViewCnt" parameterType="Long">
+        UPDATE bbs_board
+        SET viewCnt = viewCnt + 1
+        WHERE boardId = #{boardId};
+    </update>
+
+
+</mapper>

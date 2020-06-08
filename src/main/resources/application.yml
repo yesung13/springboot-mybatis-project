@@ -25,6 +25,7 @@ spring:
       jdbc-url: jdbc:mariadb://127.0.0.1:3306/test
       username: root
       password: root
+    sql-script-encoding: UTF-8 # SQL 인코딩 옵션
   # java config 자동 설정 시
   #    driver-class-name: org.mariadb.jdbc.Driver
   #    url: jdbc:mariadb://127.0.0.1:3306/test
@@ -43,9 +44,11 @@ spring:
 #      # Max Request Size
 #      max-request-size: 215MB
 
-#mybatis:
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  # 필드 속성 네임을 언더 스코어 -> 카멜 케이스
 #  mapper-locations: mybatis/mapper/**/*.xml
-#  type-aliases-package: com.spring.springbootmybatisproject.resources.mybatis.
+#  type-aliases-package: com.spring.springbootmybatisproject
 #  config-location: classpath:mybatis-config.xml
 
 server:
