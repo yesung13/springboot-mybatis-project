@@ -40,7 +40,9 @@
     </select>
 
     <!-- 게시글 검색 -->
-    <select id="findByTitleLike"
+    <select id="findByTitleLike">
+
+    </select>
 
     <!-- 게시글 조회수 -->
     <update id="increaseViewCnt" parameterType="Long">
