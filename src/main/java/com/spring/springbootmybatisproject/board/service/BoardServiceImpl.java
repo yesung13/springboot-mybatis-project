@@ -34,20 +34,20 @@ public class BoardServiceImpl implements BoardService {
     }
 
     // 게시글 검색
-    @Override
-    public List<BoardVO> getSearchTitle(String keyword) {
-        return boardMapper.findByTitleLike(keyword);
-    }
-
-    @Override
-    public List<BoardVO> getSearchContent(String keyword) {
-        return boardMapper.findByContentLike(keyword);
-    }
-
-    @Override
-    public List<BoardVO> getSearchWriter(String keyword) {
-        return boardMapper.findByWriterLike(keyword);
-    }
+//    @Override
+//    public List<BoardVO> getSearchKeyword(String keyword) {
+//        return boardMapper.findBySearchKeyword(keyword);
+//    }
+//
+//    @Override
+//    public List<BoardVO> getSearchContent(String keyword) {
+//        return boardMapper.findBySearchKeyword(keyword);
+//    }
+//
+//    @Override
+//    public List<BoardVO> getSearchWriter(String keyword) {
+//        return boardMapper.findBySearchKeyword(keyword);
+//    }
 
     // 게시글 조회수
     @Override

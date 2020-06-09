@@ -4,10 +4,12 @@ import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,30 +40,27 @@ public class BoardController {
     }
 
     // 게시글 검색
-    @GetMapping("/search")
-    public List<BoardVO> boardSearch(@RequestParam(value = "type") String type,
-                                      @RequestParam(value = "keyword") String keyword) {
-        switch (type) {
-            case "title":
-                if (!keyword.equals("")) {
-                    return boardService.getSearchTitle(keyword);
-                }
-            case "content":
-                if (!keyword.equals("")) {
-                    return boardService.getSearchContent(keyword);
-                }
-            case "writer":
-                if (!keyword.equals("")) {
-                    return boardService.getSearchWriter(keyword);
-                }
-            default:
-                return null;
-        }
-    }
+//    @GetMapping("/search")
+//    public String boardSearch(@RequestParam(value = "type") String type,
+//                                     @RequestParam(value = "keyword") String keyword,
+//                                     Model model) {
+//        List<BoardVO> boardVOList = new ArrayList<>();
+//        switch (type) {
+//            case "title":
+//            case "content":
+//            case "writer":
+//                if (!keyword.equals("")) {
+//                    boardVOList =  boardService.getSearchKeyword(keyword);
+//                }
+//                break;
+//        }
+//        model.addAttribute("boardKeywordList", boardVOList);
+//        return "board/boardList";
+//    }
 
     // 게시글 조회수
     @PutMapping("/viewCnt")
-    public void boardViewCnt(@RequestParam(value = "boardId") Long boardId){
+    public void boardViewCnt(@RequestParam(value = "boardId") Long boardId) {
         boardService.increaseViewCnt(boardId);
     }
 }

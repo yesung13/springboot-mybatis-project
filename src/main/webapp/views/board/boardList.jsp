@@ -74,7 +74,7 @@
                     <input type="text" class="col-10 form-control" placeholder="검색어를 입력하세요" name="keyword">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary form-control " type="submit">
-                            <img src="${pageContext.request.contextPath}/resources/image/search-black-36dp.svg"
+                            <img src="${pageContext.request.contextPath}/resources/image/search-black-24dp.svg"
                                  alt="search_img"></button>
                     </div>
                 </div>

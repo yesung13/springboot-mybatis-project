@@ -7,12 +7,12 @@
     <!--        boardId, title, writer, viewCnt, replyCnt, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') as boardDatetime-->
     <!--        FROM bbs_board-->
     <!--        ORDER BY no DESC;-->
-    <!--        &lt;!&ndash;        where boardId in&ndash;&gt;-->
-    <!--        &lt;!&ndash;        <if test="list != null and list.size() != 0">&ndash;&gt;-->
-    <!--        &lt;!&ndash;            <foreach collection="list" item="id" open="(" close=")" separator=",">&ndash;&gt;-->
-    <!--        &lt;!&ndash;                #{id}&ndash;&gt;-->
-    <!--        &lt;!&ndash;            </foreach>&ndash;&gt;-->
-    <!--        &lt;!&ndash;        </if>&ndash;&gt;-->
+<!--                    where boardId in-->
+    <!--                    <if test="list != null and list.size() != 0">-->
+    <!--                        <foreach collection="list" item="id" open="(" close=")" separator=",">-->
+    <!--                            #{id}-->
+    <!--                        </foreach>-->
+    <!--                    </if>-->
     <!--    </select>-->
 
     <!--    resultType에서 List 부분의 경우 List을 전달 하는 것이 아니라 결과 형(String, Map 등등)을 전달 하는것
@@ -40,9 +40,18 @@
     </select>
 
     <!-- 게시글 검색 -->
-    <select id="findByTitleLike">
-
-    </select>
+<!--    <select id="findBySearchKeyword" resultType="BoardVO">-->
+<!--        SELECT row_number() over (ORDER BY boardId)            AS no,-->
+<!--               boardId,-->
+<!--               title,-->
+<!--               writer,-->
+<!--               viewCnt,-->
+<!--               replyCnt,-->
+<!--               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime-->
+<!--        FROM bbs_board-->
+<!--        WHERE title LIKE '%'#{keyword}'%'-->
+<!--        ORDER BY no DESC;-->
+<!--    </select>-->
 
     <!-- 게시글 조회수 -->
     <update id="increaseViewCnt" parameterType="Long">

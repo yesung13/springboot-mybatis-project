@@ -18,9 +18,7 @@ public interface BoardMapper {
     BoardVO findByBoardId(Long boardId);
 
     // 게시글 검색
-    List<BoardVO> findByTitleLike(String keyword);
-    List<BoardVO> findByContentLike(String keyword);
-    List<BoardVO> findByWriterLike(String keyword);
+//    List<BoardVO> findBySearchKeyword(String keyword);
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);

@@ -13,11 +13,12 @@ public interface BoardService {
     BoardVO getBoardListDetail(Long boardId);
 
     // 게시글 검색
-    List<BoardVO> getSearchTitle(String keyword);
-
-    List<BoardVO> getSearchContent(String keyword);
-
-    List<BoardVO> getSearchWriter(String keyword);
+//    List<BoardVO> getSearchTitle(String keyword);
+//
+//    List<BoardVO> getSearchContent(String keyword);
+//
+//    List<BoardVO> getSearchWriter(String keyword);
+//    List<BoardVO> getSearchKeyword(String keyword);
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);

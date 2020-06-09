@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @Alias("BoardVO") // mybatis mapper resultType alias
-public class BoardVO {
+public class BoardVO extends PagingVO{
     private int no; // 게시글 순번
     private Long boardId; // 게시글 시퀀스
     private Long accountId;
