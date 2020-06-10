@@ -46,7 +46,7 @@
             }
 
 
-            var requestUrl = '/boardVO/insertBoardWrite';
+            var requestUrl = '/board/insertBoardWrite';
             var data = {}; // 객체
             data.title = $("#title").val(); // 객체의 속성 추가
             data.content = $("#content").val();

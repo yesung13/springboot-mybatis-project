@@ -30,15 +30,16 @@ public class BoardVO extends Pagination {
     private int cntPerPage;
 
     @Builder
-    public BoardVO(Long accountId, String title, String content, String writer, int viewCnt, int replyCnt) {
+    public BoardVO(Long accountId, String title, String content, String writer, int viewCnt, int replyCnt, String boardDatetime, String boardUpDatetime) {
         this.accountId = accountId;
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.viewCnt = viewCnt;
         this.replyCnt = replyCnt;
+        this.boardDatetime = boardDatetime;
+        this.boardUpDatetime = boardUpDatetime;
     }
-
 }
 
 

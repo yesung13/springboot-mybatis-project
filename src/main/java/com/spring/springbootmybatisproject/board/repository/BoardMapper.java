@@ -17,8 +17,11 @@ public interface BoardMapper {
     // 게시글 목록
     List<BoardVO> findAll(BoardVO boardVO);
 
-    // 게시글 상세보기
+    // 게시글 상세 보기
     BoardVO findByBoardId(Long boardId);
+
+    // 게시글 작성
+    void saveBoardWrite(BoardVO boardVO);
 
     // 게시글 검색
 //    List<BoardVO> findBySearchKeyword(String keyword);

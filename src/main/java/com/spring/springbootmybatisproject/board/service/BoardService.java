@@ -12,8 +12,11 @@ public interface BoardService {
     // 게시글 목록
     List<BoardVO> getBoardList(BoardVO boardVO);
 
-    // 게시글 상세보기
+    // 게시글 상세 보기
     BoardVO getBoardListDetail(Long boardId);
+
+    // 게시글 작성
+    void setBoardWrite(BoardVO boardVO);
 
     // 게시글 검색
 //    List<BoardVO> getSearchTitle(String keyword);

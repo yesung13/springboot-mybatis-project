@@ -4,6 +4,7 @@ import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.repository.BoardMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,10 +33,22 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findAll(boardVO);
     }
 
-    // 게시글 상세보기
+    // 게시글 상세 보기
     @Override
     public BoardVO getBoardListDetail(Long boardId) {
         return boardMapper.findByBoardId(boardId);
+    }
+
+    // 게시글 작성
+    @Override
+    public void setBoardWrite(BoardVO boardVO) {
+        BoardVO vo = BoardVO.builder()
+                .title(boardVO.getTitle())
+                .content(boardVO.getContent())
+//                .boardDatetime()
+//                .boardUpDatetime(new Date())
+                .build();
+        boardMapper.saveBoardWrite(vo);
     }
 
     // 게시글 검색

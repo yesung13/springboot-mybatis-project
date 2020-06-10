@@ -54,7 +54,7 @@ public class Pagination {
     public Pagination(int listCnt, int curPage) {
         // 총 게시물 수와 현재 페이지를 Controller로 부터 받아온다.
 
-        // 현재페이지
+        // 현재 페이지
         setCurPage(curPage);
         // 총 게시물 수
         setListCnt(listCnt);

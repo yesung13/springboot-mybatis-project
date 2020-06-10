@@ -194,7 +194,7 @@
         <li class="page-item">
             <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
                 <a href="javascript:void(0)" class="page-link"
-                   onClick="fn_paging('${pagination.pageCnt }')">[끝]${pageNum }</a>
+                   onClick="fn_paging('${pagination.pageCnt }')">[끝]</a>
             </c:if>
         </li>
     </ul>

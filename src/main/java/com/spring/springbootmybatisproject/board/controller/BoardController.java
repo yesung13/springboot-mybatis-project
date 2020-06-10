@@ -3,6 +3,7 @@ package com.spring.springbootmybatisproject.board.controller;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
 import com.spring.springbootmybatisproject.board.service.BoardService;
+import com.spring.springbootmybatisproject.common.model.SFV;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,8 +32,8 @@ public class BoardController {
         Pagination pagination = new Pagination(listCnt, curPage);
         boardVO.setStartIndex(pagination.getStartIndex());
         boardVO.setCntPerPage(pagination.getPageSize());
-        model.addAttribute("listCnt",listCnt);
-        model.addAttribute("pagination",pagination);
+        model.addAttribute("listCnt", listCnt);
+        model.addAttribute("pagination", pagination);
 
         // 전체 리스트 출력
         ModelAndView mv = new ModelAndView();
@@ -42,12 +43,20 @@ public class BoardController {
         return mv;
     }
 
-    // 게시글 상세보기
+    // 게시글 상세 보기
     @GetMapping("/detail")
     public String boardDetail(@RequestParam(value = "id") Long boardId, Model model) {
         BoardVO boardVO = boardService.getBoardListDetail(boardId);
         model.addAttribute("boardListDetail", boardVO);
         return "board/boardDetail";
+    }
+
+    // 게시글 작성
+    @RequestMapping(value = "/write", method = {RequestMethod.GET, RequestMethod.POST})
+    public String boardWrite(BoardVO boardVO, Model model) {
+        boardService.setBoardWrite(boardVO);
+        model.addAttribute("res", SFV.RES_SUCCESS_CODE);
+        return "board/boardWrite";
     }
 
     // 게시글 검색
