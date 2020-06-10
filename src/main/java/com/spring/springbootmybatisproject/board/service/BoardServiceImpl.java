@@ -20,11 +20,16 @@ public class BoardServiceImpl implements BoardService {
 //        return boardMapper.getBoardList(params);
 //    }
 
+    // 게시글 총 갯수
+    @Override
+    public int getBoardListTotalCnt(BoardVO boardVO) {
+        return boardMapper.boardListTotalCnt(boardVO);
+    }
 
     // 게시글 목록
     @Override
-    public List<BoardVO> getBoardList() {
-        return boardMapper.findAll();
+    public List<BoardVO> getBoardList(BoardVO boardVO) {
+        return boardMapper.findAll(boardVO);
     }
 
     // 게시글 상세보기

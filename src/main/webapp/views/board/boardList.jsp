@@ -47,6 +47,19 @@
         }
 
 
+        // $(document).ready(function(){
+        //     $("#notice_regi").on("click",function(){
+        //         location.href="/test/noticeRegi"
+        //     });
+        // });
+        function fn_paging(curPage) {
+            location.href = "/board/list?curPage=" + curPage;
+        }
+
+        function notice_push(notice_id) {
+            alert(notice_id);
+        }
+
     </script>
 
 </head>
@@ -82,13 +95,20 @@
         </div>
     </div>
     <!-- //검색창  -->
-    <table class="table table-borderless" style="float: right">
-        <tr>
-            <td>
-                <button class="btn btn-link" style="float: right" onclick="location.href='/boardVO/write'">글쓰기</button>
-            </td>
-        </tr>
-    </table>
+
+    <%-- 게시판 --%>
+    <div class="row mt-5 mb-2 pl-1">
+        <div class="col-9">
+            <span class="float-left">
+             총 게시글 수 : ${pagination.listCnt } / 총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage }
+            / 총 블럭 수 : ${pagination.rangeCnt } / 현재 블럭 : ${pagination.curRange }
+            </span>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-success btn-sm float-right" onclick="location.href='/board/write'">글쓰기</button>
+        </div>
+    </div>
+
     <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
         <tr class="text-center">
@@ -126,12 +146,57 @@
         </tbody>
     </table>
 
-    <%-- paigng --%>
-    <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getBoardList(0)">1</a></li>
-        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getBoardList(1)">2</a></li>
-        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getBoardList(2)">3</a></li>
-        <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getBoardList(3)">4</a></li>
+    <%--
+        **jstl 비교문법**
+            == 또는 eq
+            != 또는 ne
+            < lt
+            > gt
+            <= le
+            >= ge
+            empty : list, map같은 객체가 비어있을 경우
+    --%>
+    <%-- 페이징 --%>
+    <ul class="pagination pagination-sm justify-content-center">
+        <li class="page-item">
+            <c:if test="${pagination.curRange ne 1 }">
+                <a href="javascript:void(0)" class="page-link" onClick="fn_paging(1)">[처음]</a>
+            </c:if>
+        </li>
+        <li class="page-item">
+            <c:if test="${pagination.curPage ne 1}">
+                <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }')"
+                   aria-label="previous">< 이전</a>
+            </c:if>
+        </li>
+        <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+            <li class="page-item">
+                <c:choose>
+                    <c:when test="${pageNum eq  pagination.curPage}">
+                    <span class="font-weight-bold">
+                        <a href="javascript:void(0)" class="page-link"
+                           onClick="fn_paging('${pageNum }')">${pageNum }</a>
+                    </span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="javascript:void(0)" class="page-link"
+                           onClick="fn_paging('${pageNum }')">${pageNum }</a>
+                    </c:otherwise>
+                </c:choose>
+            </li>
+        </c:forEach>
+        <li class="page-item">
+            <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+                <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }')"
+                   aria-label="next">다음 ></a>
+            </c:if>
+        </li>
+        <li class="page-item">
+            <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+                <a href="javascript:void(0)" class="page-link"
+                   onClick="fn_paging('${pagination.pageCnt }')">[끝]${pageNum }</a>
+            </c:if>
+        </li>
     </ul>
 </section>
 

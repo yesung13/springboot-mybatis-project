@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springbootmybatisproject.board.repository.BoardMapper">
-
-    <!--    <select id="getBoardList" resultType="java.util.Map" parameterType="java.util.List">-->
-    <!--        SELECT row_number() over (ORDER BY boardId) AS no,-->
-    <!--        boardId, title, writer, viewCnt, replyCnt, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') as boardDatetime-->
-    <!--        FROM bbs_board-->
-    <!--        ORDER BY no DESC;-->
-<!--                    where boardId in-->
-    <!--                    <if test="list != null and list.size() != 0">-->
-    <!--                        <foreach collection="list" item="id" open="(" close=")" separator=",">-->
-    <!--                            #{id}-->
-    <!--                        </foreach>-->
-    <!--                    </if>-->
-    <!--    </select>-->
-
-    <!--    resultType에서 List 부분의 경우 List을 전달 하는 것이 아니라 결과 형(String, Map 등등)을 전달 하는것
-            출처: https://lahuman.jabsiri.co.kr/56 [lahuman & jabsiri 노트]
+    <!--
+        resultType에서 List 부분의 경우 List을 전달 하는 것이 아니라 결과 형(String, Map 등등)을 전달 하는것
+        출처: https://lahuman.jabsiri.co.kr/56 [lahuman & jabsiri 노트]
      -->
+
+    <!-- 게시글 총 갯수 -->
+    <select id="boardListTotalCnt" resultType="Integer">
+        SELECT count (*)
+        FROM bbs_board;
+    </select>
 
     <!-- 게시글 목록 -->
     <select id="findAll" resultType="BoardVO">
@@ -29,7 +22,8 @@
                replyCnt,
                DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
         FROM bbs_board
-        ORDER BY no DESC;
+        ORDER BY no DESC
+        limit #{startIdx}, #{cntPerPage};
     </select>
 
     <!-- 게시글 상세보기 -->
@@ -40,18 +34,18 @@
     </select>
 
     <!-- 게시글 검색 -->
-<!--    <select id="findBySearchKeyword" resultType="BoardVO">-->
-<!--        SELECT row_number() over (ORDER BY boardId)            AS no,-->
-<!--               boardId,-->
-<!--               title,-->
-<!--               writer,-->
-<!--               viewCnt,-->
-<!--               replyCnt,-->
-<!--               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime-->
-<!--        FROM bbs_board-->
-<!--        WHERE title LIKE '%'#{keyword}'%'-->
-<!--        ORDER BY no DESC;-->
-<!--    </select>-->
+    <!--    <select id="findBySearchKeyword" resultType="BoardVO">-->
+    <!--        SELECT row_number() over (ORDER BY boardId)            AS no,-->
+    <!--               boardId,-->
+    <!--               title,-->
+    <!--               writer,-->
+    <!--               viewCnt,-->
+    <!--               replyCnt,-->
+    <!--               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime-->
+    <!--        FROM bbs_board-->
+    <!--        WHERE title LIKE '%'#{keyword}'%'-->
+    <!--        ORDER BY no DESC;-->
+    <!--    </select>-->
 
     <!-- 게시글 조회수 -->
     <update id="increaseViewCnt" parameterType="Long">

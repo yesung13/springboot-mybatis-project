@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @Alias("BoardVO") // mybatis mapper resultType alias
-public class BoardVO extends PagingVO{
+public class BoardVO extends Pagination {
     private int no; // 게시글 순번
     private Long boardId; // 게시글 시퀀스
     private Long accountId;
@@ -24,6 +24,10 @@ public class BoardVO extends PagingVO{
     private int replyCnt;
     private String boardDatetime;
     private String boardUpDatetime;
+
+    // 페이징
+    private int startIndex;
+    private int cntPerPage;
 
     @Builder
     public BoardVO(Long accountId, String title, String content, String writer, int viewCnt, int replyCnt) {

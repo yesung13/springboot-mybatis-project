@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface BoardService {
 
+    // 게시글 총 갯수
+    int getBoardListTotalCnt(BoardVO boardVO);
+
     // 게시글 목록
-    List<BoardVO> getBoardList();
+    List<BoardVO> getBoardList(BoardVO boardVO);
 
     // 게시글 상세보기
     BoardVO getBoardListDetail(Long boardId);

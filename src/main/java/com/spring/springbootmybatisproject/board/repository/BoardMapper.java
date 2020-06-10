@@ -11,8 +11,11 @@ import java.util.List;
 public interface BoardMapper {
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
 
+    // 게시글 총 갯수
+    int boardListTotalCnt(BoardVO boardVO);
+
     // 게시글 목록
-    List<BoardVO> findAll();
+    List<BoardVO> findAll(BoardVO boardVO);
 
     // 게시글 상세보기
     BoardVO findByBoardId(Long boardId);

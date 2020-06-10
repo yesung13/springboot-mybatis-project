@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.board.controller;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
+import com.spring.springbootmybatisproject.board.model.Pagination;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +24,19 @@ public class BoardController {
 
     // 게시글 목록
     @GetMapping("/list")
-    public ModelAndView boardList() {
+    public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO) {
+
+        // 전체 리스트 개수
+        int listCnt = boardService.getBoardListTotalCnt(boardVO);
+        Pagination pagination = new Pagination(listCnt, curPage);
+        boardVO.setStartIndex(pagination.getStartIndex());
+        boardVO.setCntPerPage(pagination.getPageSize());
+        model.addAttribute("listCnt",listCnt);
+        model.addAttribute("pagination",pagination);
+
+        // 전체 리스트 출력
         ModelAndView mv = new ModelAndView();
-        List<BoardVO> boardVOList = boardService.getBoardList();
+        List<BoardVO> boardVOList = boardService.getBoardList(boardVO);
         mv.addObject("boardList", boardVOList); // jstl로 호출
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
         return mv;
