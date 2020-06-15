@@ -4,16 +4,15 @@ import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import com.spring.springbootmybatisproject.common.model.SFV;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -51,12 +50,34 @@ public class BoardController {
         return "board/boardDetail";
     }
 
-    // 게시글 작성
-    @RequestMapping(value = "/write", method = {RequestMethod.GET, RequestMethod.POST})
-    public String boardWrite(BoardVO boardVO, Model model) {
-        boardService.setBoardWrite(boardVO);
-        model.addAttribute("res", SFV.RES_SUCCESS_CODE);
+    // 게시글 작성 page
+    @GetMapping("/write")
+    public String boardWrite() {
         return "board/boardWrite";
+    }
+
+    // 게시글 작성
+    @PostMapping("/setWrite")
+    @ResponseBody
+    public int boardWrite(@RequestBody BoardVO boardVO) {
+        String title = boardVO.getTitle();
+        String content = boardVO.getContent();
+        if (title != null && content != null) {
+            boardService.setBoardWrite(boardVO);
+            return SFV.INT_RES_CODE_OK;
+        }
+        return SFV.INT_RES_CODE_FAIL;
+    }
+
+    // 게시글 삭제
+    @PostMapping("/delete")
+    public int boardDelete(@RequestParam(value = "boardId") Long boardId) {
+        log.info("boardId : {}", boardId);
+        if (boardId != null) {
+            boardService.getBoardDelete(boardId);
+            return SFV.INT_RES_CODE_SUCCESS;
+        }
+        return SFV.INT_RES_CODE_FAIL;
     }
 
     // 게시글 검색

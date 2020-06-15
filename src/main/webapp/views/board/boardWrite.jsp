@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/views/common/htmlHead.jsp"%>
+<%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
     <title>글쓰기</title>
@@ -32,7 +32,7 @@
             $("#content").val(null);
         }
 
-        // insert
+        // 게시글 작성
         function write_btn() {
             if ($("#title").val() == null || $("#title").val() === "") {
                 alert("제목을 입력해 주세요!");
@@ -46,7 +46,7 @@
             }
 
 
-            var requestUrl = '/board/insertBoardWrite';
+            var requestUrl = '/board/setWrite';
             var data = {}; // 객체
             data.title = $("#title").val(); // 객체의 속성 추가
             data.content = $("#content").val();
@@ -60,14 +60,16 @@
                 contentType: 'application/json',
                 success: function (response) {
                     console.log("Insert Response Data:", response);
-                    if (response.resultCode === 200) {
-                        alert("생성을 성공하였습니다.")
-                        location.replace('/boardVO/main');
+                    if (response === 200) {
+                        alert("생성을 성공했습니다.")
+                        location.replace('/board/list');
+                    }else if(response !== 200){
+                        alert("생성을 실패했습니다.")
                     }
                 },
                 error: function (xhr, e, response) {
                     console.log("Insert Error:", xhr, e, response);
-                    alert("생성을 실패하였습니다.")
+                    alert("에러!!")
                 }
             });
 
@@ -132,17 +134,19 @@
         </table>
         <br/>
         <div class="row justify-content-center">
-            <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
-                   onclick="reset_btn()"/>
-            <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"
-                   style="width: 100px"/>
-            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/boardVO/main'"
-                   style="width: 100px"/>
+                <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
+                       onclick="reset_btn()"/>
+
+                <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"
+                       style="width: 100px"/>
+
+                <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/list'"
+                       style="width: 100px"/>
         </div>
     </div>
 </section>
 
 <%-- 푸터 --%>
-<jsp:include page="/views/common/footer.jsp" />
+<jsp:include page="/views/common/footer.jsp"/>
 </body>
 </html>

@@ -1,25 +1,24 @@
 package com.spring.springbootmybatisproject.common.model;
 
-import lombok.NoArgsConstructor;
-
 /*
     String Field Validation
  */
-@NoArgsConstructor
 public class SFV {
-    public static final int RES_OK_CODE = 200;
-    public static final int RES_SUCCESS_CODE = 0;
-    public static final int RES_FAIL_CODE = -1;
 
-    public static int getResOkCode() {
-        return RES_OK_CODE;
-    }
+    // 공통 코드
+    public static final int INT_RES_CODE_OK = 200;
+    public static final int INT_RES_CODE_SUCCESS = 0;
+    public static final int INT_RES_CODE_FAIL = -1;
 
-    public static int getResSuccessCode() {
-        return RES_SUCCESS_CODE;
-    }
+    
+    public static final String STRING_RES_CODE_OK = "생성했습니다.";
+    public static final String STRING_RES_CODE_SUCCESS = "성공했습니다.";
+    public static final String STRING_RES_CODE_FAIL = "실패했습니다.";
 
-    public static int getResFailCode() {
-        return RES_FAIL_CODE;
-    }
+    // account
+
+    // board
+    public static final String STRING_CHECK_CODE_TITLE = "제목을 입력하세요";
+    public static final String STRING_CHECK_CODE_CONTENT = "내용을 입력하세요";
+
 }

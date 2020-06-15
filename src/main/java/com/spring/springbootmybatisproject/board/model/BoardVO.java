@@ -12,11 +12,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @Alias("BoardVO") // mybatis mapper resultType alias
-public class BoardVO extends Pagination {
+public class BoardVO {
     private int no; // 게시글 순번
     private Long boardId; // 게시글 시퀀스
     private Long accountId;
-    @NotNull(message = "제목을 입력하세요")
     private String title;
     private String content;
     private String writer;

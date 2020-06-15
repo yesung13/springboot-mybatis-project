@@ -63,48 +63,43 @@
         <%--            });--%>
         <%--        }--%>
 
-
-        // 글 삭제, 수정
-        function moveAction(where) {
-            switch (where) {
-                case 1:
-                    if (confirm("글을 삭제하시겠습니까?")) {
-                        var requestUrl = '/board/getBoardDelete';
-                        var data = {}
-                        data.boardId = id;
-                        data = JSON.stringify(data);
-                        $.ajax({
-                            type: 'post',
-                            url: requestUrl,
-                            data: data,
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: function (data) {
-                                console.log("Response Data:", data);
-                                if (data.resultCode === 200) {
-                                    alert("게시글이 삭제되었습니다.");
-                                }
-                                location.replace('/boardVO/main');
-
-                            }, error: function (xhr, e, data) {
-                                console.log("Response Error", data);
-                                alert("해당 작업을 실패하였습니다.");
-                                location.reload();
-                            }
-                        });
-
-                    }
-                    break;
-                case 2:
-                    if (confirm("글을 수정하시겠습니까?")) {
-                        location.href = "/board/update?id=" + id;
-                    }
-                    break;
-                case 3:
-                    location.href = "/board/list";
-                    break;
+        // 글 수정
+        function modify_btn(id) {
+            if (confirm("게시글을 수정 하시겠습니까?")) {
+                location.href = "/board/update?id=" + id;
             }
         }
+
+        // 글 삭제
+        function delete_btn(boardId) {
+            if (confirm("게시글을 삭제 하시겠습니까?")) {
+                var requestUrl = '/board/delete';
+                var data = {}
+                data.boardId = boardId;
+                // data = JSON.stringify(data);
+                $.ajax({
+                    type: 'post',
+                    url: requestUrl,
+                    data: data,
+                    success: function (res) {
+                        console.log("Response Data:", res);
+                        if (res === 0) {
+                            alert("게시글이 삭제 되었습니다.");
+                        }else if(res !== 0){
+                            alert("게시글을 삭제 할 수 없습니다.");
+                        }
+                        location.replace('/board/list');
+
+                    }, error: function (xhr, e, data) {
+                        console.log("Response Error", data);
+                        alert("해당 작업을 실패하였습니다.");
+                        location.reload();
+                    }
+                });
+
+            }
+        }
+
 
         <%--        // 댓글 폼--%>
         <%--        var replyForm = function () {--%>
@@ -393,9 +388,11 @@
 
         <div class="d-flex justify-content-end">
             <div class="mt-2">
-                <input type="button" value="삭제" class="btn btn-outline-secondary" onclick="moveAction(1)"/>
-                <input type="button" value="수정" class="btn btn-outline-secondary mx-1" onclick="moveAction(2)"/>
-                <input type="button" value="목록" class="btn btn-outline-secondary" onclick="moveAction(3)"/>
+                <input type="button" value="삭제" class="btn btn-outline-secondary"
+                       onclick="delete_btn(${boardListDetail.boardId})"/>
+                <input type="button" value="수정" class="btn btn-outline-secondary mx-1" onclick="modify_btn(${boardListDetail.boardId})"/>
+                <input type="button" value="목록" class="btn btn-outline-secondary"
+                       onclick='location.href = "/board/list"'/>
             </div>
         </div>
     </div>

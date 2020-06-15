@@ -18,6 +18,10 @@ public interface BoardService {
     // 게시글 작성
     void setBoardWrite(BoardVO boardVO);
 
+    // 게시글 삭제
+    void getBoardDelete(Long boardId);
+
+
     // 게시글 검색
 //    List<BoardVO> getSearchTitle(String keyword);
 //

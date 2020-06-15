@@ -45,10 +45,15 @@ public class BoardServiceImpl implements BoardService {
         BoardVO vo = BoardVO.builder()
                 .title(boardVO.getTitle())
                 .content(boardVO.getContent())
-//                .boardDatetime()
-//                .boardUpDatetime(new Date())
                 .build();
         boardMapper.saveBoardWrite(vo);
+    }
+
+    // 게시글 삭제
+    @Override
+    public void getBoardDelete(Long boardId) {
+        boardMapper.deleteById(boardId);
+
     }
 
     // 게시글 검색

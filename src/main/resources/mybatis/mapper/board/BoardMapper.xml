@@ -8,7 +8,7 @@
 
     <!-- 게시글 총 갯수 -->
     <select id="boardListTotalCnt" resultType="Integer">
-        SELECT count (*)
+        SELECT count(*)
         FROM bbs_board;
     </select>
 
@@ -36,8 +36,14 @@
     <!-- 게시글 작성 -->
     <insert id="saveBoardWrite" parameterType="BoardVO">
         INSERT INTO bbs_board (accountId, title, content, writer)
-        VALUES (1,#{title}, #{content}, 'admin')
+        VALUES (1, #{title}, #{content}, 'admin')
     </insert>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteById" parameterType="Long">
+        DELETE FROM bbs_board
+        WHERE boardId = #{boardId};
+    </delete>
 
     <!-- 게시글 검색 -->
     <!--    <select id="findBySearchKeyword" resultType="BoardVO">-->

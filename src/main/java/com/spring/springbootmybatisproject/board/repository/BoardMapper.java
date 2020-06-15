@@ -23,9 +23,13 @@ public interface BoardMapper {
     // 게시글 작성
     void saveBoardWrite(BoardVO boardVO);
 
+    // 게시글 삭제
+    void deleteById(Long boardId);
+
     // 게시글 검색
 //    List<BoardVO> findBySearchKeyword(String keyword);
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
+
 }
