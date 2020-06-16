@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -104,23 +105,34 @@ public class BoardController {
     }
 
     // 게시글 검색
-//    @GetMapping("/search")
-//    public String boardSearch(@RequestParam(value = "type") String type,
-//                                     @RequestParam(value = "keyword") String keyword,
-//                                     Model model) {
-//        List<BoardVO> boardVOList = new ArrayList<>();
-//        switch (type) {
-//            case "title":
-//            case "content":
-//            case "writer":
-//                if (!keyword.equals("")) {
-//                    boardVOList =  boardService.getSearchKeyword(keyword);
-//                }
-//                break;
-//        }
-//        model.addAttribute("boardKeywordList", boardVOList);
-//        return "board/boardList";
-//    }
+    @GetMapping("/search")
+    public ModelAndView boardSearch(@RequestParam(value = "type") String type,
+                                    @RequestParam(value = "keyword") String keyword,
+                                    @RequestParam(defaultValue = "1") int curPage,
+                                    Model model, BoardVO boardVO) {
+
+        // 전체 리스트 개수
+        int listCnt = boardService.getBoardSearchListCnt(boardVO);
+        Pagination pagination = new Pagination(listCnt, curPage);
+        boardVO.setStartIndex(pagination.getStartIndex());
+        boardVO.setCntPerPage(pagination.getPageSize());
+        model.addAttribute("listCnt", listCnt);
+        model.addAttribute("pagination", pagination);
+
+        List<BoardVO> boardVOList = new ArrayList<>();
+        if (type.equals("title") && keyword != null) {
+            boardVOList = boardService.getBoardSearch(keyword);
+        } else if (type.equals("content") && keyword != null) {
+            boardVOList = boardService.getBoardSearch(keyword);
+        } else if (type.equals("writer") && keyword != null) {
+            boardVOList = boardService.getBoardSearch(keyword);
+        }
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("boardList", boardVOList); // jstl로 호출
+        mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
+        return mv;
+    }
 
     // 게시글 조회수
     @PutMapping("/viewCnt")

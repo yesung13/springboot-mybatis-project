@@ -36,6 +36,9 @@ public interface BoardService {
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 
+    List<BoardVO> getBoardSearch(String keyword);
+
+    int getBoardSearchListCnt(BoardVO boardVO);
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);

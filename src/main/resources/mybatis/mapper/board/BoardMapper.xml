@@ -42,30 +42,40 @@
     <!-- 게시글 수정 -->
     <update id="updateById" parameterType="BoardVO">
         UPDATE bbs_board
-        SET title = #{title}, content = #{content}, boardUpDatetime = #{boardUpDatetime}
+        SET title           = #{title},
+            content         = #{content},
+            boardUpDatetime = #{boardUpDatetime}
         WHERE boardId = #{boardId};
 
     </update>
 
     <!-- 게시글 삭제 -->
     <delete id="deleteById" parameterType="Long">
-        DELETE FROM bbs_board
+        DELETE
+        FROM bbs_board
         WHERE boardId = #{boardId};
     </delete>
 
     <!-- 게시글 검색 -->
-    <!--    <select id="findBySearchKeyword" resultType="BoardVO">-->
-    <!--        SELECT row_number() over (ORDER BY boardId)            AS no,-->
-    <!--               boardId,-->
-    <!--               title,-->
-    <!--               writer,-->
-    <!--               viewCnt,-->
-    <!--               replyCnt,-->
-    <!--               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime-->
-    <!--        FROM bbs_board-->
-    <!--        WHERE title LIKE '%'#{keyword}'%'-->
-    <!--        ORDER BY no DESC;-->
-    <!--    </select>-->
+    <select id="boardSearchListCnt" resultType="Integer">
+        SELECT count(*)
+        FROM bbs_board;
+    </select>
+    <select id="findBySearchKeyword" parameterType="String" resultType="BoardVO">
+        SELECT row_number() over (ORDER BY boardId)            AS no,
+               boardId,
+               title,
+               writer,
+               viewCnt,
+               replyCnt,
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        FROM bbs_board
+        WHERE title LIKE CONCAT('%',#{keyword},'%')
+           OR content LIKE CONCAT('%',#{keyword},'%')
+           OR writer LIKE CONCAT('%',#{keyword},'%')
+        ORDER BY no DESC;
+    </select>
+
 
     <!-- 게시글 조회수 -->
     <update id="increaseViewCnt" parameterType="Long">
@@ -73,7 +83,6 @@
         SET viewCnt = viewCnt + 1
         WHERE boardId = #{boardId};
     </update>
-
 
 
 </mapper>

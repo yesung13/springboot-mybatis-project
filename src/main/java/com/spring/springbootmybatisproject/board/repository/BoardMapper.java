@@ -36,4 +36,7 @@ public interface BoardMapper {
     void increaseViewCnt(Long boardId);
 
 
+    List<BoardVO> findBySearchKeyword(String keyword);
+
+    int boardSearchListCnt(BoardVO boardVO);
 }

@@ -90,6 +90,16 @@ public class BoardServiceImpl implements BoardService {
 //        return boardMapper.findBySearchKeyword(keyword);
 //    }
 
+    @Override
+    public List<BoardVO> getBoardSearch(String keyword) {
+        return boardMapper.findBySearchKeyword(keyword);
+    }
+
+    @Override
+    public int getBoardSearchListCnt(BoardVO boardVO) {
+        return boardMapper.boardSearchListCnt(boardVO);
+    }
+
     // 게시글 조회수
     @Override
     public void increaseViewCnt(Long boardId) {

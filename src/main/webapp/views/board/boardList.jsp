@@ -97,7 +97,7 @@
         </thead>
         <tbody>
         <c:choose>
-            <c:when test="${fn:length(boardList) == 0 || fn:length(boardList)==null}">
+            <c:when test="${fn:length(boardList) eq 0 || fn:length(boardList) eq null}">
                 <tr>
                     <td style="text-align: center" colspan="6"><span>게시글이 없습니다</span></td>
                 </tr>
