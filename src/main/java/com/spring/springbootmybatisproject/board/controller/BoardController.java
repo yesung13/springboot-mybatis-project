@@ -3,7 +3,7 @@ package com.spring.springbootmybatisproject.board.controller;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
 import com.spring.springbootmybatisproject.board.service.BoardService;
-import com.spring.springbootmybatisproject.common.model.SFV;
+import com.spring.springbootmybatisproject.SFV;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

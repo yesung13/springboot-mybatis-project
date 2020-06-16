@@ -1,4 +1,4 @@
-package com.spring.springbootmybatisproject.common.model;
+package com.spring.springbootmybatisproject;
 
 /*
     String Field Validation

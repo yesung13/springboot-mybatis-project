@@ -2,12 +2,12 @@ package com.spring.springbootmybatisproject.board.repository;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 @Mapper
-@Component
 public interface BoardMapper {
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
 
