@@ -4,6 +4,8 @@ import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.repository.BoardMapper;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +49,22 @@ public class BoardServiceImpl implements BoardService {
                 .content(boardVO.getContent())
                 .build();
         boardMapper.saveBoardWrite(vo);
+    }
+
+    // 게시글 수정
+    @Override
+    public void getBoardUpdate(BoardVO boardVO) {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateResult = format.format(date);
+
+        BoardVO vo = BoardVO.builder()
+                .boardId(boardVO.getBoardId())
+                .title(boardVO.getTitle())
+                .content(boardVO.getContent())
+                .boardUpDatetime(dateResult)
+                .build();
+        boardMapper.updateById(vo);
     }
 
     // 게시글 삭제

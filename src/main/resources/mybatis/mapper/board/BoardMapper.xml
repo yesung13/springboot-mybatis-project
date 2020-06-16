@@ -28,7 +28,7 @@
 
     <!-- 게시글 상세 보기 -->
     <select id="findByBoardId" resultType="BoardVO">
-        SELECT title, content, writer, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        SELECT boardId, title, content, writer, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
         FROM bbs_board
         WHERE boardId = #{boardId};
     </select>
@@ -38,6 +38,14 @@
         INSERT INTO bbs_board (accountId, title, content, writer)
         VALUES (1, #{title}, #{content}, 'admin')
     </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updateById" parameterType="BoardVO">
+        UPDATE bbs_board
+        SET title = #{title}, content = #{content}, boardUpDatetime = #{boardUpDatetime}
+        WHERE boardId = #{boardId};
+
+    </update>
 
     <!-- 게시글 삭제 -->
     <delete id="deleteById" parameterType="Long">
@@ -65,6 +73,7 @@
         SET viewCnt = viewCnt + 1
         WHERE boardId = #{boardId};
     </update>
+
 
 
 </mapper>

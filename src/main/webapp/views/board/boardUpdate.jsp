@@ -6,11 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/views/common/htmlHead.jsp"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
-    <title>글수정</title>
+    <title>글수정:${boardListDetail.title}</title>
     <style>
         .table td span {
             font-family: 'Gothic A1', sans-serif;
@@ -28,54 +27,14 @@
         }
     </style>
     <script type="text/javascript">
-        // response get parameter
-        var getParameters = function (paramName) {
-            // 리턴값을 위한 변수 선언
-            var returnValue;
-            // 현재 URL 가져오기
-            var url = location.href;
-            // get 파라미터 값을 가져올 수 있는 ? 를 기점으로 slice 한 후 split 으로 나눔
-            var parameters = (url.slice(url.indexOf('?') + 1, url.length)).split('&');
-            // 나누어진 값의 비교를 통해 paramName 으로 요청된 데이터의 값만 return
-            for (var i = 0; i < parameters.length; i++) {
-                var varName = parameters[i].split('=')[0];
-                if (varName.toUpperCase() === paramName.toUpperCase()) {
-                    returnValue = parameters[i].split('=')[1];
-                    return decodeURIComponent(returnValue);
-                }
-            }
-        };
-        var id = getParameters('id');
-
         // 초기화 버튼
         function reset_btn() {
             $("#title").val(null);
             $("#content").val(null);
         }
 
-        // 기존 글 가져오기
-        var requestUrl = '/boardVO/getBoardView';
-        var data = {}
-        data.boardId = id;
-        $.ajax({
-            type: 'get',
-            url: requestUrl,
-            data: data,
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (response) {
-                console.log("Response Data:", response);
-                $("#getTitle").html('<input type="text" id="title" name="title" class="form-control" value="' + response.title + '"  placeholder="40자 이내  작성하세요"/>');
-                $("#content").html(response.content);
-                $("#writer").html(response.writer);
-                $("#boardDatetime").html(response.boardDatetime);
-            }, error: function (xhr, e, response) {
-                console.log("Response Error", response);
-            }
-        });
-
-        // update
-        function update_btn() {
+        // 게시글 수정
+        function update_btn(boardId) {
             var titleChceck = $('#title').val();
             var contentCheck = $('#content').val();
             if (titleChceck == null || titleChceck === "") {
@@ -89,10 +48,9 @@
                 return false;
             }
 
-
-            var requestUrl = '/boardVO/getBoardUpdate';
+            var requestUrl = '/board/setUpdate';
             var data = {}; // 객체
-            data.boardId = id;
+            data.boardId = boardId;
             data.title = $('#title').val();
             data.content = $('#content').val();
             data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
@@ -103,16 +61,19 @@
                 data: data,
                 dataType: 'json',
                 contentType: 'application/json',
-                success: function (response) {
-                    console.log("Insert Response Data:", response);
-                    if (response.resultCode === 200) {
+                success: function (res) {
+                    console.log("Insert Response Data:", res);
+                    if (res === 0) {
                         alert("게시글이 수정되었습니다.");
-                        location.replace('/boardVO/main');
+                        location.replace('/board/detail?id='+boardId);
+                    }else if(res !== 0){
+                        alert("게시글 수정을 실패했습니다.");
+                        location.replace('/board/detail?id='+boardId);
                     }
 
-                }, error: function (xhr, e, response) {
-                    console.log("Response Error", response);
-                    alert("해당 작업을 실패하였습니다.");
+                }, error: function (xhr, e, res) {
+                    console.log("Response Error", res);
+                    alert("에러!!");
                     location.reload();
                 }
             });
@@ -149,7 +110,10 @@
                 <th class="tcenter">
                     <label for="title">제목</label>
                 </th>
-                <td id="getTitle"></td>
+                <td>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"
+                           value="${boardListDetail.title}"/>
+                </td>
             </tr>
             <tr class="thead-light">
                 <th class="tcenter">
@@ -157,7 +121,7 @@
                 </th>
                 <td>
                     <textarea id="content" name="content" rows="8" class="form-control w-100"
-                              placeholder="내용을 입력하세요..."></textarea>
+                              placeholder="내용을 입력하세요...">${boardListDetail.content}</textarea>
                     <div>
                         <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
                     </div>
@@ -195,15 +159,15 @@
         <div class="row justify-content-center">
             <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
                    onclick="reset_btn()"/>
-            <input type="button" value="수정" class="btn btn-outline-secondary mx-1" onclick="update_btn()"
+            <input type="button" value="수정" class="btn btn-outline-secondary mx-1" onclick="update_btn(${boardListDetail.boardId})"
                    style="width: 100px"/>
-            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/boardVO/main'"
+            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/detail?id='+${boardListDetail.boardId}"
                    style="width: 100px"/>
         </div>
     </div>
 </section>
 
 <%-- 푸터 --%>
-<jsp:include page="/views/common/footer.jsp" />
+<jsp:include page="/views/common/footer.jsp"/>
 </body>
 </html>

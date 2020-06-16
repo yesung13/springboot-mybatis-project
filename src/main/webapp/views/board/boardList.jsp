@@ -11,21 +11,6 @@
 <head>
     <title>게시판</title>
     <script type="text/javascript">
-        // 페이징
-        // function getPage(totalPages) {
-        //     var paging = "";
-        //     for (var i = 0; i < totalPages; i += 1) {
-        //         paging +=
-        //             "<li class='page-item'>" +
-        //             "<a class='page-link' href=\"javascript:void(0);\" onclick='getBoardList(" + i + ")' >" + (i + 1) + "</a></li>";
-        //     }
-        //     $(".pagination").append(paging);
-        //     $('.page-item').on('click', function () {
-        //         $('.page-item').removeClass('active');
-        //         $(this).addClass('active');
-        //     });
-        // }
-
         // 게시글 검색
         let search_btn = function () {
             let data = {};
@@ -46,20 +31,10 @@
             });
         }
 
-
-        // $(document).ready(function(){
-        //     $("#notice_regi").on("click",function(){
-        //         location.href="/test/noticeRegi"
-        //     });
-        // });
+        //페이징
         function fn_paging(curPage) {
             location.href = "/board/list?curPage=" + curPage;
         }
-
-        function notice_push(notice_id) {
-            alert(notice_id);
-        }
-
     </script>
 
 </head>

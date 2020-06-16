@@ -18,6 +18,9 @@ public interface BoardService {
     // 게시글 작성
     void setBoardWrite(BoardVO boardVO);
 
+    // 게시글 수정
+    void getBoardUpdate(BoardVO boardVO);
+
     // 게시글 삭제
     void getBoardDelete(Long boardId);
 
@@ -32,6 +35,8 @@ public interface BoardService {
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
+
+
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
 

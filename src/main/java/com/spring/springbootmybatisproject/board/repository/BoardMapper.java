@@ -23,6 +23,9 @@ public interface BoardMapper {
     // 게시글 작성
     void saveBoardWrite(BoardVO boardVO);
 
+    // 게시글 수정
+    void updateById(BoardVO boardVO);
+
     // 게시글 삭제
     void deleteById(Long boardId);
 
@@ -31,5 +34,6 @@ public interface BoardMapper {
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
+
 
 }

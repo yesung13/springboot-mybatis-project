@@ -11,62 +11,10 @@
 <head>
     <title>글보기</title>
     <script type="text/javascript">
-
-        <%--        $(document).ready(function () {--%>
-        <%--            getBoardView();--%>
-        <%--            replyForm();--%>
-        <%--            getReply();--%>
-        <%--        })--%>
-
-        <%--        // response get parameter--%>
-        <%--        var getParameters = function (paramName) {--%>
-        <%--            // 리턴값을 위한 변수 선언--%>
-        <%--            var returnValue;--%>
-        <%--            // 현재 URL 가져오기--%>
-        <%--            var url = location.href;--%>
-        <%--            // get 파라미터 값을 가져올 수 있는 ? 를 기점으로 slice 한 후 split 으로 나눔--%>
-        <%--            var parameters = (url.slice(url.indexOf('?') + 1, url.length)).split('&');--%>
-        <%--            // 나누어진 값의 비교를 통해 paramName 으로 요청된 데이터의 값만 return--%>
-        <%--            for (var i = 0; i < parameters.length; i++) {--%>
-        <%--                var varName = parameters[i].split('=')[0];--%>
-        <%--                if (varName.toUpperCase() === paramName.toUpperCase()) {--%>
-        <%--                    returnValue = parameters[i].split('=')[1];--%>
-        <%--                    return decodeURIComponent(returnValue);--%>
-        <%--                }--%>
-        <%--            }--%>
-        <%--        };--%>
-        <%--        var id = getParameters('id');--%>
-        <%--        console.log("Request Param boardId = ", id);--%>
-
-        <%--        // 글 상세보기--%>
-        <%--        var getBoardView = function () {--%>
-        <%--            var requestUrl = '/boardVO/getBoardView';--%>
-        <%--            var data = {}--%>
-        <%--            data.boardId = id;--%>
-        <%--            $.ajax({--%>
-        <%--                type: 'get',--%>
-        <%--                url: requestUrl,--%>
-        <%--                data: data,--%>
-        <%--                dataType: 'json',--%>
-        <%--                contentType: 'application/json',--%>
-        <%--                success: function (data) {--%>
-        <%--                    console.log("Response Data:", data);--%>
-        <%--                    console.log("Response Data:", data.title);--%>
-        <%--                    $("#title").html(data.title);--%>
-        <%--                    $("#content").html(data.content);--%>
-        <%--                    $("#writer").html(data.writer);--%>
-        <%--                    $("#boardDatetime").html(data.boardDatetime);--%>
-
-        <%--                }, error: function (xhr, e, data) {--%>
-        <%--                    console.log("Response Error", data);--%>
-        <%--                }--%>
-        <%--            });--%>
-        <%--        }--%>
-
         // 글 수정
-        function modify_btn(id) {
+        function modify_btn(boardId) {
             if (confirm("게시글을 수정 하시겠습니까?")) {
-                location.href = "/board/update?id=" + id;
+                location.href = "/board/update?id=" + boardId;
             }
         }
 
@@ -76,23 +24,25 @@
                 var requestUrl = '/board/delete';
                 var data = {}
                 data.boardId = boardId;
-                // data = JSON.stringify(data);
+                data = JSON.stringify(data);
                 $.ajax({
                     type: 'post',
                     url: requestUrl,
                     data: data,
+                    dataType: 'json',
+                    contentType: 'application/json',
                     success: function (res) {
                         console.log("Response Data:", res);
                         if (res === 0) {
                             alert("게시글이 삭제 되었습니다.");
-                        }else if(res !== 0){
+                        } else if (res !== 0) {
                             alert("게시글을 삭제 할 수 없습니다.");
                         }
                         location.replace('/board/list');
 
                     }, error: function (xhr, e, data) {
                         console.log("Response Error", data);
-                        alert("해당 작업을 실패하였습니다.");
+                        alert("에러!!");
                         location.reload();
                     }
                 });
@@ -386,15 +336,18 @@
             <tbody id="replyList" class="border-top border-bottom"></tbody>
         </table>
 
+        <%-- 게시글 버튼 --%>
         <div class="d-flex justify-content-end">
             <div class="mt-2">
                 <input type="button" value="삭제" class="btn btn-outline-secondary"
                        onclick="delete_btn(${boardListDetail.boardId})"/>
-                <input type="button" value="수정" class="btn btn-outline-secondary mx-1" onclick="modify_btn(${boardListDetail.boardId})"/>
+                <input type="button" value="수정" class="btn btn-outline-secondary mx-1"
+                       onclick="modify_btn(${boardListDetail.boardId})"/>
                 <input type="button" value="목록" class="btn btn-outline-secondary"
                        onclick='location.href = "/board/list"'/>
             </div>
         </div>
+
     </div>
 </section>
 

@@ -69,10 +69,33 @@ public class BoardController {
         return SFV.INT_RES_CODE_FAIL;
     }
 
+    // 게시글 수정 page
+    @GetMapping("/update")
+    public String boardUpdate(@RequestParam(value = "id") Long boardId, Model model) {
+        BoardVO boardVO = boardService.getBoardListDetail(boardId);
+        model.addAttribute("boardListDetail", boardVO);
+        return "board/boardUpdate";
+    }
+
+    // 게시글 수정
+    @PostMapping("/setUpdate")
+    @ResponseBody
+    public int boardUpdate(@RequestBody BoardVO boardVO) {
+        Long boardId = boardVO.getBoardId();
+        String title = boardVO.getTitle();
+        String content = boardVO.getContent();
+        if (boardId != null || title != null || content != null) {
+            boardService.getBoardUpdate(boardVO);
+            return SFV.INT_RES_CODE_SUCCESS;
+        }
+        return SFV.INT_RES_CODE_FAIL;
+    }
+
     // 게시글 삭제
     @PostMapping("/delete")
-    public int boardDelete(@RequestParam(value = "boardId") Long boardId) {
-        log.info("boardId : {}", boardId);
+    @ResponseBody
+    public int boardDelete(@RequestBody BoardVO boardVO) {
+        Long boardId = boardVO.getBoardId();
         if (boardId != null) {
             boardService.getBoardDelete(boardId);
             return SFV.INT_RES_CODE_SUCCESS;

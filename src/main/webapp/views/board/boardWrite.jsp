@@ -47,7 +47,7 @@
 
 
             var requestUrl = '/board/setWrite';
-            var data = {}; // 객체
+            var data = {};
             data.title = $("#title").val(); // 객체의 속성 추가
             data.content = $("#content").val();
             data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환

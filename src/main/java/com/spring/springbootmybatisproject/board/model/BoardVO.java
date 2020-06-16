@@ -29,7 +29,8 @@ public class BoardVO {
     private int cntPerPage;
 
     @Builder
-    public BoardVO(Long accountId, String title, String content, String writer, int viewCnt, int replyCnt, String boardDatetime, String boardUpDatetime) {
+    public BoardVO(Long boardId, Long accountId, String title, String content, String writer, int viewCnt, int replyCnt, String boardDatetime, String boardUpDatetime) {
+        this.boardId = boardId;
         this.accountId = accountId;
         this.title = title;
         this.content = content;
