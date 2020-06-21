@@ -63,7 +63,7 @@
                     if (response === 200) {
                         alert("생성을 성공했습니다.")
                         location.replace('/board/list');
-                    }else if(response !== 200){
+                    } else if (response !== 200) {
                         alert("생성을 실패했습니다.")
                     }
                 },
@@ -127,21 +127,26 @@
                     <label for="file">첨부파일</label>
                 </th>
                 <td>
-                    <input type="file" id="file" name="file" accept="multipart/form-data"/>
-                    <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
+                    <form action="/board/upload" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="file" value="파일 선택"/>
+                        <input class="btn btn-sm btn-info" type="submit" value="업로드"/>
+                        <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
+
+                    </form>
+
                 </td>
             </tr>
         </table>
         <br/>
         <div class="row justify-content-center">
-                <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
-                       onclick="reset_btn()"/>
+            <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
+                   onclick="reset_btn()"/>
 
-                <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"
-                       style="width: 100px"/>
+            <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"
+                   style="width: 100px"/>
 
-                <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/list'"
-                       style="width: 100px"/>
+            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/list'"
+                   style="width: 100px"/>
         </div>
     </div>
 </section>

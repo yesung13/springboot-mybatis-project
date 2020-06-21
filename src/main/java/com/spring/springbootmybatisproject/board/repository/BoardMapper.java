@@ -30,13 +30,13 @@ public interface BoardMapper {
     void deleteById(Long boardId);
 
     // 게시글 검색
-//    List<BoardVO> findBySearchKeyword(String keyword);
+    List<BoardVO> findBySearchKeyword(String keyword);
+
+    // 게시글 검색 페이징
+    int boardSearchListCnt(BoardVO boardVO);
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 
 
-    List<BoardVO> findBySearchKeyword(String keyword);
-
-    int boardSearchListCnt(BoardVO boardVO);
 }

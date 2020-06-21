@@ -1,15 +1,23 @@
 package com.spring.springbootmybatisproject.board.controller;
 
+import ch.qos.logback.core.util.FileUtil;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
+import com.spring.springbootmybatisproject.board.model.ReplyVO;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import com.spring.springbootmybatisproject.SFV;
+import com.spring.springbootmybatisproject.board.service.ReplyService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +26,11 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
+    private final ReplyService replyService;
 
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, ReplyService replyService) {
         this.boardService = boardService;
+        this.replyService = replyService;
     }
 
     // 게시글 목록
@@ -37,8 +47,8 @@ public class BoardController {
 
         // 전체 리스트 출력
         ModelAndView mv = new ModelAndView();
-        List<BoardVO> boardVOList = boardService.getBoardList(boardVO);
-        mv.addObject("boardList", boardVOList); // jstl로 호출
+        List<BoardVO> boardVORes = boardService.getBoardList(boardVO);
+        mv.addObject("boardList", boardVORes); // jstl로 호출
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
         return mv;
     }
@@ -46,8 +56,12 @@ public class BoardController {
     // 게시글 상세 보기
     @GetMapping("/detail")
     public String boardDetail(@RequestParam(value = "id") Long boardId, Model model) {
-        BoardVO boardVO = boardService.getBoardListDetail(boardId);
-        model.addAttribute("boardListDetail", boardVO);
+        BoardVO boardVORes = boardService.getBoardListDetail(boardId);
+        model.addAttribute("boardListDetail", boardVORes);
+
+        // 해당 댓글 목록
+        List<ReplyVO> replyVORes = replyService.getReplyList(boardId);
+        model.addAttribute("replyList", replyVORes);
         return "board/boardDetail";
     }
 
@@ -68,6 +82,20 @@ public class BoardController {
             return SFV.INT_RES_CODE_OK;
         }
         return SFV.INT_RES_CODE_FAIL;
+    }
+
+    // 파일 업로드
+    @PostMapping("/upload")
+    public void boardFileUpload(@RequestParam("file") MultipartFile multipartFile) {
+        log.info("### upload");
+        File targetFile = new File("/uploadFiles/" + multipartFile.getOriginalFilename());
+        try{
+            InputStream fileStream = multipartFile.getInputStream();
+            FileUtils.copyInputStreamToFile(fileStream, targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // 게시글 수정 page
@@ -139,4 +167,6 @@ public class BoardController {
     public void boardViewCnt(@RequestParam(value = "boardId") Long boardId) {
         boardService.increaseViewCnt(boardId);
     }
+
 }
+

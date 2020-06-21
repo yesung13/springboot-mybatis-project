@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.board.service;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
+import com.spring.springbootmybatisproject.board.model.ReplyVO;
 
 import java.util.List;
 
@@ -24,21 +25,14 @@ public interface BoardService {
     // 게시글 삭제
     void getBoardDelete(Long boardId);
 
-
     // 게시글 검색
-//    List<BoardVO> getSearchTitle(String keyword);
-//
-//    List<BoardVO> getSearchContent(String keyword);
-//
-//    List<BoardVO> getSearchWriter(String keyword);
-//    List<BoardVO> getSearchKeyword(String keyword);
+    List<BoardVO> getBoardSearch(String keyword);
+
+    // 게시글 검색 페이징
+    int getBoardSearchListCnt(BoardVO boardVO);
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
-
-    List<BoardVO> getBoardSearch(String keyword);
-
-    int getBoardSearchListCnt(BoardVO boardVO);
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);

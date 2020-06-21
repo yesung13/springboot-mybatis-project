@@ -9,8 +9,22 @@
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
-    <title>글보기</title>
+    <title>글보기:${boardListDetail.title}</title>
     <script type="text/javascript">
+        <%-- 유효성 검사 --%>
+        let validCheck = function (chkNum) {
+            let replyContent = $('replyContent').val();
+            switch (chkNum) {
+                case 1 :
+                    if (replyContent == null || replyContent === "" || replyContent === undefined) {
+                        alert("댓글을 입력하세요.")
+                        return false;
+                    }
+                    location.reload();
+                    break;
+            }
+        }
+
         // 글 수정
         function modify_btn(boardId) {
             if (confirm("게시글을 수정 하시겠습니까?")) {
@@ -36,7 +50,7 @@
                         if (res === 0) {
                             alert("게시글이 삭제 되었습니다.");
                         } else if (res !== 0) {
-                            alert("게시글을 삭제 할 수 없습니다.");
+                            alert("게시글을 삭제할 수 없습니다.");
                         }
                         location.replace('/board/list');
 
@@ -50,87 +64,6 @@
             }
         }
 
-
-        <%--        // 댓글 폼--%>
-        <%--        var replyForm = function () {--%>
-        <%--            var html = "";--%>
-        <%--            html += "<th>" + "<div class='pt-2'>" + "<strong class='text-muted'>" + "댓글 작성자" + "</strong>" + "</div>" + "</th>"--%>
-        <%--            html += "<th>"--%>
-        <%--            html += "<div class='form-inline'>"--%>
-        <%--            html += "<textarea id='replyContent' name='replyContent' rows='1' class='form-control rounded w-75' placeholder='댓글을 남겨보세요'></textarea>"--%>
-        <%--            html += "<button class='btn btn-secondary ml-2' type='button' onclick='replyWrite()'>" + "등록" + "</button>"--%>
-        <%--            html += "</div>"--%>
-        <%--            html += "</th>"--%>
-        <%--            $("#replyForm").html(html);--%>
-        <%--        };--%>
-
-        <%--        // 댓글 목록--%>
-        <%--        var getReply = function () {--%>
-        <%--            var requestUrl = '/boardVO/getReplyList';--%>
-        <%--            var data = {};--%>
-        <%--            data.boardId = id;--%>
-        <%--            $.ajax({--%>
-        <%--                type: 'get',--%>
-        <%--                url: requestUrl,--%>
-        <%--                data: data,--%>
-        <%--                dataType: 'json',--%>
-        <%--                contentType: 'application/json',--%>
-        <%--                success: function (data) {--%>
-        <%--                    console.log("res data: ", data);--%>
-        <%--                    var html = "";--%>
-        <%--                    if (data.length > 0) {--%>
-        <%--                        // ArrayObject, callback function(index, item)--%>
-        <%--                        $.each(data, function (index, item) {--%>
-        <%--                            html += "<tr>"--%>
-        <%--                            html += "<th class='tcenter'>" + "<div>" + "<strong>" + item.replyWriter + "</strong>" + "</div>" + "</th>"--%>
-        <%--                            html += "<th id='replyItem'>"--%>
-        <%--                            html += "<div class='dropdown'>" //드롭다운 시작--%>
-        <%--                            html += "<button  class='float-right btn btn-link' id='dropdownBtn' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"--%>
-        <%--                            html += "<img src='/resources/image/more_vert-black-24dp.svg' alt='U/D icon'>"--%>
-        <%--                            html += "</button>"--%>
-        <%--                            html += "<div class='dropdown-menu dropdown-menu-right'  aria-labelledby='dropdownBtn' style='width: 100px'>" +--%>
-        <%--                                "<button class='dropdown-item' type='button' onclick='replyUpdateForm(\"" + item.replyId + "\", \"" + item.replyContent + "\", \"" + item.replyWriter + "\")'>" + "<small>" + "수정" + "</small>" + "</button>" +--%>
-        <%--                                "<button class='dropdown-item' type='button' onclick='replyDelete(" + item.replyId + ")'>" + "<small>" + "삭제" + "</small>" + "</button>" +--%>
-        <%--                                "</div>"--%>
-        <%--                            // javascript 이스케이프 사용: \" \"--%>
-        <%--                            html += "</div>" //드롭다운 끝--%>
-        <%--                            html += "<div>" + "<span>" + item.replyContent + "</span>" + "</div>"--%>
-        <%--                            html += "<div class='mt-3'>" + "<small class='text-muted'>" + item.replyDatetime + "</small>" + "</div>"--%>
-        <%--                            html += "</th>"--%>
-        <%--                            html += "</tr>"--%>
-        <%--                        });--%>
-        <%--                        $("#replyList").append(html);--%>
-        <%--                    }--%>
-        <%--                }--%>
-        <%--            })--%>
-        <%--        }--%>
-
-        <%--        // 댓글 쓰기--%>
-        <%--        var replyWrite = function () {--%>
-        <%--            var requestUrl = '/boardVO/insertReplyWrite';--%>
-        <%--            var data = {}--%>
-        <%--            data.boardId = id;--%>
-        <%--            data.replyContent = $("#replyContent").val();--%>
-        <%--            data = JSON.stringify(data); // Post로 보낼 경우 Json 타입으로 변환 시킨다 {key : "value"}--%>
-        <%--            increaseReplyCnt();--%>
-        <%--            $.ajax({--%>
-        <%--                type: 'post',--%>
-        <%--                url: requestUrl,--%>
-        <%--                data: data,--%>
-        <%--                dataType: 'json',--%>
-        <%--                contentType: 'application/json',--%>
-        <%--                success: function (data) {--%>
-        <%--                    console.log("Response Data:", data);--%>
-        <%--                    if (data.resultCode === 200) {--%>
-        <%--                        alert("댓글이 작성되었습니다.")--%>
-        <%--                        location.reload();--%>
-        <%--                    }--%>
-        <%--                }, error: function (xhr, e, data) {--%>
-        <%--                    console.log("Response Error", data);--%>
-        <%--                    alert("해당 작업을 실패하였습니다.")--%>
-        <%--                }--%>
-        <%--            });--%>
-        <%--        }--%>
 
         <%--        // 댓글 수정 폼--%>
         <%--        var replyUpdateForm = function (replyId, replyContent, replyWriter) {--%>
@@ -180,7 +113,7 @@
         <%--            data = JSON.stringify(data);--%>
         <%--            $.ajax({--%>
         <%--                type: 'post',--%>
-        <%--                url: '/boardVO/getReplyUpdate',--%>
+        <%--                url: '/board/getReplyUpdate',--%>
         <%--                data: data,--%>
         <%--                dataType: 'json',--%>
         <%--                contentType: 'application/json',--%>
@@ -197,59 +130,61 @@
         <%--            });--%>
         <%--        }--%>
 
-        <%--        // 댓글 삭제--%>
-        <%--        var replyDelete = function (replyId) {--%>
-        <%--            if (confirm("해당 댓글을 삭제하시겠습니까?")) {--%>
-        <%--                var data = {};--%>
-        <%--                data.replyId = replyId;--%>
-        <%--                data = JSON.stringify(data);--%>
-        <%--                decreaseReplyCnt();--%>
-        <%--                $.ajax({--%>
-        <%--                    type: 'post',--%>
-        <%--                    url: '/boardVO/getReplyDelete',--%>
-        <%--                    data: data,--%>
-        <%--                    dataType: 'json',--%>
-        <%--                    contentType: 'application/json',--%>
-        <%--                    success: function (data) {--%>
-        <%--                        console.log("Response Data:", data);--%>
-        <%--                        if (data.resultCode === 200) {--%>
-        <%--                            alert("댓글이 삭제되었습니다.")--%>
-        <%--                            location.reload();--%>
-        <%--                        }--%>
-        <%--                    }, error: function (xhr, e, data) {--%>
-        <%--                        console.log("Response Error", data);--%>
-        <%--                        alert("해당 작업을 실패하였습니다.")--%>
-        <%--                    }--%>
-        <%--                });--%>
-        <%--            } else {--%>
-        <%--                return void (0);--%>
-        <%--            }--%>
+        // 댓글 삭제
+        let replyDelete_btn = function (replyId) {
+            if (confirm("해당 댓글을 삭제 하시겠습니까?")) {
+                var data = {};
+                data.replyId = replyId;
+                data = JSON.stringify(data);
+                // decreaseReplyCnt();
+                $.ajax({
+                    type: 'post',
+                    url: '/board/replyDelete',
+                    data: data,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (res) {
+                        console.log("Response Data:", res);
+                        if (res === 0) {
+                            alert("댓글이 삭제되었습니다.")
+                            location.reload();
+                        } else if (res === -1) {
+                            alert("댓글을 삭제할 수 없습니다.")
+                            location.reload();
+                        }
+                    }, error: function (xhr, e, data) {
+                        console.log("Response Error", data);
+                        alert("에러!!")
+                    }
+                });
+            } else {
+                return void (0);
+            }
 
-        <%--        }--%>
-
-        <%--        // 댓글 수 증가--%>
-        <%--        function increaseReplyCnt() {--%>
-        <%--            var data = {}--%>
-        <%--            data.boardId = id;--%>
-        <%--            $.ajax({--%>
-        <%--                type: 'post',--%>
-        <%--                url: '/boardVO/increaseReplyCnt',--%>
-        <%--                data: data,--%>
-        <%--                dataType: 'json'--%>
-        <%--            });--%>
-        <%--        }--%>
-
-        <%--        // 댓글 수 감소--%>
-        <%--        function decreaseReplyCnt() {--%>
-        <%--            var data = {}--%>
-        <%--            data.boardId = id;--%>
-        <%--            $.ajax({--%>
-        <%--                type: 'post',--%>
-        <%--                url: '/boardVO/decreaseReplyCnt',--%>
-        <%--                data: data,--%>
-        <%--                dataType: 'json'--%>
-        <%--            });--%>
-        <%--        }--%>
+            // // 댓글 수 증가
+            // function increaseReplyCnt(boardId) {
+            //     var data = {}
+            //     data.boardId = boardId;
+            //     $.ajax({
+            //         type: 'post',
+            //         url: '/board/increaseReplyCnt',
+            //         data: data,
+            //         dataType: 'json'
+            //     });
+            // }
+            //
+            // // 댓글 수 감소
+            // function decreaseReplyCnt() {
+            //     var data = {}
+            //     data.boardId = id;
+            //     $.ajax({
+            //         type: 'post',
+            //         url: '/board/decreaseReplyCnt',
+            //         data: data,
+            //         dataType: 'json'
+            //     });
+            // }
+        }
     </script>
 </head>
 <body class="body">
@@ -321,6 +256,7 @@
 <section>
     <div class="container">
         <table class="table table-borderless mt-4">
+            <tbody>
             <tr class="text-left">
                 <th colspan="2">
                     <div class="d-flex justify-content-start">
@@ -331,9 +267,67 @@
                     </div>
                 </th>
             </tr>
-            <%-- 댓글쓰기 --%>
-            <tr class="tcenter" id="replyForm"></tr>
-            <tbody id="replyList" class="border-top border-bottom"></tbody>
+            <%-- 댓글 쓰기 --%>
+            <tr class="tcenter">
+                <form action="${pageContext.request.contextPath}/board/replyWrite" method="post">
+                    <%-- 게시글 정보 hidden으로 넘기기 --%>
+                    <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
+                    <th>
+                        <div class="pt-2"><strong class="text-muted">댓글 작성자</strong></div>
+                    </th>
+                    <th>
+                        <div class="form-inline"><textarea id="replyContent" name="replyContent" rows="1"
+                                                           class="form-control rounded w-75"
+                                                           placeholder="댓글을 남겨보세요"></textarea>
+                            <button class="btn btn-secondary ml-2" type="submit" onclick="validCheck(1)">등록</button>
+                        </div>
+                    </th>
+                </form>
+            </tr>
+            </tbody>
+            <%-- 댓글 목록 --%>
+            <tbody id="replyList" class="border-top border-bottom">
+            <c:choose>
+                <c:when test="${fn:length(replyList) eq 0 || fn:length(replyList) eq null}">
+                    <tr>
+                        <td class="tcenter" colspan="2"><span class="text-black-50">댓글이 없습니다.</span></td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="item" items="${replyList}">
+                        <tr>
+                            <th class="tcenter">
+                                <div><strong>${item.replyWriter}</strong></div>
+
+                            </th>
+                            <th>
+                                    <%--드롭다운 시작--%>
+                                <div class="dropdown">
+                                    <button class="float-right btn btn-link" id="dropdownBtn" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        <img src="${pageContext.request.contextPath}/resources/image/more_vert-black-24dp.svg"
+                                             alt="U/D icon">
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBtn"
+                                         style="width: 100px">
+                                        <button class="dropdown-item" type="button"><small>수정</small></button>
+                                        <button class="dropdown-item" type="button"
+                                                onclick="replyDelete_btn(${item.replyId})">
+                                            <small>삭제</small>
+                                        </button>
+                                    </div>
+                                </div>
+                                    <%--//드롭다운 끝--%>
+                                <div><span>${item.replyContent}</span></div>
+                                <div class="mt-3"><small class="text-muted">${item.replyDatetime}</small></div>
+                            </th>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+            </tbody>
+            <%-- //댓글 목록 --%>
         </table>
 
         <%-- 게시글 버튼 --%>
@@ -344,7 +338,7 @@
                 <input type="button" value="수정" class="btn btn-outline-secondary mx-1"
                        onclick="modify_btn(${boardListDetail.boardId})"/>
                 <input type="button" value="목록" class="btn btn-outline-secondary"
-                       onclick='location.href = "/board/list"'/>
+                       onclick="location.href = '/board/list'"/>
             </div>
         </div>
 

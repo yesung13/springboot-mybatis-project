@@ -75,26 +75,12 @@ public class BoardServiceImpl implements BoardService {
     }
 
     // 게시글 검색
-//    @Override
-//    public List<BoardVO> getSearchKeyword(String keyword) {
-//        return boardMapper.findBySearchKeyword(keyword);
-//    }
-//
-//    @Override
-//    public List<BoardVO> getSearchContent(String keyword) {
-//        return boardMapper.findBySearchKeyword(keyword);
-//    }
-//
-//    @Override
-//    public List<BoardVO> getSearchWriter(String keyword) {
-//        return boardMapper.findBySearchKeyword(keyword);
-//    }
-
     @Override
     public List<BoardVO> getBoardSearch(String keyword) {
         return boardMapper.findBySearchKeyword(keyword);
     }
 
+    //게시글 검색 페이징
     @Override
     public int getBoardSearchListCnt(BoardVO boardVO) {
         return boardMapper.boardSearchListCnt(boardVO);
@@ -106,3 +92,5 @@ public class BoardServiceImpl implements BoardService {
         boardMapper.increaseViewCnt(boardId);
     }
 }
+
+
