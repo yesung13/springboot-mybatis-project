@@ -10,19 +10,19 @@
 <html>
 <head>
     <title>글보기:${boardListDetail.title}</title>
+    <%--    <c:if test="${errCode == null}">--%>
+    <%--        <c:set var="errCode" value="\"\"">--%>
+    <%--        </c:set>--%>
+    <%--    </c:if>--%>
     <script type="text/javascript">
         <%-- 유효성 검사 --%>
-        let validCheck = function (chkNum) {
-            let replyContent = $('replyContent').val();
-            switch (chkNum) {
-                case 1 :
-                    if (replyContent == null || replyContent === "" || replyContent === undefined) {
-                        alert("댓글을 입력하세요.")
-                        return false;
-                    }
-                    location.reload();
-                    break;
+        function replyCheck() {
+            let replyContent = $('#replyContent').val();
+            if (replyContent != null || replyContent === "") {
+                alert("댓글을 입력하세요");
+                return false;
             }
+            return true;
         }
 
         // 글 수정
@@ -269,7 +269,8 @@
             </tr>
             <%-- 댓글 쓰기 --%>
             <tr class="tcenter">
-                <form action="${pageContext.request.contextPath}/board/replyWrite" method="post">
+                <form action="${pageContext.request.contextPath}/board/replyWrite" method="post"
+                      onsubmit="replyCheck()"><%-- onsubmit의 결과 값이 true 이면 submit --%>
                     <%-- 게시글 정보 hidden으로 넘기기 --%>
                     <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
                     <th>
@@ -279,7 +280,7 @@
                         <div class="form-inline"><textarea id="replyContent" name="replyContent" rows="1"
                                                            class="form-control rounded w-75"
                                                            placeholder="댓글을 남겨보세요"></textarea>
-                            <button class="btn btn-secondary ml-2" type="submit" onclick="validCheck(1)">등록</button>
+                            <button class="btn btn-secondary ml-2" type="submit">등록</button>
                         </div>
                     </th>
                 </form>

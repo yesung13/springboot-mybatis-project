@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -15,11 +17,10 @@ import java.util.Date;
 public class ReplyVO {
     private Long replyId;
     private Long accountId;
-    @NotNull(message = "There is no boardId value.")
     private Long boardId;
-    @NotNull(message = "There is no replyWrite rvalue.")
+//    @NotEmpty(message = "There is no replyWrite rvalue.")
     private String replyWriter;
-    @NotNull(message = "There is no replyContent value.")
+    @NotBlank(message = "댓글을 입력하세요.")
     private String replyContent;
     private Date replyDatetime;
 
