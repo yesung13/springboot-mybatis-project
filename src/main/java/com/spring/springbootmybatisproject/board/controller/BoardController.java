@@ -1,11 +1,10 @@
 package com.spring.springbootmybatisproject.board.controller;
 
-import ch.qos.logback.core.util.FileUtil;
+import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
 import com.spring.springbootmybatisproject.board.model.ReplyVO;
 import com.spring.springbootmybatisproject.board.service.BoardService;
-import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.board.service.ReplyService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -33,10 +32,10 @@ public class BoardController {
         this.replyService = replyService;
     }
 
+
     // 게시글 목록
     @GetMapping("/list")
     public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO) {
-
         // 전체 리스트 개수
         int listCnt = boardService.getBoardListTotalCnt(boardVO);
         Pagination pagination = new Pagination(listCnt, curPage);
@@ -87,9 +86,8 @@ public class BoardController {
     // 파일 업로드
     @PostMapping("/upload")
     public void boardFileUpload(@RequestParam("file") MultipartFile multipartFile) {
-        log.info("### upload");
         File targetFile = new File("/uploadFiles/" + multipartFile.getOriginalFilename());
-        try{
+        try {
             InputStream fileStream = multipartFile.getInputStream();
             FileUtils.copyInputStreamToFile(fileStream, targetFile);
         } catch (IOException e) {

@@ -25,7 +25,8 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public void setBoardReply(ReplyVO replyVO) {
         replyMapper.insBoardReply(replyVO);
-        replyMapper.increaseReplyCnt(replyVO.getReplyId());
+        // 댓글 수 증가
+        replyMapper.increaseReplyCnt(replyVO.getBoardId());
 
     }
 
@@ -37,19 +38,9 @@ public class ReplyServiceImpl implements ReplyService {
 
     // 댓글 삭제
     @Override
-    public void getReplyDelete(Long replyId) {
+    public void getReplyDelete(Long replyId, Long boardId) {
         replyMapper.delBoardReply(replyId);
-    }
-
-    // 댓글 수 증가
-    @Override
-    public void increaseReplyCnt(Long boardId) {
-        replyMapper.increaseReplyCnt(boardId);
-    }
-
-    // 댓글 수 감소
-    @Override
-    public void decreaseReplyCnt(Long boardId) {
+        // 댓글 수 감소
         replyMapper.decreaseReplyCnt(boardId);
     }
 }

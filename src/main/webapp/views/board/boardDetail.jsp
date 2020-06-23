@@ -21,6 +21,7 @@
                 location.href = "/board/update?id=" + boardId;
             }
         }
+
         // 글 삭제
         function delete_btn(boardId) {
             if (confirm("게시글을 삭제 하시겠습니까?")) {
@@ -135,12 +136,12 @@
         }
 
         // 댓글 삭제
-        let replyDelete_btn = function (replyId) {
+        let replyDelete_btn = function (replyId, boardId) {
             if (confirm("해당 댓글을 삭제 하시겠습니까?")) {
                 var data = {};
                 data.replyId = replyId;
+                data.boardId = boardId;
                 data = JSON.stringify(data);
-                // decreaseReplyCnt();
                 $.ajax({
                     type: 'post',
                     url: '/board/replyDelete',
@@ -164,30 +165,6 @@
             } else {
                 return void (0);
             }
-
-            // // 댓글 수 증가
-            // function increaseReplyCnt(boardId) {
-            //     var data = {}
-            //     data.boardId = boardId;
-            //     $.ajax({
-            //         type: 'post',
-            //         url: '/board/increaseReplyCnt',
-            //         data: data,
-            //         dataType: 'json'
-            //     });
-            // }
-            //
-            // // 댓글 수 감소
-            // function decreaseReplyCnt() {
-            //     var data = {}
-            //     data.boardId = id;
-            //     $.ajax({
-            //         type: 'post',
-            //         url: '/board/decreaseReplyCnt',
-            //         data: data,
-            //         dataType: 'json'
-            //     });
-            // }
         }
     </script>
 </head>
@@ -246,10 +223,10 @@
 
             <tr class="text-right thead-light border-bottom">
                 <td colspan="4">
-						<span>
-							<small class="text-muted font-weight-bold"
-                                   id="boardDatetime">${boardListDetail.boardDatetime}</small>
-						</span>
+                    <span>
+                        <small class="text-muted font-weight-bold"
+                               id="boardDatetime">${boardListDetail.boardDatetime}</small>
+                    </span>
                 </td>
             </tr>
         </table>
@@ -267,8 +244,17 @@
                     <div class="d-flex justify-content-start">
                         <h5 class="font-weight-bold">
                             댓글
-                            <span class="text-info font-weight-bold" id="replyCnt">${boardListDetail.replyCnt}</span>
+                            <c:choose>
+                                <c:when test="${boardListDetail.replyCnt > 0}">
+                                    <span class="text-info font-weight-bold"
+                                          id="replyCnt">${boardListDetail.replyCnt}</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="text-info font-weight-bold" id="replyCnt">0</span>
+                                </c:otherwise>
+                            </c:choose>
                         </h5>
+
                     </div>
                 </th>
             </tr>
@@ -320,7 +306,8 @@
                                                 onclick="replyUpdate_form(${item.boardId},${item.replyId},'${item.replyWriter}','${item.replyContent}')">
                                             <small>수정</small></button>
                                         <button class="dropdown-item" type="button"
-                                                onclick="replyDelete_btn('${item.replyId}')"><small>삭제</small></button>
+                                                onclick="replyDelete_btn('${item.replyId}',${item.boardId})">
+                                            <small>삭제</small></button>
                                     </div>
                                 </div>
                                     <%--//드롭다운 끝--%>

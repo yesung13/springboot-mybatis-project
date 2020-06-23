@@ -16,11 +16,5 @@ public interface ReplyService {
     void getReplyUpdate(ReplyVO replyVO);
 
     // 댓글 삭제
-    void getReplyDelete(Long replyId);
-
-    // 댓글 수 증가
-    void increaseReplyCnt(Long boardId);
-
-    // 댓글 수 감소
-    void decreaseReplyCnt(Long boardId);
+    void getReplyDelete(Long replyId, Long boardId);
 }

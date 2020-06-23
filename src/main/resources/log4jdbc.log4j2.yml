@@ -1,0 +1,7 @@
+log4jdbc:
+  spylogdelegator:
+    name: net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+  #sql문 최대 출력 라인 수. 무제한:0 미설정: 한줄
+  dump:
+    sql:
+      maxlinelength: 0
