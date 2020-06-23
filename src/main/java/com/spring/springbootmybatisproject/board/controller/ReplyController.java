@@ -30,24 +30,37 @@ public class ReplyController {
 
     // 댓글 쓰기
     @PostMapping("/replyWrite")
-    public String replyWrite(@Valid ReplyVO replyVO, BindingResult result){
-        Long id = replyVO.getBoardId();
+    public String replyWrite(@Valid ReplyVO replyVO, BindingResult result) {
+        Long boardId = replyVO.getBoardId();
         if (!result.hasFieldErrors("replyContent") && !result.hasFieldErrors("boardId")) {
             replyService.setBoardReply(replyVO);
-            return "redirect:/board/detail?id="+id;
+            replyService.increaseReplyCnt(boardId);
+            return "redirect:/board/detail?id=" + boardId;
         }
-        return "redirect:/board/detail?id="+id;
+        return "redirect:/board/detail?id=" + boardId;
+    }
+
+    // 댓글 수정
+    @PostMapping("/replyUpdate")
+    @ResponseBody
+    public int replyUpdate(@RequestBody ReplyVO replyVO, BindingResult result) {
+        if (!result.hasFieldErrors("replyContent") && !result.hasFieldErrors("replyId") && !result.hasFieldErrors("replyWriter")) {
+            replyService.getReplyUpdate(replyVO);
+            return SFV.INT_RES_CODE_SUCCESS;
+        }
+        return SFV.INT_RES_CODE_FAIL;
     }
 
     // 댓글 삭제
     @PostMapping("/replyDelete")
     @ResponseBody
     public int replyDelete(@RequestBody ReplyVO replyVO) {
-
         Long replyId = replyVO.getReplyId();
+        Long boardId = replyVO.getBoardId();
         log.info("request replyId:{}", replyId);
         if (replyId != null) {
             replyService.getReplyDelete(replyId);
+            replyService.decreaseReplyCnt(boardId);
             return SFV.INT_RES_CODE_SUCCESS;
         }
         return SFV.INT_RES_CODE_FAIL;

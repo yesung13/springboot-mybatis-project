@@ -15,23 +15,12 @@
     <%--        </c:set>--%>
     <%--    </c:if>--%>
     <script type="text/javascript">
-        <%-- 유효성 검사 --%>
-        function replyCheck() {
-            let replyContent = $('#replyContent').val();
-            if (replyContent != null || replyContent === "") {
-                alert("댓글을 입력하세요");
-                return false;
-            }
-            return true;
-        }
-
         // 글 수정
         function modify_btn(boardId) {
             if (confirm("게시글을 수정 하시겠습니까?")) {
                 location.href = "/board/update?id=" + boardId;
             }
         }
-
         // 글 삭제
         function delete_btn(boardId) {
             if (confirm("게시글을 삭제 하시겠습니까?")) {
@@ -64,71 +53,86 @@
             }
         }
 
+        // 댓글 유효성 검사
+        function replyCheck() {
+            let replyContent = $('#replyContent').val();
+            if (replyContent == null || replyContent === "") {
+                alert("댓글을 입력하세요");
+                location.reload();
+                return false;
+            }
+            return true;
+        }
 
-        <%--        // 댓글 수정 폼--%>
-        <%--        var replyUpdateForm = function (replyId, replyContent, replyWriter) {--%>
-        <%--            // 기존 댓글 목록 제거--%>
-        <%--            $("#replyItem").children().empty();--%>
+        // 댓글 수정 폼
+        var replyUpdate_form = function (boardId, replyId, replyWriter, replyContent) {
+            // 기존 댓글 목록 제거
+            $("#replyList").children().empty();
+            if (replyId != null || replyId !== "" || replyId !== undefined) {
+                var html = "";
+                html += "<th class='tcenter'>" + "<div class='pt-2'>" + "<strong class='text-muted'>" + replyWriter + "</strong>" + "</div>" + "</th>"
+                html += "<th>"
+                html += "<div class='form-inline'>"
+                html += "<textarea id='replyContentUpdate' rows='1' name='cur' class='form-control rounded w-75' placeholder='댓글을 수정 중...' >" + replyContent + "</textarea>"
+                html += "<button class='btn btn-light btn-sm ml-2' type='button' onclick='replyUpdate_btn(\"" + replyId + "\", \"" + replyWriter + "\", \"" + replyContent + "\")'>" + "수정" + "</button>"
+                html += "<button class='btn btn-light btn-sm ml-2' type='button' onclick='location.href=\"/board/detail?id=\"+\"" + boardId + "\"'>" + "취소" + "</button>"
+                html += "</div>"
+                html += "</th>"
+                $("#changeUpdateForm").html(html);
 
-        <%--            if (replyId != null || replyId !== "" || replyId !== undefined) {--%>
-        <%--                var html = "";--%>
-        <%--                html += "<th class='tcenter'>" + "<div class='pt-2'>" + "<strong class='text-muted'>" + replyWriter + "</strong>" + "</div>" + "</th>"--%>
-        <%--                html += "<th>"--%>
-        <%--                html += "<div class='form-inline'>"--%>
-        <%--                html += "<textarea id='replyContentUpdate' rows='1' name='cur' class='form-control rounded w-75' placeholder='댓글을 수정 중...' >" + replyContent + "</textarea>"--%>
-        <%--                html += "<button class='btn btn-light btn-sm ml-2' type='button' onclick='replyUpdate(\"" + replyId + "\", \"" + replyWriter + "\")'>" + "수정" + "</button>"--%>
-        <%--                html += "</div>"--%>
-        <%--                html += "</th>"--%>
-        <%--                $("#replyList").html(html);--%>
+                // 글자 맨 마지막에 focus 맞춤
+                $.fn.setCursorPosition = function (pos) {
+                    this.each(function (index, elem) {
+                        if (elem.setSelectionRange) {
+                            elem.setSelectionRange(pos, pos);
+                        } else if (elem.createTextRange) {
+                            var range = elem.createTextRange();
+                            range.collapse(true);
+                            range.moveEnd('character', pos);
+                            range.moveStart('character', pos);
+                            range.select();
+                        }
+                    });
+                    return this;
+                };
+                $("#replyContentUpdate").focus().setCursorPosition($("textarea[name=cur]").val().length);
+                //  focus 맞춤끝;
+            }
+        }
 
-        <%--                // 글자 맨 마지막에 focus 맞춤--%>
-        <%--                $.fn.setCursorPosition = function (pos) {--%>
-        <%--                    this.each(function (index, elem) {--%>
-        <%--                        if (elem.setSelectionRange) {--%>
-        <%--                            elem.setSelectionRange(pos, pos);--%>
-        <%--                        } else if (elem.createTextRange) {--%>
-        <%--                            var range = elem.createTextRange();--%>
-        <%--                            range.collapse(true);--%>
-        <%--                            range.moveEnd('character', pos);--%>
-        <%--                            range.moveStart('character', pos);--%>
-        <%--                            range.select();--%>
-        <%--                        }--%>
-        <%--                    });--%>
-        <%--                    return this;--%>
-        <%--                };--%>
-        <%--                $("#replyContentUpdate").focus().setCursorPosition($("textarea[name=cur]").val().length);--%>
-        <%--                //  focus 맞춤끝;--%>
-        <%--            } else {--%>
-        <%--                alert("해당 작업 실패");--%>
-        <%--            }--%>
-        <%--        }--%>
-
-        <%--        // 댓글 수정--%>
-        <%--        function replyUpdate(replyId, replyWriter) {--%>
-
-        <%--            var data = {};--%>
-        <%--            data.replyId = replyId;--%>
-        <%--            data.replyContent = $('#replyContentUpdate').val();--%>
-        <%--            data.replyWriter = replyWriter;--%>
-        <%--            data = JSON.stringify(data);--%>
-        <%--            $.ajax({--%>
-        <%--                type: 'post',--%>
-        <%--                url: '/board/getReplyUpdate',--%>
-        <%--                data: data,--%>
-        <%--                dataType: 'json',--%>
-        <%--                contentType: 'application/json',--%>
-        <%--                success: function (data) {--%>
-        <%--                    if (data.resultCode === 200) {--%>
-        <%--                        alert("해당 댓글이 수정되었습니다.")--%>
-        <%--                        location.reload();--%>
-        <%--                    }--%>
-        <%--                }, error: function (xhr, e, data) {--%>
-        <%--                    console.log("Response Error", data);--%>
-        <%--                    alert("해당 작업을 실패하였습니다.")--%>
-        <%--                }--%>
-
-        <%--            });--%>
-        <%--        }--%>
+        // 댓글 수정
+        function replyUpdate_btn(replyId, replyWriter, replyContent) {
+            // 수정 댓글 유효성 검사
+            let replyContentUpdate = $('#replyContentUpdate').val();
+            if (replyContentUpdate == null || replyContentUpdate === "") {
+                alert("수정할 내용을 입력해주세요.");
+            } else {
+                var data = {};
+                data.replyId = replyId;
+                data.replyWriter = replyWriter;
+                data.replyContent = replyContentUpdate;
+                data = JSON.stringify(data);
+                console.log("data", data);
+                $.ajax({
+                    type: 'post',
+                    url: '/board/replyUpdate',
+                    data: data,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (res) {
+                        if (res === 0) {
+                            alert("해당 댓글이 수정되었습니다.")
+                            location.reload();
+                        } else if (res !== 0) {
+                            alert("해당 댓글 수정을 실패하였습니다.")
+                        }
+                    }, error: function (xhr, e, res) {
+                        console.log("Response Error", res);
+                        alert("에러!!")
+                    }
+                });
+            }
+        }
 
         // 댓글 삭제
         let replyDelete_btn = function (replyId) {
@@ -250,6 +254,7 @@
             </tr>
         </table>
     </div>
+
 </section>
 
 <%-- 바디: 댓글 --%>
@@ -262,24 +267,24 @@
                     <div class="d-flex justify-content-start">
                         <h5 class="font-weight-bold">
                             댓글
-                            <span class="text-info font-weight-bold" id="replyCnt"></span>
+                            <span class="text-info font-weight-bold" id="replyCnt">${boardListDetail.replyCnt}</span>
                         </h5>
                     </div>
                 </th>
             </tr>
             <%-- 댓글 쓰기 --%>
-            <tr class="tcenter">
+            <tr class="tcenter" id="changeUpdateForm">
                 <form action="${pageContext.request.contextPath}/board/replyWrite" method="post"
                       onsubmit="replyCheck()"><%-- onsubmit의 결과 값이 true 이면 submit --%>
                     <%-- 게시글 정보 hidden으로 넘기기 --%>
                     <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
                     <th>
-                        <div class="pt-2"><strong class="text-muted">댓글 작성자</strong></div>
+                        <div class="pt-2"><strong id="replyWriter" class="text-muted">댓글 작성자</strong></div>
                     </th>
                     <th>
-                        <div class="form-inline"><textarea id="replyContent" name="replyContent" rows="1"
-                                                           class="form-control rounded w-75"
-                                                           placeholder="댓글을 남겨보세요"></textarea>
+                        <div class="form-inline">
+                            <textarea id="replyContent" name="replyContent" rows="1" class="form-control rounded w-75"
+                                      placeholder="댓글을 남겨보세요"></textarea>
                             <button class="btn btn-secondary ml-2" type="submit">등록</button>
                         </div>
                     </th>
@@ -299,24 +304,23 @@
                         <tr>
                             <th class="tcenter">
                                 <div><strong>${item.replyWriter}</strong></div>
-
                             </th>
                             <th>
                                     <%--드롭다운 시작--%>
                                 <div class="dropdown">
                                     <button class="float-right btn btn-link" id="dropdownBtn" type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <img src="${pageContext.request.contextPath}/resources/image/more_vert-black-24dp.svg"
                                              alt="U/D icon">
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBtn"
                                          style="width: 100px">
-                                        <button class="dropdown-item" type="button"><small>수정</small></button>
+                                            <%-- onclick 사용 시 함수에 여러 파라미터 값을 보낼 때 데이터 타입에 맞게 홑따옴표를 사용해야 함 --%>
                                         <button class="dropdown-item" type="button"
-                                                onclick="replyDelete_btn(${item.replyId})">
-                                            <small>삭제</small>
-                                        </button>
+                                                onclick="replyUpdate_form(${item.boardId},${item.replyId},'${item.replyWriter}','${item.replyContent}')">
+                                            <small>수정</small></button>
+                                        <button class="dropdown-item" type="button"
+                                                onclick="replyDelete_btn('${item.replyId}')"><small>삭제</small></button>
                                     </div>
                                 </div>
                                     <%--//드롭다운 끝--%>
@@ -342,8 +346,6 @@
                        onclick="location.href = '/board/list'"/>
             </div>
         </div>
-
-    </div>
 </section>
 
 <%-- 푸터 --%>
