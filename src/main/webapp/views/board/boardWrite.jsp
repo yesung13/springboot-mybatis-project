@@ -34,6 +34,7 @@
 
         // 게시글 작성
         function write_btn() {
+            // 제목, 내용 유효성 검사
             if ($("#title").val() == null || $("#title").val() === "") {
                 alert("제목을 입력해 주세요!");
                 $("#title").focus();
@@ -44,10 +45,9 @@
                 $("#content").focus();
                 return false;
             }
-
-
-            var requestUrl = '/board/setWrite';
-            var data = {};
+            //파일 첨부
+            let requestUrl = '/board/setWrite';
+            let data = {};
             data.title = $("#title").val(); // 객체의 속성 추가
             data.content = $("#content").val();
             data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
@@ -56,7 +56,7 @@
                 type: 'post',
                 url: requestUrl,
                 data: data,
-                dataType: 'json',
+                dataType: 'formData',
                 contentType: 'application/json',
                 success: function (response) {
                     console.log("Insert Response Data:", response);
@@ -127,11 +127,10 @@
                     <label for="file">첨부파일</label>
                 </th>
                 <td>
-                    <form action="/board/upload" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="file" value="파일 선택"/>
-                        <input class="btn btn-sm btn-info" type="submit" value="업로드"/>
+                    <form action="${pageContext.request.contextPath}/board/upload" method="POST" enctype="multipart/form-data">
+                        <input type="file" id="file" name="file" value="파일 선택"/>
+<%--                        <input class="btn btn-sm btn-info" type="submit" value="업로드"/>--%>
                         <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
-
                     </form>
 
                 </td>
