@@ -25,70 +25,28 @@
             text-decoration: none;
             color: #4374D9;
         }
+
+        div > input {
+            width: 100px;
+        }
     </style>
     <script type="text/javascript">
-        function reset_btn() {
-            $("#title").val(null);
-            $("#content").val(null);
-        }
-
-        // 게시글 작성
-        function write_btn() {
-            // 제목, 내용 유효성 검사
-            if ($("#title").val() == null || $("#title").val() === "") {
+        // 게시글 제목, 내용 유효성 검사
+        function writeCheck_btn() {
+            let title = $("#title").val();
+            let content = $("#content").val();
+            if (title == null || title === "") {
                 alert("제목을 입력해 주세요!");
                 $("#title").focus();
                 return false;
             }
-            if ($("#content").val() == null || $("#content").val() === "") {
+
+            if (content == null || content === "") {
                 alert("내용을 입력해 주세요!");
                 $("#content").focus();
                 return false;
             }
             return true;
-            // 파일 첨부 테스트
-            // var formData = new FormData();
-            // formData.append("title", $('#title').val());
-            // formData.append("content", $('#content').val());
-            // formData.append("file", $('#file')[0].val());
-            //
-            // $.ajax({
-            //     type: 'POST',
-            //     url: '/board/fileTest',
-            //     processData: false,
-            //     contentType: false,
-            //     data: formData,
-            //     success: function (data) {
-            //         alert("data:" + data);
-            //     }
-            // })
-
-            // let requestUrl = '/board/setWrite';
-            // let data = {};
-            // data.title = $("#title").val(); // 객체의 속성 추가
-            // data.content = $("#content").val();
-            // data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
-            // console.log("Insert Request Data:", data);
-            // $.ajax({
-            //     type: 'post',
-            //     url: requestUrl,
-            //     data: data,
-            //     dataType: 'formData',
-            //     contentType: 'application/json',
-            //     success: function (response) {
-            //         console.log("Insert Response Data:", response);
-            //         if (response === 200) {
-            //             alert("생성을 성공했습니다.")
-            //             location.replace('/board/list');
-            //         } else if (response !== 200) {
-            //             alert("생성을 실패했습니다.")
-            //         }
-            //     },
-            //     error: function (xhr, e, response) {
-            //         console.log("Insert Error:", xhr, e, response);
-            //         alert("에러!!")
-            //     }
-            // });
         }
 
         // 글 입력 시 카운트
@@ -105,7 +63,36 @@
             return cnt;
         }
 
-
+        // 게시글 작성
+        // #rest 방식
+        // function write_btn() {
+        // let requestUrl = '/board/setWrite';
+        // let data = {};
+        // data.title = $("#title").val(); // 객체의 속성 추가
+        // data.content = $("#content").val();
+        // data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
+        // console.log("Insert Request Data:", data);
+        // $.ajax({
+        //     type: 'post',
+        //     url: requestUrl,
+        //     data: data,
+        //     dataType: 'json',
+        //     contentType: 'application/json',
+        //     success: function (response) {
+        //         console.log("Insert Response Data:", response);
+        //         if (response === 200) {
+        //             alert("생성을 성공했습니다.")
+        //             location.replace('/board/list');
+        //         } else if (response !== 200) {
+        //             alert("생성을 실패했습니다.")
+        //         }
+        //     },
+        //     error: function (xhr, e, response) {
+        //         console.log("Insert Error:", xhr, e, response);
+        //         alert("에러!!")
+        //     }
+        // });
+        // }
     </script>
 </head>
 <body>
@@ -115,12 +102,11 @@
 
 <%-- 바디 --%>
 <section>
-    <form action="${pageContext.request.contextPath}/board/setWrite" method="POST" enctype="multipart/form-data"
-          onsubmit="write_btn()">
-        <div class="container mt-5">
-            <h3 class="text-center">글쓰기</h3>
+    <div class="container mt-5">
+        <h3 class="text-center">글쓰기</h3>
+        <form action="${pageContext.request.contextPath}/board/setWrite" method="POST"
+              onsubmit="return writeCheck_btn()" enctype="multipart/form-data">
             <table class="table table-bordered">
-
                 <tr class="thead-light">
                     <th class="tcenter ">
                         <label for="title">제목</label>
@@ -154,18 +140,17 @@
             </table>
             <br/>
             <div class="row justify-content-center">
-                <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
-                       onclick="reset_btn()"/>
-                <%--                <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"--%>
-                <%--                       style="width: 100px"/>--%>
-                <input type="submit" value="작성" class="btn btn-outline-secondary mx-1"
-                       style="width: 100px"/>
+                <input type="reset" value="초기화" class="btn btn-outline-secondary"/>
 
-                <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/list'"
-                       style="width: 100px"/>
+                <input type="submit" value="작성" class="btn btn-outline-secondary mx-1"/>
+
+                <input type="button" value="취소" class="btn btn-outline-secondary"
+                       onclick="location.href='/board/list'"/>
+
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+
 </section>
 
 <%-- 푸터 --%>

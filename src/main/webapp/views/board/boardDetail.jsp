@@ -16,9 +16,9 @@
     <%--    </c:if>--%>
     <script type="text/javascript">
         // 글 수정
-        function modify_btn(boardId) {
+        function modifyForm_btn(boardId) {
             if (confirm("게시글을 수정 하시겠습니까?")) {
-                location.href = "/board/update?id=" + boardId;
+                location.href = "/board/modify?id=" + boardId;
             }
         }
 
@@ -59,7 +59,6 @@
             let replyContent = $('#replyContent').val();
             if (replyContent == null || replyContent === "") {
                 alert("댓글을 입력하세요");
-                location.reload();
                 return false;
             }
             return true;
@@ -261,7 +260,7 @@
             <%-- 댓글 쓰기 --%>
             <tr class="tcenter" id="changeUpdateForm">
                 <form action="${pageContext.request.contextPath}/board/replyWrite" method="post"
-                      onsubmit="replyCheck()"><%-- onsubmit의 결과 값이 true 이면 submit --%>
+                      onsubmit="return replyCheck()"><%-- onsubmit의 결과 값이 true 이면 submit --%>
                     <%-- 게시글 정보 hidden으로 넘기기 --%>
                     <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
                     <th>
@@ -328,7 +327,7 @@
                 <input type="button" value="삭제" class="btn btn-outline-secondary"
                        onclick="delete_btn(${boardListDetail.boardId})"/>
                 <input type="button" value="수정" class="btn btn-outline-secondary mx-1"
-                       onclick="modify_btn(${boardListDetail.boardId})"/>
+                       onclick="modifyForm_btn(${boardListDetail.boardId})"/>
                 <input type="button" value="목록" class="btn btn-outline-secondary"
                        onclick="location.href = '/board/list'"/>
             </div>

@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 작성
     @Override
-    public void setBoardWrite(BoardVO boardVO) {
+    public void setBoardWrite(BoardVO boardVO, FileVO fileVO) {
         String content = boardVO.getContent().replaceAll("\r\n","<br />");
         content = content.replaceAll("<","&lt;");
         content = content.replaceAll(">","&gt");
@@ -56,11 +56,16 @@ public class BoardServiceImpl implements BoardService {
                 .content(content)
                 .build();
         boardMapper.saveBoardWrite(vo);
+
+        // 게시글 파일 업로드
+        Long boardId = vo.getBoardId(); // saveBoardWrite의 auto값을 리턴 받아 사용.
+        fileVO.setBoardId(boardId);
+        boardMapper.insertBoardFile(fileVO);
     }
 
     // 게시글 수정
     @Override
-    public void getBoardUpdate(BoardVO boardVO) {
+    public void setBoardModify(BoardVO boardVO, FileVO fileVO) {
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateResult = format.format(date);
@@ -78,6 +83,11 @@ public class BoardServiceImpl implements BoardService {
                 .boardUpDatetime(dateResult)
                 .build();
         boardMapper.updateById(vo);
+
+        // 게시글 새 파일 업로드
+        fileVO.setBoardId(vo.getBoardId());
+        boardMapper.insertBoardFile(fileVO);
+
     }
 
     // 게시글 삭제
@@ -93,7 +103,7 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findBySearchKeyword(keyword);
     }
 
-    //게시글 검색 페이징
+    // 게시글 검색 페이징
     @Override
     public int getBoardSearchListCnt(BoardVO boardVO) {
         return boardMapper.boardSearchListCnt(boardVO);
@@ -105,16 +115,22 @@ public class BoardServiceImpl implements BoardService {
         boardMapper.increaseViewCnt(boardId);
     }
 
-    // 게시글 파일 첨부
-    @Override
-    public void insertBoardFile(FileVO fileVO) {
-        boardMapper.insertBoardFile(fileVO);
-    }
-
     // 게시글 파일 첨부 목록
     @Override
-    public List<FileVO> getUploadFile(Long boardId) {
-        return boardMapper.findByUploadFile(boardId);
+    public List<FileVO> getFileList(Long boardId) {
+        return boardMapper.findAllFileList(boardId);
+    }
+
+    // 해당 첨부 파일 찾기
+    @Override
+    public String getFilename(Long fileId) {
+        return boardMapper.findByFilename(fileId);
+    }
+
+    // 해당 첨부 파일 삭제
+    @Override
+    public void deleteBoardFile(Long fileId) {
+        boardMapper.deleteByFile(fileId);
     }
 }
 

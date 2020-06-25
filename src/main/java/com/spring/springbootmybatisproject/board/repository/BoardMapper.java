@@ -39,9 +39,15 @@ public interface BoardMapper {
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 
-    // 게시글 파일 첨부
+    // 게시글 파일 업로드
     void insertBoardFile(FileVO fileVO);
 
     // 게시글 파일 첨부 목록
-    List<FileVO> findByUploadFile(Long boardId);
+    List<FileVO> findAllFileList(Long boardId);
+
+    // 해당 첨부 파일 찾기
+    String findByFilename(Long fileId);
+
+    // 해당 첨부 파일 삭제
+    void deleteByFile(Long fileId);
 }

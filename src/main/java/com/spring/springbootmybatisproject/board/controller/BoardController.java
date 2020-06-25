@@ -8,7 +8,6 @@ import com.spring.springbootmybatisproject.board.model.ReplyVO;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import com.spring.springbootmybatisproject.board.service.ReplyService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,8 +65,8 @@ public class BoardController {
         model.addAttribute("replyList", replyVORes);
 
         // 해당 파일 목록
-        List<FileVO> fileVORes = boardService.getUploadFile(boardId);
-        model.addAttribute("fileList",fileVORes);
+        List<FileVO> fileVORes = boardService.getFileList(boardId);
+        model.addAttribute("fileList", fileVORes);
 
         return "board/boardDetail";
     }
@@ -81,6 +78,8 @@ public class BoardController {
     }
 
     // 게시글 작성
+
+    // #rest 방식
 //    @PostMapping("/setWrite")
 //    @ResponseBody
 //    public int boardWrite(@RequestBody BoardVO boardVO) {
@@ -102,36 +101,136 @@ public class BoardController {
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
         if (title != null && content != null) {
-            boardService.setBoardWrite(boardVO);
+            // 파일 업로드
+            Long boardId = boardVO.getBoardId();
+            FileVO fileVO = new FileVO();
+            //외부망
+//            String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
+            //pc
+            String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
+
+            List<MultipartFile> fileList = multipartReq.getFiles("file");
+
+            // 향상된 for문 -> for((2)타입 변수 : (1)배열){(3)실행문}
+            for (MultipartFile mf : fileList) {
+                if (!mf.isEmpty()) {
+
+                    String originFilename = mf.getOriginalFilename(); // 원본 파일명
+                    String saveFilename = dateResult + "_" + originFilename; // 저장될 파일명
+                    long fileSize = mf.getSize(); // 파일 사이즈
+
+                    log.info("originFilename=={}", originFilename);
+                    log.info("fileSize=={}", fileSize);
+
+                    fileVO.setBoardId(boardId);
+                    fileVO.setOriginFilename(originFilename);
+                    fileVO.setSaveFilename(saveFilename);
+                    fileVO.setFileSize(fileSize);
+
+                    boardService.setBoardWrite(boardVO, fileVO);
+
+                    // disk 파일 저장
+                    String safeFile = uploadPath + dateResult + "_" + originFilename;
+                    try {
+                        mf.transferTo(new File(safeFile)); // 디스크에 파일 저장
+                    } catch (IOException | IllegalStateException e) {
+                        e.printStackTrace();
+                        System.out.println("[message]:" + SFV.STRING_CHECK_CODE_INSERT_FILE_ERROR
+                                + " [code]: " + SFV.INT_CHECK_CODE_INSERT_FILE_ERROR);
+                    }
+                }
+            }
         }
+        return "redirect:/board/list";
+    }
 
-        // 첨부파일 업로드
+    // 게시글 수정 page
+    @GetMapping("/modify")
+    public String boardUpdateForm(@RequestParam(value = "id") Long boardId, Model model) {
+        BoardVO boardVO = boardService.getBoardListDetail(boardId);
+        model.addAttribute("boardListDetail", boardVO);
+
+        // 해당 파일 목록
+        List<FileVO> fileVORes = boardService.getFileList(boardId);
+        model.addAttribute("fileList", fileVORes);
+
+        return "board/boardModify";
+    }
+
+    // 게시글 수정
+    // #rest 방식
+//    @PostMapping("/setUpdate")
+//    @ResponseBody
+//    public int boardUpdate(@RequestBody BoardVO boardVO) {
+//        Long boardId = boardVO.getBoardId();
+//        String title = boardVO.getTitle();
+//        String content = boardVO.getContent();
+//        if (boardId != null || title != null || content != null) {
+//            boardService.getBoardUpdate(boardVO);
+//            return SFV.INT_RES_CODE_SUCCESS;
+//        }
+//        return SFV.INT_RES_CODE_FAIL;
+//    }
+
+    @PostMapping("/setModify")
+    public String boardModify(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String dateResult = format.format(date);
+
+//            String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
+
+        String title = boardVO.getTitle();
+        String content = boardVO.getContent();
         Long boardId = boardVO.getBoardId();
-        FileVO fileVO = new FileVO();
-        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
-        List<MultipartFile> fileList = multipartReq.getFiles("file");
+        if (title != null && content != null) {
 
-        for (MultipartFile mf : fileList) {
-            if (!mf.isEmpty()) {
+            //체크 파일 삭제(disk, DB)
+            String[] checkFileNum = multipartReq.getParameterValues("checkFileNum");
+            if (checkFileNum != null) {
+                for (String cfn : checkFileNum) {
+                    long fileId = Long.parseLong(cfn);
+                    String originFilename = boardService.getFilename(fileId);
+                    String safeFile = uploadPath + dateResult + "_" + originFilename;
 
-                String originFilename = mf.getOriginalFilename(); // 원본 파일명
-                String saveFilename = dateResult + "_" + originFilename; // 저장될 파일명
-                long fileSize = mf.getSize(); // 파일 사이즈
-                log.info("originFilename=={}", originFilename);
-                log.info("fileSize=={}", fileSize);
-                fileVO.setBoardId(boardId);
-                fileVO.setOriginFilename(originFilename);
-                fileVO.setSaveFilename(saveFilename);
-                fileVO.setFileSize(fileSize);
-                boardService.insertBoardFile(fileVO);
+                    // disk 첨부 파일 삭제
+                    File removeFile = new File(safeFile);
+                    removeFile.delete();
+                    boardService.deleteBoardFile(fileId);
+                }
+            }
 
-                String safeFile = uploadPath + dateResult + "_" + originFilename; // 디스크에 파일 저장
-                try {
-                    mf.transferTo(new File(safeFile)); // 디스크에 파일 저장
-                } catch (IOException | IllegalStateException e) {
-                    e.printStackTrace();
-                    System.out.println("[message]:" + SFV.STRING_CHECK_CODE_INSERT_FILE_ERROR
-                            + " [code]: " + SFV.INT_CHECK_CODE_INSERT_FILE_ERROR);
+            // 새 파일 업로드
+            FileVO fileVO = new FileVO();
+            List<MultipartFile> newFileList = multipartReq.getFiles("file");
+
+            for (MultipartFile mf : newFileList) {
+                if (!mf.isEmpty()) {
+
+                    String newOriginFilename = mf.getOriginalFilename(); // 원본 파일명
+                    String newSaveFilename = dateResult + "_" + newOriginFilename; // 저장될 파일명
+                    long newFileSize = mf.getSize(); // 파일 사이즈
+
+                    log.info("newOriginFilename=={}", newOriginFilename);
+                    log.info("newFileSize=={}", newFileSize);
+
+                    fileVO.setBoardId(boardId);
+                    fileVO.setOriginFilename(newOriginFilename);
+                    fileVO.setSaveFilename(newSaveFilename);
+                    fileVO.setFileSize(newFileSize);
+
+                    boardService.setBoardModify(boardVO, fileVO);
+
+                    // disk 파일 저장
+                    String safeNewFile = uploadPath + newSaveFilename;
+                    try {
+                        mf.transferTo(new File(safeNewFile));
+                    } catch (IOException | IllegalStateException e) {
+                        e.printStackTrace();
+                        System.out.println("[message]:" + SFV.STRING_CHECK_CODE_INSERT_FILE_ERROR
+                                + " [code]: " + SFV.INT_CHECK_CODE_INSERT_FILE_ERROR);
+                    }
                 }
             }
         }
@@ -139,27 +238,6 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    // 게시글 수정 page
-    @GetMapping("/update")
-    public String boardUpdate(@RequestParam(value = "id") Long boardId, Model model) {
-        BoardVO boardVO = boardService.getBoardListDetail(boardId);
-        model.addAttribute("boardListDetail", boardVO);
-        return "board/boardUpdate";
-    }
-
-    // 게시글 수정
-    @PostMapping("/setUpdate")
-    @ResponseBody
-    public int boardUpdate(@RequestBody BoardVO boardVO) {
-        Long boardId = boardVO.getBoardId();
-        String title = boardVO.getTitle();
-        String content = boardVO.getContent();
-        if (boardId != null || title != null || content != null) {
-            boardService.getBoardUpdate(boardVO);
-            return SFV.INT_RES_CODE_SUCCESS;
-        }
-        return SFV.INT_RES_CODE_FAIL;
-    }
 
     // 게시글 삭제
     @PostMapping("/delete")

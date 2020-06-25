@@ -18,10 +18,10 @@ public interface BoardService {
     BoardVO getBoardListDetail(Long boardId);
 
     // 게시글 작성
-    void setBoardWrite(BoardVO boardVO);
+    void setBoardWrite(BoardVO boardVO, FileVO fileVO);
 
     // 게시글 수정
-    void getBoardUpdate(BoardVO boardVO);
+    void setBoardModify(BoardVO boardVO, FileVO fileVO);
 
     // 게시글 삭제
     void getBoardDelete(Long boardId);
@@ -35,11 +35,14 @@ public interface BoardService {
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 
-    // 게시글 파일 첨부
-    void insertBoardFile(FileVO fileVO);
-
     // 게시글 파일 첨부 목록
-    List<FileVO> getUploadFile(Long boardId);
+    List<FileVO> getFileList(Long boardId);
+
+    // 해당 첨부 파일 찾기
+    String getFilename(Long fileId);
+
+    // 해당 첨부 파일 삭제
+    void deleteBoardFile(Long fileId);
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
