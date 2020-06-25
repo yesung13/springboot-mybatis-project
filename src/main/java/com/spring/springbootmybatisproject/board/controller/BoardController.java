@@ -2,6 +2,7 @@ package com.spring.springbootmybatisproject.board.controller;
 
 import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
+import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
 import com.spring.springbootmybatisproject.board.model.ReplyVO;
 import com.spring.springbootmybatisproject.board.service.BoardService;
@@ -12,12 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -31,7 +37,6 @@ public class BoardController {
         this.boardService = boardService;
         this.replyService = replyService;
     }
-
 
     // 게시글 목록
     @GetMapping("/list")
@@ -61,6 +66,11 @@ public class BoardController {
         // 해당 댓글 목록
         List<ReplyVO> replyVORes = replyService.getReplyList(boardId);
         model.addAttribute("replyList", replyVORes);
+
+        // 해당 파일 목록
+        List<FileVO> fileVORes = boardService.getUploadFile(boardId);
+        model.addAttribute("fileList",fileVORes);
+
         return "board/boardDetail";
     }
 
@@ -71,29 +81,62 @@ public class BoardController {
     }
 
     // 게시글 작성
+//    @PostMapping("/setWrite")
+//    @ResponseBody
+//    public int boardWrite(@RequestBody BoardVO boardVO) {
+//        String title = boardVO.getTitle();
+//        String content = boardVO.getContent();
+//        if (title != null && content != null) {
+//            boardService.setBoardWrite(boardVO);
+//            return SFV.INT_RES_CODE_OK;
+//        }
+//        return SFV.INT_RES_CODE_FAIL;
+//    }
+
     @PostMapping("/setWrite")
-    @ResponseBody
-    public int boardWrite(@RequestBody BoardVO boardVO) {
+    public String boardWrite(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String dateResult = format.format(date);
+
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
         if (title != null && content != null) {
             boardService.setBoardWrite(boardVO);
-            return SFV.INT_RES_CODE_OK;
-        }
-        return SFV.INT_RES_CODE_FAIL;
-    }
-
-    // 파일 업로드
-    @PostMapping("/upload")
-    public void boardFileUpload(@RequestParam("file") MultipartFile multipartFile) {
-        File targetFile = new File("/uploadFiles/" + multipartFile.getOriginalFilename());
-        try {
-            InputStream fileStream = multipartFile.getInputStream();
-            FileUtils.copyInputStreamToFile(fileStream, targetFile);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
+        // 첨부파일 업로드
+        Long boardId = boardVO.getBoardId();
+        FileVO fileVO = new FileVO();
+        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
+        List<MultipartFile> fileList = multipartReq.getFiles("file");
+
+        for (MultipartFile mf : fileList) {
+            if (!mf.isEmpty()) {
+
+                String originFilename = mf.getOriginalFilename(); // 원본 파일명
+                String saveFilename = dateResult + "_" + originFilename; // 저장될 파일명
+                long fileSize = mf.getSize(); // 파일 사이즈
+                log.info("originFilename=={}", originFilename);
+                log.info("fileSize=={}", fileSize);
+                fileVO.setBoardId(boardId);
+                fileVO.setOriginFilename(originFilename);
+                fileVO.setSaveFilename(saveFilename);
+                fileVO.setFileSize(fileSize);
+                boardService.insertBoardFile(fileVO);
+
+                String safeFile = uploadPath + dateResult + "_" + originFilename; // 디스크에 파일 저장
+                try {
+                    mf.transferTo(new File(safeFile)); // 디스크에 파일 저장
+                } catch (IOException | IllegalStateException e) {
+                    e.printStackTrace();
+                    System.out.println("[message]:" + SFV.STRING_CHECK_CODE_INSERT_FILE_ERROR
+                            + " [code]: " + SFV.INT_CHECK_CODE_INSERT_FILE_ERROR);
+                }
+            }
+        }
+
+        return "redirect:/board/list";
     }
 
     // 게시글 수정 page

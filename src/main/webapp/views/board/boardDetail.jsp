@@ -195,9 +195,9 @@
                 </th>
                 <td colspan="4" align="left">
                     <c:forEach var="file" items="${fileList}">
-                        <a href="filedown.do?fileName=${file.ofilename}" class="fileview">
-                            <span>${file.ofilename}</span>
-                            <span>(${file.filesize}byte)</span><br>
+                        <a href="filedown.do?fileName=${file.originFilename}" class="fileview text-black-50">
+                            <span>${file.originFilename}</span>
+                            <span>(${file.fileSize}byte)</span><br>
                         </a>
                     </c:forEach>
                     <c:if test="${empty fileList}">

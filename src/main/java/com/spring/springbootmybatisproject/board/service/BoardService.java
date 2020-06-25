@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.board.service;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
+import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.ReplyVO;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public interface BoardService {
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
+
+    // 게시글 파일 첨부
+    void insertBoardFile(FileVO fileVO);
+
+    // 게시글 파일 첨부 목록
+    List<FileVO> getUploadFile(Long boardId);
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);

@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.board.repository;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
+import com.spring.springbootmybatisproject.board.model.FileVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -38,5 +39,9 @@ public interface BoardMapper {
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 
+    // 게시글 파일 첨부
+    void insertBoardFile(FileVO fileVO);
 
+    // 게시글 파일 첨부 목록
+    List<FileVO> findByUploadFile(Long boardId);
 }

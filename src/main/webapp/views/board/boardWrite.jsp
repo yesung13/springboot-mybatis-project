@@ -45,34 +45,50 @@
                 $("#content").focus();
                 return false;
             }
-            //파일 첨부
-            let requestUrl = '/board/setWrite';
-            let data = {};
-            data.title = $("#title").val(); // 객체의 속성 추가
-            data.content = $("#content").val();
-            data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
-            console.log("Insert Request Data:", data);
-            $.ajax({
-                type: 'post',
-                url: requestUrl,
-                data: data,
-                dataType: 'formData',
-                contentType: 'application/json',
-                success: function (response) {
-                    console.log("Insert Response Data:", response);
-                    if (response === 200) {
-                        alert("생성을 성공했습니다.")
-                        location.replace('/board/list');
-                    } else if (response !== 200) {
-                        alert("생성을 실패했습니다.")
-                    }
-                },
-                error: function (xhr, e, response) {
-                    console.log("Insert Error:", xhr, e, response);
-                    alert("에러!!")
-                }
-            });
+            return true;
+            // 파일 첨부 테스트
+            // var formData = new FormData();
+            // formData.append("title", $('#title').val());
+            // formData.append("content", $('#content').val());
+            // formData.append("file", $('#file')[0].val());
+            //
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/board/fileTest',
+            //     processData: false,
+            //     contentType: false,
+            //     data: formData,
+            //     success: function (data) {
+            //         alert("data:" + data);
+            //     }
+            // })
 
+            // let requestUrl = '/board/setWrite';
+            // let data = {};
+            // data.title = $("#title").val(); // 객체의 속성 추가
+            // data.content = $("#content").val();
+            // data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
+            // console.log("Insert Request Data:", data);
+            // $.ajax({
+            //     type: 'post',
+            //     url: requestUrl,
+            //     data: data,
+            //     dataType: 'formData',
+            //     contentType: 'application/json',
+            //     success: function (response) {
+            //         console.log("Insert Response Data:", response);
+            //         if (response === 200) {
+            //             alert("생성을 성공했습니다.")
+            //             location.replace('/board/list');
+            //         } else if (response !== 200) {
+            //             alert("생성을 실패했습니다.")
+            //         }
+            //     },
+            //     error: function (xhr, e, response) {
+            //         console.log("Insert Error:", xhr, e, response);
+            //         alert("에러!!")
+            //     }
+            // });
         }
 
         // 글 입력 시 카운트
@@ -99,55 +115,57 @@
 
 <%-- 바디 --%>
 <section>
-    <div class="container mt-5">
-        <h3 class="text-center">글쓰기</h3>
-        <table class="table table-bordered">
-            <tr class="thead-light">
-                <th class="tcenter ">
-                    <label for="title">제목</label>
-                </th>
-                <td>
-                    <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"/>
-                </td>
-            </tr>
-            <tr class="thead-light">
-                <th class="tcenter">
-                    <label for="content">내용</label>
-                </th>
-                <td>
+    <form action="${pageContext.request.contextPath}/board/setWrite" method="POST" enctype="multipart/form-data"
+          onsubmit="write_btn()">
+        <div class="container mt-5">
+            <h3 class="text-center">글쓰기</h3>
+            <table class="table table-bordered">
+
+                <tr class="thead-light">
+                    <th class="tcenter ">
+                        <label for="title">제목</label>
+                    </th>
+                    <td>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"/>
+                    </td>
+                </tr>
+                <tr class="thead-light">
+                    <th class="tcenter">
+                        <label for="content">내용</label>
+                    </th>
+                    <td>
                     <textarea id="content" name="content" rows="8" class="form-control w-100"
                               placeholder="내용을 입력하세요..."></textarea>
-                    <div>
-                        <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
-                    </div>
-                </td>
-            </tr>
-            <tr class="thead-light">
-                <th class="tcenter ">
-                    <label for="file">첨부파일</label>
-                </th>
-                <td>
-                    <form action="${pageContext.request.contextPath}/board/upload" method="POST" enctype="multipart/form-data">
-                        <input type="file" id="file" name="file" value="파일 선택"/>
-<%--                        <input class="btn btn-sm btn-info" type="submit" value="업로드"/>--%>
+                        <div>
+                            <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="thead-light">
+                    <th class="tcenter ">
+                        <label for="file">첨부파일</label>
+                    </th>
+                    <td>
+                        <input type="file" id="file" name="file" value="파일 선택" multiple/>
                         <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
-                    </form>
+                    </td>
+                </tr>
 
-                </td>
-            </tr>
-        </table>
-        <br/>
-        <div class="row justify-content-center">
-            <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
-                   onclick="reset_btn()"/>
+            </table>
+            <br/>
+            <div class="row justify-content-center">
+                <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
+                       onclick="reset_btn()"/>
+                <%--                <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"--%>
+                <%--                       style="width: 100px"/>--%>
+                <input type="submit" value="작성" class="btn btn-outline-secondary mx-1"
+                       style="width: 100px"/>
 
-            <input type="button" value="작성" class="btn btn-outline-secondary mx-1" onclick="write_btn()"
-                   style="width: 100px"/>
-
-            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/list'"
-                   style="width: 100px"/>
+                <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/list'"
+                       style="width: 100px"/>
+            </div>
         </div>
-    </div>
+    </form>
 </section>
 
 <%-- 푸터 --%>

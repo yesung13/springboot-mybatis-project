@@ -35,6 +35,10 @@
 
     <!-- 게시글 작성 -->
     <insert id="saveBoardWrite" parameterType="BoardVO">
+<!--        <selectKey keyProperty="boardId" resultType="long" order="BEFORE">-->
+<!--            SELECT COALESCE (MAX(boardId), 0) + 1 AS boardId-->
+<!--            FROM bbs_board;-->
+<!--        </selectKey>-->
         INSERT INTO bbs_board (accountId, title, content, writer)
         VALUES (1, #{title}, #{content}, 'admin')
     </insert>
@@ -83,6 +87,22 @@
         SET viewCnt = viewCnt + 1
         WHERE boardId = #{boardId};
     </update>
+
+    <!-- 첨부파일 저장 -->
+    <insert id="insertBoardFile" parameterType="FileVO">
+        <selectKey keyProperty="fileId" resultType="long" order="BEFORE">
+            SELECT COALESCE (MAX(fileId), 0) + 1 AS fileId
+            FROM bbs_file;
+        </selectKey>
+        INSERT INTO bbs_file (fileId, boardId, originFilename, saveFilename, fileSize)
+        VALUES (#{fileId}, #{boardId}, #{originFilename}, #{saveFilename}, #{fileSize});
+    </insert>
+    <!-- 첨부파일 목록 -->
+    <select id="findByUploadFile" resultType="FileVO" parameterType="FileVO">
+        SELECT fileId, boardId, originFilename, fileSize
+        FROM bbs_file
+        WHERE boardId = #{boardId};
+    </select>
 
 
 </mapper>

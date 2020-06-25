@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.board.service;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
+import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.repository.BoardMapper;
 import org.springframework.stereotype.Service;
 
@@ -102,6 +103,18 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void increaseViewCnt(Long boardId) {
         boardMapper.increaseViewCnt(boardId);
+    }
+
+    // 게시글 파일 첨부
+    @Override
+    public void insertBoardFile(FileVO fileVO) {
+        boardMapper.insertBoardFile(fileVO);
+    }
+
+    // 게시글 파일 첨부 목록
+    @Override
+    public List<FileVO> getUploadFile(Long boardId) {
+        return boardMapper.findByUploadFile(boardId);
     }
 }
 
