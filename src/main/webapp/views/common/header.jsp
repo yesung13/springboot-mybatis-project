@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: berno
@@ -30,12 +31,24 @@
 <%--                </li>--%>
 
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/account/login">로그인</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="#">회원가입</a></li>
-                </ul>
-            </form>
+            <c:choose>
+                <c:when test="${empty account}">
+                    <form class="form-inline my-2 my-lg-0">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="/account/login">로그인</a></li>
+                            <li class="nav-item"><a class="nav-link disabled" href="#">회원가입</a></li>
+                        </ul>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <form class="form-inline my-2 my-lg-0">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item">${account.userName}</li>
+<%--                            <li class="nav-item"><a class="nav-link disabled" href="#">회원가입</a></li>--%>
+                        </ul>
+                    </form>
+                </c:otherwise>
+            </c:choose>
         </div>
     </nav>
 </header>

@@ -54,7 +54,9 @@ public class AccountController {
             model.addAttribute("account", loginAccount);
             session.setAttribute("accountEmail", accountEmail);
             session.setAttribute("userName", userName);
-            return "redirect:/board/list";
+            return "common/header";
         }
+
+//        return "redirect:/board/list";
     }
 }

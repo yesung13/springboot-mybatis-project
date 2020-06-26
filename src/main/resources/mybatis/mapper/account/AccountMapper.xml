@@ -6,6 +6,8 @@
     </select>
 
     <select id="findByAccount" resultType="AccountVO" parameterType="AccountVO">
-        SELECT acc
+        SELECT accountId, accountEmail, accountPassword, userName
+        FROM bbs_account
+        WHERE accountEmail = #{accountEmail} AND accountPassword = #{accountPassword};
     </select>
 </mapper>
