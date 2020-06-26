@@ -10,4 +10,7 @@ import java.util.List;
 @Component
 public interface AccountMapper {
     List<AccountVO> findAll();
+
+    // 계정 로그인
+    AccountVO findByAccount(AccountVO accountVO);
 }

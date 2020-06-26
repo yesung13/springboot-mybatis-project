@@ -5,4 +5,7 @@
         SELECT * FROM bbs_account
     </select>
 
+    <select id="findByAccount" resultType="AccountVO" parameterType="AccountVO">
+        SELECT acc
+    </select>
 </mapper>

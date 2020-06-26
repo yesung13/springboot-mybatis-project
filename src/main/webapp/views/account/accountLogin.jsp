@@ -50,7 +50,7 @@
                 </a>
             </div>
         </div>
-        <form method="post" action="${pageContext.request.contextPath}/account/getAccount">
+        <form method="post" action="${pageContext.request.contextPath}/account/loginProc">
             <div class="row justify-content-center">
                 <div class="list-group row">
                     <div class="col">

@@ -18,4 +18,10 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountVO> getAccountList() {
         return accountMapper.findAll();
     }
+
+    // 계정 로그인
+    @Override
+    public AccountVO getAccount(AccountVO accountVO) {
+        return accountMapper.findByAccount(accountVO);
+    }
 }
