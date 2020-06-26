@@ -5,6 +5,11 @@
   Time: 오전 2:05
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+    애로사항
+    - 글쓰기 시 파일첨부 후 초기화 버튼을 누르면 'byte' 글자가 상세보기 페이지에서 보임
+    - 파일 첨부 시 [취소] 버튼 구현해야 됨
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
@@ -46,7 +51,13 @@
                 $("#content").focus();
                 return false;
             }
-            return true;
+            // return true;
+            if(title != null && content != null){
+                alert("게시글 생성 완료");
+                return true;
+            }
+
+
         }
 
         // 글 입력 시 카운트
@@ -93,6 +104,7 @@
         //     }
         // });
         // }
+        <%--if (${res})--%>
     </script>
 </head>
 <body>
@@ -112,7 +124,8 @@
                         <label for="title">제목</label>
                     </th>
                     <td>
-                        <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"/>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"
+                               maxlength="40"/>
                     </td>
                 </tr>
                 <tr class="thead-light">

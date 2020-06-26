@@ -76,7 +76,6 @@
         ORDER BY no DESC;
     </select>
 
-
     <!-- 게시글 조회수 -->
     <update id="increaseViewCnt" parameterType="Long">
         UPDATE bbs_board
@@ -92,20 +91,20 @@
 
     <!-- 첨부파일 목록 -->
     <select id="findAllFileList" resultType="FileVO" parameterType="FileVO">
-        SELECT fileId, boardId, originFilename, fileSize
+        SELECT fileId, boardId, originFilename, saveFilename, fileSize
         FROM bbs_file
         WHERE boardId = #{boardId};
     </select>
 
     <!-- 해당 첨부 파일 찾기 -->
-    <select id="findByFilename" resultType="String" parameterType="long">
+    <select id="findByFilename" resultType="String" parameterType="Long">
         SELECT originFilename
         FROM bbs_file
         WHERE fileId = #{fileId};
     </select>
 
     <!-- 해당 첨부 파일 삭제 -->
-    <delete id="deleteByFile" parameterType="long">
+    <delete id="deleteByFile" parameterType="Long">
         DELETE FROM bbs_file
         WHERE fileId = #{fileId};
     </delete>

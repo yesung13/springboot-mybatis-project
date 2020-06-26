@@ -5,6 +5,10 @@
   Time: 오후 4:11
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+    애로사항
+    - 검색 시 페이징 처리 수정 필요
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
@@ -12,9 +16,13 @@
     <title>게시판</title>
     <script type="text/javascript">
         // 게시글 검색
-        let search_btn = function () {
-            let data = {};
-            data.type = type;
+        let keywordCheck_btn = function () {
+            let keyword = $('#keyword').val();
+            if(keyword == null || keyword === ""){
+                alert("검색어를 입력하세요.")
+                return false;
+            }
+            return true;
         }
 
         // 게시글 상세보기 및 게시글 조회수 증가
@@ -52,14 +60,14 @@
     <!-- 검색창 -->
     <div class="d-flex justify-content-center mt-4">
         <div class="w-75">
-            <form action="${pageContext.request.contextPath}/board/search" method="get">
+            <form action="${pageContext.request.contextPath}/board/search" method="get" onsubmit="return keywordCheck_btn()">
                 <div class="input-group shadow rounded mb-3" id="searchForm">
                     <select class="col-2 form-control input-group-prepend" name="type">
                         <option id="title" value="title">제목</option>
                         <option id="content" value="content">내용</option>
                         <option id="writer" value="writer">작성자</option>
                     </select>
-                    <input type="text" class="col-10 form-control" placeholder="검색어를 입력하세요" name="keyword">
+                    <input type="text" class="col-10 form-control" placeholder="검색어를 입력하세요" id="keyword" name="keyword">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary form-control " type="submit">
                             <img src="${pageContext.request.contextPath}/resources/image/search-black-24dp.svg"

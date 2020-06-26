@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -25,13 +26,15 @@ public class ReplyController {
 
     // 댓글 쓰기
     @PostMapping("/replyWrite")
-    public String replyWrite(@Valid ReplyVO replyVO, BindingResult result) {
+    public String replyWrite(@Valid ReplyVO replyVO, BindingResult result, RedirectAttributes redirectAttr) {
         Long boardId = replyVO.getBoardId();
         if (!result.hasFieldErrors("replyContent") && !result.hasFieldErrors("boardId")) {
             replyService.setBoardReply(replyVO);
-            return "redirect:/board/detail?id=" + boardId;
+
+            redirectAttr.addAttribute("id", boardId);
+            return "redirect:/board/detail";
         }
-        return "redirect:/board/detail?id=" + boardId;
+        return "redirect:/board/detail";
     }
 
     // 댓글 수정

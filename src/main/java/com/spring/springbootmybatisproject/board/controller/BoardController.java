@@ -10,13 +10,16 @@ import com.spring.springbootmybatisproject.board.service.ReplyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +30,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+    private final Date date = new Date();
+    private final DateFormat format = new SimpleDateFormat("yyyyMMdd");
+    private final String dateResult = format.format(date);
+
+
     private final BoardService boardService;
     private final ReplyService replyService;
 
@@ -35,7 +43,14 @@ public class BoardController {
         this.replyService = replyService;
     }
 
-    // 게시글 목록
+    /**
+     * 게시글 목록
+     *
+     * @param model
+     * @param curPage
+     * @param boardVO
+     * @return
+     */
     @GetMapping("/list")
     public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO) {
         // 전체 리스트 개수
@@ -54,7 +69,13 @@ public class BoardController {
         return mv;
     }
 
-    // 게시글 상세 보기
+    /**
+     * 게시글 상세 보기
+     *
+     * @param boardId
+     * @param model
+     * @return
+     */
     @GetMapping("/detail")
     public String boardDetail(@RequestParam(value = "id") Long boardId, Model model) {
         BoardVO boardVORes = boardService.getBoardListDetail(boardId);
@@ -71,15 +92,18 @@ public class BoardController {
         return "board/boardDetail";
     }
 
-    // 게시글 작성 page
+
+    /**
+     * 게시글 작성 page
+     *
+     * @return
+     */
     @GetMapping("/write")
     public String boardWrite() {
         return "board/boardWrite";
     }
 
-    // 게시글 작성
-
-    // #rest 방식
+    // 게시글 작성(rest 방식)
 //    @PostMapping("/setWrite")
 //    @ResponseBody
 //    public int boardWrite(@RequestBody BoardVO boardVO) {
@@ -92,12 +116,15 @@ public class BoardController {
 //        return SFV.INT_RES_CODE_FAIL;
 //    }
 
+    /**
+     * 게시글 작성
+     *
+     * @param boardVO
+     * @param multipartReq
+     * @return
+     */
     @PostMapping("/setWrite")
     public String boardWrite(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
-        Date date = new Date();
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String dateResult = format.format(date);
-
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
         if (title != null && content != null) {
@@ -105,9 +132,9 @@ public class BoardController {
             Long boardId = boardVO.getBoardId();
             FileVO fileVO = new FileVO();
             //외부망
-//            String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
+            String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
             //pc
-            String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
+//            String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
 
             List<MultipartFile> fileList = multipartReq.getFiles("file");
 
@@ -127,8 +154,6 @@ public class BoardController {
                     fileVO.setSaveFilename(saveFilename);
                     fileVO.setFileSize(fileSize);
 
-                    boardService.setBoardWrite(boardVO, fileVO);
-
                     // disk 파일 저장
                     String safeFile = uploadPath + dateResult + "_" + originFilename;
                     try {
@@ -140,11 +165,19 @@ public class BoardController {
                     }
                 }
             }
+            boardService.setBoardWrite(boardVO, fileVO);
         }
         return "redirect:/board/list";
     }
 
-    // 게시글 수정 page
+
+    /**
+     * 게시글 수정 page
+     *
+     * @param boardId
+     * @param model
+     * @return
+     */
     @GetMapping("/modify")
     public String boardUpdateForm(@RequestParam(value = "id") Long boardId, Model model) {
         BoardVO boardVO = boardService.getBoardListDetail(boardId);
@@ -153,12 +186,10 @@ public class BoardController {
         // 해당 파일 목록
         List<FileVO> fileVORes = boardService.getFileList(boardId);
         model.addAttribute("fileList", fileVORes);
-
         return "board/boardModify";
     }
 
-    // 게시글 수정
-    // #rest 방식
+    // 게시글 수정(rest방식)
 //    @PostMapping("/setUpdate")
 //    @ResponseBody
 //    public int boardUpdate(@RequestBody BoardVO boardVO) {
@@ -172,14 +203,17 @@ public class BoardController {
 //        return SFV.INT_RES_CODE_FAIL;
 //    }
 
+    /**
+     * 게시글 수정
+     *
+     * @param boardVO
+     * @param multipartReq
+     * @return
+     */
     @PostMapping("/setModify")
     public String boardModify(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
-        Date date = new Date();
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String dateResult = format.format(date);
-
-//            String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
-        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
+        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+//        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
 
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
@@ -238,8 +272,12 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-
-    // 게시글 삭제
+    /**
+     * 게시글 삭제
+     *
+     * @param boardVO
+     * @return
+     */
     @PostMapping("/delete")
     @ResponseBody
     public int boardDelete(@RequestBody BoardVO boardVO) {
@@ -251,7 +289,16 @@ public class BoardController {
         return SFV.INT_RES_CODE_FAIL;
     }
 
-    // 게시글 검색
+    /**
+     * 게시글 검색
+     *
+     * @param type
+     * @param keyword
+     * @param curPage
+     * @param model
+     * @param boardVO
+     * @return
+     */
     @GetMapping("/search")
     public ModelAndView boardSearch(@RequestParam(value = "type") String type,
                                     @RequestParam(value = "keyword") String keyword,
@@ -281,10 +328,35 @@ public class BoardController {
         return mv;
     }
 
-    // 게시글 조회수
+    /**
+     * 게시글 조회수
+     *
+     * @param boardId
+     */
     @PutMapping("/viewCnt")
     public void boardViewCnt(@RequestParam(value = "boardId") Long boardId) {
         boardService.increaseViewCnt(boardId);
+    }
+
+    /**
+     * 파일 다운로드
+     * @param response
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    @GetMapping("/fileDownload")
+    @ResponseBody
+    public byte[] downProcess(HttpServletResponse response, @RequestParam(value = "fileName") String fileName) throws IOException {
+        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+//        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
+
+        File file = new File(uploadPath + fileName);
+        byte[] bytes = FileCopyUtils.copyToByteArray(file);
+        String fn = new String(file.getName().getBytes(), "iso_8859_1");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + fn + "\"");
+        response.setContentLength(bytes.length);
+        return bytes;
     }
 
 }

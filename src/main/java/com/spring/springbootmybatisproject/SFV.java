@@ -20,7 +20,7 @@ public class SFV {
     // board
     public static final String STRING_CHECK_CODE_TITLE = "제목을 입력하세요";
     public static final String STRING_CHECK_CODE_CONTENT = "내용을 입력하세요";
-    public static final String STRING_CHECK_CODE_INSERT_FILE_ERROR = "파일 첨부 실패";
+    public static final String STRING_CHECK_CODE_INSERT_FILE_ERROR = "디스크 파일 저장 실패";
 
     public static final int INT_CHECK_CODE_INSERT_FILE_ERROR = 501;
 

@@ -45,11 +45,11 @@ public class BoardServiceImpl implements BoardService {
     // 게시글 작성
     @Override
     public void setBoardWrite(BoardVO boardVO, FileVO fileVO) {
-        String content = boardVO.getContent().replaceAll("\r\n","<br />");
-        content = content.replaceAll("<","&lt;");
-        content = content.replaceAll(">","&gt");
-        content = content.replaceAll("&","&amp");
-        content = content.replaceAll("\"","&quot");
+        String content = boardVO.getContent().replaceAll("\r\n", "<br />");
+        content = content.replaceAll("<", "&lt;");
+        content = content.replaceAll(">", "&gt");
+        content = content.replaceAll("&", "&amp");
+        content = content.replaceAll("\"", "&quot");
 
         BoardVO vo = BoardVO.builder()
                 .title(boardVO.getTitle())
@@ -70,12 +70,7 @@ public class BoardServiceImpl implements BoardService {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateResult = format.format(date);
 
-        String content = boardVO.getContent().replaceAll("\r\n","<br />");
-        content = content.replaceAll("<","&lt;");
-        content = content.replaceAll(">","&gt");
-        content = content.replaceAll("&","&amp");
-        content = content.replaceAll("\"","&quot");
-
+        String content = boardVO.getContent().replaceAll("\r\n", "<br />");
         BoardVO vo = BoardVO.builder()
                 .boardId(boardVO.getBoardId())
                 .title(boardVO.getTitle())

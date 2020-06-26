@@ -5,6 +5,10 @@
   Time: 오전 2:17
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+    애로사항
+    - 글 삭제 시 disk 파일 삭제 안됌.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
@@ -74,7 +78,7 @@
                 html += "<th>"
                 html += "<div class='form-inline'>"
                 html += "<textarea id='replyContentUpdate' rows='1' name='cur' class='form-control rounded w-75' placeholder='댓글을 수정 중...' >" + replyContent + "</textarea>"
-                html += "<button class='btn btn-light btn-sm ml-2' type='button' onclick='replyUpdate_btn(\"" + replyId + "\", \"" + replyWriter + "\", \"" + replyContent + "\")'>" + "수정" + "</button>"
+                html += "<button class='btn btn-light btn-sm ml-2' type='button' onclick='replyUpdate_btn(\"" + replyId + "\", \"" + replyWriter + "\")'>" + "수정" + "</button>"
                 html += "<button class='btn btn-light btn-sm ml-2' type='button' onclick='location.href=\"/board/detail?id=\"+\"" + boardId + "\"'>" + "취소" + "</button>"
                 html += "</div>"
                 html += "</th>"
@@ -101,7 +105,7 @@
         }
 
         // 댓글 수정
-        function replyUpdate_btn(replyId, replyWriter, replyContent) {
+        function replyUpdate_btn(replyId, replyWriter) {
             // 수정 댓글 유효성 검사
             let replyContentUpdate = $('#replyContentUpdate').val();
             if (replyContentUpdate == null || replyContentUpdate === "") {
@@ -194,13 +198,13 @@
                 </th>
                 <td colspan="4" align="left">
                     <c:forEach var="file" items="${fileList}">
-                        <a href="filedown.do?fileName=${file.originFilename}" class="fileview text-black-50">
-                            <span>${file.originFilename}</span>
+                        <a href="${pageContext.request.contextPath}/board/fileDownload?fileName=${file.saveFilename}" class="text-black-50">
+                            <span id="fileName">${file.originFilename}</span>
                             <span>(${file.fileSize}byte)</span><br>
                         </a>
                     </c:forEach>
                     <c:if test="${empty fileList}">
-                        <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다. </span>
+                        <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다.</span>
                     </c:if>
                 </td>
             </tr>
