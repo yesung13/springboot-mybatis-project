@@ -71,3 +71,9 @@ server:
 #        type:
 #          descriptor:
 #            sql: trace
+
+#interceptor
+#resources:
+#  notload:
+#    list: /resources/**
+

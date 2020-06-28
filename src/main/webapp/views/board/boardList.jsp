@@ -48,7 +48,11 @@
 </head>
 <body>
 <%-- 헤더(navbar) --%>
-<jsp:include page="/views/common/header.jsp"/>
+<c:import url="/views/common/header.jsp">
+
+<%--    <c:param name="param" value="userName"/>--%>
+<%--    <c:param name="accountEmail" value="${accountEmail}" />--%>
+</c:import>
 
 <%-- 바디 --%>
 <section id="container">

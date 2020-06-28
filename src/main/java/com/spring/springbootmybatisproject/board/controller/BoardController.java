@@ -17,9 +17,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +52,16 @@ public class BoardController {
      * @return
      */
     @GetMapping("/list")
-    public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO) {
+    public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO,
+                                  HttpSession session) {
+
+//        model.addAttribute("accountEmail", session.getAttribute("accountEmail"));
+//        model.addAttribute("userName", session.getAttribute("userName"));
+//        log.info("user name=={}",session.getAttribute("userName"));
+
+
+
+
         // 전체 리스트 개수
         int listCnt = boardService.getBoardListTotalCnt(boardVO);
         Pagination pagination = new Pagination(listCnt, curPage);
@@ -127,7 +136,8 @@ public class BoardController {
     public String boardWrite(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
-        if (title != null && content != null) {
+        Long accountId = boardVO.getAccountId();
+        if (title != null && content != null && accountId != null) {
             // 파일 업로드
             Long boardId = boardVO.getBoardId();
             FileVO fileVO = new FileVO();
@@ -212,8 +222,8 @@ public class BoardController {
      */
     @PostMapping("/setModify")
     public String boardModify(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
-        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
-//        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
+//        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
 
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
@@ -340,6 +350,7 @@ public class BoardController {
 
     /**
      * 파일 다운로드
+     *
      * @param response
      * @param fileName
      * @return

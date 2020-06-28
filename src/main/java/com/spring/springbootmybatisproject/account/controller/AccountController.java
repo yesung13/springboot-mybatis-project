@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -39,24 +40,34 @@ public class AccountController {
 
     // 계정 로그인
     @PostMapping("/loginProc")
-    public String accountLogin(@Valid AccountVO accountVO, HttpSession session, BindingResult result, Model model) {
-        String accountEmail = accountVO.getAccountEmail();
-        String userName = accountVO.getUserName();
+    public String accountLogin(@Valid AccountVO accountVO, HttpSession session, BindingResult result, Model model,
+                               RedirectAttributes rttr) {
+
+
         if (result.hasFieldErrors("accountEmail") || result.hasFieldErrors("accountPassword")) {
             model.addAttribute(result.getModel());
         }
+//        List<AccountVO> loginAccount = accountService.getAccount(accountVO);
         AccountVO loginAccount = accountService.getAccount(accountVO);
         if (loginAccount == null) {
             model.addAttribute("accountEmail", "");
             model.addAttribute("errCode", SFV.INT_RES_CODE_FAIL);
             return "account/accountLogin";
         } else {
-            model.addAttribute("account", loginAccount);
-            session.setAttribute("accountEmail", accountEmail);
-            session.setAttribute("userName", userName);
-            return "common/header";
+//            model.addAttribute("account", loginAccount);
+            session.setAttribute("account", loginAccount); //세션 등록
+//            session.setAttribute("userName", userName); //세션 등록
+//            return "common/header";
+//            rttr.addAttribute("account", loginAccount);
         }
 
-//        return "redirect:/board/list";
+        return "redirect:/board/list";
+    }
+
+    // 계정 로그아웃
+    @GetMapping("/logout")
+    public String accountLogout(HttpSession session){
+        session.invalidate();
+        return "redirect:/account/login";
     }
 }

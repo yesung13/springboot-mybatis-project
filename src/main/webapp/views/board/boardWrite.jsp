@@ -118,6 +118,8 @@
         <h3 class="text-center">글쓰기</h3>
         <form action="${pageContext.request.contextPath}/board/setWrite" method="POST"
               onsubmit="return writeCheck_btn()" enctype="multipart/form-data">
+            <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
+            <input type="hidden" value="${sessionScope.account.userName}" name="writer">
             <table class="table table-bordered">
                 <tr class="thead-light">
                     <th class="tcenter ">

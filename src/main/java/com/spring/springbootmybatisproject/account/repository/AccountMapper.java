@@ -12,5 +12,6 @@ public interface AccountMapper {
     List<AccountVO> findAll();
 
     // 계정 로그인
+//    List<AccountVO> findByAccount(AccountVO accountVO);
     AccountVO findByAccount(AccountVO accountVO);
 }

@@ -7,7 +7,7 @@
 --%>
 <%--
     애로사항
-    - 글 삭제 시 disk 파일 삭제 안됌.
+    - 글 삭제 시 disk 파일 삭제 안됨.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/views/common/htmlHead.jsp" %>
@@ -184,28 +184,33 @@
                     <h4 class="font-weight-bold" id="title">${boardListDetail.title}</h4>
                 </th>
             </tr>
-            <tr class="tcenter border-bottom">
-                <th>
+            <tr class="border-bottom">
+                <th class="tcenter">
                     <h6 class="font-weight-bold text-info">작성자</h6>
                 </th>
                 <td class="text-left">
                     <span id="writer">${boardListDetail.writer}</span>
                 </td>
             </tr>
-            <tr class="tcenter border-bottom">
-                <th class="">
+            <tr class="border-bottom">
+                <th class="tcenter">
                     <span>첨부파일</span>
                 </th>
-                <td colspan="4" align="left">
-                    <c:forEach var="file" items="${fileList}">
-                        <a href="${pageContext.request.contextPath}/board/fileDownload?fileName=${file.saveFilename}" class="text-black-50">
-                            <span id="fileName">${file.originFilename}</span>
-                            <span>(${file.fileSize}byte)</span><br>
-                        </a>
-                    </c:forEach>
-                    <c:if test="${empty fileList}">
-                        <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다.</span>
-                    </c:if>
+                <td colspan="4" class="text-left">
+                    <c:choose>
+                        <c:when test="${empty fileList}">
+                            <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다.</span>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="file" items="${fileList}">
+                                <a href="${pageContext.request.contextPath}/board/fileDownload?fileName=${file.saveFilename}"
+                                   class="text-black-50">
+                                    <span id="fileName">${file.originFilename}</span>
+                                    <span>(${file.fileSize}byte)</span><br>
+                                </a>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
             <tr class="text-left">
@@ -328,12 +333,20 @@
         <%-- 게시글 버튼 --%>
         <div class="d-flex justify-content-end">
             <div class="mt-2">
-                <input type="button" value="삭제" class="btn btn-outline-secondary"
-                       onclick="delete_btn(${boardListDetail.boardId})"/>
-                <input type="button" value="수정" class="btn btn-outline-secondary mx-1"
-                       onclick="modifyForm_btn(${boardListDetail.boardId})"/>
-                <input type="button" value="목록" class="btn btn-outline-secondary"
-                       onclick="location.href = '/board/list'"/>
+                <c:choose>
+                    <c:when test="${sessionScope.account.accountId eq boardListDetail.accountId}">
+                        <input type="button" value="삭제" class="btn btn-outline-secondary"
+                               onclick="delete_btn(${boardListDetail.boardId})"/>
+                        <input type="button" value="수정" class="btn btn-outline-secondary mx-1"
+                               onclick="modifyForm_btn(${boardListDetail.boardId})"/>
+                        <input type="button" value="목록" class="btn btn-outline-secondary"
+                               onclick="location.href = '/board/list'"/>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="button" value="목록" class="btn btn-outline-secondary"
+                               onclick="location.href = '/board/list'"/>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 </section>

@@ -52,8 +52,10 @@ public class BoardServiceImpl implements BoardService {
         content = content.replaceAll("\"", "&quot");
 
         BoardVO vo = BoardVO.builder()
+                .accountId(boardVO.getAccountId())
                 .title(boardVO.getTitle())
                 .content(content)
+                .writer(boardVO.getWriter())
                 .build();
         boardMapper.saveBoardWrite(vo);
 
