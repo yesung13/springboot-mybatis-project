@@ -304,7 +304,7 @@
                                 <div class="dropdown">
                                     <button class="float-right btn btn-link" id="dropdownBtn" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="${pageContext.request.contextPath}/resources/image/more_vert-black-24dp.svg"
+                                        <img src="${pageContext.request.contextPath}/resources/images/more_vert-black-24dp.svg"
                                              alt="U/D icon">
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBtn"
@@ -334,7 +334,7 @@
         <div class="d-flex justify-content-end">
             <div class="mt-2">
                 <c:choose>
-                    <c:when test="${sessionScope.account.accountId eq boardListDetail.accountId}">
+                    <c:when test="${account.accountId eq boardListDetail.accountId}">
                         <input type="button" value="삭제" class="btn btn-outline-secondary"
                                onclick="delete_btn(${boardListDetail.boardId})"/>
                         <input type="button" value="수정" class="btn btn-outline-secondary mx-1"

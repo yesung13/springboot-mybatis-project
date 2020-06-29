@@ -28,7 +28,7 @@
 
     <!-- 게시글 상세 보기 -->
     <select id="findByBoardId" resultType="BoardVO">
-        SELECT boardId, title, content, writer, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime, replyCnt
+        SELECT boardId, accountId, title, content, writer, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime, replyCnt
         FROM bbs_board
         WHERE boardId = #{boardId};
     </select>

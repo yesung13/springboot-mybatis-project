@@ -44,7 +44,7 @@
         <div class="row justify-content-center">
             <div class="row navbar navbar-light">
                 <a class="col navbar-brand" href="/">
-                    <img src="${pageContext.request.contextPath}/resources/image/cubes-solid.svg"
+                    <img src="${pageContext.request.contextPath}/resources/images/cubes-solid.svg"
                          class="d-inline-block align-baseline" alt="logo">
                     <span class="d-inline-block align-bottom">Blucean</span>
                 </a>

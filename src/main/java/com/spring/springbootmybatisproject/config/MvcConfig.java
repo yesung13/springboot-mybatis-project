@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public AuthCheckInterceptor authCheckInterceptor() {
@@ -18,8 +17,10 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authCheckInterceptor())
-                .addPathPatterns("/**") // 적용할 url
-                .excludePathPatterns("/board/boardList*","/board/boardDetail*"); // 제외할 url
+                .addPathPatterns("/board/**") // 적용할 url
+                .addPathPatterns("/account/list")
+                .excludePathPatterns("/account") // 제외할 url
+                .excludePathPatterns("/home"); // 제외할 url
 //        WebMvcConfigurer.super.addInterceptors(registry);
     }
 

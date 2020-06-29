@@ -44,7 +44,7 @@ spring:
       # Max Request Size
       max-request-size: 215MB
       # 업로드된 파일의 임시 저장 공간
-      location: C:\FileTemp
+#      location: C:\FileTemp
 
 mybatis:
   configuration:
@@ -59,6 +59,9 @@ server:
     jsp:
       init-parameters:
         development: true #서버 재시작없이 바로 업데이트됨
+    session:
+      timeout: 10m
+
   port: 8080
 
 #logging:
@@ -72,8 +75,4 @@ server:
 #          descriptor:
 #            sql: trace
 
-#interceptor
-#resources:
-#  notload:
-#    list: /resources/**
 

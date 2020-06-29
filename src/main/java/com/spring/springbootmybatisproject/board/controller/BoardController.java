@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.board.controller;
 
 import com.spring.springbootmybatisproject.SFV;
+import com.spring.springbootmybatisproject.account.model.AccountVO;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.Pagination;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -53,14 +55,17 @@ public class BoardController {
      */
     @GetMapping("/list")
     public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO,
-                                  HttpSession session) {
-
-//        model.addAttribute("accountEmail", session.getAttribute("accountEmail"));
-//        model.addAttribute("userName", session.getAttribute("userName"));
-//        log.info("user name=={}",session.getAttribute("userName"));
-
-
-
+                                  HttpServletRequest req) {
+        // 저장한 세션 정보 가져오기
+//        HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
+//        AccountVO loginAccount = (AccountVO) session.getAttribute("account");
+//
+//        if(loginAccount != null){
+//           String accountEmail = loginAccount.getAccountEmail();
+//           String userName = loginAccount.getUserName();
+//           model.addAttribute("userEmail", accountEmail);
+//           model.addAttribute("userName", userName);
+//        }
 
         // 전체 리스트 개수
         int listCnt = boardService.getBoardListTotalCnt(boardVO);

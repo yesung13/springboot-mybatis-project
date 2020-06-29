@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -40,8 +41,8 @@ public class AccountController {
 
     // 계정 로그인
     @PostMapping("/loginProc")
-    public String accountLogin(@Valid AccountVO accountVO, HttpSession session, BindingResult result, Model model,
-                               RedirectAttributes rttr) {
+    public String accountLogin(@Valid AccountVO accountVO, BindingResult result, Model model,
+                               HttpServletRequest req) {
 
 
         if (result.hasFieldErrors("accountEmail") || result.hasFieldErrors("accountPassword")) {
@@ -54,14 +55,13 @@ public class AccountController {
             model.addAttribute("errCode", SFV.INT_RES_CODE_FAIL);
             return "account/accountLogin";
         } else {
-//            model.addAttribute("account", loginAccount);
+            // 로그인 시 세션 저장
+            HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
             session.setAttribute("account", loginAccount); //세션 등록
-//            session.setAttribute("userName", userName); //세션 등록
-//            return "common/header";
-//            rttr.addAttribute("account", loginAccount);
+            model.addAttribute("account", loginAccount);
         }
 
-        return "redirect:/board/list";
+        return "redirect:/";
     }
 
     // 계정 로그아웃
