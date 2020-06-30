@@ -1,13 +1,10 @@
 package com.spring.springbootmybatisproject.board.controller;
 
 import com.spring.springbootmybatisproject.SFV;
-import com.spring.springbootmybatisproject.account.model.AccountVO;
-import com.spring.springbootmybatisproject.board.model.BoardVO;
-import com.spring.springbootmybatisproject.board.model.FileVO;
-import com.spring.springbootmybatisproject.board.model.Pagination;
-import com.spring.springbootmybatisproject.board.model.ReplyVO;
+import com.spring.springbootmybatisproject.board.model.*;
 import com.spring.springbootmybatisproject.board.service.BoardService;
 import com.spring.springbootmybatisproject.board.service.ReplyService;
+import com.spring.springbootmybatisproject.common.model.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -103,7 +97,7 @@ public class BoardController {
         List<FileVO> fileVORes = boardService.getFileList(boardId);
         model.addAttribute("fileList", fileVORes);
 
-        return "board/boardDetail";
+        return "/board/boardDetail";
     }
 
 
@@ -138,7 +132,9 @@ public class BoardController {
      * @return
      */
     @PostMapping("/setWrite")
-    public String boardWrite(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
+    @ResponseBody
+    public ResultVO boardWrite(@ModelAttribute BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
+        ResultVO result = new ResultVO();
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
         Long accountId = boardVO.getAccountId();
@@ -173,16 +169,32 @@ public class BoardController {
                     String safeFile = uploadPath + dateResult + "_" + originFilename;
                     try {
                         mf.transferTo(new File(safeFile)); // 디스크에 파일 저장
+                        boardService.setBoardWrite(boardVO, fileVO);
+                        result.setResCode(SFV.INT_RES_CODE_B_INSERT_SUCCESS);
+                        result.setResMsg(SFV.STRING_RES_B_INSERT_SUCCESS);
                     } catch (IOException | IllegalStateException e) {
                         e.printStackTrace();
-                        System.out.println("[message]:" + SFV.STRING_CHECK_CODE_INSERT_FILE_ERROR
-                                + " [code]: " + SFV.INT_CHECK_CODE_INSERT_FILE_ERROR);
+                        System.out.println("[message]:" + SFV.STRING_RES_B_INSERT_FILE_FAIL
+                                + " [code]: " + SFV.INT_RES_CODE_B_INSERT_FILE_FAIL);
+                        result.setResCode(SFV.INT_RES_CODE_B_INSERT_FILE_FAIL);
+                        result.setResMsg(SFV.STRING_RES_B_INSERT_FILE_FAIL);
+                    } catch (Exception e) {
+                        result.setResCode(SFV.INT_RES_CODE_B_INSERT_FAIL);
+                        result.setResMsg(SFV.STRING_RES_B_INSERT_FAIL);
+                    }
+                } else {
+                    try {
+                        boardService.setBoardWrite(boardVO, fileVO);
+                        result.setResCode(SFV.INT_RES_CODE_B_INSERT_SUCCESS);
+                        result.setResMsg(SFV.STRING_RES_B_INSERT_SUCCESS);
+                    } catch (Exception e) {
+                        result.setResCode(SFV.INT_RES_CODE_B_INSERT_FAIL);
+                        result.setResMsg(SFV.STRING_RES_B_INSERT_FAIL);
                     }
                 }
             }
-            boardService.setBoardWrite(boardVO, fileVO);
         }
-        return "redirect:/board/list";
+        return result;
     }
 
 
@@ -194,7 +206,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/modify")
-    public String boardUpdateForm(@RequestParam(value = "id") Long boardId, Model model) {
+    public String boardUpdateForm(@RequestParam(value = "rid") Long boardId, Model model) {
         BoardVO boardVO = boardService.getBoardListDetail(boardId);
         model.addAttribute("boardListDetail", boardVO);
 
@@ -226,31 +238,36 @@ public class BoardController {
      * @return
      */
     @PostMapping("/setModify")
-    public String boardModify(BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
-//        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
-        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
+    @ResponseBody
+    public ResultVO boardModify(@ModelAttribute BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
+        ResultVO result = new ResultVO();
+
+        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+//        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
 
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
-        Long boardId = boardVO.getBoardId();
-        if (title != null && content != null) {
+        Long accountId = boardVO.getAccountId();
+//        Long boardId = boardVO.getBoardId();
+        if (title != null && content != null && accountId != null) {
 
             //체크 파일 삭제(disk, DB)
-            String[] checkFileNum = multipartReq.getParameterValues("checkFileNum");
-            if (checkFileNum != null) {
-                for (String cfn : checkFileNum) {
-                    long fileId = Long.parseLong(cfn);
-                    String originFilename = boardService.getFilename(fileId);
-                    String safeFile = uploadPath + dateResult + "_" + originFilename;
-
-                    // disk 첨부 파일 삭제
-                    File removeFile = new File(safeFile);
-                    removeFile.delete();
-                    boardService.deleteBoardFile(fileId);
-                }
-            }
+//            String[] checkFileNum = multipartReq.getParameterValues("checkFileNum");
+//            if (checkFileNum != null) {
+//                for (String cfn : checkFileNum) {
+//                    long fileId = Long.parseLong(cfn);
+//                    String originFilename = boardService.getFilename(fileId);
+//                    String safeFile = uploadPath + dateResult + "_" + originFilename;
+//
+//                    // disk 첨부 파일 삭제
+//                    File removeFile = new File(safeFile);
+//                    removeFile.delete();
+//                    boardService.deleteBoardFile(fileId);
+//                }
+//            }
 
             // 새 파일 업로드
+            Long boardId = boardVO.getBoardId();
             FileVO fileVO = new FileVO();
             List<MultipartFile> newFileList = multipartReq.getFiles("file");
 
@@ -269,22 +286,43 @@ public class BoardController {
                     fileVO.setSaveFilename(newSaveFilename);
                     fileVO.setFileSize(newFileSize);
 
-                    boardService.setBoardModify(boardVO, fileVO);
-
                     // disk 파일 저장
                     String safeNewFile = uploadPath + newSaveFilename;
+
                     try {
                         mf.transferTo(new File(safeNewFile));
+                        boardService.setBoardModify(boardVO, fileVO);
+                        result.setResCode(SFV.INT_RES_CODE_B_UPDATE_SUCCESS);
+                        result.setResMsg(SFV.STRING_RES_B_UPDATE_SUCCESS);
                     } catch (IOException | IllegalStateException e) {
                         e.printStackTrace();
-                        System.out.println("[message]:" + SFV.STRING_CHECK_CODE_INSERT_FILE_ERROR
-                                + " [code]: " + SFV.INT_CHECK_CODE_INSERT_FILE_ERROR);
+                        System.out.println("[message]:" + SFV.STRING_RES_B_INSERT_FILE_FAIL
+                                + " [code]: " + SFV.INT_RES_CODE_B_INSERT_FILE_FAIL);
+                        result.setResCode(SFV.INT_RES_CODE_B_INSERT_FILE_FAIL);
+                        result.setResMsg(SFV.STRING_RES_B_INSERT_FILE_FAIL);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        result.setResCode(SFV.INT_RES_CODE_B_UPDATE_FAIL);
+                        result.setResMsg(SFV.STRING_RES_B_UPDATE_FAIL);
+                    }
+                } else {
+                    try {
+                        boardService.setBoardModify(boardVO, fileVO);
+                        result.setResCode(SFV.INT_RES_CODE_B_UPDATE_SUCCESS);
+                        result.setResMsg(SFV.STRING_RES_B_UPDATE_SUCCESS);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        result.setResCode(SFV.INT_RES_CODE_B_UPDATE_FAIL);
+                        result.setResMsg(SFV.STRING_RES_B_UPDATE_FAIL);
                     }
                 }
+
             }
+
         }
 
-        return "redirect:/board/list";
+
+        return result;
     }
 
     /**
@@ -295,13 +333,21 @@ public class BoardController {
      */
     @PostMapping("/delete")
     @ResponseBody
-    public int boardDelete(@RequestBody BoardVO boardVO) {
+    public ResultVO boardDelete(@RequestBody BoardVO boardVO) {
+        ResultVO result = new ResultVO();
         Long boardId = boardVO.getBoardId();
         if (boardId != null) {
-            boardService.getBoardDelete(boardId);
-            return SFV.INT_RES_CODE_SUCCESS;
+            try {
+                boardService.getBoardDelete(boardId);
+                result.setResCode(SFV.INT_RES_CODE_B_DELETE_SUCCESS);
+                result.setResMsg(SFV.STRING_RES_B_DELETE_SUCCESS);
+            } catch (Exception e) {
+                e.printStackTrace();
+                result.setResCode(SFV.INT_RES_CODE_B_DELETE_FAIL);
+                result.setResMsg(SFV.STRING_RES_B_DELETE_FAIL);
+            }
         }
-        return SFV.INT_RES_CODE_FAIL;
+        return result;
     }
 
     /**

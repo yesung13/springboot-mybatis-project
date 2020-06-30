@@ -36,6 +36,15 @@
         }
     </style>
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#write_btn').click(function () {
+                writeCheck_btn();
+            });
+            $('#back_btn').click(function () {
+                window.location.href = '/board/list';
+            });
+        });
+
         // 게시글 제목, 내용 유효성 검사
         function writeCheck_btn() {
             let title = $("#title").val();
@@ -51,18 +60,43 @@
                 $("#content").focus();
                 return false;
             }
-            // return true;
-            if(title != null && content != null){
-                alert("게시글 생성 완료");
-                return true;
-            }
+            return write_btn();
+        }
 
-
+        function write_btn() {
+            let requestUrl = '/board/setWrite';
+            let form = $('#form')[0];
+            let data = new FormData(form);
+            console.log("Insert Request Data:", data);
+            $.ajax({
+                type: "POST",
+                url: requestUrl,
+                data: data,
+                processData: false,
+                contentType: false,
+                // cache: false,
+                // timeout: 600000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+                    if (response.resCode === 600) {
+                        alert(response.resMsg);
+                        location.replace('/board/list');
+                    } else if (response.resCode === 601) {
+                        alert(response.resMsg);
+                    } else if (response.resCode === 607) {
+                        alert(response.resMsg);
+                    }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
         }
 
         // 글 입력 시 카운트
         $(document).on('keyup', '#content', function (e) {
-            var textarea01 = $(this).val();
+            let textarea01 = $(this).val();
             $('#cntSPAN').text(getBytes(textarea01));
         });
 
@@ -77,34 +111,33 @@
         // 게시글 작성
         // #rest 방식
         // function write_btn() {
-        // let requestUrl = '/board/setWrite';
-        // let data = {};
-        // data.title = $("#title").val(); // 객체의 속성 추가
-        // data.content = $("#content").val();
-        // data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
-        // console.log("Insert Request Data:", data);
-        // $.ajax({
-        //     type: 'post',
-        //     url: requestUrl,
-        //     data: data,
-        //     dataType: 'json',
-        //     contentType: 'application/json',
-        //     success: function (response) {
-        //         console.log("Insert Response Data:", response);
-        //         if (response === 200) {
-        //             alert("생성을 성공했습니다.")
-        //             location.replace('/board/list');
-        //         } else if (response !== 200) {
-        //             alert("생성을 실패했습니다.")
+        //     let requestUrl = '/board/setWrite';
+        //     let data = {};
+        //     data.title = $("#title").val(); // 객체의 속성 추가
+        //     data.content = $("#content").val();
+        //     data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
+        //     console.log("Insert Request Data:", data);
+        //     $.ajax({
+        //         type: 'post',
+        //         url: requestUrl,
+        //         data: data,
+        //         dataType: 'json',
+        //         contentType: 'application/json',
+        //         success: function (response) {
+        //             console.log("Insert Response Data:", response);
+        //             if (response === 200) {
+        //                 alert("생성을 성공했습니다.")
+        //                 location.replace('/board/list');
+        //             } else if (response !== 200) {
+        //                 alert("생성을 실패했습니다.")
+        //             }
+        //         },
+        //         error: function (xhr, e, response) {
+        //             console.log("Insert Error:", xhr, e, response);
+        //             alert("에러!!")
         //         }
-        //     },
-        //     error: function (xhr, e, response) {
-        //         console.log("Insert Error:", xhr, e, response);
-        //         alert("에러!!")
-        //     }
-        // });
+        //     });
         // }
-        <%--if (${res})--%>
     </script>
 </head>
 <body>
@@ -116,8 +149,8 @@
 <section>
     <div class="container mt-5">
         <h3 class="text-center">글쓰기</h3>
-        <form action="${pageContext.request.contextPath}/board/setWrite" method="POST"
-              onsubmit="return writeCheck_btn()" enctype="multipart/form-data">
+        <%--        <form id="form" enctype="multipart/form-data">--%>
+        <form id="form">
             <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
             <input type="hidden" value="${sessionScope.account.userName}" name="writer">
             <table class="table table-bordered">
@@ -156,12 +189,8 @@
             <br/>
             <div class="row justify-content-center">
                 <input type="reset" value="초기화" class="btn btn-outline-secondary"/>
-
-                <input type="submit" value="작성" class="btn btn-outline-secondary mx-1"/>
-
-                <input type="button" value="취소" class="btn btn-outline-secondary"
-                       onclick="location.href='/board/list'"/>
-
+                <input type="button" id="write_btn" value="작성" class="btn btn-outline-secondary mx-1"/>
+                <input type="button" id="back_btn" value="취소" class="btn btn-outline-secondary"/>
             </div>
         </form>
     </div>

@@ -18,11 +18,22 @@ public class SFV {
     // account
 
     // board
-    public static final String STRING_CHECK_CODE_TITLE = "제목을 입력하세요";
-    public static final String STRING_CHECK_CODE_CONTENT = "내용을 입력하세요";
-    public static final String STRING_CHECK_CODE_INSERT_FILE_ERROR = "디스크 파일 저장 실패";
+    public static final String STRING_RES_B_INSERT_SUCCESS = "글 작성을 성공했습니다.";
+    public static final String STRING_RES_B_UPDATE_SUCCESS = "글 수정을 성공했습니다.";
+    public static final String STRING_RES_B_DELETE_SUCCESS = "글 삭제를 성공했습니다.";
+    public static final String STRING_RES_B_INSERT_FAIL = "글 작성을 실패했습니다.\n 잠시 후 다시 시도해주세요.";
+    public static final String STRING_RES_B_UPDATE_FAIL = "글 수정을 실패했습니다.\n 잠시 후 다시 시도해주세요.";
+    public static final String STRING_RES_B_DELETE_FAIL = "글 삭제를 실패했습니다.\n 잠시 후 다시 시도해주세요.";
+    public static final String STRING_RES_B_INSERT_FILE_FAIL = "파일 업로드를 실패했습니다.\n잠시후 다시 시도해주세요.";
 
-    public static final int INT_CHECK_CODE_INSERT_FILE_ERROR = 501;
+
+    public static final int INT_RES_CODE_B_INSERT_SUCCESS = 600;
+    public static final int INT_RES_CODE_B_UPDATE_SUCCESS = 602;
+    public static final int INT_RES_CODE_B_DELETE_SUCCESS = 604;
+    public static final int INT_RES_CODE_B_INSERT_FAIL = 601;
+    public static final int INT_RES_CODE_B_UPDATE_FAIL = 603;
+    public static final int INT_RES_CODE_B_DELETE_FAIL = 605;
+    public static final int INT_RES_CODE_B_INSERT_FILE_FAIL = 607;
 
 
 }

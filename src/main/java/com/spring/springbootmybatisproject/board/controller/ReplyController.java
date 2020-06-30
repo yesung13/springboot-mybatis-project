@@ -2,6 +2,7 @@ package com.spring.springbootmybatisproject.board.controller;
 
 import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.board.model.ReplyVO;
+import com.spring.springbootmybatisproject.common.model.ResultVO;
 import com.spring.springbootmybatisproject.board.service.ReplyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,15 +27,23 @@ public class ReplyController {
 
     // 댓글 쓰기
     @PostMapping("/replyWrite")
-    public String replyWrite(@Valid ReplyVO replyVO, BindingResult result, RedirectAttributes redirectAttr) {
+    @ResponseBody
+    public ResultVO replyWrite(@Valid ReplyVO replyVO, BindingResult result, RedirectAttributes redirectAttr) {
+        ResultVO res = new ResultVO();
         Long boardId = replyVO.getBoardId();
         if (!result.hasFieldErrors("replyContent") && !result.hasFieldErrors("boardId")) {
-            replyService.setBoardReply(replyVO);
-
-            redirectAttr.addAttribute("id", boardId);
-            return "redirect:/board/detail";
+            try{
+                replyService.setBoardReply(replyVO);
+                redirectAttr.addAttribute("id", boardId);
+                res.setResCode(SFV.INT_RES_CODE_OK);
+                res.setResMsg(SFV.STRING_RES_CODE_OK);
+            }catch (Exception e){
+                e.printStackTrace();
+                res.setResCode(SFV.INT_RES_CODE_FAIL);
+                res.setResMsg(SFV.STRING_RES_CODE_FAIL);
+            }
         }
-        return "redirect:/board/detail";
+        return res;
     }
 
     // 댓글 수정

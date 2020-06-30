@@ -15,7 +15,7 @@
     <!-- 댓글 쓰기-->
     <insert id="insBoardReply" parameterType="ReplyVO">
         INSERT INTO bbs_reply (accountId, boardId, replyWriter, replyContent)
-        VALUES (1, #{boardId}, 'admin_test', #{replyContent});
+        VALUES (#{accountId}, #{boardId}, #{replyWriter}, #{replyContent});
     </insert>
 
     <!-- 댓글 수정 -->

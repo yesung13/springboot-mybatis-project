@@ -31,29 +31,33 @@
         }
     </style>
     <script type="text/javascript">
-        // 초기화 버튼
-        function reset_btn() {
-            $("#title").val(null);
-            $("#content").val(null);
-        }
+        <%--const boardId = ${boardListDetail.boardId};--%>
+        $(document).ready(function () {
+            $('#back_btn').click(function () {
+                window.location.href = '/board/detail?id=' + boardId;
+            })
+            // 초기화 버튼
+            $('#reset_btn').click(function () {
+                $("#title").val(null);
+                $("#content").val(null);
+            })
+            $("#modify_btn").click(function () {
+                let title = $("#title").val();
+                let content = $("#content").val();
+                if (title == null || title === "") {
+                    alert("제목을 입력해 주세요!");
+                    $("#title").focus();
+                    return false;
+                }
 
-        function writeCheck_btn() {
-            let title = $("#title").val();
-            let content = $("#content").val();
-            if (title == null || title === "") {
-                alert("제목을 입력해 주세요!");
-                $("#title").focus();
-                return false;
-            }
-
-            if (content == null || content === "") {
-                alert("내용을 입력해 주세요!");
-                $("#content").focus();
-                return false;
-            }
-            return true;
-        }
-
+                if (content == null || content === "") {
+                    alert("내용을 입력해 주세요!");
+                    $("#content").focus();
+                    return false;
+                }
+                return modify_btn();
+            });
+        });
         // 글 입력 시 카운트
         $(document).on('keyup', '#content', function (e) {
             var textarea01 = $(this).val();
@@ -68,6 +72,36 @@
             return cnt;
         }
 
+        function modify_btn() {
+            let form = $('#form')[0];
+            let data = new FormData(form);
+            console.log("Insert Request Data:", data);
+            $.ajax({
+                type: 'POST',
+                url: '/board/setModify',
+                data: data,
+                processData: false,
+                contentType: false,
+                // cache: false,
+                // timeout: 600000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+                    if (response.resCode === 602) {
+                        alert(response.resMsg);
+                        // location.replace('/board/detail?id=' + boardId);
+                        location.replace('/board/list');
+                    } else if (response.resCode === 603) {
+                        alert(response.resMsg);
+                    } else if (response.resCode === 607) {
+                        alert(response.resMsg);
+                    }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
+        }
     </script>
 </head>
 <body class="body">
@@ -79,9 +113,12 @@
 <section>
     <div class="container mt-5">
         <h3 class="text-center">글수정</h3>
-        <form action="${pageContext.request.contextPath}/board/setModify" method="POST"
-              onsubmit="return writeCheck_btn()" enctype="multipart/form-data">
+        <%--        <form action="${pageContext.request.contextPath}/board/setModify" method="POST"--%>
+        <%--              onsubmit="return writeCheck_btn()" enctype="multipart/form-data">--%>
+        <form id="form">
             <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
+            <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
+            <input type="hidden" value="${sessionScope.account.userName}" name="writer">
             <table class="table table-bordered">
                 <tr class="thead-light">
                     <th class="tcenter">
@@ -134,12 +171,9 @@
             </table>
             <br/>
             <div class="row justify-content-center">
-                <input type="button" value="초기화" class="btn btn-outline-secondary" onclick="reset_btn()"/>
-
-                <input type="submit" value="수정" class="btn btn-outline-secondary mx-1"/>
-
-                <input type="button" value="취소" class="btn btn-outline-secondary"
-                       onclick="location.href='/board/detail?id='+${boardListDetail.boardId}"/>
+                <input type="button" value="초기화" class="btn btn-outline-secondary" id="reset_btn"/>
+                <input type="submit" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
+                <input type="button" value="취소" class="btn btn-outline-secondary" id="back_btn"/>
             </div>
         </form>
     </div>

@@ -18,7 +18,7 @@ public interface BoardService {
     BoardVO getBoardListDetail(Long boardId);
 
     // 게시글 작성
-    void setBoardWrite(BoardVO boardVO, FileVO fileVO);
+    void setBoardWrite(BoardVO boardVO, FileVO fileVO) throws Exception;
 
     // 게시글 수정
     void setBoardModify(BoardVO boardVO, FileVO fileVO);

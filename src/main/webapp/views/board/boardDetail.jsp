@@ -14,62 +14,85 @@
 <html>
 <head>
     <title>글보기:${boardListDetail.title}</title>
-    <%--    <c:if test="${errCode == null}">--%>
-    <%--        <c:set var="errCode" value="\"\"">--%>
-    <%--        </c:set>--%>
-    <%--    </c:if>--%>
     <script type="text/javascript">
-        // 글 수정
-        function modifyForm_btn(boardId) {
-            if (confirm("게시글을 수정 하시겠습니까?")) {
-                location.href = "/board/modify?id=" + boardId;
-            }
-        }
+        const boardId = ${boardListDetail.boardId};
+        $(document).ready(function () {
+            $('#list_btn').click(function () {
+                window.location.href = "/board/list";
+            });
+            $('#modify_btn').click(function () {
+                if (confirm("게시글을 수정 하시겠습니까?")) {
+                    location.href = "/board/modify?rid=" + boardId;
+                }
+            });
+            $('#delete_btn').click(function () {
+                if (confirm("게시글을 삭제 하시겠습니까?")) {
+                    var requestUrl = '/board/delete';
+                    var data = {}
+                    data.boardId = boardId;
+                    data = JSON.stringify(data);
+                    $.ajax({
+                        type: 'post',
+                        url: requestUrl,
+                        data: data,
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (res) {
+                            console.log("Response Data:", res);
+                            if (res.resCode === 604) {
+                                alert(res.resMsg);
+                            } else if (res.resCode === 605) {
+                                alert(res.resMsg);
+                            }
+                            location.replace('/board/list');
 
-        // 글 삭제
-        function delete_btn(boardId) {
-            if (confirm("게시글을 삭제 하시겠습니까?")) {
-                var requestUrl = '/board/delete';
-                var data = {}
-                data.boardId = boardId;
-                data = JSON.stringify(data);
-                $.ajax({
-                    type: 'post',
-                    url: requestUrl,
-                    data: data,
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (res) {
-                        console.log("Response Data:", res);
-                        if (res === 0) {
-                            alert("게시글이 삭제 되었습니다.");
-                        } else if (res !== 0) {
-                            alert("게시글을 삭제할 수 없습니다.");
+                        }, error: function (xhr, e, data) {
+                            console.log("Response Error", data);
+                            alert("에러!!");
+                            location.reload();
                         }
-                        location.replace('/board/list');
+                    });
+                }
+            });
+            $('#replyWrite_btn').click(function () {
+                // 댓글 유효성 검사
+                let replyContent = $('#replyContent').val();
+                if (replyContent == null || replyContent === "") {
+                    alert("댓글을 입력하세요");
+                    return false;
+                }
+                return replyWrite_btn();
+            });
+        });
 
-                    }, error: function (xhr, e, data) {
-                        console.log("Response Error", data);
-                        alert("에러!!");
-                        location.reload();
+        // 댓글 쓰기
+        function replyWrite_btn() {
+            let form = $('#form')[0];
+            let data = new FormData(form);
+            $.ajax({
+                url: '/board/replyWrite',
+                type: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+                    if (response.resCode === 200) {
+                        alert(response.resMsg);
+                        location.replace('/board/detail?id='+ boardId);
+                    } else if (response.resCode === -1) {
+                        alert(response.resMsg);
                     }
-                });
-
-            }
-        }
-
-        // 댓글 유효성 검사
-        function replyCheck() {
-            let replyContent = $('#replyContent').val();
-            if (replyContent == null || replyContent === "") {
-                alert("댓글을 입력하세요");
-                return false;
-            }
-            return true;
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
         }
 
         // 댓글 수정 폼
-        var replyUpdate_form = function (boardId, replyId, replyWriter, replyContent) {
+        let replyUpdate_form = function (boardId, replyId, replyWriter, replyContent) {
             // 기존 댓글 목록 제거
             $("#replyList").children().empty();
             if (replyId != null || replyId !== "" || replyId !== undefined) {
@@ -216,16 +239,6 @@
             <tr class="text-left">
                 <td colspan="4" style="height: 200px; min-height: 200px; max-height: 500px; padding: 30px 50px;">
                     <span id="content" style="font-size: 1.2em;">${boardListDetail.content}</span>
-                    <c:if test="${boardVO.writerId != userId}">
-                        <div class="d-flex justify-content-end mt-5">
-                            <button type="button" class="btn btn-light  mr-1" onclick="moveAction(4)">
-                                <i class="far fa-heart"></i>&nbsp;&nbsp;${boardVO.recommendcnt}
-                            </button>
-                            <button type="button" class="btn btn-light mr-1" disabled="disabled">
-                                <i class="fas fa-eye"></i>&nbsp;&nbsp;${boardVO.viewcnt}
-                            </button>
-                        </div>
-                    </c:if>
                 </td>
             </tr>
 
@@ -268,10 +281,11 @@
             </tr>
             <%-- 댓글 쓰기 --%>
             <tr class="tcenter" id="changeUpdateForm">
-                <form action="${pageContext.request.contextPath}/board/replyWrite" method="post"
-                      onsubmit="return replyCheck()"><%-- onsubmit의 결과 값이 true 이면 submit --%>
+                <form id="form">
                     <%-- 게시글 정보 hidden으로 넘기기 --%>
                     <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
+                    <input type="hidden" name="accountId" value="${account.accountId}">
+                    <input type="hidden" name="replyWriter" value="${account.userName}">
                     <th>
                         <div class="pt-2"><strong id="replyWriter" class="text-muted">댓글 작성자</strong></div>
                     </th>
@@ -279,7 +293,7 @@
                         <div class="form-inline">
                             <textarea id="replyContent" name="replyContent" rows="1" class="form-control rounded w-75"
                                       placeholder="댓글을 남겨보세요"></textarea>
-                            <button class="btn btn-secondary ml-2" type="submit">등록</button>
+                            <button class="btn btn-secondary ml-2" type="button" id="replyWrite_btn">등록</button>
                         </div>
                     </th>
                 </form>
@@ -335,16 +349,12 @@
             <div class="mt-2">
                 <c:choose>
                     <c:when test="${account.accountId eq boardListDetail.accountId}">
-                        <input type="button" value="삭제" class="btn btn-outline-secondary"
-                               onclick="delete_btn(${boardListDetail.boardId})"/>
-                        <input type="button" value="수정" class="btn btn-outline-secondary mx-1"
-                               onclick="modifyForm_btn(${boardListDetail.boardId})"/>
-                        <input type="button" value="목록" class="btn btn-outline-secondary"
-                               onclick="location.href = '/board/list'"/>
+                        <input type="button" value="삭제" class="btn btn-outline-secondary" id="delete_btn"/>
+                        <input type="button" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
+                        <input type="button" value="목록" id="list_btn" class="btn btn-outline-secondary"/>
                     </c:when>
                     <c:otherwise>
-                        <input type="button" value="목록" class="btn btn-outline-secondary"
-                               onclick="location.href = '/board/list'"/>
+                        <input type="button" value="목록" id="list_btn" class="btn btn-outline-secondary"/>
                     </c:otherwise>
                 </c:choose>
             </div>

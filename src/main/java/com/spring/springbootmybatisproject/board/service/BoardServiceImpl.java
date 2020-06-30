@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 작성
     @Override
-    public void setBoardWrite(BoardVO boardVO, FileVO fileVO) {
+    public void setBoardWrite(BoardVO boardVO, FileVO fileVO) throws Exception {
         String content = boardVO.getContent().replaceAll("\r\n", "<br />");
         content = content.replaceAll("<", "&lt;");
         content = content.replaceAll(">", "&gt");
