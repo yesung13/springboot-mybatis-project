@@ -14,6 +14,5 @@ public class FileVO {
     private Long boardId;
     private String originFilename; // 실제 파일
     private String saveFilename; // 저장할 파일
-    private String fileUrl;
     private long fileSize;
 }

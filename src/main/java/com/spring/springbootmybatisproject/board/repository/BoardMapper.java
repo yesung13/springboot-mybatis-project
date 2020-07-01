@@ -2,6 +2,7 @@ package com.spring.springbootmybatisproject.board.repository;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
+import com.spring.springbootmybatisproject.board.model.SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -31,10 +32,10 @@ public interface BoardMapper {
     void deleteById(Long boardId);
 
     // 게시글 검색
-    List<BoardVO> findBySearchKeyword(String keyword);
+    List<BoardVO> findBySearchKeyword(SearchVO searchVO);
 
     // 게시글 검색 페이징
-    int boardSearchListCnt(BoardVO boardVO);
+    int boardSearchListCnt(SearchVO searchVO);
 
     // 게시글 조회수
     void increaseViewCnt(Long boardId);

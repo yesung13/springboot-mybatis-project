@@ -2,6 +2,7 @@ package com.spring.springbootmybatisproject.board.service;
 
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
+import com.spring.springbootmybatisproject.board.model.SearchVO;
 import com.spring.springbootmybatisproject.board.repository.BoardMapper;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +47,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void setBoardWrite(BoardVO boardVO, FileVO fileVO) throws Exception {
         String content = boardVO.getContent().replaceAll("\r\n", "<br />");
-        content = content.replaceAll("<", "&lt;");
-        content = content.replaceAll(">", "&gt");
-        content = content.replaceAll("&", "&amp");
-        content = content.replaceAll("\"", "&quot");
-
         BoardVO vo = BoardVO.builder()
                 .accountId(boardVO.getAccountId())
                 .title(boardVO.getTitle())
@@ -60,9 +56,13 @@ public class BoardServiceImpl implements BoardService {
         boardMapper.saveBoardWrite(vo);
 
         // 게시글 파일 업로드
-        Long boardId = vo.getBoardId(); // saveBoardWrite의 auto값을 리턴 받아 사용.
-        fileVO.setBoardId(boardId);
-        boardMapper.insertBoardFile(fileVO);
+        String originFileName = fileVO.getOriginFilename();
+        if(originFileName != null){
+            Long boardId = vo.getBoardId(); // saveBoardWrite의 auto값을 리턴 받아 사용.
+            fileVO.setBoardId(boardId);
+            boardMapper.insertBoardFile(fileVO);
+        }
+
     }
 
     // 게시글 수정
@@ -82,9 +82,11 @@ public class BoardServiceImpl implements BoardService {
         boardMapper.updateById(vo);
 
         // 게시글 새 파일 업로드
-        fileVO.setBoardId(vo.getBoardId());
-        boardMapper.insertBoardFile(fileVO);
-
+        String originFileName = fileVO.getOriginFilename();
+        if(originFileName != null){
+            fileVO.setBoardId(vo.getBoardId());
+            boardMapper.insertBoardFile(fileVO);
+        }
     }
 
     // 게시글 삭제
@@ -96,14 +98,14 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 검색
     @Override
-    public List<BoardVO> getBoardSearch(String keyword) {
-        return boardMapper.findBySearchKeyword(keyword);
+    public List<BoardVO> getBoardSearch(SearchVO searchVO) {
+        return boardMapper.findBySearchKeyword(searchVO);
     }
 
     // 게시글 검색 페이징
     @Override
-    public int getBoardSearchListCnt(BoardVO boardVO) {
-        return boardMapper.boardSearchListCnt(boardVO);
+    public int getBoardSearchListCnt(SearchVO searchVO) {
+        return boardMapper.boardSearchListCnt(searchVO);
     }
 
     // 게시글 조회수

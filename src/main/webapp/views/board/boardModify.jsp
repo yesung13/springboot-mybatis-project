@@ -31,7 +31,7 @@
         }
     </style>
     <script type="text/javascript">
-        <%--const boardId = ${boardListDetail.boardId};--%>
+        const boardId = ${boardListDetail.boardId};
         $(document).ready(function () {
             $('#back_btn').click(function () {
                 window.location.href = '/board/detail?id=' + boardId;
@@ -88,8 +88,7 @@
                     console.log("Insert Response Data:", response);
                     if (response.resCode === 602) {
                         alert(response.resMsg);
-                        // location.replace('/board/detail?id=' + boardId);
-                        location.replace('/board/list');
+                        location.replace('/board/detail?id=' + boardId);
                     } else if (response.resCode === 603) {
                         alert(response.resMsg);
                     } else if (response.resCode === 607) {
@@ -172,7 +171,7 @@
             <br/>
             <div class="row justify-content-center">
                 <input type="button" value="초기화" class="btn btn-outline-secondary" id="reset_btn"/>
-                <input type="submit" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
+                <input type="button" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
                 <input type="button" value="취소" class="btn btn-outline-secondary" id="back_btn"/>
             </div>
         </form>

@@ -22,7 +22,7 @@
             });
             $('#modify_btn').click(function () {
                 if (confirm("게시글을 수정 하시겠습니까?")) {
-                    location.href = "/board/modify?rid=" + boardId;
+                    location.href = "/board/modify?id=" + boardId;
                 }
             });
             $('#delete_btn').click(function () {
@@ -226,7 +226,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="file" items="${fileList}">
-                                <a href="${pageContext.request.contextPath}/board/fileDownload?fileName=${file.saveFilename}"
+                                <a href="${pageContext.request.contextPath}/board/fileDownload?fileName=${file.originFilename}"
                                    class="text-black-50">
                                     <span id="fileName">${file.originFilename}</span>
                                     <span>(${file.fileSize}byte)</span><br>

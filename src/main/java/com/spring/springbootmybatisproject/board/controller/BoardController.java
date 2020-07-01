@@ -20,7 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -166,7 +167,7 @@ public class BoardController {
                     fileVO.setFileSize(fileSize);
 
                     // disk 파일 저장
-                    String safeFile = uploadPath + dateResult + "_" + originFilename;
+                    String safeFile = uploadPath + originFilename;
                     try {
                         mf.transferTo(new File(safeFile)); // 디스크에 파일 저장
                         boardService.setBoardWrite(boardVO, fileVO);
@@ -206,7 +207,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/modify")
-    public String boardUpdateForm(@RequestParam(value = "rid") Long boardId, Model model) {
+    public String boardUpdateForm(@RequestParam(value = "id") Long boardId, Model model) {
         BoardVO boardVO = boardService.getBoardListDetail(boardId);
         model.addAttribute("boardListDetail", boardVO);
 
@@ -252,19 +253,24 @@ public class BoardController {
         if (title != null && content != null && accountId != null) {
 
             //체크 파일 삭제(disk, DB)
-//            String[] checkFileNum = multipartReq.getParameterValues("checkFileNum");
-//            if (checkFileNum != null) {
-//                for (String cfn : checkFileNum) {
-//                    long fileId = Long.parseLong(cfn);
-//                    String originFilename = boardService.getFilename(fileId);
-//                    String safeFile = uploadPath + dateResult + "_" + originFilename;
-//
-//                    // disk 첨부 파일 삭제
-//                    File removeFile = new File(safeFile);
-//                    removeFile.delete();
-//                    boardService.deleteBoardFile(fileId);
-//                }
-//            }
+            String[] checkFileNum = multipartReq.getParameterValues("checkFileNum");
+            if (checkFileNum != null) {
+                for (String cfn : checkFileNum) {
+                    long fileId = Long.parseLong(cfn);
+                    String originFilename = boardService.getFilename(fileId);
+                    String safeFile = uploadPath + originFilename;
+
+                    // disk 첨부 파일 삭제
+                    File removeFile = new File(safeFile);
+                    boolean delYn = removeFile.delete();
+                    if (delYn) {
+                        System.out.println("Disk File Delete Success");
+                    } else {
+                        System.out.println("Disk File Delete Fail");
+                    }
+                    boardService.deleteBoardFile(fileId);
+                }
+            }
 
             // 새 파일 업로드
             Long boardId = boardVO.getBoardId();
@@ -287,7 +293,7 @@ public class BoardController {
                     fileVO.setFileSize(newFileSize);
 
                     // disk 파일 저장
-                    String safeNewFile = uploadPath + newSaveFilename;
+                    String safeNewFile = uploadPath + newOriginFilename;
 
                     try {
                         mf.transferTo(new File(safeNewFile));
@@ -353,38 +359,36 @@ public class BoardController {
     /**
      * 게시글 검색
      *
-     * @param type
-     * @param keyword
      * @param curPage
      * @param model
      * @param boardVO
      * @return
      */
     @GetMapping("/search")
-    public ModelAndView boardSearch(@RequestParam(value = "type") String type,
-                                    @RequestParam(value = "keyword") String keyword,
+    public ModelAndView boardSearch(@ModelAttribute SearchVO searchVO,
                                     @RequestParam(defaultValue = "1") int curPage,
                                     Model model, BoardVO boardVO) {
 
         // 전체 리스트 개수
-        int listCnt = boardService.getBoardSearchListCnt(boardVO);
-        Pagination pagination = new Pagination(listCnt, curPage);
+        int searchListCnt = boardService.getBoardSearchListCnt(searchVO);
+        List<BoardVO> searchList = boardService.getBoardSearch(searchVO);
+        Pagination pagination = new Pagination(searchListCnt, curPage);
         boardVO.setStartIndex(pagination.getStartIndex());
         boardVO.setCntPerPage(pagination.getPageSize());
-        model.addAttribute("listCnt", listCnt);
+        model.addAttribute("searchListCnt", searchListCnt);
         model.addAttribute("pagination", pagination);
 
-        List<BoardVO> boardVOList = new ArrayList<>();
-        if (type.equals("title") && keyword != null) {
-            boardVOList = boardService.getBoardSearch(keyword);
-        } else if (type.equals("content") && keyword != null) {
-            boardVOList = boardService.getBoardSearch(keyword);
-        } else if (type.equals("writer") && keyword != null) {
-            boardVOList = boardService.getBoardSearch(keyword);
-        }
+//        List<BoardVO> searchList = new ArrayList<>();
+//        if (type.equals("title") && keyword != null) {
+//            searchList = boardService.getBoardSearch(keyword);
+//        } else if (type.equals("content") && keyword != null) {
+//            searchList = boardService.getBoardSearch(keyword);
+//        } else if (type.equals("writer") && keyword != null) {
+//            searchList = boardService.getBoardSearch(keyword);
+//        }
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("boardList", boardVOList); // jstl로 호출
+        mv.addObject("boardList", searchList); // jstl로 호출
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
         return mv;
     }

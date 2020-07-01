@@ -71,9 +71,10 @@
                DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
         FROM bbs_board
         WHERE title LIKE CONCAT('%',#{keyword},'%')
-           OR content LIKE CONCAT('%',#{keyword},'%')
-           OR writer LIKE CONCAT('%',#{keyword},'%')
+           AND content LIKE CONCAT('%',#{keyword},'%')
+           AND writer LIKE CONCAT('%',#{keyword},'%')
         ORDER BY no DESC;
+        limit #{startIndex}, #{cntPerPage};
     </select>
 
     <!-- 게시글 조회수 -->
