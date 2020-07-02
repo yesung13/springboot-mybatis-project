@@ -57,11 +57,7 @@
     </delete>
 
     <!-- 게시글 검색 -->
-    <select id="boardSearchListCnt" resultType="Integer">
-        SELECT count(*)
-        FROM bbs_board;
-    </select>
-    <select id="findBySearchKeyword" parameterType="String" resultType="BoardVO">
+    <select id="findBySearchKeyword" parameterType="SearchVO" resultType="BoardVO">
         SELECT row_number() over (ORDER BY boardId)            AS no,
                boardId,
                title,
@@ -70,11 +66,13 @@
                replyCnt,
                DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
         FROM bbs_board
-        WHERE title LIKE CONCAT('%',#{keyword},'%')
-           AND content LIKE CONCAT('%',#{keyword},'%')
-           AND writer LIKE CONCAT('%',#{keyword},'%')
-        ORDER BY no DESC;
-        limit #{startIndex}, #{cntPerPage};
+        WHERE 1=1 /*true 뜻 함*/
+        <choose>
+            <when test="type == 'title'">AND title LIKE CONCAT('%',#{keyword},'%')</when>
+            <when test="type == 'content'">AND content LIKE CONCAT('%',#{keyword},'%')</when>
+            <when test="type == 'writer'">AND writer LIKE CONCAT('%',#{keyword},'%')</when>
+        </choose>
+        ORDER BY no DESC
     </select>
 
     <!-- 게시글 조회수 -->

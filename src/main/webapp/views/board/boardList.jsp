@@ -18,7 +18,7 @@
         // 게시글 검색
         let keywordCheck_btn = function () {
             let keyword = $('#keyword').val();
-            if(keyword == null || keyword === ""){
+            if (keyword == null || keyword === "") {
                 alert("검색어를 입력하세요.")
                 return false;
             }
@@ -48,11 +48,7 @@
 </head>
 <body>
 <%-- 헤더(navbar) --%>
-<c:import url="/views/common/header.jsp">
-
-<%--    <c:param name="param" value="userName"/>--%>
-<%--    <c:param name="accountEmail" value="${accountEmail}" />--%>
-</c:import>
+<c:import url="/views/common/header.jsp"/>
 
 <%-- 바디 --%>
 <section id="container">
@@ -64,7 +60,8 @@
     <!-- 검색창 -->
     <div class="d-flex justify-content-center mt-4">
         <div class="w-75">
-            <form action="${pageContext.request.contextPath}/board/search" method="get" onsubmit="return keywordCheck_btn()">
+            <form action="${pageContext.request.contextPath}/board/search" method="get"
+                  onsubmit="return keywordCheck_btn()">
                 <div class="input-group shadow rounded mb-3" id="searchForm">
                     <select class="col-2 form-control input-group-prepend" name="type">
                         <option id="title" value="title">제목</option>
@@ -86,10 +83,12 @@
     <%-- 게시판 --%>
     <div class="row mt-5 mb-2 pl-1">
         <div class="col-9">
+            <c:if test="${listCnt > 0}">
             <span class="float-left">
              총 게시글 수 : ${pagination.listCnt } / 총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage }
             / 총 블럭 수 : ${pagination.rangeCnt } / 현재 블럭 : ${pagination.curRange }
             </span>
+            </c:if>
         </div>
         <div class="col-3">
             <button class="btn btn-success btn-sm float-right" onclick="location.href='/board/write'">글쓰기</button>
@@ -144,47 +143,49 @@
             empty : list, map같은 객체가 비어있을 경우
     --%>
     <%-- 페이징 --%>
-    <ul class="pagination pagination-sm justify-content-center">
-        <li class="page-item">
-            <c:if test="${pagination.curRange ne 1 }">
-                <a href="javascript:void(0)" class="page-link" onClick="fn_paging(1)">[처음]</a>
-            </c:if>
-        </li>
-        <li class="page-item">
-            <c:if test="${pagination.curPage ne 1}">
-                <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }')"
-                   aria-label="previous">< 이전</a>
-            </c:if>
-        </li>
-        <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+    <c:if test="${listCnt > 0}">
+        <ul class="pagination pagination-sm justify-content-center">
             <li class="page-item">
-                <c:choose>
-                    <c:when test="${pageNum eq  pagination.curPage}">
+                <c:if test="${pagination.curRange ne 1 }">
+                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging(1)">[처음]</a>
+                </c:if>
+            </li>
+            <li class="page-item">
+                <c:if test="${pagination.curPage ne 1}">
+                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }')"
+                       aria-label="previous">< 이전</a>
+                </c:if>
+            </li>
+            <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+                <li class="page-item">
+                    <c:choose>
+                        <c:when test="${pageNum eq  pagination.curPage}">
                     <span class="font-weight-bold">
                         <a href="javascript:void(0)" class="page-link"
                            onClick="fn_paging('${pageNum }')">${pageNum }</a>
                     </span>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="javascript:void(0)" class="page-link"
-                           onClick="fn_paging('${pageNum }')">${pageNum }</a>
-                    </c:otherwise>
-                </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="javascript:void(0)" class="page-link"
+                               onClick="fn_paging('${pageNum }')">${pageNum }</a>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+            </c:forEach>
+            <li class="page-item">
+                <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }')"
+                       aria-label="next">다음 ></a>
+                </c:if>
             </li>
-        </c:forEach>
-        <li class="page-item">
-            <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-                <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }')"
-                   aria-label="next">다음 ></a>
-            </c:if>
-        </li>
-        <li class="page-item">
-            <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
-                <a href="javascript:void(0)" class="page-link"
-                   onClick="fn_paging('${pagination.pageCnt }')">[끝]</a>
-            </c:if>
-        </li>
-    </ul>
+            <li class="page-item">
+                <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+                    <a href="javascript:void(0)" class="page-link"
+                       onClick="fn_paging('${pagination.pageCnt }')">[끝]</a>
+                </c:if>
+            </li>
+        </ul>
+    </c:if>
 </section>
 
 <%-- 푸터 --%>

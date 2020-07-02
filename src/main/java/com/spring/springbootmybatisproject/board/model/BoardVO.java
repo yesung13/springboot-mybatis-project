@@ -25,8 +25,8 @@ public class BoardVO {
     private String boardUpDatetime;
 
     // 페이징
-    private int startIndex;
-    private int cntPerPage;
+    private int startIndex; // 시작 인덱스
+    private int cntPerPage; // 한 페이지당 가져올 데이터 개수
 
     @Builder
     public BoardVO(Long boardId, Long accountId, String title, String content, String writer, int viewCnt, int replyCnt, String boardDatetime, String boardUpDatetime) {

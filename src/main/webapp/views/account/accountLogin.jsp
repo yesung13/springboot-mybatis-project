@@ -22,7 +22,7 @@
         }
 
         .all {
-            margin-top: 10.0em;
+            margin-top: 100px;
         }
 
         .col input {
@@ -35,14 +35,78 @@
             max-width: 300px;
         }
 
+        .alert {
+            width: 300px;
+            position: fixed;
+            display:none
+        }
+
 
     </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#login_btn').click(function () {
+                let accountEmail = $('#accountEmail').val();
+                let accountPassword = $('#accountPassword').val();
+                if (accountEmail == null || accountEmail === "") {
+                    $('.alert').fadeIn(400).delay(2000).fadeOut(400); //fade out after 3 seconds
+                    $('#alertMsg').append("아이디를 입력해 주세요!");
+                    // alert("아이디를 입력해 주세요!");
+                    $('#accountEmail').focus();
+                    return false;
+                }
+                if (accountPassword == null || accountPassword === "") {
+                    $('.alert').fadeIn(400).delay(2000).fadeOut(400); //fade out after 3 seconds
+                    $('#alertMsg').append("패스워드를 입력해 주세요!");
+                    // alert("패스워드를 입력해 주세요!");
+                    $('#accountPassword').focus();
+                    return false;
+                }
+                return login();
+            });
+        });
+        <%--        <form id="form" method="post" action="${pageContext.request.contextPath}/account/loginProc">--%>
+
+        function login() {
+            let requestUrl = '/account/loginProc';
+            let form = $('#form')[0];
+            let data = new FormData(form);
+            console.log("Insert Request Data:", data);
+            $.ajax({
+                type: "POST",
+                url: requestUrl,
+                data: data,
+                processData: false,
+                contentType: false,
+                // cache: false,
+                // timeout: 600000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+                    if (response.resCode === 1000) {
+                        alert(response.resMsg);
+                        location.replace('/');
+                    } else if (response.resCode === 1001) {
+                        alert(response.resMsg);
+                        location.reload();
+                    }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
+        }
+    </script>
 </head>
-<body onload="checkErrCode()" class="bg-light">
+<body class="bg-light">
 <div class="all">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="row navbar navbar-light">
+            <%-- 유효성 검사 토스트 창 --%>
+            <div class="alert alert-danger text-center" role="alert">
+                <span id="alertMsg"></span>
+            </div>
+            <div class="row navbar navbar-light" style="padding-top: 80px">
                 <a class="col navbar-brand" href="/">
                     <img src="${pageContext.request.contextPath}/resources/images/cubes-solid.svg"
                          class="d-inline-block align-baseline" alt="logo">
@@ -50,7 +114,7 @@
                 </a>
             </div>
         </div>
-        <form method="post" action="${pageContext.request.contextPath}/account/loginProc">
+        <form id="form">
             <div class="row justify-content-center">
                 <div class="list-group row">
                     <div class="col">
@@ -58,16 +122,13 @@
                                placeholder="아이디"/>
                         <input type="password" class="list-group-item" id="accountPassword" name="accountPassword"
                                placeholder="패스워드"/>
-
-                        <%-- <input type="text" id="userId" name="userId" class="loginInput" value="${userId}" />  --%>
-                        <!-- <input type="password" id="passwd" name="passwd" class="loginInput" /> -->
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center mt-3">
                 <div class="row">
                     <div class="col">
-                        <input type="submit" class="btn btn-secondary" value="L O G I N"/>
+                        <input type="button" id="login_btn" class="btn btn-secondary" value="L O G I N"/>
                     </div>
                 </div>
             </div>
@@ -75,7 +136,7 @@
         <div class="row justify-content-center mt-3">
             <div class="row">
                 <div class="col">
-                    <a class="badge badge-light" href="javascript:void(0);">비밀번호 찾기 </a>
+                    <a class="badge badge-light" href="javascript:void(0);">비밀번호 찾기</a>
                 </div>
             </div>
             <div class="row ml-1">

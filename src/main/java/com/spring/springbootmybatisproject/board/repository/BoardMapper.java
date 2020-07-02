@@ -34,9 +34,6 @@ public interface BoardMapper {
     // 게시글 검색
     List<BoardVO> findBySearchKeyword(SearchVO searchVO);
 
-    // 게시글 검색 페이징
-    int boardSearchListCnt(SearchVO searchVO);
-
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 

@@ -21,7 +21,6 @@ public class AccountServiceImpl implements AccountService {
 
     // 계정 로그인
     @Override
-//    public List<AccountVO> getAccount(AccountVO accountVO) {
     public AccountVO getAccount(AccountVO accountVO) {
         return accountMapper.findByAccount(accountVO);
     }

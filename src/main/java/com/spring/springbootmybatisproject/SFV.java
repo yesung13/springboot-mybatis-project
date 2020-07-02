@@ -16,6 +16,11 @@ public class SFV {
     public static final String STRING_RES_CODE_FAIL = "실패했습니다.";
 
     // account
+    public static final String STRING_RES_A_LOGIN_SUCCESS = "로그인을 성공하였습니다.";
+    public static final String STRING_RES_A_LOGIN_FAIL = "로그인을 실패하였습니다. \n관리자에게 문의하세요.";
+
+    public static final int INT_RES_CODE_A_LOGIN_SUCCESS = 1000;
+    public static final int INT_RES_CODE_A_LOGIN_FAIL = 1001;
 
     // board
     public static final String STRING_RES_B_INSERT_SUCCESS = "글 작성을 성공했습니다.";

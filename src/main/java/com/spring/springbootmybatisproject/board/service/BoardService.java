@@ -30,9 +30,6 @@ public interface BoardService {
     // 게시글 검색
     List<BoardVO> getBoardSearch(SearchVO searchVO);
 
-    // 게시글 검색 페이징
-    int getBoardSearchListCnt(SearchVO searchVO);
-
     // 게시글 조회수
     void increaseViewCnt(Long boardId);
 

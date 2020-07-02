@@ -365,19 +365,8 @@ public class BoardController {
      * @return
      */
     @GetMapping("/search")
-    public ModelAndView boardSearch(@ModelAttribute SearchVO searchVO,
-                                    @RequestParam(defaultValue = "1") int curPage,
-                                    Model model, BoardVO boardVO) {
-
-        // 전체 리스트 개수
-        int searchListCnt = boardService.getBoardSearchListCnt(searchVO);
-        List<BoardVO> searchList = boardService.getBoardSearch(searchVO);
-        Pagination pagination = new Pagination(searchListCnt, curPage);
-        boardVO.setStartIndex(pagination.getStartIndex());
-        boardVO.setCntPerPage(pagination.getPageSize());
-        model.addAttribute("searchListCnt", searchListCnt);
-        model.addAttribute("pagination", pagination);
-
+    public ModelAndView boardSearch(@RequestParam(defaultValue = "1") int curPage,
+                                    Model model, BoardVO boardVO, SearchVO searchVO) {
 //        List<BoardVO> searchList = new ArrayList<>();
 //        if (type.equals("title") && keyword != null) {
 //            searchList = boardService.getBoardSearch(keyword);
@@ -386,7 +375,7 @@ public class BoardController {
 //        } else if (type.equals("writer") && keyword != null) {
 //            searchList = boardService.getBoardSearch(keyword);
 //        }
-
+        List<BoardVO> searchList = boardService.getBoardSearch(searchVO);
         ModelAndView mv = new ModelAndView();
         mv.addObject("boardList", searchList); // jstl로 호출
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지

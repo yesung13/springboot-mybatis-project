@@ -102,12 +102,6 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findBySearchKeyword(searchVO);
     }
 
-    // 게시글 검색 페이징
-    @Override
-    public int getBoardSearchListCnt(SearchVO searchVO) {
-        return boardMapper.boardSearchListCnt(searchVO);
-    }
-
     // 게시글 조회수
     @Override
     public void increaseViewCnt(Long boardId) {
