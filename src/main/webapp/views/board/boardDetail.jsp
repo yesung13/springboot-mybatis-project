@@ -49,7 +49,7 @@
                         }, error: function (xhr, e, data) {
                             console.log("Response Error", data);
                             alert("에러!!");
-                            location.reload();
+                            window.location.reload(true); // 캐시 제거 후 새 파일 로드 HTTP 200
                         }
                     });
                 }
@@ -79,7 +79,7 @@
                     console.log("Insert Response Data:", response);
                     if (response.resCode === 200) {
                         alert(response.resMsg);
-                        location.replace('/board/detail?id='+ boardId);
+                        location.replace('/board/detail?id=' + boardId);
                     } else if (response.resCode === -1) {
                         alert(response.resMsg);
                     }
@@ -149,7 +149,7 @@
                     success: function (res) {
                         if (res === 0) {
                             alert("해당 댓글이 수정되었습니다.")
-                            location.reload();
+                            window.location.reload();
                         } else if (res !== 0) {
                             alert("해당 댓글 수정을 실패하였습니다.")
                         }
@@ -178,10 +178,10 @@
                         console.log("Response Data:", res);
                         if (res === 0) {
                             alert("댓글이 삭제되었습니다.")
-                            location.reload();
+                            window.location.reload();
                         } else if (res === -1) {
                             alert("댓글을 삭제할 수 없습니다.")
-                            location.reload();
+                            window.location.reload();
                         }
                     }, error: function (xhr, e, data) {
                         console.log("Response Error", data);

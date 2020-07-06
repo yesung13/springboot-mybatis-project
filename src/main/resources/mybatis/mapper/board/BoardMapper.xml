@@ -67,11 +67,13 @@
                DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
         FROM bbs_board
         WHERE 1=1 /*true 뜻 함*/
-        <choose>
-            <when test="type == 'title'">AND title LIKE CONCAT('%',#{keyword},'%')</when>
-            <when test="type == 'content'">AND content LIKE CONCAT('%',#{keyword},'%')</when>
-            <when test="type == 'writer'">AND writer LIKE CONCAT('%',#{keyword},'%')</when>
-        </choose>
+        <if test="keyword != null">
+            <choose>
+                <when test="type == 'title'">AND title LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'content'">AND content LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'writer'">AND writer LIKE CONCAT('%',#{keyword},'%')</when>
+            </choose>
+        </if>
         ORDER BY no DESC
     </select>
 

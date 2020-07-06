@@ -36,36 +36,45 @@
         }
 
         .alert {
-            width: 300px;
+            min-width: 300px;
+            max-height: 60px;
             position: fixed;
-            display:none
+            display: none
         }
 
 
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#login_btn').click(function () {
-                let accountEmail = $('#accountEmail').val();
-                let accountPassword = $('#accountPassword').val();
-                if (accountEmail == null || accountEmail === "") {
-                    $('.alert').fadeIn(400).delay(2000).fadeOut(400); //fade out after 3 seconds
-                    $('#alertMsg').append("아이디를 입력해 주세요!");
-                    // alert("아이디를 입력해 주세요!");
-                    $('#accountEmail').focus();
-                    return false;
-                }
-                if (accountPassword == null || accountPassword === "") {
-                    $('.alert').fadeIn(400).delay(2000).fadeOut(400); //fade out after 3 seconds
-                    $('#alertMsg').append("패스워드를 입력해 주세요!");
-                    // alert("패스워드를 입력해 주세요!");
-                    $('#accountPassword').focus();
-                    return false;
-                }
-                return login();
-            });
-        });
-        <%--        <form id="form" method="post" action="${pageContext.request.contextPath}/account/loginProc">--%>
+                $('#login_btn').click(function () {
+                    let accountEmail = $('input[name="accountEmail"]').val().replace(/ /g, ''); // 모든 공백 제거
+                    let accountPassword = $('input[name="accountPassword"]').val().replace(/ /g, '');
+
+                    if (isEmpty(accountEmail)) {
+                        $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                        $('#alertMsg').html("아이디를 입력해 주세요!");
+                        // alert("아이디를 입력해 주세요!");
+                        $('#accountEmail').val(null).focus();
+
+                        return false;
+                    }
+
+                    if (isEmpty(accountPassword)) {
+                        $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                        $('#alertMsg').html("패스워드를 입력해 주세요!");
+                        // alert("패스워드를 입력해 주세요!");
+                        $('#accountPassword').val(null).focus();
+                        return false;
+                    }
+                    return login();
+                });
+            }
+        );
+
+        // 값 체크
+        let isEmpty = function (value) {
+            return value === "" || value == null;
+        }
 
         function login() {
             let requestUrl = '/account/loginProc';
@@ -86,8 +95,13 @@
                         alert(response.resMsg);
                         location.replace('/');
                     } else if (response.resCode === 1001) {
+                        // alert(response.resMsg);
+                        $('.alert').fadeIn(400).delay(2000).fadeOut(400);
+                        $('#alertMsg').html(response.resMsg);
+                        // window.location.reload();
+                    } else if (response.resCode === 1002) {
                         alert(response.resMsg);
-                        location.reload();
+                        window.location.reload();
                     }
                 },
                 error: function (xhr, e, response) {

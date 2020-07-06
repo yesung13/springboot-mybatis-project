@@ -74,7 +74,7 @@
                 }, error: function (xhr, e, res) {
                     console.log("Response Error", res);
                     alert("에러!!");
-                    location.reload();
+                    window.location.reload(true); // 캐시 제거 후 새 파일 로드 HTTP 200
                 }
             });
 
