@@ -13,7 +13,7 @@
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
-    <title>게시판</title>
+    <title>QnA</title>
     <script type="text/javascript">
         // 게시글 검색
         let keywordCheck_btn = function () {
@@ -54,7 +54,7 @@
 <section id="container">
     <table>
         <tr>
-            <th><h2>게시판</h2></th>
+            <th><h2>QnA</h2></th>
         </tr>
     </table>
     <!-- 검색창 -->
@@ -153,7 +153,7 @@
             <li class="page-item">
                 <c:if test="${pagination.curPage ne 1}">
                     <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }')"
-                       aria-label="previous">< 이전</a>
+                       aria-label="previous"><</a>
                 </c:if>
             </li>
             <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
@@ -175,7 +175,7 @@
             <li class="page-item">
                 <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
                     <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }')"
-                       aria-label="next">다음 ></a>
+                       aria-label="next">></a>
                 </c:if>
             </li>
             <li class="page-item">

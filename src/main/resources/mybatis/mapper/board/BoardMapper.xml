@@ -92,7 +92,7 @@
 
     <!-- 첨부파일 목록 -->
     <select id="findAllFileList" resultType="FileVO" parameterType="FileVO">
-        SELECT fileId, boardId, originFilename, saveFilename, fileSize
+        SELECT fileId, boardId, originFilename, saveFilename, fileSize, createDatetime, delYn
         FROM bbs_file
         WHERE boardId = #{boardId} AND fileSize != 0;
     </select>

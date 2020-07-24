@@ -143,7 +143,7 @@ public class BoardController {
             // 파일 업로드
             Long boardId = boardVO.getBoardId();
             FileVO fileVO = new FileVO();
-            //외부망
+            //blucean
             String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
             //pc
 //            String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
@@ -243,7 +243,8 @@ public class BoardController {
     public ResultVO boardModify(@ModelAttribute BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
         ResultVO result = new ResultVO();
 
-        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+        //blucean
+        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
 //        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
 
         String title = boardVO.getTitle();
@@ -403,7 +404,8 @@ public class BoardController {
     @GetMapping("/fileDownload")
     @ResponseBody
     public byte[] downProcess(HttpServletResponse response, @RequestParam(value = "fileName") String fileName) throws IOException {
-        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //외부망
+        //blucean
+        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
 //        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
 
         File file = new File(uploadPath + fileName);

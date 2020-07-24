@@ -17,7 +17,7 @@ public class SFV {
 
     // account
     public static final String STRING_RES_A_LOGIN_SUCCESS = "로그인을 성공하였습니다.";
-    public static final String STRING_RES_A_LOGIN_FAIL = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.";
+    public static final String STRING_RES_A_LOGIN_FAIL = "가입하지 않은 아이디 또는 잘못된 비밀번호입니다.";
     public static final String STRING_RES_A_LOGIN_CHECK = "아이디 혹은 패스워드가 일치하지 않습니다.";
 
     public static final int INT_RES_CODE_A_LOGIN_SUCCESS = 1000;
