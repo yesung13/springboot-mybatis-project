@@ -108,10 +108,6 @@
             return cnt;
         }
 
-        let dropFile = function(event) {
-            event.preventDefault();
-        }
-
         // 게시글 작성
         // #rest 방식
         // function write_btn() {
@@ -184,9 +180,8 @@
                         <label for="file">첨부파일</label>
                     </th>
                     <td>
-                        <input type="file" id="file" name="file[]" value="파일 선택" multiple ="multiple"/>
+                        <input type="file" id="file" name="file" value="파일 선택" multiple ="multiple"/>
                         <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
-                        <div onchange="dropfile();">Drap and Drop here.</div>
                     </td>
                 </tr>
 

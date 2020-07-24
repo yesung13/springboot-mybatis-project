@@ -41,10 +41,12 @@
                             console.log("Response Data:", res);
                             if (res.resCode === 604) {
                                 alert(res.resMsg);
+                                location.replace('/board/list');
                             } else if (res.resCode === 605) {
                                 alert(res.resMsg);
+                                location.reload();
                             }
-                            location.replace('/board/list');
+
 
                         }, error: function (xhr, e, data) {
                             console.log("Response Error", data);

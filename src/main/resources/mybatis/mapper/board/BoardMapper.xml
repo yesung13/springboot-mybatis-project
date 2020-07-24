@@ -28,7 +28,13 @@
 
     <!-- 게시글 상세 보기 -->
     <select id="findByBoardId" resultType="BoardVO">
-        SELECT boardId, accountId, title, content, writer, DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime, replyCnt
+        SELECT boardId,
+               accountId,
+               title,
+               content,
+               writer,
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime,
+               replyCnt
         FROM bbs_board
         WHERE boardId = #{boardId};
     </select>
@@ -58,13 +64,13 @@
 
     <!-- 게시글 검색 -->
     <select id="findBySearchKeyword" parameterType="SearchVO" resultType="BoardVO">
-        SELECT row_number() over (ORDER BY boardId)            AS no,
-               boardId,
-               title,
-               writer,
-               viewCnt,
-               replyCnt,
-               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        SELECT row_number() over (ORDER BY boardId) AS no,
+        boardId,
+        title,
+        writer,
+        viewCnt,
+        replyCnt,
+        DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
         FROM bbs_board
         WHERE 1=1 /*true 뜻 함*/
         <if test="keyword != null">
@@ -86,15 +92,16 @@
 
     <!-- 첨부파일 저장 -->
     <insert id="insertBoardFile" parameterType="FileVO">
-        INSERT INTO bbs_file (boardId, originFilename, saveFilename, fileSize)
-        VALUES (#{boardId}, #{originFilename}, #{saveFilename}, #{fileSize});
+        INSERT INTO bbs_file (boardId, originFilename, saveFilename, fileSize, delYn)
+        VALUES (#{boardId}, #{originFilename}, #{saveFilename}, #{fileSize}, 'N');
     </insert>
 
     <!-- 첨부파일 목록 -->
     <select id="findAllFileList" resultType="FileVO" parameterType="FileVO">
         SELECT fileId, boardId, originFilename, saveFilename, fileSize, createDatetime, delYn
         FROM bbs_file
-        WHERE boardId = #{boardId} AND fileSize != 0;
+        WHERE boardId = #{boardId}
+          AND fileSize > 0;
     </select>
 
     <!-- 해당 첨부 파일 찾기 -->
@@ -106,7 +113,8 @@
 
     <!-- 해당 첨부 파일 삭제 -->
     <delete id="deleteByFile" parameterType="Long">
-        DELETE FROM bbs_file
+        DELETE
+        FROM bbs_file
         WHERE fileId = #{fileId};
     </delete>
 
