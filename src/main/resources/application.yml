@@ -44,7 +44,7 @@ spring:
       # Max Request Size
       max-request-size: 215MB
       # 업로드된 파일의 임시 저장 공간
-#      location: C:\FileTemp
+      location: C:\upload\temp
 
 mybatis:
   configuration:

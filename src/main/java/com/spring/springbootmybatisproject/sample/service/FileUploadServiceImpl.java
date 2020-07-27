@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
@@ -43,7 +43,8 @@ public class FileUploadServiceImpl implements FileUploadService {
     private String genSaveFileName(String extName) {
         String fileName = "";
 
-        Calendar calendar = Calendar.getInstance();
+        TimeZone seoul = TimeZone.getTimeZone("Asia/Seoul");
+        Calendar calendar = Calendar.getInstance(seoul);
         fileName += calendar.get(Calendar.YEAR);
         fileName += calendar.get(Calendar.MONTH);
         fileName += calendar.get(Calendar.DATE);
@@ -52,7 +53,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         fileName += calendar.get(Calendar.SECOND);
         fileName += calendar.get(Calendar.MILLISECOND);
         fileName += extName;
-
+        System.out.println("[Calendar]" + calendar);
         return fileName;
     }
 

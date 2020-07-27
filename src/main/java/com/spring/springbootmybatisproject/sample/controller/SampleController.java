@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.sample.controller;
 
 import com.spring.springbootmybatisproject.sample.service.FileUploadService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class SampleController {
     @Autowired
     FileUploadService fileUploadService;
@@ -31,13 +33,8 @@ public class SampleController {
         return "result";
     }
 
-    // 다중 파일
-//    @PostMapping("/upload")
-//    public String upload(Model model,
-//                         @RequestParam("email") String email,
-//                         @RequestParam(required = false) List<MultipartFile> files) {
-//        String url = fileUploadService.restore((MultipartFile) files);
-//        model.addAttribute("url",url);
-//        return "result";
-//    }
+    @GetMapping("/uploadForm")
+    public void uploadForm(){
+        log.info("upload form");
+    }
 }

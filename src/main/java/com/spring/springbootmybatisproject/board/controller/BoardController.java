@@ -20,17 +20,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-    private final Date date = new Date();
-    private final DateFormat format = new SimpleDateFormat("yyyyMMdd");
-    private final String dateResult = format.format(date);
 
+    private static final String SAVE_PATH = "C:\\upload\\temp";
+    private static final String PREFIX_URL = "C:\\upload\\temp\\";
 
     private final BoardService boardService;
     private final ReplyService replyService;
@@ -125,6 +123,18 @@ public class BoardController {
 //        return SFV.INT_RES_CODE_FAIL;
 //    }
 
+    // 현재 시간을 기준으로 파일 이름 생성
+    private String genSaveFileName(String extName) {
+        String fileName = "";
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateResult = format.format(date);
+        fileName += dateResult;
+        fileName += extName;
+
+        return fileName;
+    }
+
     /**
      * 게시글 작성
      *
@@ -143,10 +153,6 @@ public class BoardController {
             // 파일 업로드
             Long boardId = boardVO.getBoardId();
             FileVO fileVO = new FileVO();
-            //blucean
-            String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
-            //pc
-//            String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
 
             List<MultipartFile> fileList = multipartReq.getFiles("file");
 
@@ -155,19 +161,26 @@ public class BoardController {
                 if (!mf.isEmpty()) {
 
                     String originFilename = mf.getOriginalFilename(); // 원본 파일명
-                    String saveFilename = dateResult + "_" + originFilename; // 저장될 파일명
+                    String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
+                    //서버에서 저장 할 파일 이름
+                    String saveFilename = genSaveFileName(extName);
+//                    String saveFilename = dateResult + "_" + originFilename; // 저장될 파일명
                     long fileSize = mf.getSize(); // 파일 사이즈
 
-                    log.info("originFilename=={}", originFilename);
-                    log.info("fileSize=={}", fileSize);
+                    System.out.println("originFilename: " + originFilename);
+                    System.out.println("extensionName: " + extName);
+                    System.out.println("fileSize: " + fileSize);
+                    System.out.println("saveFileName: " + saveFilename);
 
+                    String fileLocation = PREFIX_URL + saveFilename;
                     fileVO.setBoardId(boardId);
                     fileVO.setOriginFilename(originFilename);
                     fileVO.setSaveFilename(saveFilename);
+                    fileVO.setFileLocation(fileLocation);
                     fileVO.setFileSize(fileSize);
 
                     // disk 파일 저장
-                    String safeFile = uploadPath + originFilename;
+                    String safeFile = PREFIX_URL + originFilename;
                     try {
                         mf.transferTo(new File(safeFile)); // 디스크에 파일 저장
                         boardService.setBoardWrite(boardVO, fileVO);
@@ -243,10 +256,6 @@ public class BoardController {
     public ResultVO boardModify(@ModelAttribute BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
         ResultVO result = new ResultVO();
 
-        //blucean
-        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
-//        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
-
         String title = boardVO.getTitle();
         String content = boardVO.getContent();
         Long accountId = boardVO.getAccountId();
@@ -259,7 +268,7 @@ public class BoardController {
                 for (String cfn : checkFileNum) {
                     long fileId = Long.parseLong(cfn);
                     String originFilename = boardService.getFilename(fileId);
-                    String safeFile = uploadPath + originFilename;
+                    String safeFile = PREFIX_URL + originFilename;
 
                     // disk 첨부 파일 삭제
                     File removeFile = new File(safeFile);
@@ -282,19 +291,26 @@ public class BoardController {
                 if (!mf.isEmpty()) {
 
                     String newOriginFilename = mf.getOriginalFilename(); // 원본 파일명
-                    String newSaveFilename = dateResult + "_" + newOriginFilename; // 저장될 파일명
+                    String extName = newOriginFilename.substring(newOriginFilename.lastIndexOf("."), newOriginFilename.length());
+                    //서버에서 저장 할 파일 이름
+                    String newSaveFilename = genSaveFileName(extName);
+//                    String newSaveFilename = dateResult + "_" + newOriginFilename; // 저장될 파일명
                     long newFileSize = mf.getSize(); // 파일 사이즈
 
-                    log.info("newOriginFilename=={}", newOriginFilename);
-                    log.info("newFileSize=={}", newFileSize);
+                    System.out.println("originFilename: " + newOriginFilename);
+                    System.out.println("extensionName: " + extName);
+                    System.out.println("fileSize: " + newFileSize);
+                    System.out.println("saveFileName: " + newSaveFilename);
 
+                    String fileLocation = PREFIX_URL + newSaveFilename;
                     fileVO.setBoardId(boardId);
                     fileVO.setOriginFilename(newOriginFilename);
                     fileVO.setSaveFilename(newSaveFilename);
+                    fileVO.setFileLocation(fileLocation);
                     fileVO.setFileSize(newFileSize);
 
                     // disk 파일 저장
-                    String safeNewFile = uploadPath + newOriginFilename;
+                    String safeNewFile = PREFIX_URL + newOriginFilename;
 
                     try {
                         mf.transferTo(new File(safeNewFile));
@@ -404,11 +420,8 @@ public class BoardController {
     @GetMapping("/fileDownload")
     @ResponseBody
     public byte[] downProcess(HttpServletResponse response, @RequestParam(value = "fileName") String fileName) throws IOException {
-        //blucean
-        String uploadPath = "C:\\Users\\blucean\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\";
-//        String uploadPath = "C:\\Users\\berno\\IdeaProjects\\springboot-mybatis-project\\src\\main\\webapp\\uploadFiles\\"; //pc
 
-        File file = new File(uploadPath + fileName);
+        File file = new File(PREFIX_URL + fileName);
         byte[] bytes = FileCopyUtils.copyToByteArray(file);
         String fn = new String(file.getName().getBytes(), "iso_8859_1");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + fn + "\"");

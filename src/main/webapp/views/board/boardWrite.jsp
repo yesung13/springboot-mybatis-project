@@ -180,7 +180,7 @@
                         <label for="file">첨부파일</label>
                     </th>
                     <td>
-                        <input type="file" id="file" name="file" value="파일 선택" multiple ="multiple"/>
+                        <input type="file" id="file" name="file" value="파일 선택" multiple/>
                         <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
                     </td>
                 </tr>
