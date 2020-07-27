@@ -1,0 +1,77 @@
+/* 구글 웹폰트 */
+@import url("https://fonts.googleapis.com/css?family=Gothic+A1|Nanum+Gothic|Noto+Sans+KR&display=swap");
+#container {
+    margin: 20px;
+    /*margin: 0 auto; !* 가로로 중앙에 배치 *!*/
+}
+
+.navbar img {
+    vertical-align: middle;
+}
+
+.nav-link {
+    /* font-family: 'Nanum Gothic', sans-serif; */
+    font-size: 1.0em;
+    font-weight: 700;
+    color: black;
+}
+
+.nav-link:hover {
+    /* font-family: 'Nanum Gothic', sans-serif; */
+    font-size: 1.0em;
+    font-weight: 700;
+    color: #999999;
+}
+
+.form-inline {
+    font-size: 0.813rem;
+}
+
+.form-inline a:hover { /*클릭하지 않은 링크*/
+    text-decoration: none;
+}
+
+.form-inline a img {
+    vertical-align: middle;
+    /* 	width: 2.0em;
+    height: 2.0em; */
+}
+
+.snschat img {
+    width: 2.0em;
+    height: 2.0em;
+}
+
+.table th {
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 0.938em;
+    font-weight: 700;
+}
+
+.table td span {
+    font-family: 'Gothic A1', sans-serif;
+    font-size: 0.938em;
+    font-weight: 600;
+}
+
+.table td a {
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 0.938em;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.table .etc span {
+    font-family: 'Gothic A1', sans-serif;
+    font-size: 0.813em;
+    font-weight: 600;
+}
+
+.userimg {
+    width: 13.0em;
+    height: 13.0em;
+}
+
+.tcenter {
+    text-align: center;
+}

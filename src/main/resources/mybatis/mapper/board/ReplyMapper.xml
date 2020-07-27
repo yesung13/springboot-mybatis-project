@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springbootmybatisproject.board.repository.ReplyMapper">
+
+
+    <!-- 댓글 목록 -->
+    <select id="selBoardReply" parameterType="long" resultType="ReplyVO">
+        SELECT boardId, replyId, replyWriter, replyContent, DATE_FORMAT(replyDatetime, '%Y-%m-%d %H:%i:%s') AS replyDatetime
+        FROM bbs_reply
+        WHERE boardId = #{boardId}
+        ORDER BY replyDatetime DESC;
+
+    </select>
+
+    <!-- 댓글 쓰기-->
+    <insert id="insBoardReply" parameterType="ReplyVO">
+        INSERT INTO bbs_reply (accountId, boardId, replyWriter, replyContent)
+        VALUES (#{accountId}, #{boardId}, #{replyWriter}, #{replyContent});
+    </insert>
+
+    <!-- 댓글 수정 -->
+    <update id="updBoardReply" parameterType="ReplyVO">
+        UPDATE bbs_reply
+        SET replyContent = #{replyContent}
+        WHERE replyId = #{replyId};
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delBoardReply" parameterType="long">
+        DELETE
+        FROM bbs_reply
+        WHERE replyId = #{replyId};
+    </delete>
+
+    <!-- 댓글 수 증가 -->
+    <update id="increaseReplyCnt" parameterType="long">
+        UPDATE bbs_board
+        SET replyCnt = replyCnt + 1
+        WHERE boardId = #{boardId};
+    </update>
+
+    <!-- 댓글 수 감소 -->
+    <update id="decreaseReplyCnt" parameterType="long">
+        UPDATE bbs_board
+        SET replyCnt = replyCnt - 1 AND replyCnt > 0
+        WHERE boardId = #{boardId};
+    </update>
+</mapper>

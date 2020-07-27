@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springbootmybatisproject.account.repository.AccountMapper">
+    <select id="findAll" resultType="AccountVO">
+        SELECT *
+        FROM bbs_account
+    </select>
+
+
+    <!--    <select id="findByAccount" resultType="AccountVO" parameterType="AccountVO">-->
+    <!--        SELECT accountId, accountEmail, accountPassword, userName-->
+    <!--        FROM bbs_account-->
+    <!--        WHERE accountEmail = #{accountEmail} AND accountPassword = #{accountPassword};-->
+    <!--    </select>-->
+
+    <select id="findByAccount" resultType="AccountVO" parameterType="AccountVO">
+        SELECT accountId, accountEmail, accountPassword, userName
+        FROM bbs_account
+        <where>
+            <if test="accountEmail != null and accountPassword != null">
+                AND accountEmail = #{accountEmail} AND accountPassword = #{accountPassword};
+            </if>
+            <!--            <if test="accountEmail != null">-->
+            <!--                AND accountEmail = #{accountEmail}-->
+            <!--            </if>-->
+            <!--            <if test="accountPassword != null">-->
+            <!--                AND accountPassword = #{accountPassword}-->
+            <!--            </if>-->
+        </where>
+
+    </select>
+</mapper>

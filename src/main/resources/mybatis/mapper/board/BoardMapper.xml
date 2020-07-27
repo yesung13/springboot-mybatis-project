@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springbootmybatisproject.board.repository.BoardMapper">
+    <!--
+        resultType에서 List 부분의 경우 List을 전달 하는 것이 아니라 결과 형(String, Map 등등)을 전달 하는것
+        출처: https://lahuman.jabsiri.co.kr/56 [lahuman & jabsiri 노트]
+     -->
+
+    <!-- 게시글 총 갯수 -->
+    <select id="boardListTotalCnt" resultType="Integer">
+        SELECT count(*)
+        FROM bbs_board;
+    </select>
+
+    <!-- 게시글 목록 -->
+    <select id="findAll" resultType="BoardVO">
+        SELECT row_number() over (ORDER BY boardId)            AS no,
+               boardId,
+               title,
+               writer,
+               viewCnt,
+               replyCnt,
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        FROM bbs_board
+        ORDER BY no DESC
+        limit #{startIndex}, #{cntPerPage};
+    </select>
+
+    <!-- 게시글 상세 보기 -->
+    <select id="findByBoardId" resultType="BoardVO">
+        SELECT boardId,
+               accountId,
+               title,
+               content,
+               writer,
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime,
+               replyCnt
+        FROM bbs_board
+        WHERE boardId = #{boardId};
+    </select>
+
+    <!-- 게시글 작성 -->
+    <insert id="saveBoardWrite" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardId">
+        INSERT INTO bbs_board (accountId, title, content, writer)
+        VALUES (#{accountId}, #{title}, #{content}, #{writer});
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updateById" parameterType="BoardVO">
+        UPDATE bbs_board
+        SET title           = #{title},
+            content         = #{content},
+            boardUpDatetime = #{boardUpDatetime}
+        WHERE boardId = #{boardId};
+
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteById" parameterType="Long">
+        DELETE
+        FROM bbs_board
+        WHERE boardId = #{boardId};
+    </delete>
+
+    <!-- 검색 게시글 총 갯수 -->
+    <select id="searchBoardListTotalCnt" parameterType="SearchVO" resultType="Integer">
+        SELECT count(*)
+        FROM bbs_board
+        WHERE 1=1
+        <if test="keyword != null">
+            <choose>
+                <when test="type == 'title'">AND title LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'content'">AND content LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'writer'">AND writer LIKE CONCAT('%',#{keyword},'%')</when>
+            </choose>
+        </if>
+    </select>
+
+    <!-- 게시글 검색 목록 -->
+    <select id="findBySearchKeyword" parameterType="SearchVO" resultType="BoardVO">
+        SELECT row_number() over (ORDER BY boardId) AS no,
+        boardId,
+        title,
+        writer,
+        viewCnt,
+        replyCnt,
+        DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+        FROM bbs_board
+        WHERE 1=1 /*true 뜻 함*/
+        <if test="keyword != null">
+            <choose>
+                <when test="type == 'title'">AND title LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'content'">AND content LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'writer'">AND writer LIKE CONCAT('%',#{keyword},'%')</when>
+            </choose>
+        </if>
+        ORDER BY no DESC
+        limit #{startIndex}, #{cntPerPage};
+    </select>
+
+    <!-- 게시글 조회수 -->
+    <update id="increaseViewCnt" parameterType="Long">
+        UPDATE bbs_board
+        SET viewCnt = viewCnt + 1
+        WHERE boardId = #{boardId};
+    </update>
+
+    <!-- 첨부파일 저장 -->
+    <insert id="insertBoardFile" parameterType="FileVO">
+        INSERT INTO bbs_file (boardId, originFilename, saveFilename, fileSize, delYn)
+        VALUES (#{boardId}, #{originFilename}, #{saveFilename}, #{fileSize}, 'N');
+    </insert>
+
+    <!-- 첨부파일 목록 -->
+    <select id="findAllFileList" resultType="FileVO" parameterType="FileVO">
+        SELECT fileId, boardId, originFilename, saveFilename, fileSize, createDatetime, delYn
+        FROM bbs_file
+        WHERE boardId = #{boardId}
+          AND fileSize > 0;
+    </select>
+
+    <!-- 해당 첨부 파일 찾기 -->
+    <select id="findByFilename" resultType="String" parameterType="Long">
+        SELECT originFilename
+        FROM bbs_file
+        WHERE fileId = #{fileId};
+    </select>
+
+    <!-- 해당 첨부 파일 삭제 -->
+    <delete id="deleteByFile" parameterType="Long">
+        DELETE
+        FROM bbs_file
+        WHERE fileId = #{fileId};
+    </delete>
+
+
+</mapper>

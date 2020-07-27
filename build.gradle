@@ -46,15 +46,15 @@ repositories {
 //    }
     mavenCentral()
 }
-
 dependencies {
+
 
     //init
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     //spring security
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
 
 
     //embed Tomcat Starter
@@ -67,10 +67,15 @@ dependencies {
     implementation 'org.mybatis:mybatis-spring:2.0.3' // 스프링과 Mybatis를 연결
     implementation 'org.springframework.boot:spring-boot-starter-jdbc' // DataSource에 필요한 클래스 제공
 
+    //multipart
+    compileOnly 'commons-io:commons-io:2.6'
+    compileOnly 'org.apache.commons:commons-lang3:3.9'
+
     //etc
     compileOnly 'javax.servlet:jstl'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
 
 }
-
