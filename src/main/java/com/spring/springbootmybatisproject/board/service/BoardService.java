@@ -27,6 +27,9 @@ public interface BoardService {
     // 게시글 삭제
     void getBoardDelete(Long boardId);
 
+    // 검색 게시글 총 갯수
+    int getSearchBoardListTotalCnt(SearchVO searchVO);
+
     // 게시글 검색
     List<BoardVO> getBoardSearch(SearchVO searchVO);
 

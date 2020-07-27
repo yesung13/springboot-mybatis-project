@@ -9,7 +9,7 @@ import org.apache.ibatis.type.Alias;
 @Setter
 @NoArgsConstructor
 @Alias("SearchVO")
-public class SearchVO {
+public class SearchVO extends BoardVO {
     private String type;
     private String keyword;
 }

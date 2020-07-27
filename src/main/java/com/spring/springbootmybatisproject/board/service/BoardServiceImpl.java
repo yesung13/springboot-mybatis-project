@@ -96,6 +96,10 @@ public class BoardServiceImpl implements BoardService {
 
     }
 
+    // 검색 게시글 총 갯수
+    @Override
+    public int getSearchBoardListTotalCnt(SearchVO searchVO) { return boardMapper.searchBoardListTotalCnt(searchVO); }
+
     // 게시글 검색
     @Override
     public List<BoardVO> getBoardSearch(SearchVO searchVO) {

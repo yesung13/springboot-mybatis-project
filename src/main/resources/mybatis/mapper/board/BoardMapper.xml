@@ -62,7 +62,21 @@
         WHERE boardId = #{boardId};
     </delete>
 
-    <!-- 게시글 검색 -->
+    <!-- 검색 게시글 총 갯수 -->
+    <select id="searchBoardListTotalCnt" parameterType="SearchVO" resultType="Integer">
+        SELECT count(*)
+        FROM bbs_board
+        WHERE 1=1
+        <if test="keyword != null">
+            <choose>
+                <when test="type == 'title'">AND title LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'content'">AND content LIKE CONCAT('%',#{keyword},'%')</when>
+                <when test="type == 'writer'">AND writer LIKE CONCAT('%',#{keyword},'%')</when>
+            </choose>
+        </if>
+    </select>
+
+    <!-- 게시글 검색 목록 -->
     <select id="findBySearchKeyword" parameterType="SearchVO" resultType="BoardVO">
         SELECT row_number() over (ORDER BY boardId) AS no,
         boardId,
@@ -81,6 +95,7 @@
             </choose>
         </if>
         ORDER BY no DESC
+        limit #{startIndex}, #{cntPerPage};
     </select>
 
     <!-- 게시글 조회수 -->

@@ -31,6 +31,9 @@ public interface BoardMapper {
     // 게시글 삭제
     void deleteById(Long boardId);
 
+    // 검색 게시글 총 갯수
+    int searchBoardListTotalCnt(SearchVO searchVO);
+
     // 게시글 검색
     List<BoardVO> findBySearchKeyword(SearchVO searchVO);
 

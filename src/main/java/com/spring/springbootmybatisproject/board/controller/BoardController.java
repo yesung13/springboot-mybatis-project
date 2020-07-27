@@ -376,6 +376,19 @@ public class BoardController {
 //        } else if (type.equals("writer") && keyword != null) {
 //            searchList = boardService.getBoardSearch(keyword);
 //        }
+
+        // 키워드, 타입 클라이언트로 재전송
+        model.addAttribute("keyword", searchVO.getKeyword());
+        model.addAttribute("type", searchVO.getType());
+
+        // 전체 리스트 개수
+        int listCnt = boardService.getSearchBoardListTotalCnt(searchVO);
+        Pagination pagination = new Pagination(listCnt, curPage);
+        searchVO.setStartIndex(pagination.getStartIndex());
+        searchVO.setCntPerPage(pagination.getPageSize());
+        model.addAttribute("listCnt", listCnt);
+        model.addAttribute("pagination", pagination);
+
         List<BoardVO> searchList = boardService.getBoardSearch(searchVO);
         ModelAndView mv = new ModelAndView();
         mv.addObject("boardList", searchList); // jstl로 호출
