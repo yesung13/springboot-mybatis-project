@@ -107,8 +107,8 @@
 
     <!-- 첨부파일 저장 -->
     <insert id="insertBoardFile" parameterType="FileVO">
-        INSERT INTO bbs_file (boardId, originFilename, saveFilename, fileSize, delYn)
-        VALUES (#{boardId}, #{originFilename}, #{saveFilename}, #{fileSize}, 'N');
+        INSERT INTO bbs_file (boardId, originFilename, saveFilename, fileSize, fileLocation, delYn)
+        VALUES (#{boardId}, #{originFilename}, #{saveFilename}, #{fileSize}, #{fileLocation}, 'N');
     </insert>
 
     <!-- 첨부파일 목록 -->

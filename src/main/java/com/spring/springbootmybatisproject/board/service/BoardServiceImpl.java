@@ -45,7 +45,7 @@ public class BoardServiceImpl implements BoardService {
 
     // 게시글 작성
     @Override
-    public void setBoardWrite(BoardVO boardVO, FileVO fileVO) throws Exception {
+    public Long setBoardWrite(BoardVO boardVO) throws Exception {
         String content = boardVO.getContent().replaceAll("\r\n", "<br />");
         BoardVO vo = BoardVO.builder()
                 .accountId(boardVO.getAccountId())
@@ -54,20 +54,24 @@ public class BoardServiceImpl implements BoardService {
                 .writer(boardVO.getWriter())
                 .build();
         boardMapper.saveBoardWrite(vo);
+        return vo.getBoardId();
+    }
 
-        // 게시글 파일 업로드
+    // 게시글 파일 업로드
+    @Override
+    public void addBoardFile(FileVO fileVO) throws Exception {
+
         String originFileName = fileVO.getOriginFilename();
-        if(originFileName != null){
-            Long boardId = vo.getBoardId(); // saveBoardWrite의 auto값을 리턴 받아 사용.
+        if (originFileName != null) {
+            Long boardId = fileVO.getBoardId();
             fileVO.setBoardId(boardId);
             boardMapper.insertBoardFile(fileVO);
         }
-
     }
 
     // 게시글 수정
     @Override
-    public void setBoardModify(BoardVO boardVO, FileVO fileVO) {
+    public Long setBoardModify(BoardVO boardVO) {
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateResult = format.format(date);
@@ -80,13 +84,7 @@ public class BoardServiceImpl implements BoardService {
                 .boardUpDatetime(dateResult)
                 .build();
         boardMapper.updateById(vo);
-
-        // 게시글 새 파일 업로드
-        String originFileName = fileVO.getOriginFilename();
-        if(originFileName != null){
-            fileVO.setBoardId(vo.getBoardId());
-            boardMapper.insertBoardFile(fileVO);
-        }
+        return vo.getBoardId();
     }
 
     // 게시글 삭제
@@ -98,7 +96,9 @@ public class BoardServiceImpl implements BoardService {
 
     // 검색 게시글 총 갯수
     @Override
-    public int getSearchBoardListTotalCnt(SearchVO searchVO) { return boardMapper.searchBoardListTotalCnt(searchVO); }
+    public int getSearchBoardListTotalCnt(SearchVO searchVO) {
+        return boardMapper.searchBoardListTotalCnt(searchVO);
+    }
 
     // 게시글 검색
     @Override
