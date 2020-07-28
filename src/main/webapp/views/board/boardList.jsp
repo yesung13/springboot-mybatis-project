@@ -40,9 +40,14 @@
         }
 
         //페이징
-        function fn_paging(curPage) {
-            location.href = "/board/list?curPage=" + curPage;
+        function fn_paging(curPage, type, keyword) {
+            if(type != null && keyword != null && type !== '' && keyword !== '') {
+                location.href = "/board/search?curPage=" + curPage + "&type=" + type + "&keyword=" + keyword;
+            } else {
+                location.href = "/board/list?curPage=" + curPage;
+            }
         }
+
     </script>
 
 </head>
@@ -147,12 +152,12 @@
         <ul class="pagination pagination-sm justify-content-center">
             <li class="page-item">
                 <c:if test="${pagination.curRange ne 1 }">
-                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging(1)">[처음]</a>
+                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging(1, '${type}', '${keyword}')">[처음]</a>
                 </c:if>
             </li>
             <li class="page-item">
                 <c:if test="${pagination.curPage ne 1}">
-                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }')"
+                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }', '${type}', '${keyword}')"
                        aria-label="previous"><</a>
                 </c:if>
             </li>
@@ -162,26 +167,26 @@
                         <c:when test="${pageNum eq  pagination.curPage}">
                     <span class="font-weight-bold">
                         <a href="javascript:void(0)" class="page-link"
-                           onClick="fn_paging('${pageNum }')">${pageNum }</a>
+                           onClick="fn_paging('${pageNum }', '${type}', '${keyword}')">${pageNum }</a>
                     </span>
                         </c:when>
                         <c:otherwise>
                             <a href="javascript:void(0)" class="page-link"
-                               onClick="fn_paging('${pageNum }')">${pageNum }</a>
+                               onClick="fn_paging('${pageNum }', '${type}', '${keyword}')">${pageNum }</a>
                         </c:otherwise>
                     </c:choose>
                 </li>
             </c:forEach>
             <li class="page-item">
                 <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }')"
+                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }', '${type}', '${keyword}')"
                        aria-label="next">></a>
                 </c:if>
             </li>
             <li class="page-item">
                 <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
                     <a href="javascript:void(0)" class="page-link"
-                       onClick="fn_paging('${pagination.pageCnt }')">[끝]</a>
+                       onClick="fn_paging('${pagination.pageCnt }', '${type}', '${keyword}')">[끝]</a>
                 </c:if>
             </li>
         </ul>
