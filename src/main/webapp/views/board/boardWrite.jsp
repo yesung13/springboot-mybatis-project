@@ -31,9 +31,42 @@
             color: #4374D9;
         }
 
-        div > input {
-            width: 100px;
+        .uploadResult {
+            width: 100%;
+            /*background-color: gray;*/
         }
+
+        .uploadResult ul {
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .uploadResult ul li {
+            list-style: none;
+            padding: 10px;
+        }
+
+
+        .uploadResult ul li img {
+            width: 30px;
+        }
+
+        .bigPicture {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bigPicture img {
+            width: 600px;
+        }
+
+        /*div > input {*/
+        /*    width: 100px;*/
+        /*}*/
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -43,7 +76,135 @@
             $('#back_btn').click(function () {
                 window.location.href = '/board/list';
             });
-        });
+
+            //업로드한 파일 이름 출력
+            function showUploadResult(uploadResultArr) {
+                if (!uploadResultArr || uploadResultArr.length === 0) {
+                    return;
+                }
+
+                let uploadUL = $(".uploadResult ul");
+
+                let str = "";
+
+                $(uploadResultArr).each(function (i, obj) {
+
+                    // image type
+                    if (obj.image) {
+                        let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+                        let originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName;
+
+                        originPath = originPath.replace(new RegExp(/\\/g), "/");
+                        str += "<li><div>" +
+                            "<span> " + obj.fileName + "</span>" +
+                            "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
+                            // "<a href=\"javascript:showImg(\'" + originPath + "\')\"><img src='/display?fileName=" + fileCallPath + "'></a>" +
+                            "<img src='/board/display?fileName=" + fileCallPath + "'>" +
+                            // "<span data-file=\'" + fileCallPath + "\' data-type='image'> x </span>" +
+                            "</div></li>";
+
+
+                        // str += "<li><a href=\"javascript:showImg(\'" + originPath + "\')\"><img src='/board/display?fileName=" + fileCallPath + "'></a>" +
+                        //     "<span data-file=\'" + fileCallPath + "\' data-type='image'> x </span>" +
+                        //     "</li>";
+
+                    } else {
+
+                        let fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+
+                        let fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+
+                        str += "<li><div>" +
+                            "<span> " + obj.fileName + "</span>" +
+                            "<button type='button'  data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
+                            "<img src='/resources/images/attach.png'></a>" +
+                            "<div></li>"
+                    }
+                });
+
+                uploadUL.append(str);
+            }
+
+            // end 업로드한 파일 이름 출력
+            // #파일 업로드 상세처리
+            // 정규 표현식(regex)
+            let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+            let maxSize = 225443840; //215MB
+
+            function checkExtension(fileName, fileSize) {
+
+                if (fileSize >= maxSize) {
+                    alert("파일 사이즈 초과");
+                    return false;
+                }
+
+                if (regex.test(fileName)) {
+                    alert("해당 종류의 파일은 업로드 할 수 없습니다.")
+                    return false;
+                }
+                return true;
+
+            }
+
+            // end 파일 업로드 상세처리
+
+            $("input[type='file']").change(function (e) {
+                let formData = new FormData();
+
+                let inputFile = $("input[name='uploadFile']");
+
+                let files = inputFile[0].files;
+
+                let cloneObj = $(".uploadDiv").clone();
+                //add filedata to formdata
+                for (let i = 0; i < files.length; i++) {
+                    if (!checkExtension(files[i].name, files[i].size)) {
+                        return false;
+                    }
+                    formData.append("uploadFile", files[i]);
+                }
+                $.ajax({
+                    url: '/board/uploadAjaxAct',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result);
+                        showUploadResult(result); //업로드 결과 처리 함수
+
+                        $(".uploadDiv").html(cloneObj.html());
+                    }
+                }); //$.ajax
+
+            });
+            // 파일삭제 'x' 버튼 이벤트
+            $(".uploadResult").on("click", "button", function (e) {
+
+                console.log("delete file");
+
+                let targetFile = $(this).data("file");
+                let type = $(this).data("type");
+
+                let targetLi = $(this).closest("li");
+
+                $.ajax({
+                    url: '/board/deleteFile',
+                    data: {fileName: targetFile, type: type},
+                    dataType: 'text',
+                    type: 'POST',
+                    success: function (result) {
+                        alert(result);
+                        targetLi.remove();
+                        // location.reload();
+                    }
+                }); //$.ajax
+            });
+
+
+        }); // end doc ready
+
 
         // 게시글 제목, 내용 유효성 검사
         function writeCheck_btn() {
@@ -64,13 +225,31 @@
         }
 
         function write_btn() {
-            let requestUrl = '/board/setWrite';
-            let form = $('#form')[0];
-            let data = new FormData(form);
+            // let form = $('#form')[0];
+            let formObj = $("#form")[0];
+            console.log("submit clicked");
+
+            let str = "";
+            $(".uploadResult ul li").each(function (i, obj) {
+                let jobj = $(obj);
+
+                // console.log("-------------------------");
+                // console.log(jobj.data("filename"));
+                console.dir(jobj);
+
+                str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+            });
+            formObj.append(str);
+
+            let data = new FormData(formObj);
+
             console.log("Insert Request Data:", data);
             $.ajax({
                 type: "POST",
-                url: requestUrl,
+                url: '/board/setWrite',
                 data: data,
                 processData: false,
                 contentType: false,
@@ -94,6 +273,7 @@
             });
         }
 
+
         // 글 입력 시 카운트
         $(document).on('keyup', '#content', function (e) {
             let textarea01 = $(this).val();
@@ -108,36 +288,7 @@
             return cnt;
         }
 
-        // 게시글 작성
-        // #rest 방식
-        // function write_btn() {
-        //     let requestUrl = '/board/setWrite';
-        //     let data = {};
-        //     data.title = $("#title").val(); // 객체의 속성 추가
-        //     data.content = $("#content").val();
-        //     data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
-        //     console.log("Insert Request Data:", data);
-        //     $.ajax({
-        //         type: 'post',
-        //         url: requestUrl,
-        //         data: data,
-        //         dataType: 'json',
-        //         contentType: 'application/json',
-        //         success: function (response) {
-        //             console.log("Insert Response Data:", response);
-        //             if (response === 200) {
-        //                 alert("생성을 성공했습니다.")
-        //                 location.replace('/board/list');
-        //             } else if (response !== 200) {
-        //                 alert("생성을 실패했습니다.")
-        //             }
-        //         },
-        //         error: function (xhr, e, response) {
-        //             console.log("Insert Error:", xhr, e, response);
-        //             alert("에러!!")
-        //         }
-        //     });
-        // }
+
     </script>
 </head>
 <body>
@@ -149,7 +300,6 @@
 <section>
     <div class="container mt-5">
         <h3 class="text-center">글쓰기</h3>
-        <%--        <form id="form" enctype="multipart/form-data">--%>
         <form id="form">
             <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
             <input type="hidden" value="${sessionScope.account.userName}" name="writer">
@@ -180,17 +330,23 @@
                         <label for="file">첨부파일</label>
                     </th>
                     <td>
-                        <input type="file" id="file" name="file" value="파일 선택" multiple/>
-                        <span class="date">&nbsp;&nbsp;*&nbsp;임의로 파일명이 변경될 수 있습니다.</span>
+                        <div class="uploadDiv">
+                            <input type="file" id="file" name="uploadFile" multiple/>
+                            <span class="date">&nbsp;&nbsp;※&nbsp;jpg, png, zip, hwp, docx, pdf 확장자만 첨부 가능 </span>
+                        </div>
+                        <div class="uploadResult">
+                            <ul></ul>
+                        </div>
                     </td>
                 </tr>
 
             </table>
             <br/>
             <div class="row justify-content-center">
-                <input type="reset" value="초기화" class="btn btn-outline-secondary"/>
-                <input type="button" id="write_btn" value="작성" class="btn btn-outline-secondary mx-1"/>
-                <input type="button" id="back_btn" value="취소" class="btn btn-outline-secondary"/>
+                <button type="reset" class="btn btn-outline-secondary">초기화</button>
+                <button type="button" id="write_btn" class="btn btn-outline-secondary mx-1">작성</button>
+                <%--                <button type="submit" class="btn btn-outline-secondary mx-1">작성</button>--%>
+                <button type="button" id="back_btn" class="btn btn-outline-secondary">취소</button>
             </div>
         </form>
     </div>
