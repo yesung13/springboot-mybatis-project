@@ -156,7 +156,7 @@ public class BoardController {
 
                 // 파일 업로드
                 FileVO fileVO = new FileVO();
-                List<MultipartFile> fileList = multipartReq.getFiles("file");
+                List<MultipartFile> fileList = multipartReq.getFiles("uploadFile");
                 // 향상된 for문 -> for((2)타입 변수 : (1)배열){(3)실행문}
                 for (MultipartFile mf : fileList) {
                     if (!mf.isEmpty()) {

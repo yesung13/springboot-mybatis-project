@@ -60,7 +60,7 @@ server:
       init-parameters:
         development: true #서버 재시작없이 바로 업데이트됨
     session:
-      timeout: 10m
+      timeout: 30m
 
   port: 8080
 
