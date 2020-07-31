@@ -1,5 +1,5 @@
 package com.spring.springbootmybatisproject.board.model;
-
+//미사용
 public interface BoardProjection {
     int getNo();
 
