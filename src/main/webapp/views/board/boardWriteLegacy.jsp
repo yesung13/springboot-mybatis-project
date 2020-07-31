@@ -7,7 +7,6 @@
 --%>
 <%--
     애로사항
-    - 글쓰기 시 파일첨부 후 초기화 버튼을 누르면 'byte' 글자가 상세보기 페이지에서 보임
     - 파일 첨부 시 [취소] 버튼 구현해야 됨
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

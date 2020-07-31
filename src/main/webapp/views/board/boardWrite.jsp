@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: berno
-  Date: 2020-05-20
-  Time: 오전 2:05
+  Date: 2020-07-31
+  Time: 오후 15:32
   To change this template use File | Settings | File Templates.
 --%>
 <%--
@@ -70,64 +70,49 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#write_btn').click(function () {
-                writeCheck_btn();
-            });
+            // $('#write_btn').click(function () {
+            //     writeCheck_btn();
+            // });
+            // $("button[type='submit']").click(function () {
+            //     writeCheck_btn();
+            // });
             $('#back_btn').click(function () {
                 window.location.href = '/board/list';
             });
 
-            //업로드한 파일 이름 출력
-            function showUploadResult(uploadResultArr) {
-                if (!uploadResultArr || uploadResultArr.length === 0) {
-                    return;
-                }
+            var formObj = $("form[role='form']");
 
-                let uploadUL = $(".uploadResult ul");
+            $("button[type='submit']").on("click", function (e) {
 
-                let str = "";
+                e.preventDefault();
 
-                $(uploadResultArr).each(function (i, obj) {
+                console.log("submit clicked");
 
-                    // image type
-                    if (obj.image) {
-                        let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-                        let originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName;
+                var str = "";
 
-                        originPath = originPath.replace(new RegExp(/\\/g), "/");
-                        str += "<li><div>" +
-                            "<span> " + obj.fileName + "</span>" +
-                            "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
-                            // "<a href=\"javascript:showImg(\'" + originPath + "\')\"><img src='/display?fileName=" + fileCallPath + "'></a>" +
-                            "<img src='/board/display?fileName=" + fileCallPath + "'>" +
-                            // "<span data-file=\'" + fileCallPath + "\' data-type='image'> x </span>" +
-                            "</div></li>";
+                $(".uploadResult ul li").each(function (i, obj) {
+
+                    var jobj = $(obj);
+
+                    console.dir(jobj);
+                    console.log("-------------------------");
+                    console.log(jobj.data("filename"));
 
 
-                        // str += "<li><a href=\"javascript:showImg(\'" + originPath + "\')\"><img src='/board/display?fileName=" + fileCallPath + "'></a>" +
-                        //     "<span data-file=\'" + fileCallPath + "\' data-type='image'> x </span>" +
-                        //     "</li>";
+                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
 
-                    } else {
-
-                        let fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
-
-                        let fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
-
-                        str += "<li><div>" +
-                            "<span> " + obj.fileName + "</span>" +
-                            "<button type='button'  data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
-                            "<img src='/resources/images/attach.png'></a>" +
-                            "<div></li>"
-                    }
                 });
 
-                uploadUL.append(str);
-            }
+                console.log(str);
 
-            // end 업로드한 파일 이름 출력
-            // #파일 업로드 상세처리
-            // 정규 표현식(regex)
+                formObj.append(str).submit();
+
+            });
+
+            // 정규 표현식(regex). 파일 검사
             let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
             let maxSize = 225443840; //215MB
 
@@ -146,8 +131,9 @@
 
             }
 
-            // end 파일 업로드 상세처리
+            // end 정규 표현식(regex). 파일 검사
 
+            // 파일 업로드 상세처리
             $("input[type='file']").change(function (e) {
                 let formData = new FormData();
 
@@ -155,7 +141,7 @@
 
                 let files = inputFile[0].files;
 
-                let cloneObj = $(".uploadDiv").clone();
+                // let cloneObj = $(".uploadDiv").clone();
                 //add filedata to formdata
                 for (let i = 0; i < files.length; i++) {
                     if (!checkExtension(files[i].name, files[i].size)) {
@@ -174,11 +160,52 @@
                         console.log(result);
                         showUploadResult(result); //업로드 결과 처리 함수
 
-                        $(".uploadDiv").html(cloneObj.html());
+                        // $(".uploadDiv").html(cloneObj.html());
                     }
                 }); //$.ajax
 
             });
+
+            //업로드 한 파일 이름 출력
+            function showUploadResult(uploadResultArr) {
+                if (!uploadResultArr || uploadResultArr.length === 0) {
+                    return;
+                }
+
+                let uploadUL = $(".uploadResult ul");
+
+                let str = "";
+
+                $(uploadResultArr).each(function (i, obj) {
+
+                    // image type
+                    if (obj.image) {
+                        let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+                        str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>" +
+                            "<span> " + obj.fileName + "</span>" +
+                            "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
+                            "<img src='/board/display?fileName=" + fileCallPath + "'>" +
+                            "</div></li>";
+                    } else {
+
+                        let fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+
+                        let fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+
+                        str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>" +
+                            "<span> " + obj.fileName + "</span>" +
+                            "<button type='button'  data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
+                            "<img src='/resources/images/attach.png'></a>" +
+                            "<div></li>"
+                    }
+                });
+
+                uploadUL.append(str);
+            }
+
+            // end 업로드한 파일 이름 출력
+
+
             // 파일삭제 'x' 버튼 이벤트
             $(".uploadResult").on("click", "button", function (e) {
 
@@ -201,77 +228,62 @@
                     }
                 }); //$.ajax
             });
+            // end 파일삭제 'x' 버튼 이벤트
 
 
         }); // end doc ready
 
 
         // 게시글 제목, 내용 유효성 검사
-        function writeCheck_btn() {
-            let title = $("#title").val();
-            let content = $("#content").val();
-            if (title == null || title === "") {
-                alert("제목을 입력해 주세요!");
-                $("#title").focus();
-                return false;
-            }
+        // function writeCheck_btn() {
+        //     let title = $("#title").val();
+        //     let content = $("#content").val();
+        //     if (title == null || title === "") {
+        //         alert("제목을 입력해 주세요!");
+        //         $("#title").focus();
+        //         return false;
+        //     }
+        //
+        //     if (content == null || content === "") {
+        //         alert("내용을 입력해 주세요!");
+        //         $("#content").focus();
+        //         return false;
+        //     }
+        //     return write_btn();
+        // }
 
-            if (content == null || content === "") {
-                alert("내용을 입력해 주세요!");
-                $("#content").focus();
-                return false;
-            }
-            return write_btn();
-        }
-
-        function write_btn() {
-            // let form = $('#form')[0];
-            let formObj = $("#form")[0];
-            console.log("submit clicked");
-
-            let str = "";
-            $(".uploadResult ul li").each(function (i, obj) {
-                let jobj = $(obj);
-
-                // console.log("-------------------------");
-                // console.log(jobj.data("filename"));
-                console.dir(jobj);
-
-                str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
-                str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
-                str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
-                str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
-            });
-            formObj.append(str);
-
-            let data = new FormData(formObj);
-
-            console.log("Insert Request Data:", data);
-            $.ajax({
-                type: "POST",
-                url: '/board/setWrite',
-                data: data,
-                processData: false,
-                contentType: false,
-                // cache: false,
-                // timeout: 600000,
-                success: function (response) {
-                    console.log("Insert Response Data:", response);
-                    if (response.resCode === 600) {
-                        alert(response.resMsg);
-                        location.replace('/board/list');
-                    } else if (response.resCode === 601) {
-                        alert(response.resMsg);
-                    } else if (response.resCode === 607) {
-                        alert(response.resMsg);
-                    }
-                },
-                error: function (xhr, e, response) {
-                    console.log("Insert Error:", xhr, e, response);
-                    alert("에러!!")
-                }
-            });
-        }
+        // 게시글 등록
+        // function write_btn() {
+        // let form = $('#form')[0];
+        // let data = new FormData(form);
+        //
+        // console.log("Insert Request Data:", data);
+        // $.ajax({
+        //     type: "POST",
+        //     url: '/board/register',
+        //     // url: '/board/setWrite',
+        //     data: data,
+        //     processData: false,
+        //     contentType: false,
+        //     // cache: false,
+        //     // timeout: 600000,
+        //     success: function (response) {
+        //         console.log("Insert Response Data:", response);
+        //         if (response.resCode === 600) {
+        //             alert(response.resMsg);
+        //             location.replace('/board/list');
+        //         } else if (response.resCode === 601) {
+        //             alert(response.resMsg);
+        //         } else if (response.resCode === 607) {
+        //             alert(response.resMsg);
+        //         }
+        //     },
+        //     error: function (xhr, e, response) {
+        //         console.log("Insert Error:", xhr, e, response);
+        //         alert("에러!!")
+        //     }
+        // });
+        // }
 
 
         // 글 입력 시 카운트
@@ -281,8 +293,8 @@
         });
 
         function getBytes(str) {
-            var cnt = 0;
-            for (var i = 0; i < str.length; i++) {
+            let cnt = 0;
+            for (let i = 0; i < str.length; i++) {
                 cnt += (str.charCodeAt(i) > 128) ? 2 : 1;
             }
             return cnt;
@@ -300,7 +312,7 @@
 <section>
     <div class="container mt-5">
         <h3 class="text-center">글쓰기</h3>
-        <form id="form">
+        <form id="form" role="form" action="${pageContext.request.contextPath}/board/register" method="post">
             <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
             <input type="hidden" value="${sessionScope.account.userName}" name="writer">
             <table class="table table-bordered">
@@ -344,8 +356,8 @@
             <br/>
             <div class="row justify-content-center">
                 <button type="reset" class="btn btn-outline-secondary">초기화</button>
-                <button type="button" id="write_btn" class="btn btn-outline-secondary mx-1">작성</button>
-                <%--                <button type="submit" class="btn btn-outline-secondary mx-1">작성</button>--%>
+                <%--                <button type="button" id="write_btn" class="btn btn-outline-secondary mx-1">작성</button>--%>
+                <button type="submit" class="btn btn-outline-secondary mx-1">작성</button>
                 <button type="button" id="back_btn" class="btn btn-outline-secondary">취소</button>
             </div>
         </form>

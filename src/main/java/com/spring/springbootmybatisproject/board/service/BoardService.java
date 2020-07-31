@@ -1,5 +1,6 @@
 package com.spring.springbootmybatisproject.board.service;
 
+import com.spring.springbootmybatisproject.board.model.BoardAttachVO;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.SearchVO;
@@ -49,5 +50,10 @@ public interface BoardService {
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
+
+    //추가
+    public void register(BoardVO boardVO);
+
+    public List<BoardAttachVO> getAttachList(Long boardId);
 
 }

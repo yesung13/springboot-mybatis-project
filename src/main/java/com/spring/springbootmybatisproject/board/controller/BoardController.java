@@ -6,6 +6,9 @@ import com.spring.springbootmybatisproject.board.service.BoardService;
 import com.spring.springbootmybatisproject.board.service.ReplyService;
 import com.spring.springbootmybatisproject.common.model.ResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,6 +103,14 @@ public class BoardController {
         return "/board/boardDetail";
     }
 
+    //추가
+    @GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<BoardAttachVO>> getAttachList(Long boardId) {
+
+        log.info("getAttachList " + boardId);
+
+        return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
+    }
 
     /**
      * 게시글 작성 page
@@ -208,6 +220,37 @@ public class BoardController {
         return result;
     }
 
+
+    // 추가
+    @GetMapping("/register")
+    public void register() {
+
+    }
+
+    @PostMapping("/register")
+    public String register(BoardVO boardVO, RedirectAttributes rttr) {
+
+        log.info("====================");
+        log.info("register: " + boardVO);
+
+        if (boardVO.getAttachList() != null) {
+            boardVO.getAttachList().forEach(attachVO -> log.info(String.valueOf(attachVO)));
+
+//            List<BoardAttachVO> boardAttachVOS = boardVO.getAttachList();
+//            for(BoardAttachVO attachVO : boardAttachVOS) {
+//                log.info(String.valueOf(attachVO));
+//                if(attachVO)
+//            }
+
+        }
+
+        log.info("====================");
+
+        boardService.register(boardVO);
+        rttr.addFlashAttribute("result", boardVO.getBoardId());
+
+        return "redirect:/board/list";
+    }
 
     /**
      * 게시글 수정 page

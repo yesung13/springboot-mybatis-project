@@ -51,4 +51,5 @@ public interface BoardMapper {
 
     // 해당 첨부 파일 삭제
     void deleteByFile(Long fileId);
+
 }
