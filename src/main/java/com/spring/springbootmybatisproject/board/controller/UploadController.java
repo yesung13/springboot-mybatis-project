@@ -125,6 +125,7 @@ public class UploadController {
                     Thumbnailator.createThumbnail(new FileInputStream(saveFile), thumbnail, 200,
                             200);
                     thumbnail.close();
+
                 }
                 // add to list
                 list.add(attachDTO);

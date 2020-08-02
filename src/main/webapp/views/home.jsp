@@ -12,13 +12,14 @@
     <title>home</title>
 
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Gothic+A1|Nanum+Gothic|Noto+Sans+KR&display=swap');
+
         .fakeimg {
             height: 200px;
             background: #aaa;
         }
 
         /* 구글 웹폰트 */
-        @import url('https://fonts.googleapis.com/css?family=Gothic+A1|Nanum+Gothic|Noto+Sans+KR&display=swap');
 
         #hr {
             display: block;
@@ -163,5 +164,6 @@
 <%--</footer>--%>
 <%-- 푸터 --%>
 <jsp:include page="/views/common/footer.jsp"/>
+
 </body>
 </html>

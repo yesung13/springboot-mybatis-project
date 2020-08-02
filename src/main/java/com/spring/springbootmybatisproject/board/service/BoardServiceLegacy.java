@@ -1,13 +1,12 @@
 package com.spring.springbootmybatisproject.board.service;
 
-import com.spring.springbootmybatisproject.board.model.BoardAttachVO;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.SearchVO;
 
 import java.util.List;
 
-public interface BoardService {
+public interface BoardServiceLegacy {
 
     // 게시글 총 갯수
     int getBoardListTotalCnt(BoardVO boardVO);
@@ -50,14 +49,4 @@ public interface BoardService {
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
-
-    //추가
-    public void register(BoardVO boardVO);
-
-    public List<BoardAttachVO> getAttachList(Long boardId);
-
-    public boolean remove(Long boardId);
-
-    public boolean modify(BoardVO boardVO);
-
 }

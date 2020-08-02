@@ -26,10 +26,11 @@ public interface BoardMapper {
     void saveBoardWrite(BoardVO boardVO);
 
     // 게시글 수정
-    void updateById(BoardVO boardVO);
+    int updateById(BoardVO boardVO);
 
     // 게시글 삭제
-    void deleteById(Long boardId);
+    int deleteById(Long boardId);
+//    void deleteById(Long boardId);
 
     // 검색 게시글 총 갯수
     int searchBoardListTotalCnt(SearchVO searchVO);

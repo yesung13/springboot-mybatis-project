@@ -70,9 +70,9 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            // $('#write_btn').click(function () {
-            //     writeCheck_btn();
-            // });
+            $('#write_btn').click(function () {
+                writeCheck_btn();
+            });
             // $("button[type='submit']").click(function () {
             //     writeCheck_btn();
             // });
@@ -80,37 +80,37 @@
                 window.location.href = '/board/list';
             });
 
-            var formObj = $("form[role='form']");
-
-            $("button[type='submit']").on("click", function (e) {
-
-                e.preventDefault();
-
-                console.log("submit clicked");
-
-                var str = "";
-
-                $(".uploadResult ul li").each(function (i, obj) {
-
-                    var jobj = $(obj);
-
-                    console.dir(jobj);
-                    console.log("-------------------------");
-                    console.log(jobj.data("filename"));
-
-
-                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
-
-                });
-
-                console.log(str);
-
-                formObj.append(str).submit();
-
-            });
+            // let formObj = $("form[role='form']");
+            //
+            // $("button[type='submit']").on("click", function (e) {
+            //
+            //     e.preventDefault();
+            //
+            //     console.log("submit clicked");
+            //
+            //     let str = "";
+            //
+            //     $(".uploadResult ul li").each(function (i, obj) {
+            //
+            //         let jobj = $(obj);
+            //
+            //         console.dir(jobj);
+            //         console.log("-------------------------");
+            //         console.log(jobj.data("filename"));
+            //
+            //
+            //         str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+            //         str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+            //         str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+            //         str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+            //
+            //     });
+            //
+            //     console.log(str);
+            //
+            //     formObj.append(str).submit();
+            //
+            // });
 
             // 정규 표현식(regex). 파일 검사
             let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
@@ -235,55 +235,82 @@
 
 
         // 게시글 제목, 내용 유효성 검사
-        // function writeCheck_btn() {
-        //     let title = $("#title").val();
-        //     let content = $("#content").val();
-        //     if (title == null || title === "") {
-        //         alert("제목을 입력해 주세요!");
-        //         $("#title").focus();
-        //         return false;
-        //     }
-        //
-        //     if (content == null || content === "") {
-        //         alert("내용을 입력해 주세요!");
-        //         $("#content").focus();
-        //         return false;
-        //     }
-        //     return write_btn();
-        // }
+        function writeCheck_btn() {
+            let title = $("#title").val();
+            let content = $("#content").val();
+            if (title == null || title === "") {
+                alert("제목을 입력해 주세요!");
+                $("#title").focus();
+                return false;
+            }
+
+            if (content == null || content === "") {
+                alert("내용을 입력해 주세요!");
+                $("#content").focus();
+                return false;
+            }
+            return write_btn();
+        }
 
         // 게시글 등록
-        // function write_btn() {
-        // let form = $('#form')[0];
-        // let data = new FormData(form);
-        //
-        // console.log("Insert Request Data:", data);
-        // $.ajax({
-        //     type: "POST",
-        //     url: '/board/register',
-        //     // url: '/board/setWrite',
-        //     data: data,
-        //     processData: false,
-        //     contentType: false,
-        //     // cache: false,
-        //     // timeout: 600000,
-        //     success: function (response) {
-        //         console.log("Insert Response Data:", response);
-        //         if (response.resCode === 600) {
-        //             alert(response.resMsg);
-        //             location.replace('/board/list');
-        //         } else if (response.resCode === 601) {
-        //             alert(response.resMsg);
-        //         } else if (response.resCode === 607) {
-        //             alert(response.resMsg);
-        //         }
-        //     },
-        //     error: function (xhr, e, response) {
-        //         console.log("Insert Error:", xhr, e, response);
-        //         alert("에러!!")
-        //     }
-        // });
-        // }
+        function write_btn() {
+            // let form = $('#form')[0];
+            // let data = new FormData(form);
+            let formObj = $("form[role='form']");
+
+                let str = "";
+
+                $(".uploadResult ul li").each(function (i, obj) {
+
+                    let jobj = $(obj);
+
+                    console.dir(jobj);
+                    console.log("-------------------------");
+                    console.log(jobj.data("filename"));
+
+
+                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+
+                });
+
+                console.log(str);
+
+                // formObj.append(str).submit();
+                formObj.append(str);
+
+            let data = new FormData(formObj[0]);
+
+            console.log("Insert Request Data:", data);
+
+            $.ajax({
+                type: "POST",
+                url: '/board/register',
+                // url: '/board/setWrite',
+                data: data,
+                processData: false,
+                contentType: false,
+                // cache: false,
+                // timeout: 600000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+                    if (response.resCode === 600) {
+                        alert(response.resMsg);
+                        location.replace('/board/list');
+                    } else if (response.resCode === 601) {
+                        alert(response.resMsg);
+                    } else if (response.resCode === 607) {
+                        alert(response.resMsg);
+                    }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
+        }
 
 
         // 글 입력 시 카운트
@@ -312,7 +339,8 @@
 <section>
     <div class="container mt-5">
         <h3 class="text-center">글쓰기</h3>
-        <form id="form" role="form" action="${pageContext.request.contextPath}/board/register" method="post">
+        <%--        <form id="form" role="form" action="${pageContext.request.contextPath}/board/register" method="post">--%>
+        <form id="form" role="form">
             <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
             <input type="hidden" value="${sessionScope.account.userName}" name="writer">
             <table class="table table-bordered">
@@ -356,8 +384,8 @@
             <br/>
             <div class="row justify-content-center">
                 <button type="reset" class="btn btn-outline-secondary">초기화</button>
-                <%--                <button type="button" id="write_btn" class="btn btn-outline-secondary mx-1">작성</button>--%>
-                <button type="submit" class="btn btn-outline-secondary mx-1">작성</button>
+                <button type="button" id="write_btn" class="btn btn-outline-secondary mx-1">작성</button>
+                <%--                <button type="submit" class="btn btn-outline-secondary mx-1">작성</button>--%>
                 <button type="button" id="back_btn" class="btn btn-outline-secondary">취소</button>
             </div>
         </form>

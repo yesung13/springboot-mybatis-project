@@ -19,4 +19,10 @@
         WHERE boardId = #{boardId}
     </select>
 
+    <delete id="deleteAll">
+        DELETE
+        FROM bbs_attach
+        WHERE boardId = #{boardId}
+    </delete>
+
 </mapper>
