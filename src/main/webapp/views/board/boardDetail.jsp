@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: berno
@@ -16,48 +17,59 @@
     <title>글보기:${boardListDetail.title}</title>
     <style>
         .uploadResult {
-            width:100%;
-            background-color: gray;
+            width: 100%;
+            /*background-color: gray;*/
         }
-        .uploadResult ul{
-            display:flex;
+
+        .uploadResult ul {
+            display: flex;
             flex-flow: row;
             justify-content: center;
             align-items: center;
         }
+
         .uploadResult ul li {
             list-style: none;
             padding: 10px;
             align-content: center;
             text-align: center;
         }
-        .uploadResult ul li img{
+
+        .uploadResult ul div span {
+            text-align: left;
+        }
+
+        .uploadResult ul li img {
             width: 100px;
         }
+
         .uploadResult ul li span {
-            color:white;
+            color: blue;
+            text-align: left;
         }
+
         .bigPictureWrapper {
             position: absolute;
             display: none;
             justify-content: center;
             align-items: center;
-            top:0%;
-            width:100%;
-            height:100%;
+            top: 0%;
+            width: 100%;
+            height: 100%;
             background-color: gray;
             z-index: 100;
-            background:rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.5);
         }
+
         .bigPicture {
             position: relative;
-            display:flex;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .bigPicture img {
-            width:600px;
+            width: 600px;
         }
     </style>
     <script type="text/javascript">
@@ -114,70 +126,79 @@
 
             //추가
             // jquery.getJSON(url, data, success) => ajax 간단하게 표현
-            $.getJSON("/board/getAttachList", {boardId: boardId}, function(arr){
+            $.getJSON("/board/getAttachList", {boardId: boardId}, function (arr) {
 
-                console.log(arr);
+                console.log("arr: ", arr);
+                console.log("arr: ", arr.length);
 
                 let str = "";
+                if (arr.length > 0) {
+                    $(arr).each(function (i, attach) {
 
-                $(arr).each(function(i, attach){
+                        //image type
+                        if (attach.fileType) {
+                            let fileCallPath = encodeURIComponent(attach.uploadPath + "/s_" + attach.uuid + "_" + attach.fileName);
 
-                    //image type
-                    if(attach.fileType){
-                        let fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
+                            str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "' ><div>";
+                            str += "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>";
+                            str += "</div>";
+                            str += "</li>";
+                        } else {
 
-                        str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-                        str += "<img src='/board/display?fileName="+fileCallPath+"'>";
-                        str += "</div>";
-                        str += "</li>";
-                    }else{
+                            str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "' ><div>";
+                            str += "<span> " + attach.fileName + "</span><br/>";
+                            str += "<img src='/resources/images/attach.png'></a>";
+                            str += "</div>";
+                            str += "</li>";
+                        }
+                    });
 
-                        str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-                        str += "<span> "+ attach.fileName+"</span><br/>";
-                        str += "<img src='/resources/images/attach.png'></a>";
-                        str += "</div>";
-                        str += "</li>";
-                    }
-                });
+                    $(".uploadResult ul").html(str);
+                } else {
+                    str += "<span style='color: #A6A6A6'>첨부된 파일이 없습니다.</span>"
 
-                $(".uploadResult ul").html(str);
+                    $(".uploadResult div").html(str);
+
+                }
 
 
             });//end getjson
 
-            $(".uploadResult").on("click","li", function(e){
+            // 파일 이벤트(섬네일 이미지 보기, 일반파일 다운로드)
+            $(".uploadResult").on("click", "li", function (e) {
 
                 console.log("view image");
 
-                var liObj = $(this);
+                let liObj = $(this);
 
-                var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+                let path = encodeURIComponent(liObj.data("path") + "/" + liObj.data("uuid") + "_" + liObj.data("filename"));
 
-                if(liObj.data("type")){
-                    showImage(path.replace(new RegExp(/\\/g),"/"));
-                }else {
+                if (liObj.data("type")) {
+                    showImage(path.replace(new RegExp(/\\/g), "/"));
+                } else {
                     //download
-                    self.location ="/board/download?fileName="+path
+                    // self.location = "/board/download?fileName=" + path
+                    window.location.assign("/board/download?fileName=" + path);
                 }
 
 
             });
 
-            function showImage(fileCallPath){
+            function showImage(fileCallPath) {
 
                 // alert(fileCallPath);
 
-                $(".bigPictureWrapper").css("display","flex").show();
+                $(".bigPictureWrapper").css("display", "flex").show();
 
                 $(".bigPicture")
-                    .html("<img src='/board/display?fileName="+fileCallPath+"' >")
-                    .animate({width:'100%', height: '100%'}, 1000);
+                    .html("<img src='/board/display?fileName=" + fileCallPath + "' >")
+                    .animate({width: '100%', height: '100%'}, 1000);
 
             }
 
-            $(".bigPictureWrapper").on("click", function(e){
-                $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
-                setTimeout(function(){
+            $(".bigPictureWrapper").on("click", function (e) {
+                $(".bigPicture").animate({width: '0%', height: '0%'}, 1000);
+                setTimeout(function () {
                     $('.bigPictureWrapper').hide();
                 }, 1000);
             });
@@ -338,22 +359,9 @@
                 <th class="tcenter">
                     <span>첨부파일</span>
                 </th>
-                <td colspan="4" class="text-left">
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${empty fileList}">--%>
-<%--                            <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다.</span>--%>
-<%--                        </c:when>--%>
-<%--                        <c:otherwise>--%>
-<%--                            <c:forEach var="file" items="${fileList}">--%>
-<%--                                <a href="${pageContext.request.contextPath}/board/fileDownload?fileName=${file.originFilename}"--%>
-<%--                                   class="text-black-50">--%>
-<%--                                    <span id="fileName">${file.originFilename}</span>--%>
-<%--                                    <span>(${file.fileSize}byte)</span><br>--%>
-<%--                                </a>--%>
-<%--                            </c:forEach>--%>
-<%--                        </c:otherwise>--%>
-<%--                    </c:choose>--%>
+                <td colspan="4">
                     <div class="uploadResult">
+                        <div></div> <%-- 첨부파일 없을 경우 출력--%>
                         <ul></ul>
                     </div>
                 </td>
@@ -436,25 +444,27 @@
                                 <div><strong>${item.replyWriter}</strong></div>
                             </th>
                             <th>
+                                <c:if test="${account.accountId eq item.accountId}">
                                     <%--드롭다운 시작--%>
-                                <div class="dropdown">
-                                    <button class="float-right btn btn-link" id="dropdownBtn" type="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="${pageContext.request.contextPath}/resources/images/more_vert-black-24dp.svg"
-                                             alt="U/D icon">
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBtn"
-                                         style="width: 100px">
-                                            <%-- onclick 사용 시 함수에 여러 파라미터 값을 보낼 때 데이터 타입에 맞게 홑따옴표를 사용해야 함 --%>
-                                        <button class="dropdown-item" type="button"
-                                                onclick="replyUpdate_form(${item.boardId},${item.replyId},'${item.replyWriter}','${item.replyContent}')">
-                                            <small>수정</small></button>
-                                        <button class="dropdown-item" type="button"
-                                                onclick="replyDelete_btn('${item.replyId}',${item.boardId})">
-                                            <small>삭제</small></button>
+                                    <div class="dropdown">
+                                        <button class="float-right btn btn-link" id="dropdownBtn" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="${pageContext.request.contextPath}/resources/images/more_vert-black-24dp.svg"
+                                                 alt="U/D icon">
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBtn"
+                                             style="width: 100px">
+                                                <%-- onclick 사용 시 함수에 여러 파라미터 값을 보낼 때 데이터 타입에 맞게 홑따옴표를 사용해야 함 --%>
+                                            <button class="dropdown-item" type="button"
+                                                    onclick="replyUpdate_form(${item.boardId},${item.replyId},'${item.replyWriter}','${item.replyContent}')">
+                                                <small>수정</small></button>
+                                            <button class="dropdown-item" type="button"
+                                                    onclick="replyDelete_btn('${item.replyId}',${item.boardId})">
+                                                <small>삭제</small></button>
+                                        </div>
                                     </div>
-                                </div>
                                     <%--//드롭다운 끝--%>
+                                </c:if>
                                 <div><span>${item.replyContent}</span></div>
                                 <div class="mt-3"><small class="text-muted">${item.replyDatetime}</small></div>
                             </th>

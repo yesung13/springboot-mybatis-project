@@ -138,7 +138,7 @@
                             str += "<div>";
                             str += "<span> " + attach.fileName + "</span>";
                             str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><i class='fa fa-times'></i></button><br>";
-                            str += "<img src='/board/display?fileName=" + fileCallPath + "'>";
+                            str += "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>";
                             str += "</div>";
                             str += "</li>";
                         } else {
@@ -241,7 +241,7 @@
                         str += "<div>";
                         str += "<span> " + obj.fileName + "</span>";
                         str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><i class='fa fa-times'></i></button><br />";
-                        str += "<img src='/board/display?fileName=" + fileCallPath + "'>";
+                        str += "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>";
                         str += "</div>";
                         str += "</li>";
                     } else {

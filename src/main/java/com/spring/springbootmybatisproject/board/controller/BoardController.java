@@ -11,23 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -109,7 +99,9 @@ public class BoardController {
 
         log.info("getAttachList " + boardId);
 
-        return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
+        List<BoardAttachVO> attachVOList = boardService.getAttachList(boardId);
+
+        return new ResponseEntity<>(attachVOList, HttpStatus.OK);
     }
 
     /**
@@ -225,14 +217,14 @@ public class BoardController {
 
         log.info("modify:" + boardVO);
 
-        try{
+        try {
             if (title != null && content != null && accountId != null) {
                 if (boardService.modify(boardVO)) {
                     result.setResCode(SFV.INT_RES_CODE_B_UPDATE_SUCCESS);
                     result.setResMsg(SFV.STRING_RES_B_UPDATE_SUCCESS);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             result.setResCode(SFV.INT_RES_CODE_B_UPDATE_FAIL);
             result.setResMsg(SFV.STRING_RES_B_UPDATE_FAIL);
@@ -378,6 +370,7 @@ public class BoardController {
 
     /**
      * 실제 파일 삭제 메서드
+     *
      * @param attachList
      */
     private void deleteFiles(List<BoardAttachVO> attachList) {

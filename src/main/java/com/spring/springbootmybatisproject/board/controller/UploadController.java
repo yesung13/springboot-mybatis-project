@@ -1,7 +1,6 @@
 package com.spring.springbootmybatisproject.board.controller;
 
 import com.spring.springbootmybatisproject.board.model.AttachFileDTO;
-import com.spring.springbootmybatisproject.uploadSample.domain.SAttachFileDTO;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.core.io.FileSystemResource;
@@ -65,9 +64,9 @@ public class UploadController {
     // end 이미지 파일 판별
 
 
-
     /**
      * 파일 업로드
+     *
      * @param uploadFile
      * @return
      */
@@ -119,12 +118,14 @@ public class UploadController {
 
                     FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" +
                             uploadFileName));
+                    FileInputStream saveFileInputStream = new FileInputStream(saveFile);
 
 //                    Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 160,
 //                            100);
-                    Thumbnailator.createThumbnail(new FileInputStream(saveFile), thumbnail, 200,
+                    Thumbnailator.createThumbnail(saveFileInputStream, thumbnail, 200,
                             200);
                     thumbnail.close();
+                    saveFileInputStream.close();
 
                 }
                 // add to list
@@ -140,6 +141,7 @@ public class UploadController {
 
     /**
      * 섬네일 데이터 전송하기
+     *
      * @param fileName
      * @return
      */
@@ -169,6 +171,7 @@ public class UploadController {
 
     /**
      * 파일 다운로드
+     *
      * @param userAgent
      * @param fileName
      * @return
@@ -220,10 +223,10 @@ public class UploadController {
 
     /**
      * 파일 삭제
+     *
      * @param fileName
      * @param type
      * @return
-     *
      */
     @PostMapping("/board/deleteFile")
     @ResponseBody

@@ -184,7 +184,7 @@
                         str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>" +
                             "<span> " + obj.fileName + "</span>" +
                             "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
-                            "<img src='/board/display?fileName=" + fileCallPath + "'>" +
+                            "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>" +
                             "</div></li>";
                     } else {
 
@@ -258,28 +258,28 @@
             // let data = new FormData(form);
             let formObj = $("form[role='form']");
 
-                let str = "";
+            let str = "";
 
-                $(".uploadResult ul li").each(function (i, obj) {
+            $(".uploadResult ul li").each(function (i, obj) {
 
-                    let jobj = $(obj);
+                let jobj = $(obj);
 
-                    console.dir(jobj);
-                    console.log("-------------------------");
-                    console.log(jobj.data("filename"));
+                console.dir(jobj);
+                console.log("-------------------------");
+                console.log(jobj.data("filename"));
 
 
-                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
 
-                });
+            });
 
-                console.log(str);
+            console.log(str);
 
-                // formObj.append(str).submit();
-                formObj.append(str);
+            // formObj.append(str).submit();
+            formObj.append(str);
 
             let data = new FormData(formObj[0]);
 
@@ -312,21 +312,59 @@
             });
         }
 
-
         // 글 입력 시 카운트
-        $(document).on('keyup', '#content', function (e) {
-            let textarea01 = $(this).val();
-            $('#cntSPAN').text(getBytes(textarea01));
-        });
+        // $(document).on('keyup', '#content', function (e) {
+        //     let textarea01 = $(this).val();
+        //     $('#cntSPAN').text(getBytes(textarea01));
+        //
+        //     if ($(this).val().length > 49) {
+        //         alert("최대 입력 글자수는 1000자이내 입니다.")
+        //         $(this).val($(this).val().substring(0, 50));
+        //     }
+        // });
+        //
+        // function getBytes(str) {
+        //     let cnt = 0;
+        //     for (let i = 0; i < str.length; i++) {
+        //         cnt += (str.charCodeAt(i) > 128) ? 2 : 1;
+        //     }
+        //     return cnt;
+        // }
+        function fnCheckByte(obj) {
+            let maxByte = 50; // 최대 입력 바이트 수
+            // let str = obj.value();
+            let str = obj.val();
+            let str_len = str.length;
 
-        function getBytes(str) {
-            let cnt = 0;
-            for (let i = 0; i < str.length; i++) {
-                cnt += (str.charCodeAt(i) > 128) ? 2 : 1;
+            let rbyte = 0;
+            let rlen = 0;
+            let one_char = "";
+            let str2 = "";
+
+            for (let i = 0; i < str_len; i++) {
+                one_char = str.charAt(i);
+
+                if (escape(one_char).length > 4) {
+                    rbyte += 2; // 한글 2byte
+                } else {
+                    rbyte++; // 영문 등 나머지 1byte
+                }
+
+                if (rbyte <= maxByte) {
+                    rlen = i + 1; //return할 문자열 갯수
+                }
             }
-            return cnt;
-        }
 
+            if (rbyte > maxByte) {
+                alert("한글 " + (maxByte / 2) + "자 / 영문 " + maxByte + " 자를 초과 입력할 수 없습니다.");
+                str2 = str.substr(0, rlen); // 문자열 자르기
+                obj.value = str2;
+                fnCheckByte(obj, maxByte);
+            } else {
+                $("#byteInfo").text(rbyte);
+            }
+
+        }
 
     </script>
 </head>
@@ -362,6 +400,7 @@
                               placeholder="내용을 입력하세요..."></textarea>
                         <div>
                             <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
+                            <span id="byteInfo">0</span>&nbsp;<span>bytes</span>
                         </div>
                     </td>
                 </tr>
