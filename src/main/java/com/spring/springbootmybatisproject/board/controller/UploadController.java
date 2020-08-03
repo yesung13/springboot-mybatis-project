@@ -222,7 +222,7 @@ public class UploadController {
     }
 
     /**
-     * 파일 삭제
+     * 파일 삭제(directory)
      *
      * @param fileName
      * @param type

@@ -141,7 +141,6 @@
 
                 let files = inputFile[0].files;
 
-                // let cloneObj = $(".uploadDiv").clone();
                 //add filedata to formdata
                 for (let i = 0; i < files.length; i++) {
                     if (!checkExtension(files[i].name, files[i].size)) {
@@ -159,8 +158,6 @@
                     success: function (result) {
                         console.log(result);
                         showUploadResult(result); //업로드 결과 처리 함수
-
-                        // $(".uploadDiv").html(cloneObj.html());
                     }
                 }); //$.ajax
 
@@ -313,28 +310,15 @@
         }
 
         // 글 입력 시 카운트
-        // $(document).on('keyup', '#content', function (e) {
-        //     let textarea01 = $(this).val();
-        //     $('#cntSPAN').text(getBytes(textarea01));
-        //
-        //     if ($(this).val().length > 49) {
-        //         alert("최대 입력 글자수는 1000자이내 입니다.")
-        //         $(this).val($(this).val().substring(0, 50));
-        //     }
-        // });
-        //
-        // function getBytes(str) {
-        //     let cnt = 0;
-        //     for (let i = 0; i < str.length; i++) {
-        //         cnt += (str.charCodeAt(i) > 128) ? 2 : 1;
-        //     }
-        //     return cnt;
-        // }
         function fnCheckByte(obj) {
-            let maxByte = 50; // 최대 입력 바이트 수
-            // let str = obj.value();
-            let str = obj.val();
+            let maxByte = 100; // 최대 입력 바이트 수
+            let str = obj.value;
+            console.log("obj ", obj.value)
             let str_len = str.length;
+
+            console.log("length: ", str)
+            console.log("length: ", str_len)
+
 
             let rbyte = 0;
             let rlen = 0;
@@ -356,7 +340,7 @@
             }
 
             if (rbyte > maxByte) {
-                alert("한글 " + (maxByte / 2) + "자 / 영문 " + maxByte + " 자를 초과 입력할 수 없습니다.");
+                alert("한글 " + (maxByte / 2) + "자 / 영문 & 특수문자 " + maxByte + " 자를 초과 입력할 수 없습니다.");
                 str2 = str.substr(0, rlen); // 문자열 자르기
                 obj.value = str2;
                 fnCheckByte(obj, maxByte);
@@ -396,11 +380,12 @@
                         <label for="content">내용</label>
                     </th>
                     <td>
-                    <textarea id="content" name="content" rows="8" class="form-control w-100"
-                              placeholder="내용을 입력하세요..."></textarea>
-                        <div>
-                            <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
-                            <span id="byteInfo">0</span>&nbsp;<span>bytes</span>
+                    <textarea id="content" name="content" rows="8" class="form-control w-100 mb-1"
+                              onkeyup="fnCheckByte(this)" placeholder="내용을 입력하세요..."></textarea>
+
+                        <div class="d-inline ">
+                            <span id="byteInfo" class="font-weight-bold">0</span>&nbsp;<span class="font-weight-bold">bytes</span>
+                            &nbsp;&nbsp;<span style="font-weight: lighter;"> ※ 최대 입력 가능 글자수 100 byte </span>
                         </div>
                     </td>
                 </tr>

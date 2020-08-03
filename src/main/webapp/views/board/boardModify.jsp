@@ -264,43 +264,28 @@
 
         });
 
-
-        // 글 입력 시 카운트
-        $(document).on('keyup', '#content', function (e) {
-            let textarea01 = $(this).val();
-            $('#cntSPAN').text(getBytes(textarea01));
-        });
-
-        function getBytes(str) {
-            let cnt = 0;
-            for (let i = 0; i < str.length; i++) {
-                cnt += (str.charCodeAt(i) > 128) ? 2 : 1;
-            }
-            return cnt;
-        }
-
         function modify_btn() {
             // let form = $('#form')[0];
             let formObj = $("#form");
 
-                let str = "";
+            let str = "";
 
-                $(".uploadResult ul li").each(function (i, obj) {
+            $(".uploadResult ul li").each(function (i, obj) {
 
-                    let jobj = $(obj);
+                let jobj = $(obj);
 
-                    console.dir(jobj);
-                    console.log("-------------------------");
-                    console.log(jobj.data("filename"));
+                console.dir(jobj);
+                console.log("-------------------------");
+                console.log(jobj.data("filename"));
 
-                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
 
-                });
+            });
 
-                formObj.append(str);
+            formObj.append(str);
 
             let data = new FormData(formObj[0]);
 
@@ -331,6 +316,47 @@
                 }
             });
         }
+
+        // 글 입력 시 카운트
+        function fnCheckByte(obj) {
+            let maxByte = 100; // 최대 입력 바이트 수
+            let str = obj.value;
+            console.log("obj ", obj.value)
+            let str_len = str.length;
+
+            console.log("length: ", str)
+            console.log("length: ", str_len)
+
+
+            let rbyte = 0;
+            let rlen = 0;
+            let one_char = "";
+            let str2 = "";
+
+            for (let i = 0; i < str_len; i++) {
+                one_char = str.charAt(i);
+
+                if (escape(one_char).length > 4) {
+                    rbyte += 2; // 한글 2byte
+                } else {
+                    rbyte++; // 영문 등 나머지 1byte
+                }
+
+                if (rbyte <= maxByte) {
+                    rlen = i + 1; //return할 문자열 갯수
+                }
+            }
+
+            if (rbyte > maxByte) {
+                alert("한글 " + (maxByte / 2) + "자 / 영문 & 특수문자 " + maxByte + " 자를 초과 입력할 수 없습니다.");
+                str2 = str.substr(0, rlen); // 문자열 자르기
+                obj.value = str2;
+                fnCheckByte(obj, maxByte);
+            } else {
+                $("#byteInfo").text(rbyte);
+            }
+        }
+
     </script>
 </head>
 <body class="body">
@@ -362,10 +388,13 @@
                         <label for="content">내용</label>
                     </th>
                     <td>
-                    <textarea id="content" name="content" rows="8" class="form-control w-100"
+                    <textarea id="content" name="content" rows="8" class="form-control w-100 mb-1"
+                              onkeyup="fnCheckByte(this)"
                               placeholder="내용을 입력하세요...">${boardListDetail.content}</textarea>
-                        <div>
-                            <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
+
+                        <div class="d-inline ">
+                            <span id="byteInfo" class="font-weight-bold">0</span>&nbsp;<span class="font-weight-bold">bytes</span>
+                            &nbsp;&nbsp;<span style="font-weight: lighter;"> ※ 최대 입력 가능 글자수 100 byte </span>
                         </div>
                     </td>
                 </tr>
