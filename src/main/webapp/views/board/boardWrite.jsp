@@ -389,6 +389,17 @@
                         </div>
                     </td>
                 </tr>
+                <c:if test="${account.accountId == 1}">
+                    <tr class="thead-light">
+                        <th class="tcenter ">
+                            <label for="boardType">공지여부</label>
+                        </th>
+                        <td>
+                            공지사항: <input type="checkbox" id="boardType" name="boardType" value="N">
+                        </td>
+                    </tr>
+                </c:if>
+
                 <tr class="thead-light">
                     <th class="tcenter ">
                         <label for="file">첨부파일</label>

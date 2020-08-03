@@ -44,6 +44,12 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findAll(boardVO);
     }
 
+    // 공지 게시글 목록
+    @Override
+    public List<BoardVO> getBoardTypeNoticeList(BoardVO boardVO) {
+        return boardMapper.findNotice(boardVO);
+    }
+
     // 게시글 상세 보기
     @Override
     public BoardVO getBoardListDetail(Long boardId) {

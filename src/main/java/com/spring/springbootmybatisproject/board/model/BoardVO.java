@@ -25,6 +25,9 @@ public class BoardVO {
     private String boardDatetime;
     private String boardUpDatetime;
 
+    // 2020.08.03 추가
+    private String boardType = "Q";
+
     // 페이징
     private int startIndex; // 시작 인덱스
     private int cntPerPage; // 한 페이지당 가져올 데이터 개수
@@ -33,7 +36,7 @@ public class BoardVO {
     private List<BoardAttachVO> attachList;
 
     @Builder
-    public BoardVO(Long boardId, Long accountId, String title, String content, String writer, int viewCnt, int replyCnt, String boardDatetime, String boardUpDatetime) {
+    public BoardVO(Long boardId, Long accountId, String title, String content, String writer, int viewCnt, int replyCnt, String boardDatetime, String boardUpDatetime, String boardType) {
         this.boardId = boardId;
         this.accountId = accountId;
         this.title = title;
@@ -43,6 +46,7 @@ public class BoardVO {
         this.replyCnt = replyCnt;
         this.boardDatetime = boardDatetime;
         this.boardUpDatetime = boardUpDatetime;
+        this.boardType = boardType;
     }
 }
 

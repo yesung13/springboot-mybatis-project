@@ -20,10 +20,21 @@
                writer,
                viewCnt,
                replyCnt,
-               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime,
+               boardType
         FROM bbs_board
+        WHERE boardType ='Q'
         ORDER BY no DESC
         limit #{startIndex}, #{cntPerPage};
+    </select>
+
+    <!-- 공지 게시물 목록 -->
+    <select id="findNotice" resultType="BoardVO">
+        SELECT boardId, title, content, writer, viewCnt, replyCnt, boardDatetime, boardUpDatetime, boardType
+        FROM bbs_board
+        WHERE boardType = 'N'
+        ORDER BY boardUpDatetime DESC
+        limit 3;
     </select>
 
     <!-- 게시글 상세 보기 -->
@@ -34,15 +45,16 @@
                content,
                writer,
                DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime,
-               replyCnt
+               replyCnt,
+               boardType
         FROM bbs_board
         WHERE boardId = #{boardId};
     </select>
 
     <!-- 게시글 작성 -->
     <insert id="saveBoardWrite" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardId">
-        INSERT INTO bbs_board (accountId, title, content, writer)
-        VALUES (#{accountId}, #{title}, #{content}, #{writer});
+        INSERT INTO bbs_board (accountId, title, content, writer, boardType)
+        VALUES (#{accountId}, #{title}, #{content}, #{writer}, #{boardType});
     </insert>
 
     <!-- 게시글 수정 -->
@@ -50,7 +62,8 @@
         UPDATE bbs_board
         SET title           = #{title},
             content         = #{content},
-            boardUpDatetime = #{boardUpDatetime}
+            boardUpDatetime = #{boardUpDatetime},
+            boardType = #{boardType}
         WHERE boardId = #{boardId};
 
     </update>

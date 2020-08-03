@@ -62,13 +62,17 @@ public class AccountController {
             try {
                 String dbAccountEmail = loginAccount.getAccountEmail();
                 String dbAccountPassword = loginAccount.getAccountPassword();
+
                 if (dbAccountEmail != null && dbAccountPassword != null) {
+
                     HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
                     session.setAttribute("account", loginAccount); //세션 등록
                     model.addAttribute("account", loginAccount);
                     result.setResCode(SFV.INT_RES_CODE_A_LOGIN_SUCCESS);
                     result.setResMsg(SFV.STRING_RES_A_LOGIN_SUCCESS);
+
                 } else {
+
                     result.setResCode(SFV.INT_RES_CODE_A_LOGIN_CHECK);
                     result.setResMsg(SFV.STRING_RES_A_LOGIN_CHECK);
                 }

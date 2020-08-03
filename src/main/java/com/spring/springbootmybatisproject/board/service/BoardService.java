@@ -15,6 +15,9 @@ public interface BoardService {
     // 게시글 목록
     List<BoardVO> getBoardList(BoardVO boardVO);
 
+    // 공지 게시글 목록
+    List<BoardVO> getBoardTypeNoticeList(BoardVO boardVO);
+
     // 게시글 상세 보기
     BoardVO getBoardListDetail(Long boardId);
 
@@ -59,5 +62,6 @@ public interface BoardService {
     public boolean remove(Long boardId);
 
     public boolean modify(BoardVO boardVO);
+
 
 }

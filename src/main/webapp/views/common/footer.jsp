@@ -47,7 +47,7 @@
                 <p>Copyright © 2019 by ooo Republic</p>
             </div>
             <div class="text-right">
-                <a href="javascript:void(0);" >
+                <a href="${pageContext.request.contextPath}/admin/main">
                     <span class="small">관리자</span>
                 </a>
             </div>

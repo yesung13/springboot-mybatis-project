@@ -19,6 +19,9 @@ public interface BoardMapper {
     // 게시글 목록
     List<BoardVO> findAll(BoardVO boardVO);
 
+    // 공지 게시글 목록
+    List<BoardVO> findNotice(BoardVO boardVO);
+
     // 게시글 상세 보기
     BoardVO findByBoardId(Long boardId);
 

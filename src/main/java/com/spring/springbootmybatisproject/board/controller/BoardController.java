@@ -64,8 +64,15 @@ public class BoardController {
 
         // 전체 리스트 출력
         ModelAndView mv = new ModelAndView();
+
         List<BoardVO> boardVORes = boardService.getBoardList(boardVO);
+
+        // 게시물타입이 N(공지사항)인 경우 리스트 출력
+        List<BoardVO> boardTypeNotice = boardService.getBoardTypeNoticeList(boardVO);
+
+
         mv.addObject("boardList", boardVORes); // jstl로 호출
+        mv.addObject("boardTypeNList", boardTypeNotice);
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
         return mv;
     }
@@ -201,8 +208,9 @@ public class BoardController {
         model.addAttribute("boardListDetail", boardVO);
 
         // 해당 파일 목록
-        List<FileVO> fileVORes = boardService.getFileList(boardId);
-        model.addAttribute("fileList", fileVORes);
+//        List<FileVO> fileVORes = boardService.getFileList(boardId);
+//        model.addAttribute("fileList", fileVORes);
+
         return "board/boardModify";
     }
 
