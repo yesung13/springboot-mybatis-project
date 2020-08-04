@@ -28,6 +28,8 @@ public class BoardVO {
     // 2020.08.03 추가
     private String boardType = "Q";
 
+    private boolean attachCheck = false;
+
     // 페이징
     private int startIndex; // 시작 인덱스
     private int cntPerPage; // 한 페이지당 가져올 데이터 개수

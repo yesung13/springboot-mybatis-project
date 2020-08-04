@@ -71,6 +71,14 @@ public class BoardController {
         List<BoardVO> boardTypeNotice = boardService.getBoardTypeNoticeList(boardVO);
 
 
+       for(BoardVO vo: boardVORes){
+           List<BoardAttachVO> boardAttachVOS = boardService.getBoardAttachList(vo);
+           if(boardAttachVOS != null && boardAttachVOS.size() >0) {
+               vo.setAttachCheck(true);
+           }
+       }
+
+
         mv.addObject("boardList", boardVORes); // jstl로 호출
         mv.addObject("boardTypeNList", boardTypeNotice);
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지

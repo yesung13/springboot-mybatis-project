@@ -213,6 +213,12 @@ public class BoardServiceImpl implements BoardService {
         }
         return modifyResult;
     }
+
+
+    @Override
+    public List<BoardAttachVO> getBoardAttachList(BoardVO boardVO) {
+        return attachMapper.findByBoardId(boardVO.getBoardId());
+    }
 }
 
 

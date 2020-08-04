@@ -124,7 +124,7 @@
                     <td>
                         <button type="button" class="btn btn-link text-decoration-none text-danger font-weight-bold"
                                 onclick="detail_btn(${item.boardId})">${item.title}</button>
-<%--                        <c:if test="${fn:length(boardAttachList) ne 0}">--%>
+<%--                        <c:if test="${item.attachCheck eq true}">--%>
 <%--                            <img src="${pageContext.request.contextPath}/resources/images/baseline_attachment_black_24dp.png" alt="..">--%>
 <%--                        </c:if>--%>
                     </td>
@@ -151,9 +151,9 @@
                         <td>
                             <button type="button" class="btn btn-link text-decoration-none text-info"
                                     onclick="detail_btn(${item.boardId})">${item.title}</button>
-<%--                            <c:if test="${fn:length(boardAttachList) ne null}">--%>
-<%--                                <img src="${pageContext.request.contextPath}/resources/images/baseline_attachment_black_24dp.png" alt="..">--%>
-<%--                            </c:if>--%>
+                            <c:if test="${item.attachCheck eq true}">
+                                <img src="${pageContext.request.contextPath}/resources/images/baseline_attachment_black_24dp.png" alt="..">
+                            </c:if>
                         </td>
                         <td style="text-align: center">${item.writer}</td>
                         <td style="text-align: center">${item.viewCnt}</td>

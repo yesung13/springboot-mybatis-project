@@ -64,4 +64,5 @@ public interface BoardService {
     public boolean modify(BoardVO boardVO);
 
 
+    List<BoardAttachVO> getBoardAttachList(BoardVO boardVO);
 }
