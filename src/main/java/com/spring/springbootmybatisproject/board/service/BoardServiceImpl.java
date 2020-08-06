@@ -50,6 +50,12 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.findNotice(boardVO);
     }
 
+   // 게시물 목록에서 첨부파일 여부 아이콘 노출
+    @Override
+    public List<BoardAttachVO> getBoardAttachList(BoardVO boardVO) {
+        return attachMapper.findByBoardId(boardVO.getBoardId());
+    }
+
     // 게시글 상세 보기
     @Override
     public BoardVO getBoardListDetail(Long boardId) {
@@ -212,12 +218,6 @@ public class BoardServiceImpl implements BoardService {
             });
         }
         return modifyResult;
-    }
-
-
-    @Override
-    public List<BoardAttachVO> getBoardAttachList(BoardVO boardVO) {
-        return attachMapper.findByBoardId(boardVO.getBoardId());
     }
 }
 

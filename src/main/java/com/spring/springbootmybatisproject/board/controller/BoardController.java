@@ -41,8 +41,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/list")
-    public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO,
-                                  HttpServletRequest req) {
+    public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO) {
         // 저장한 세션 정보 가져오기
 //        HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
 //        AccountVO loginAccount = (AccountVO) session.getAttribute("account");
@@ -62,21 +61,21 @@ public class BoardController {
         model.addAttribute("listCnt", listCnt);
         model.addAttribute("pagination", pagination);
 
-        // 전체 리스트 출력
         ModelAndView mv = new ModelAndView();
 
+        // 전체 리스트 출력
         List<BoardVO> boardVORes = boardService.getBoardList(boardVO);
 
         // 게시물타입이 N(공지사항)인 경우 리스트 출력
         List<BoardVO> boardTypeNotice = boardService.getBoardTypeNoticeList(boardVO);
 
-
-       for(BoardVO vo: boardVORes){
-           List<BoardAttachVO> boardAttachVOS = boardService.getBoardAttachList(vo);
-           if(boardAttachVOS != null && boardAttachVOS.size() >0) {
-               vo.setAttachCheck(true);
-           }
-       }
+        // 게시물 목록에서 첨부파일 여부 아이콘 노출
+        for (BoardVO vo : boardVORes) {
+            List<BoardAttachVO> boardAttachVOS = boardService.getBoardAttachList(vo);
+            if (boardAttachVOS != null && boardAttachVOS.size() > 0) {
+                vo.setAttachCheck(true);
+            }
+        }
 
 
         mv.addObject("boardList", boardVORes); // jstl로 호출
@@ -100,10 +99,6 @@ public class BoardController {
         // 해당 댓글 목록
         List<ReplyVO> replyVORes = replyService.getReplyList(boardId);
         model.addAttribute("replyList", replyVORes);
-
-//        // 해당 파일 목록
-//        List<FileVO> fileVORes = boardService.getFileList(boardId);
-//        model.addAttribute("fileList", fileVORes);
 
         return "/board/boardDetail";
     }
@@ -215,14 +210,17 @@ public class BoardController {
         BoardVO boardVO = boardService.getBoardListDetail(boardId);
         model.addAttribute("boardListDetail", boardVO);
 
-        // 해당 파일 목록
-//        List<FileVO> fileVORes = boardService.getFileList(boardId);
-//        model.addAttribute("fileList", fileVORes);
-
         return "board/boardModify";
     }
 
-    // 추가
+    // 추가 2020.8
+
+    /**
+     * 게시글 수정
+     *
+     * @param boardVO
+     * @return
+     */
     @PostMapping("/modify")
     @ResponseBody
     public ResultVO modify(@ModelAttribute BoardVO boardVO) {
@@ -261,98 +259,6 @@ public class BoardController {
 //    }
 
     /**
-     * 게시글 수정
-     *
-     * @param boardVO
-     * @param multipartReq
-     * @return
-     */
-//    @PostMapping("/setModify")
-//    @ResponseBody
-//    public ResultVO boardModify(@ModelAttribute BoardVO boardVO, MultipartHttpServletRequest multipartReq) {
-//        ResultVO result = new ResultVO();
-//        String title = boardVO.getTitle();
-//        String content = boardVO.getContent();
-//        Long accountId = boardVO.getAccountId();
-//        try {
-//            if (title != null && content != null && accountId != null) {
-//                Long boardId = boardService.setBoardModify(boardVO);
-//                //체크 파일 삭제(disk, DB)
-////                String[] checkFileNum = multipartReq.getParameterValues("checkFileNum");
-////                if (checkFileNum != null) {
-////                    for (String cfn : checkFileNum) {
-////                        long fileId = Long.parseLong(cfn);
-////                        String originFilename = boardService.getFilename(fileId);
-////                        String safeFile = PREFIX_URL + originFilename;
-////
-////                        // disk 첨부 파일 삭제
-////                        File removeFile = new File(safeFile);
-////                        boolean delYn = removeFile.delete();
-////                        if (delYn) {
-////                            System.out.println("Disk File Delete Success");
-////                        } else {
-////                            System.out.println("Disk File Delete Fail");
-////                        }
-////                        boardService.deleteBoardFile(fileId);
-////                    }
-////                }
-//
-//                // 새 파일 업로드
-//                FileVO fileVO = new FileVO();
-//                List<MultipartFile> newFileList = multipartReq.getFiles("file");
-//                for (MultipartFile mf : newFileList) {
-//                    if (!mf.isEmpty()) {
-//
-//                        String newOriginFilename = mf.getOriginalFilename(); // 원본 파일명
-//                        String extName = newOriginFilename.substring(newOriginFilename.lastIndexOf("."), newOriginFilename.length());
-//                        //서버에서 저장 할 파일 이름
-//                        String newSaveFilename = genSaveFileName(extName);
-////                    String newSaveFilename = dateResult + "_" + newOriginFilename; // 저장될 파일명
-//                        long newFileSize = mf.getSize(); // 파일 사이즈
-//
-//                        System.out.println("originFilename: " + newOriginFilename);
-//                        System.out.println("extensionName: " + extName);
-//                        System.out.println("fileSize: " + newFileSize);
-//                        System.out.println("saveFileName: " + newSaveFilename);
-//
-//                        String fileLocation = PREFIX_URL + newSaveFilename;
-//                        fileVO.setBoardId(boardId);
-//                        fileVO.setOriginFilename(newOriginFilename);
-//                        fileVO.setSaveFilename(newSaveFilename);
-//                        fileVO.setFileLocation(fileLocation);
-//                        fileVO.setFileSize(newFileSize);
-//
-//                        // disk 파일 저장
-//                        String safeNewFile = PREFIX_URL + newOriginFilename;
-//                        try {
-//                            mf.transferTo(new File(safeNewFile));
-//                            boardService.addBoardFile(fileVO);
-//                            result.setResCode(SFV.INT_RES_CODE_B_UPDATE_SUCCESS);
-//                            result.setResMsg(SFV.STRING_RES_B_UPDATE_SUCCESS);
-//                        } catch (IOException | IllegalStateException e) {
-//                            e.printStackTrace();
-//                            System.out.println("[message]:" + SFV.STRING_RES_B_INSERT_FILE_FAIL
-//                                    + " [code]: " + SFV.INT_RES_CODE_B_INSERT_FILE_FAIL);
-//                            result.setResCode(SFV.INT_RES_CODE_B_INSERT_FILE_FAIL);
-//                            result.setResMsg(SFV.STRING_RES_B_INSERT_FILE_FAIL);
-//                        }
-//                    }
-//                }
-//
-//            }
-//
-//            result.setResCode(SFV.INT_RES_CODE_B_UPDATE_SUCCESS);
-//            result.setResMsg(SFV.STRING_RES_B_UPDATE_SUCCESS);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            result.setResCode(SFV.INT_RES_CODE_B_UPDATE_FAIL);
-//            result.setResMsg(SFV.STRING_RES_B_UPDATE_FAIL);
-//        }
-//
-//        return result;
-//    }
-
-    /**
      * 게시글 삭제
      *
      * @param boardVO
@@ -385,7 +291,7 @@ public class BoardController {
     }
 
     /**
-     * 실제 파일 삭제 메서드
+     * 디렉터리(서버) 파일 삭제 메서드
      *
      * @param attachList
      */
@@ -422,24 +328,11 @@ public class BoardController {
      *
      * @param curPage
      * @param model
-     * @param boardVO
      * @return
      */
     @GetMapping("/search")
     public ModelAndView boardSearch(@RequestParam(defaultValue = "1") int curPage,
-                                    Model model, BoardVO boardVO, SearchVO searchVO) {
-//        List<BoardVO> searchList = new ArrayList<>();
-//        if (type.equals("title") && keyword != null) {
-//            searchList = boardService.getBoardSearch(keyword);
-//        } else if (type.equals("content") && keyword != null) {
-//            searchList = boardService.getBoardSearch(keyword);
-//        } else if (type.equals("writer") && keyword != null) {
-//            searchList = boardService.getBoardSearch(keyword);
-//        }
-
-        // 키워드, 타입 클라이언트로 재전송
-        model.addAttribute("keyword", searchVO.getKeyword());
-        model.addAttribute("type", searchVO.getType());
+                                    Model model, SearchVO searchVO) {
 
         // 전체 리스트 개수
         int listCnt = boardService.getSearchBoardListTotalCnt(searchVO);
@@ -453,6 +346,10 @@ public class BoardController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("boardList", searchList); // jstl로 호출
         mv.setViewName("board/boardList"); // 실제 호출될 jsp 페이지
+
+        // 키워드, 타입 클라이언트로 재전송
+        model.addAttribute("keyword", searchVO.getKeyword());
+        model.addAttribute("type", searchVO.getType());
         return mv;
     }
 

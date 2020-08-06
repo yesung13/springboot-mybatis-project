@@ -18,6 +18,9 @@ public interface BoardService {
     // 공지 게시글 목록
     List<BoardVO> getBoardTypeNoticeList(BoardVO boardVO);
 
+    // 게시물 목록에서 첨부파일 여부 아이콘 노출
+    List<BoardAttachVO> getBoardAttachList(BoardVO boardVO);
+
     // 게시글 상세 보기
     BoardVO getBoardListDetail(Long boardId);
 
@@ -54,7 +57,8 @@ public interface BoardService {
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
 
-    //추가
+    // 추가 2020.8
+
     public void register(BoardVO boardVO);
 
     public List<BoardAttachVO> getAttachList(Long boardId);
@@ -63,6 +67,4 @@ public interface BoardService {
 
     public boolean modify(BoardVO boardVO);
 
-
-    List<BoardAttachVO> getBoardAttachList(BoardVO boardVO);
 }
