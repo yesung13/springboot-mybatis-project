@@ -124,7 +124,7 @@
                 <a class="col navbar-brand" href="/">
                     <img src="${pageContext.request.contextPath}/resources/images/cubes-solid.svg"
                          class="d-inline-block align-baseline" alt="logo">
-                    <span class="d-inline-block align-bottom">Blucean</span>
+                    <span class="d-inline-block align-bottom">Spring Demo</span>
                 </a>
             </div>
         </div>
