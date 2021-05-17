@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
-import java.awt.datatransfer.MimeTypeParseException;
+//import javax.activation.MimetypesFileTypeMap;
+//import java.awt.datatransfer.MimeTypeParseException;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
