@@ -85,10 +85,13 @@ dependencies {
 
     // 이미지 섬네일 조절 라이브러리
     // https://mvnrepository.com/artifact/net.coobird/thumbnailator
-    compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
+    compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.11'
 
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.2'
 
-
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.10.2'
 
 
 }

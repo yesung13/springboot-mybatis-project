@@ -5,7 +5,7 @@
 
     <!-- 댓글 목록 -->
     <select id="selBoardReply" parameterType="long" resultType="ReplyVO">
-        SELECT boardId, replyId, replyWriter, replyContent, DATE_FORMAT(replyDatetime, '%Y-%m-%d %H:%i:%s') AS replyDatetime
+        SELECT boardId, replyId, accountId, replyWriter, replyContent, DATE_FORMAT(replyDatetime, '%Y-%m-%d %H:%i:%s') AS replyDatetime
         FROM bbs_reply
         WHERE boardId = #{boardId}
         ORDER BY replyDatetime DESC;

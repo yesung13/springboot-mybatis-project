@@ -25,61 +25,39 @@
             text-decoration: none;
             color: #4374D9;
         }
+
+        div > input {
+            width: 100px;
+        }
     </style>
     <script type="text/javascript">
-        // 초기화 버튼
-        function reset_btn() {
-            $("#title").val(null);
-            $("#content").val(null);
-        }
-
-        // 게시글 수정
-        function modify_btn(boardId) {
-            var titleChceck = $('#title').val();
-            var contentCheck = $('#content').val();
-            if (titleChceck == null || titleChceck === "") {
-                alert("제목을 입력해 주세요!");
-                $("#title").focus();
-                return false;
-            }
-            if (contentCheck == null || contentCheck === "") {
-                alert("내용을 입력해 주세요!");
-                $("#content").focus();
-                return false;
-            }
-
-            var requestUrl = '/board/setModify';
-            var data = {}; // 객체
-            data.boardId = boardId;
-            data.title = $('#title').val();
-            data.content = $('#content').val();
-            data = JSON.stringify(data); //자바스크립트 객체를 json 객체로 변환
-            console.log("Insert Request Data:", data);
-            $.ajax({
-                type: 'post',
-                url: requestUrl,
-                data: data,
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function (res) {
-                    console.log("Insert Response Data:", res);
-                    if (res === 0) {
-                        alert("게시글이 수정되었습니다.");
-                        location.replace('/board/detail?id='+boardId);
-                    }else if(res !== 0){
-                        alert("게시글 수정을 실패했습니다.");
-                        location.replace('/board/detail?id='+boardId);
-                    }
-
-                }, error: function (xhr, e, res) {
-                    console.log("Response Error", res);
-                    alert("에러!!");
-                    window.location.reload(true); // 캐시 제거 후 새 파일 로드 HTTP 200
+        const boardId = ${boardListDetail.boardId};
+        $(document).ready(function () {
+            $('#back_btn').click(function () {
+                window.location.href = '/board/detail?id=' + boardId;
+            })
+            // 초기화 버튼
+            $('#reset_btn').click(function () {
+                $("#title").val(null);
+                $("#content").val(null);
+            })
+            $("#modify_btn").click(function () {
+                let title = $("#title").val();
+                let content = $("#content").val();
+                if (title == null || title === "") {
+                    alert("제목을 입력해 주세요!");
+                    $("#title").focus();
+                    return false;
                 }
+
+                if (content == null || content === "") {
+                    alert("내용을 입력해 주세요!");
+                    $("#content").focus();
+                    return false;
+                }
+                return modify_btn();
             });
-
-        }
-
+        });
         // 글 입력 시 카운트
         $(document).on('keyup', '#content', function (e) {
             var textarea01 = $(this).val();
@@ -94,6 +72,35 @@
             return cnt;
         }
 
+        function modify_btn() {
+            let form = $('#form')[0];
+            let data = new FormData(form);
+            console.log("Insert Request Data:", data);
+            $.ajax({
+                type: 'POST',
+                url: '/board/setModify',
+                data: data,
+                processData: false,
+                contentType: false,
+                // cache: false,
+                // timeout: 600000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+                    if (response.resCode === 602) {
+                        alert(response.resMsg);
+                        location.replace('/board/detail?id=' + boardId);
+                    } else if (response.resCode === 603) {
+                        alert(response.resMsg);
+                    } else if (response.resCode === 607) {
+                        alert(response.resMsg);
+                    }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
+        }
     </script>
 </head>
 <body class="body">
@@ -105,65 +112,69 @@
 <section>
     <div class="container mt-5">
         <h3 class="text-center">글수정</h3>
-        <table class="table table-bordered">
-            <tr class="thead-light">
-                <th class="tcenter">
-                    <label for="title">제목</label>
-                </th>
-                <td>
-                    <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"
-                           value="${boardListDetail.title}"/>
-                </td>
-            </tr>
-            <tr class="thead-light">
-                <th class="tcenter">
-                    <label for="content">내용</label>
-                </th>
-                <td>
+        <%--        <form action="${pageContext.request.contextPath}/board/setModify" method="POST"--%>
+        <%--              onsubmit="return writeCheck_btn()" enctype="multipart/form-data">--%>
+        <form id="form">
+            <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
+            <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
+            <input type="hidden" value="${sessionScope.account.userName}" name="writer">
+            <table class="table table-bordered">
+                <tr class="thead-light">
+                    <th class="tcenter">
+                        <label for="title">제목</label>
+                    </th>
+                    <td>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="40자 이내  작성하세요"
+                               value="${boardListDetail.title}"/>
+                    </td>
+                </tr>
+                <tr class="thead-light">
+                    <th class="tcenter">
+                        <label for="content">내용</label>
+                    </th>
+                    <td>
                     <textarea id="content" name="content" rows="8" class="form-control w-100"
                               placeholder="내용을 입력하세요...">${boardListDetail.content}</textarea>
-                    <div>
-                        <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
-                    </div>
-                </td>
-            </tr>
-            <tr class="thead-light">
-                <th class="tcenter ">
-                    <label for="file">첨부파일</label>
-                </th>
-                <td align="left">
-                    <c:forEach var="file" items="${fileList}">
-                        <p>
-                            <input type="checkbox" name="fileno" value="<c:out value="${file.fno}"/>">
-                            <c:out value="${file.ofilename}"/>
-                            <c:out value="(${file.filesize} byte)"/>
-                            <span class="date">&nbsp;&nbsp;*&nbsp; ✔-삭제</span>
-                        </p>
-                    </c:forEach>
-                    <c:if test="${empty fileList}">
-                        <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다. </span>
-                    </c:if>
-                </td>
-            </tr>
-            <tr class="thead-light">
-                <th class="tcenter ">
-                    <label for="file">파일수정</label>
-                </th>
-                <td>
-                    <input type="file" id="file" name="file" multiple/>
-                    <span class="date">&nbsp;&nbsp;*&nbsp;파일명이 변경될 수 있습니다.</span>
-                </td>
-            </tr>
-        </table>
-        <br/>
-        <div class="row justify-content-center">
-            <input type="button" value="초기화" class="btn btn-outline-secondary" style="width: 100px"
-                   onclick="reset_btn()"/>
-            <input type="button" value="수정" class="btn btn-outline-secondary mx-1" onclick="update_btn(${boardListDetail.boardId})"
-                   style="width: 100px"/>
-            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='/board/detail?id='+${boardListDetail.boardId}"
-                   style="width: 100px"/>
-        </div>
+                        <div>
+                            <span id="cntSPAN">0</span>&nbsp;<span>bytes</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="thead-light">
+                    <th class="tcenter ">
+                        <label for="file">첨부파일</label>
+                    </th>
+                    <td align="left">
+                        <c:forEach var="file" items="${fileList}">
+                            <p>
+                                <input type="checkbox" name="checkFileNum" value="${file.fileId}"/>
+                                <c:out value="${file.originFilename}"/>
+                                <c:out value="(${file.fileSize} byte)"/>
+                                <span class="date">&nbsp;&nbsp;*&nbsp; ✔-삭제</span>
+                            </p>
+                        </c:forEach>
+                        <c:if test="${empty fileList}">
+                            <span style="color: #A6A6A6; "> 첨부된 파일이 없습니다. </span>
+                        </c:if>
+                    </td>
+                </tr>
+                <tr class="thead-light">
+                    <th class="tcenter ">
+                        <label for="file">파일수정</label>
+                    </th>
+                    <td>
+                        <input type="file" id="file" name="file" multiple/>
+                        <span class="date">&nbsp;&nbsp;*&nbsp;파일명이 변경될 수 있습니다.</span>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <div class="row justify-content-center">
+                <input type="button" value="초기화" class="btn btn-outline-secondary" id="reset_btn"/>
+                <input type="button" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
+                <input type="button" value="취소" class="btn btn-outline-secondary" id="back_btn"/>
+            </div>
+        </form>
     </div>
 </section>
 

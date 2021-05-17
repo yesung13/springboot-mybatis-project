@@ -1,23 +1,30 @@
 package com.spring.springbootmybatisproject.board.service;
 
+import com.spring.springbootmybatisproject.board.model.BoardAttachVO;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.SearchVO;
+import com.spring.springbootmybatisproject.board.repository.BoardAttachMapper;
 import com.spring.springbootmybatisproject.board.repository.BoardMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
+    private final BoardAttachMapper attachMapper;
 
-    public BoardServiceImpl(BoardMapper boardMapper) {
+    public BoardServiceImpl(BoardMapper boardMapper, BoardAttachMapper attachMapper) {
         this.boardMapper = boardMapper;
+        this.attachMapper = attachMapper;
     }
 
 //    @Override
@@ -35,6 +42,18 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardVO> getBoardList(BoardVO boardVO) {
         return boardMapper.findAll(boardVO);
+    }
+
+    // 공지 게시글 목록
+    @Override
+    public List<BoardVO> getBoardTypeNoticeList(BoardVO boardVO) {
+        return boardMapper.findNotice(boardVO);
+    }
+
+   // 게시물 목록에서 첨부파일 여부 아이콘 노출
+    @Override
+    public List<BoardAttachVO> getBoardAttachList(BoardVO boardVO) {
+        return attachMapper.findByBoardId(boardVO.getBoardId());
     }
 
     // 게시글 상세 보기
@@ -128,6 +147,77 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteBoardFile(Long fileId) {
         boardMapper.deleteByFile(fileId);
+    }
+
+    //추가
+    @Transactional
+    @Override
+    public void register(BoardVO boardVO) {
+
+        log.info("register....." + boardVO);
+
+        boardMapper.saveBoardWrite(boardVO);
+
+        if (boardVO.getAttachList() == null || boardVO.getAttachList().size() <= 0) {
+            return;
+        }
+
+        boardVO.getAttachList().forEach(attachVO -> {
+            attachVO.setBoardId(boardVO.getBoardId());
+            attachMapper.insert(attachVO);
+        });
+
+    }
+
+    @Override
+    public List<BoardAttachVO> getAttachList(Long boardId) {
+
+        log.info("get Attach list by boardId: " + boardId);
+
+        return attachMapper.findByBoardId(boardId);
+    }
+
+    @Transactional
+    @Override
+    public boolean remove(Long boardId) {
+
+        log.info("remove...." + boardId);
+        //DB 데이터 삭제
+        attachMapper.deleteAll(boardId);
+
+//        Long findBoardId = boardMapper.deleteById(boardId);
+//        boolean check = false;
+//        if (findBoardId != null) {
+//            check = true;
+//        }
+//        return check;
+//
+        return boardMapper.deleteById(boardId) == 1;
+    }
+
+    @Transactional
+    @Override
+    public boolean modify(BoardVO boardVO) {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateResult = format.format(date);
+        log.info("modify...." + boardVO);
+
+        //DB 데이터 삭제
+        attachMapper.deleteAll(boardVO.getBoardId());
+
+        boardVO.setBoardUpDatetime(dateResult);
+
+        boolean modifyResult = boardMapper.updateById(boardVO) == 1;
+
+        if (modifyResult && boardVO.getAttachList() != null && boardVO.getAttachList().size() > 0) {
+
+            boardVO.getAttachList().forEach(boardAttachVO -> {
+                boardAttachVO.setBoardId(boardVO.getBoardId());
+                attachMapper.insert(boardAttachVO);
+            });
+        }
+        return modifyResult;
     }
 }
 

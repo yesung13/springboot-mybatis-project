@@ -22,6 +22,6 @@ public class ReplyVO {
     private String replyWriter;
     @NotBlank(message = "댓글을 입력하세요.")
     private String replyContent;
-    private Date replyDatetime;
+    private String replyDatetime;
 
 }

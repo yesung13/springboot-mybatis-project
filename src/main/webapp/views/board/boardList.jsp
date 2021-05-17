@@ -41,7 +41,7 @@
 
         //페이징
         function fn_paging(curPage, type, keyword) {
-            if(type != null && keyword != null && type !== '' && keyword !== '') {
+            if (type != null && keyword != null && type !== '' && keyword !== '') {
                 location.href = "/board/search?curPage=" + curPage + "&type=" + type + "&keyword=" + keyword;
             } else {
                 location.href = "/board/list?curPage=" + curPage;
@@ -100,6 +100,7 @@
         </div>
     </div>
 
+
     <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
         <tr class="text-center">
@@ -112,6 +113,31 @@
         </tr>
         </thead>
         <tbody>
+
+        <%-- 공지사항 게시물 (최근 3개) --%>
+        <c:if test="${fn:length(boardTypeNList) ne 0 && fn:length(boardTypeNList) ne null}">
+            <c:forEach var="item" items="${boardTypeNList}">
+                <tr>
+                    <td style="text-align: center" class="align-content-center">
+                        <a href="javascript:void(0)" class="btn btn-danger btn-sm disabled" aria-disabled="true">공지</a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-link text-decoration-none text-danger font-weight-bold"
+                                onclick="detail_btn(${item.boardId})">${item.title}</button>
+<%--                        <c:if test="${item.attachCheck eq true}">--%>
+<%--                            <img src="${pageContext.request.contextPath}/resources/images/baseline_attachment_black_24dp.png" alt="..">--%>
+<%--                        </c:if>--%>
+                    </td>
+                    <td style="text-align: center">${item.writer}</td>
+                    <td style="text-align: center">${item.viewCnt}</td>
+                    <td style="text-align: center">${item.replyCnt}</td>
+                    <td style="text-align: center">${item.boardDatetime}</td>
+                </tr>
+            </c:forEach>
+        </c:if>
+        <%-- end 공지사항 게시물 --%>
+
+        <%-- 게시물 --%>
         <c:choose>
             <c:when test="${fn:length(boardList) eq 0 || fn:length(boardList) eq null}">
                 <tr>
@@ -125,6 +151,9 @@
                         <td>
                             <button type="button" class="btn btn-link text-decoration-none text-info"
                                     onclick="detail_btn(${item.boardId})">${item.title}</button>
+                            <c:if test="${item.attachCheck eq true}">
+                                <img src="${pageContext.request.contextPath}/resources/images/baseline_attachment_black_24dp.png" alt="..">
+                            </c:if>
                         </td>
                         <td style="text-align: center">${item.writer}</td>
                         <td style="text-align: center">${item.viewCnt}</td>
@@ -136,6 +165,7 @@
         </c:choose>
         </tbody>
     </table>
+    <%-- end 게시물 --%>
 
     <%--
         **jstl 비교문법**
@@ -152,12 +182,14 @@
         <ul class="pagination pagination-sm justify-content-center">
             <li class="page-item">
                 <c:if test="${pagination.curRange ne 1 }">
-                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging(1, '${type}', '${keyword}')">[처음]</a>
+                    <a href="javascript:void(0)" class="page-link"
+                       onClick="fn_paging(1, '${type}', '${keyword}')">[처음]</a>
                 </c:if>
             </li>
             <li class="page-item">
                 <c:if test="${pagination.curPage ne 1}">
-                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.prevPage }', '${type}', '${keyword}')"
+                    <a href="javascript:void(0)" class="page-link"
+                       onClick="fn_paging('${pagination.prevPage }', '${type}', '${keyword}')"
                        aria-label="previous"><</a>
                 </c:if>
             </li>
@@ -179,7 +211,8 @@
             </c:forEach>
             <li class="page-item">
                 <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-                    <a href="javascript:void(0)" class="page-link" onClick="fn_paging('${pagination.nextPage }', '${type}', '${keyword}')"
+                    <a href="javascript:void(0)" class="page-link"
+                       onClick="fn_paging('${pagination.nextPage }', '${type}', '${keyword}')"
                        aria-label="next">></a>
                 </c:if>
             </li>

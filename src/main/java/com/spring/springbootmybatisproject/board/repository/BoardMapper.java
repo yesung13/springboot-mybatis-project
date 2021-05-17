@@ -19,6 +19,9 @@ public interface BoardMapper {
     // 게시글 목록
     List<BoardVO> findAll(BoardVO boardVO);
 
+    // 공지 게시글 목록
+    List<BoardVO> findNotice(BoardVO boardVO);
+
     // 게시글 상세 보기
     BoardVO findByBoardId(Long boardId);
 
@@ -26,10 +29,11 @@ public interface BoardMapper {
     void saveBoardWrite(BoardVO boardVO);
 
     // 게시글 수정
-    void updateById(BoardVO boardVO);
+    int updateById(BoardVO boardVO);
 
     // 게시글 삭제
-    void deleteById(Long boardId);
+    int deleteById(Long boardId);
+//    void deleteById(Long boardId);
 
     // 검색 게시글 총 갯수
     int searchBoardListTotalCnt(SearchVO searchVO);
@@ -51,4 +55,5 @@ public interface BoardMapper {
 
     // 해당 첨부 파일 삭제
     void deleteByFile(Long fileId);
+
 }

@@ -1,5 +1,6 @@
 package com.spring.springbootmybatisproject.board.service;
 
+import com.spring.springbootmybatisproject.board.model.BoardAttachVO;
 import com.spring.springbootmybatisproject.board.model.BoardVO;
 import com.spring.springbootmybatisproject.board.model.FileVO;
 import com.spring.springbootmybatisproject.board.model.SearchVO;
@@ -13,6 +14,12 @@ public interface BoardService {
 
     // 게시글 목록
     List<BoardVO> getBoardList(BoardVO boardVO);
+
+    // 공지 게시글 목록
+    List<BoardVO> getBoardTypeNoticeList(BoardVO boardVO);
+
+    // 게시물 목록에서 첨부파일 여부 아이콘 노출
+    List<BoardAttachVO> getBoardAttachList(BoardVO boardVO);
 
     // 게시글 상세 보기
     BoardVO getBoardListDetail(Long boardId);
@@ -49,5 +56,15 @@ public interface BoardService {
 
 
 //    List<Map<String, Object>> getBoardList(List<Integer> params);
+
+    // 추가 2020.8
+
+    public void register(BoardVO boardVO);
+
+    public List<BoardAttachVO> getAttachList(Long boardId);
+
+    public boolean remove(Long boardId);
+
+    public boolean modify(BoardVO boardVO);
 
 }
