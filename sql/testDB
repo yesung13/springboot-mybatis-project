@@ -1,0 +1,288 @@
+-- --------------------------------------------------------
+-- 호스트:                          127.0.0.1
+-- 서버 버전:                        10.3.22-MariaDB - mariadb.org binary distribution
+-- 서버 OS:                        Win64
+-- HeidiSQL 버전:                  11.0.0.5919
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- test 데이터베이스 구조 내보내기
+CREATE DATABASE IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `test`;
+
+-- 테이블 test.bbs_account 구조 내보내기
+CREATE TABLE IF NOT EXISTS `bbs_account` (
+  `accountId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
+  `accountEmail` varchar(80) COLLATE utf8mb4_bin NOT NULL COMMENT '계정이메일',
+  `accountPassword` varchar(80) COLLATE utf8mb4_bin NOT NULL COMMENT '계정암호',
+  `userName` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '사용자명',
+  `userPhoneNumber` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '사용자폰번호',
+  `birthDay` varchar(8) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '생년월일',
+  `sexCode` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '성별코드',
+  `createDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '생성일시',
+  `createHost` varchar(40) COLLATE utf8mb4_bin NOT NULL DEFAULT 'admin' COMMENT '생성ID',
+  `updateDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '수정일시',
+  `updateHost` varchar(40) COLLATE utf8mb4_bin NOT NULL DEFAULT 'admin' COMMENT '수정ID',
+  PRIMARY KEY (`accountId`),
+  UNIQUE KEY `accountEmail` (`accountEmail`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='계정';
+
+-- 테이블 데이터 test.bbs_account:~4 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `bbs_account` DISABLE KEYS */;
+INSERT IGNORE INTO `bbs_account` (`accountId`, `accountEmail`, `accountPassword`, `userName`, `userPhoneNumber`, `birthDay`, `sexCode`, `createDatetime`, `createHost`, `updateDatetime`, `updateHost`) VALUES
+	(1, 'admin', '1234', 'admin', '01000000000', '900113', 'M', '2020-08-03 23:10:39', 'admin', '2020-08-03 23:10:39', 'admin'),
+	(2, 'test', '1234', 'test', '01023452345', '000000', 'M', '2020-08-03 23:12:06', 'admin', '2020-08-03 23:12:06', 'admin'),
+	(3, 'asd@naver.com', '1234', 'asd', '01034563456', '960113', 'W', '2020-08-03 23:12:38', 'admin', '2020-08-03 23:12:38', 'admin'),
+	(4, 'qwe@gmail.com', '1234', 'qwe', '01012341234', '890112', 'W', '2020-08-03 23:13:32', 'admin', '2020-08-03 23:13:32', 'admin');
+/*!40000 ALTER TABLE `bbs_account` ENABLE KEYS */;
+
+-- 테이블 test.bbs_attach 구조 내보내기
+CREATE TABLE IF NOT EXISTS `bbs_attach` (
+  `uuid` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `uploadPath` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `fileName` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `filetype` char(1) COLLATE utf8mb4_bin DEFAULT 'I',
+  `boardId` bigint(20) DEFAULT NULL COMMENT '게시물ID',
+  PRIMARY KEY (`uuid`),
+  KEY `FK_bbs_board_TO_bbs_attach` (`boardId`),
+  CONSTRAINT `FK_bbs_board_TO_bbs_attach` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='파일2';
+
+-- 테이블 데이터 test.bbs_attach:~5 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `bbs_attach` DISABLE KEYS */;
+INSERT IGNORE INTO `bbs_attach` (`uuid`, `uploadPath`, `fileName`, `filetype`, `boardId`) VALUES
+	('22b5d83e-0e3c-4bd1-bae0-c6642c0df4e3', '2020\\08\\03', 'img3.jpeg', '1', 182),
+	('3a0b8c85-9cd7-4777-95af-bc3d7bf11dd7', '2020\\08\\03', 'img2.jpg', '1', 182),
+	('5d1969ef-026f-40b3-9ff7-aa05cef4879e', '2020\\08\\03', 'test-excel.xlsx', '0', 180),
+	('7447a07b-2794-463f-abba-824259d22925', '2020\\08\\03', 'test2.xlsx', '0', 183),
+	('8426055d-5f18-40a1-935e-8ec38cc394b4', '2020\\08\\03', 'img5.jpeg', '1', 180),
+	('90bb8545-7c43-46b9-a437-ad21a0c41263', '2020\\08\\04', 'test2.xlsx', '0', 187);
+/*!40000 ALTER TABLE `bbs_attach` ENABLE KEYS */;
+
+-- 테이블 test.bbs_board 구조 내보내기
+CREATE TABLE IF NOT EXISTS `bbs_board` (
+  `boardId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
+  `accountId` bigint(20) NOT NULL COMMENT '계정ID',
+  `title` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '글제목',
+  `content` varchar(4000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '글내용',
+  `writer` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '글쓴이',
+  `viewCnt` int(20) DEFAULT 0 COMMENT '조회수',
+  `replyCnt` int(20) DEFAULT 0 COMMENT '댓글수',
+  `boardDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '글생성일시',
+  `boardUpDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '글수정일시',
+  `boardType` varchar(50) COLLATE utf8mb4_bin DEFAULT 'Q' COMMENT '게시물타입(QnA:Q,Notice:N)',
+  PRIMARY KEY (`boardId`),
+  KEY `FK_bbs_account_TO_bbs_board` (`accountId`),
+  CONSTRAINT `FK_bbs_account_TO_bbs_board` FOREIGN KEY (`accountId`) REFERENCES `bbs_account` (`accountId`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='게시판';
+
+-- 테이블 데이터 test.bbs_board:~45 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `bbs_board` DISABLE KEYS */;
+INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `writer`, `viewCnt`, `replyCnt`, `boardDatetime`, `boardUpDatetime`, `boardType`) VALUES
+	(140, 2, '게시판 테스트1', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(141, 2, '게시판 테스트2', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(142, 2, '게시판 테스트3', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(143, 2, '게시판 테스트4', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(144, 2, '게시판 테스트5', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(145, 2, '게시판 테스트6', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(146, 2, '게시판 테스트7', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(147, 2, '게시판 테스트8', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(148, 2, '게시판 테스트9', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(149, 2, '게시판 테스트10', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(150, 2, '게시판 테스트11', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(151, 2, '게시판 테스트12', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(152, 2, '게시판 테스트13', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(153, 2, '게시판 테스트14', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(154, 2, '게시판 테스트15', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(155, 2, '게시판 테스트16', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(156, 2, '게시판 테스트17', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(157, 2, '게시판 테스트18', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(158, 2, '게시판 테스트19', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(159, 2, '게시판 테스트20', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(160, 2, '게시판 테스트21', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(161, 2, '게시판 테스트22', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(162, 2, '게시판 테스트23', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(163, 2, '게시판 테스트24', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(164, 2, '게시판 테스트25', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(165, 2, '게시판 테스트26', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(166, 2, '게시판 테스트27', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(167, 2, '게시판 테스트28', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(168, 2, '게시판 테스트29', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(169, 2, '게시판 테스트30', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(170, 2, '게시판 테스트31', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(171, 2, '게시판 테스트32', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(172, 2, '게시판 테스트33', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(173, 2, '게시판 테스트34', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(174, 2, '게시판 테스트35', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(175, 2, '게시판 테스트36', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(176, 2, '게시판 테스트37', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(177, 2, '게시판 테스트38', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(178, 2, '게시판 테스트39', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(179, 2, '게시판 테스트40', '게시판 테스트 입니다', 'test', 1, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(180, 1, '공지사항 테스트 취소', '공지사항 테스트', 'admin', 10, 0, '2020-08-03 23:35:35', '2020-08-04 00:07:07', 'N'),
+	(181, 2, 'dfdfd', 'fdfdfdf', 'test', 2, 0, '2020-08-03 23:38:58', '2020-08-03 23:38:58', 'Q'),
+	(182, 1, '공지사항을 알려드립니다.', '공지사항을 알려드립니다.11111', 'admin', 0, 0, '2020-08-03 23:57:25', '2020-08-03 23:57:25', 'N'),
+	(183, 1, '공지사항 테스트', 'ㅇㄹㅇㄹㅇ', 'admin', 0, 0, '2020-08-03 23:58:40', '2020-08-03 23:58:40', 'N'),
+	(185, 1, 'ㅇㅇㅇㅇ', 'ㅇㅇㅇㅇ', 'admin', 2, 0, '2020-08-04 00:20:28', '2020-08-04 00:20:28', 'N'),
+	(186, 1, 'ㄴㅇㄴㅇ', 'ㄴㅇㄴㅇㄴㅇㄴㅇ', 'admin', 2, 0, '2020-08-04 00:20:36', '2020-08-04 00:20:36', 'N'),
+	(187, 4, 'test', 'test', 'qwe', 3, 2, '2020-08-04 00:45:13', '2020-08-04 00:45:13', 'Q');
+/*!40000 ALTER TABLE `bbs_board` ENABLE KEYS */;
+
+-- 테이블 test.bbs_file 구조 내보내기
+CREATE TABLE IF NOT EXISTS `bbs_file` (
+  `fileId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
+  `boardId` bigint(20) NOT NULL COMMENT '게시판ID',
+  `originFilename` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '실제파일이름',
+  `saveFilename` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '서버저장파일이름',
+  `fileSize` bigint(50) DEFAULT 0 COMMENT '파일사이즈',
+  `createDatetime` datetime DEFAULT current_timestamp() COMMENT '파일 생성일시',
+  `fileLocation` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '파일 경로',
+  `delYn` varchar(1) COLLATE utf8mb4_bin DEFAULT 'N' COMMENT '파일삭제여부',
+  PRIMARY KEY (`fileId`),
+  KEY `FK_bbs_board_TO_bbs_file` (`boardId`),
+  CONSTRAINT `FK_bbs_board_TO_bbs_file` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='파일';
+
+-- 테이블 데이터 test.bbs_file:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `bbs_file` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bbs_file` ENABLE KEYS */;
+
+-- 테이블 test.bbs_reply 구조 내보내기
+CREATE TABLE IF NOT EXISTS `bbs_reply` (
+  `replyId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
+  `accountId` bigint(20) NOT NULL COMMENT '계정ID',
+  `boardId` bigint(20) NOT NULL COMMENT '게시판ID',
+  `replyWriter` varchar(60) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '댓글작성자',
+  `replyContent` varchar(2000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '댓글내용',
+  `replyDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '댓글생성일시',
+  PRIMARY KEY (`replyId`),
+  KEY `accountId` (`accountId`),
+  KEY `boardId` (`boardId`),
+  CONSTRAINT `accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_account` (`accountId`) ON DELETE CASCADE,
+  CONSTRAINT `boardId` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='게시판댓글';
+
+-- 테이블 데이터 test.bbs_reply:~2 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `bbs_reply` DISABLE KEYS */;
+INSERT IGNORE INTO `bbs_reply` (`replyId`, `accountId`, `boardId`, `replyWriter`, `replyContent`, `replyDatetime`) VALUES
+	(26, 1, 187, 'admin', 'ㄷㄱㄷㄱ', '2020-08-04 01:14:14'),
+	(28, 4, 187, 'qwe', 'dfdfdf', '2020-08-04 01:14:41');
+/*!40000 ALTER TABLE `bbs_reply` ENABLE KEYS */;
+
+-- 테이블 test.tbl_attach 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_attach` (
+  `uuid` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '파일UUID',
+  `uploadPath` varchar(200) COLLATE utf8mb4_bin NOT NULL COMMENT '파일경로',
+  `fileName` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '파일명',
+  `filetype` char(1) COLLATE utf8mb4_bin DEFAULT 'I' COMMENT '파일타입(이미지,일반)',
+  `bno` bigint(50) DEFAULT NULL COMMENT '게시물idx',
+  PRIMARY KEY (`uuid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- 테이블 데이터 test.tbl_attach:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `tbl_attach` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_attach` ENABLE KEYS */;
+
+-- 테이블 test.tb_sys_qna 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tb_sys_qna` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `accountEmail` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '계정이메일',
+  `userPhoneNumber` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '사용자폰번호',
+  `replyEmailAddress` varchar(60) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '이메일주소',
+  `questionContent` varchar(1800) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '문의내용',
+  `replyFlag` varchar(1) COLLATE utf8mb4_bin NOT NULL DEFAULT 'N' COMMENT '답변여부',
+  `questionTypeCode` varchar(3) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '문의유형코드',
+  `replyContent` varchar(4000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '답변내용',
+  `replyId` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '답변ID',
+  `replyDatetime` datetime DEFAULT NULL COMMENT '답변일시',
+  `replyEmailFlag` varchar(1) COLLATE utf8mb4_bin NOT NULL DEFAULT 'N' COMMENT '답변이메일여부',
+  `replyEmailId` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '답변이메일ID',
+  `replyEmailDatetime` datetime DEFAULT NULL COMMENT '답변이메일일시',
+  `qnaTypeCode` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '질의응답유형코드',
+  `createDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '생성일시',
+  `createHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '생성ID',
+  `updateDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '수정일시',
+  `updateHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '수정ID',
+  PRIMARY KEY (`id`),
+  KEY `ix_sys_qna` (`accountEmail`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='질의응답';
+
+-- 테이블 데이터 test.tb_sys_qna:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `tb_sys_qna` DISABLE KEYS */;
+INSERT IGNORE INTO `tb_sys_qna` (`id`, `accountEmail`, `userPhoneNumber`, `replyEmailAddress`, `questionContent`, `replyFlag`, `questionTypeCode`, `replyContent`, `replyId`, `replyDatetime`, `replyEmailFlag`, `replyEmailId`, `replyEmailDatetime`, `qnaTypeCode`, `createDatetime`, `createHost`, `updateDatetime`, `updateHost`) VALUES
+	(1, 'qwe', '1111', 'test@gmail.com', 'qweqwe', 'N', NULL, NULL, NULL, NULL, 'N', NULL, NULL, NULL, '2020-05-19 23:41:29', 'YOON-FLEX', '2020-05-19 23:41:29', 'YOON-FLEX');
+/*!40000 ALTER TABLE `tb_sys_qna` ENABLE KEYS */;
+
+-- 테이블 test.tb_user 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tb_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `accountId` bigint(20) NOT NULL COMMENT '계정ID',
+  `phoneNumberId` bigint(20) NOT NULL COMMENT '폰번호ID',
+  `activeFlag` varchar(1) COLLATE utf8mb4_bin NOT NULL COMMENT '활성화여부',
+  `lastPracticeDatetime` datetime DEFAULT NULL COMMENT '최근실행일시',
+  `telecomName` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Network 연결된 이동통신사',
+  `createDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '생성일시',
+  `createHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '생성ID',
+  `updateDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '수정일시',
+  `updateHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '수정ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux1_user` (`accountId`,`phoneNumberId`),
+  KEY `ix1_user` (`phoneNumberId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='사용자';
+
+-- 테이블 데이터 test.tb_user:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
+
+-- 테이블 test.tb_user_account 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tb_user_account` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `accountEmail` varchar(80) COLLATE utf8mb4_bin NOT NULL COMMENT '계정이메일',
+  `accountPassword` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '계정암호[IOS]',
+  `birthDay` varchar(8) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '생년월일[AN]',
+  `sexCode` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '성별코드[AN]',
+  `openScopeCode` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '공개범위코드(A=모두공개, F=친구만공개, B=모두비공개)',
+  `countryCode` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '국가코드',
+  `joinDivisionCode` varchar(2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '가입구분코드[IOS] (F:FACEBOOK, G:GOOGLE, E:EMAIL)',
+  `userName` varchar(60) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '사용자명',
+  `firstPracticeDatetime` datetime DEFAULT NULL COMMENT '최초실행일시',
+  `lastPracticeDatetime` datetime DEFAULT NULL COMMENT '최근실행일시',
+  `createDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '생성일시',
+  `createHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '생성ID',
+  `updateDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '수정일시',
+  `updateHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '수정ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_user_account` (`accountEmail`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='계정';
+
+-- 테이블 데이터 test.tb_user_account:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `tb_user_account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_user_account` ENABLE KEYS */;
+
+-- 테이블 test.tb_user_phone_number 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tb_user_phone_number` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `userPhoneNumber` varchar(20) COLLATE utf8mb4_bin NOT NULL COMMENT '사용자폰번호',
+  `firstPracticeDatetime` datetime DEFAULT NULL COMMENT '최초실행일시',
+  `lastPracticeDatetime` datetime DEFAULT NULL COMMENT '최근실행일시',
+  `createDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '생성일시',
+  `createHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '생성ID',
+  `updateDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '수정일시',
+  `updateHost` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '수정ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_user_phone_number` (`userPhoneNumber`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='폰번호';
+
+-- 테이블 데이터 test.tb_user_phone_number:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `tb_user_phone_number` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_user_phone_number` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
