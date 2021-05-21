@@ -54,8 +54,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     //spring security
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
-
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     //embed Tomcat Starter
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
@@ -75,7 +74,8 @@ dependencies {
 
     //etc
     compileOnly 'javax.servlet:jstl'
-    annotationProcessor 'org.projectlombok:lombok'
+//    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
