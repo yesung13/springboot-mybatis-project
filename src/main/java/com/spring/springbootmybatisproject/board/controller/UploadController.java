@@ -75,7 +75,8 @@ public class UploadController {
     public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
 
         List<AttachFileDTO> list = new ArrayList<>();
-        String uploadFolder = "C:\\upload";
+//        String uploadFolder = "C:\\upload"; //window OS
+        String uploadFolder = "/Users/yoonjaeseung/upload"; //mac OS
 
         String uploadFolderPath = getFolder();
         // make folder ------

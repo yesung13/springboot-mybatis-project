@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -305,14 +304,14 @@ public class BoardController {
 
         attachList.forEach(boardAttachVO -> {
             try {
-                Path file = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName());
-
+//                Path file = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // window OS
+                Path file = Paths.get("/Users/yoonjaeseung/upload" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // mac OS
                 Files.deleteIfExists(file);
 
                 if (Files.probeContentType(file).startsWith("image")) {
 
-                    Path thumbnail = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName());
-
+//                    Path thumbnail = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // window OS
+                    Path thumbnail = Paths.get("/Users/yoonjaeseung/upload" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // mac OS
                     Files.delete(thumbnail);
                 }
 
