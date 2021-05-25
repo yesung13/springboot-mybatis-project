@@ -111,6 +111,19 @@
             });
         }
     </script>
+    <%-- spring security 사용 시 Ajax 통신을 위한 코드 --%>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <script>
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR){
+            if (options['type'].toLowerCase() === "post") {
+                jqXHR.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            }
+        });
+
+        // ajax 통신 코드
+    </script>
+    <%-- end --%>
 </head>
 <body class="bg-light">
 <div class="all">
@@ -155,7 +168,7 @@
             </div>
             <div class="row ml-1">
                 <div class="col">
-                    <a class="badge badge-light" href="javascript:void(0);">회원가입</a>
+                    <a class="badge badge-light" href="${pageContext.request.contextPath}/account/signUp">회원가입</a>
                 </div>
             </div>
         </div>

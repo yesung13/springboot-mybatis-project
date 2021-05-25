@@ -22,7 +22,7 @@ spring:
     # java config 수동 설정 시
     hikari:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      jdbc-url: jdbc:log4jdbc:mariadb://127.0.0.1:3306/test
+      jdbc-url: jdbc:log4jdbc:mariadb://127.0.0.1:3306/spring_demo
       username: root
       password: root
     sql-script-encoding: UTF-8 # SQL 인코딩 옵션

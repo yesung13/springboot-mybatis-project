@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
     <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Blucean</a>
+        <a class="navbar-brand" href="/">Spring Demo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,6 +27,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/board/list">QnA</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/#">설문조사</a>
+                </li>
                 <%--                <li class="nav-item">--%>
                 <%--                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>--%>
                 <%--                </li>--%>
@@ -36,8 +39,8 @@
                 <c:when test="${empty sessionScope.account}">
                     <form class="form-inline my-2 my-lg-0">
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="/account/login">로그인</a></li>
-                            <li class="nav-item"><a class="nav-link disabled" href="#">회원가입</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/account/login">로그인</a></li>
+                            <li class="nav-item"><a class="nav-link " href="${pageContext.request.contextPath}/account/signUp">회원가입</a></li>
                         </ul>
                     </form>
                 </c:when>

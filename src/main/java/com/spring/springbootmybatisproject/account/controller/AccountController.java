@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -30,7 +29,7 @@ public class AccountController {
     }
 
     @GetMapping("/list")
-    public String accountMain(Model model) {
+    public String accountList(Model model) {
         List<AccountVO> accountVOList = accountService.getAccountList();
         model.addAttribute("accountList", accountVOList);
         return "account/accountList";
@@ -91,5 +90,11 @@ public class AccountController {
     public String accountLogout(HttpSession session) {
         session.invalidate();
         return "redirect:/account/login";
+    }
+
+    // 회원가입
+    @GetMapping("/signUp")
+    public String accountSignUpForm(){
+        return "/account/accountSignUp";
     }
 }
