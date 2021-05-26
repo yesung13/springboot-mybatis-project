@@ -20,28 +20,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").permitAll();
-//            .authorizeRequests() // 페이지 인증 해제
-//                .antMatchers("/", "/account", "/common", "/resources/**", "/").permitAll()
-//                .antMatchers("/board").hasRole("USER")
+//            .authorizeRequests()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/**").permitAll();
+            .authorizeRequests() // 페이지 인증 해제
+                .antMatchers("/", "/resources/**","/board/list", "/nAccount/signUp").permitAll()
+                .antMatchers("/board/detail").hasRole("USER")
 //                .anyRequest().authenticated() // 인증된 사용자만 접근 가능
-//                .and()
-//            .formLogin()
-//                .loginPage("/account/login") // 로그인이 수행 될 페이지
-//                .loginProcessingUrl("/account/loginProc")
-//                .defaultSuccessUrl("/") // 로그인 성공 시 이동 페이지
-////                .failureUrl() // 로그인 실패 시 보여주는 화면
-//                .permitAll()
-//                .and()
-//            .logout()
-//                .permitAll()
-//                .logoutUrl("/account/logout")
-//                .logoutSuccessUrl("/")
-//                .and()
-//            .exceptionHandling()
-//                .accessDeniedPage("/error/accessDenied"); //권한이 없는 대상이 접속 시 보여주는 페이지
+                .and()
+            .formLogin()
+                .loginPage("/nAccount/signUp") // 로그인이 수행 될 페이지
+                .loginProcessingUrl("/account/loginProc")
+                .defaultSuccessUrl("/") // 로그인 성공 시 이동 페이지
+//                .failureUrl() // 로그인 실패 시 보여주는 화면
+                .permitAll()
+                .and()
+            .logout()
+                .permitAll()
+                .logoutUrl("/account/logout")
+                .logoutSuccessUrl("/")
+                .and()
+            .exceptionHandling()
+                .accessDeniedPage("/error/accessDenied"); //권한이 없는 대상이 접속 시 보여주는 페이지
 
     }
 }

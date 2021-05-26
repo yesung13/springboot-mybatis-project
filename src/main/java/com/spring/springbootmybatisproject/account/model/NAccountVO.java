@@ -34,6 +34,14 @@ public class NAccountVO {
     // 개발자구분 - 예비(P), 경력(C)
     private String devCheck;
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ReqDTO{
+        private Long accountId;
+        private String accountUserId;
+    }
+
     // NAccount 모델 복사
     public void CopyData(NAccountVO param)
     {

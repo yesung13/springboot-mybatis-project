@@ -82,11 +82,38 @@
         //  $(document).ready(function (){} 와 동일
         $(function (){
             $('#signUp_btn').click(function () {
+                const userId = $('#userId_duplicateCheck');
+
                return signUp();
             });
 
 
         });
+        /* 아이디 중복체크 */
+        function userIdDuplicateCheck(){
+            $.ajax({
+                type: "POST",
+                url: requestUrl,
+                data: data,
+                processData: false,
+                contentType: false,
+                // cache: false,
+                // timeout: 600000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+
+                    if (response.resCode === 1003) {
+                        alert(response.resMsg);
+                        location.replace('/account/login');
+                    }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
+        }
+
 
         /* 회원가입 완료하여 데이터 전송 */
         function signUp() {
@@ -104,6 +131,7 @@
                 // timeout: 600000,
                 success: function (response) {
                     console.log("Insert Response Data:", response);
+
                     if (response.resCode === 1003) {
                         alert(response.resMsg);
                         location.replace('/account/login');
@@ -157,7 +185,7 @@
                         <input type="text" class="inputCus form-control" name="accountUserId">
                     </div>
                     <div class="col-4">
-                        <button type="button" class="btn btn-warning">중복체크</button>
+                        <button type="button" id="userId_duplicateCheck" class="btn btn-warning">중복체크</button>
                     </div>
                 </div>
                 <%-- //아이디 --%>
