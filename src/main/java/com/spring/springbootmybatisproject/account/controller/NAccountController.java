@@ -7,10 +7,7 @@ import com.spring.springbootmybatisproject.common.model.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -20,12 +17,13 @@ public class NAccountController {
     @Autowired
     private NAccountService nAccountService;
 
-    // 회원가입
+    // 회원가입 form
     @GetMapping("/signUp")
     public String accountSignUpForm() {
         return "/account/accountSignUp";
     }
 
+    // 회원가입
     @PostMapping("singUpProc")
     @ResponseBody
     public ResultVO accountSignUp(NAccountVO nAccountVO) {
@@ -40,6 +38,16 @@ public class NAccountController {
             result.setResMsg(SFV.STRING_RES_CODE_FAIL);
         }
 
+
+        return result;
+    }
+
+    // 회원 아이디 중복체크
+    @PostMapping("/userIdDupCk")
+    public ResultVO userIdDuplicateCk(@RequestParam(value = "accountUserId") String accountUserId){
+        ResultVO result = new ResultVO();
+
+        nAccountService.userIdDupCk(accountUserId);
 
         return result;
     }

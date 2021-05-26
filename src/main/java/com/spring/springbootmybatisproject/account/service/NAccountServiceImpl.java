@@ -15,4 +15,9 @@ public class NAccountServiceImpl implements NAccountService {
     public void registerSignUp(NAccountVO nAccountVO) {
         nAccountMapper.saveSignUp(nAccountVO);
     }
+
+    @Override
+    public void userIdDupCk(String accountUserId) {
+        nAccountMapper.findByDuplicateUserId(accountUserId);
+    }
 }

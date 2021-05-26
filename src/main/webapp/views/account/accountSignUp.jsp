@@ -73,39 +73,48 @@
     </script>
     <%-- //bootstrap tooltip --%>
 
-
-
-
-
     <script type="text/javascript">
         /* 브라우저가 DOM트리 생성한 직후 실행 */
         //  $(document).ready(function (){} 와 동일
         $(function (){
             $('#signUp_btn').click(function () {
-                const userId = $('#userId_duplicateCheck');
-
                return signUp();
+            });
+
+            $('#duplicateCk_btn').click(function (){
+                let inputUserId = $('#accountUserId').val();
+                if(inputUserId.replace(/\s| {2}/gi, "").length === 0){ // 미입력 또는 공백 입력 방
+                    alert("아이디를 입력해주세요");
+                    $('input[name="accountUserId"]').focus();
+                    return false;
+                }else{
+                    userIdDuplicateCk(inputUserId);
+                }
+
+
             });
 
 
         });
         /* 아이디 중복체크 */
-        function userIdDuplicateCheck(){
+        function userIdDuplicateCk(findUserId){
+            console.log("findUserId: ", findUserId)
             $.ajax({
+                async: true,
                 type: "POST",
-                url: requestUrl,
-                data: data,
+                url: "/nAccount/userIdDupCk",
+                data: findUserId,
                 processData: false,
                 contentType: false,
                 // cache: false,
                 // timeout: 600000,
                 success: function (response) {
                     console.log("Insert Response Data:", response);
-
-                    if (response.resCode === 1003) {
-                        alert(response.resMsg);
-                        location.replace('/account/login');
-                    }
+                    //
+                    // if (response.resCode === 1003) {
+                    //     alert(response.resMsg);
+                    //     location.replace('/account/login');
+                    // }
                 },
                 error: function (xhr, e, response) {
                     console.log("Insert Error:", xhr, e, response);
@@ -182,10 +191,10 @@
                         <span class="spanCus">아이디</span>
                     </div>
                     <div class="col-5">
-                        <input type="text" class="inputCus form-control" name="accountUserId">
+                        <input type="text" class="inputCus form-control" id="accountUserId" name="accountUserId">
                     </div>
                     <div class="col-4">
-                        <button type="button" id="userId_duplicateCheck" class="btn btn-warning">중복체크</button>
+                        <button type="button" id="duplicateCk_btn" class="btn btn-warning">중복체크</button>
                     </div>
                 </div>
                 <%-- //아이디 --%>

@@ -7,10 +7,15 @@
         INSERT INTO bbs_new_account(accountid, accountuserid,accountUserNm, accountemail, accountpassword, devcheck)
         VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck});
     </insert>
-    <select id="findByAccountUserId" resultType="java.lang.String">
-        SELECT accountId, accountUserId
-        FROM bbs_new_account;
-    </select>
     <!-- //회원가입 -->
+
+    <!-- 회원 아이디 중복체크 -->
+    <select id="findByDuplicateUserId" resultType="java.lang.String">
+        SELECT COUNT(*)
+        FROM bbs_new_aacount
+        WHERE accountUserId = #{accountUserId};
+
+    </select>
+    <!-- //회원 아이디 중복체크 -->
 
 </mapper>
