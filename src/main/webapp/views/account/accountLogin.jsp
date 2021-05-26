@@ -5,10 +5,12 @@
   Time: 오후 4:48
   To change this template use File | Settings | File Templates.
 --%>
+<%-- 인프런 실습 시 사용--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
+
     <title>로그인</title>
     <style>
         a img {
@@ -111,18 +113,6 @@
             });
         }
     </script>
-    <%-- spring security 사용 시 Ajax 통신을 위한 코드 --%>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <script>
-        var csrfToken = $("meta[name='_csrf']").attr("content");
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR){
-            if (options['type'].toLowerCase() === "post") {
-                jqXHR.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            }
-        });
-
-        // ajax 통신 코드
-    </script>
     <%-- end --%>
 </head>
 <body class="bg-light">
@@ -133,6 +123,8 @@
             <div class="alert alert-danger text-center" role="alert">
                 <span id="alertMsg"></span>
             </div>
+            <%-- //유효성 검사 토스트 창 --%>
+
             <div class="row navbar navbar-light" style="padding-top: 80px">
                 <a class="col navbar-brand" href="/">
                     <img src="${pageContext.request.contextPath}/resources/images/cubes-solid.svg"
@@ -140,6 +132,7 @@
                     <span class="d-inline-block align-bottom">Spring Demo</span>
                 </a>
             </div>
+
         </div>
         <form id="form">
             <div class="row justify-content-center">
@@ -168,7 +161,7 @@
             </div>
             <div class="row ml-1">
                 <div class="col">
-                    <a class="badge badge-light" href="${pageContext.request.contextPath}/account/signUp">회원가입</a>
+                    <a class="badge badge-light" href="${pageContext.request.contextPath}/nAccount/signUp">회원가입</a>
                 </div>
             </div>
         </div>

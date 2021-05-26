@@ -8,6 +8,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<%-- spring security 사용 시 Ajax 통신을 위한 코드 --%>
+<meta name="_csrf" content="${_csrf.token}"/>
+<%-- //spring security 사용 시 Ajax 통신을 CSRF 위한 코드 --%>
 <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> <%-- favicon error --%>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/custom.css">
@@ -19,6 +22,9 @@
 <%--이 순서대로 사용--%>
 <%--<script src="${pageContext.request.contextPath}/resources/js/jquery-1.10.1.js"></script>--%>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+<%-- spring security 사용 시 Ajax 통신을 위한 코드 --%>
+<script src="${pageContext.request.contextPath}/resources/js/csrf.js"></script>
+<%-- //spring security 사용 시 Ajax 통신을 CSRF 위한 코드 --%>
 
 
 

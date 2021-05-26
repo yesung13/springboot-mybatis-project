@@ -40,7 +40,7 @@
                     <form class="form-inline my-2 my-lg-0">
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/account/login">로그인</a></li>
-                            <li class="nav-item"><a class="nav-link " href="${pageContext.request.contextPath}/account/signUp">회원가입</a></li>
+                            <li class="nav-item"><a class="nav-link " href="${pageContext.request.contextPath}/nAccount/signUp">회원가입</a></li>
                         </ul>
                     </form>
                 </c:when>

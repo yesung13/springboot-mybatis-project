@@ -91,10 +91,4 @@ public class AccountController {
         session.invalidate();
         return "redirect:/account/login";
     }
-
-    // 회원가입
-    @GetMapping("/signUp")
-    public String accountSignUpForm(){
-        return "/account/accountSignUp";
-    }
 }

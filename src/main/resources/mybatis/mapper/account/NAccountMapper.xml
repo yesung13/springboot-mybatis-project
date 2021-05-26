@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springbootmybatisproject.account.repository.NAccountMapper">
+
+    <!-- 회원가입 -->
+    <insert id="saveSignUp" parameterType="NAccountVO" useGeneratedKeys="true" keyProperty="accountId">
+        INSERT INTO bbs_new_account(accountid, accountuserid,accountUserNm, accountemail, accountpassword, devcheck)
+        VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck});
+    </insert>
+    <!-- //회원가입 -->
+
+</mapper>

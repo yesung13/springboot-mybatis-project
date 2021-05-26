@@ -372,7 +372,7 @@
                 </td>
             </tr>
 
-            <tr class="text-right thead-light border-bottom">
+            <tr class="text-center thead-light border-bottom">
                 <td colspan="4">
                     <span>
                         <small class="text-muted font-weight-bold"
