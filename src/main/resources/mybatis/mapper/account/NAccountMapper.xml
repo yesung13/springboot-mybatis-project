@@ -10,9 +10,9 @@
     <!-- //회원가입 -->
 
     <!-- 회원 아이디 중복체크 -->
-    <select id="findByDuplicateUserId" resultType="java.lang.String">
+    <select id="findByDuplicateUserIdCnt" resultType="int">
         SELECT COUNT(*)
-        FROM bbs_new_aacount
+        FROM bbs_new_account
         WHERE accountUserId = #{accountUserId};
 
     </select>

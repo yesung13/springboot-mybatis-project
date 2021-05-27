@@ -76,19 +76,19 @@
     <script type="text/javascript">
         /* 브라우저가 DOM트리 생성한 직후 실행 */
         //  $(document).ready(function (){} 와 동일
-        $(function (){
+        $(function () {
             $('#signUp_btn').click(function () {
-               return signUp();
+                return signUp();
             });
 
-            $('#duplicateCk_btn').click(function (){
+            $('#overlap_btn').click(function () {
                 let inputUserId = $('#accountUserId').val();
-                if(inputUserId.replace(/\s| {2}/gi, "").length === 0){ // 미입력 또는 공백 입력 방
+                if (inputUserId.replace(/\s| {2}/gi, "").length === 0) { // 미입력 또는 공백 입력 방
                     alert("아이디를 입력해주세요");
                     $('input[name="accountUserId"]').focus();
                     return false;
-                }else{
-                    userIdDuplicateCk(inputUserId);
+                } else {
+                    userIdOverlap(inputUserId);
                 }
 
 
@@ -96,28 +96,31 @@
 
 
         });
+
         /* 아이디 중복체크 */
-        function userIdDuplicateCk(findUserId){
+        function userIdOverlap(findUserId) {
             console.log("findUserId: ", findUserId)
+            let data = {userId : findUserId};
+            console.log("data: ", data);
             $.ajax({
-                async: true,
-                type: "POST",
-                url: "/nAccount/userIdDupCk",
-                data: findUserId,
-                processData: false,
-                contentType: false,
-                // cache: false,
-                // timeout: 600000,
+                type: "POST", // 데이터 전송 타입
+                url: "/nAccount/userIdOverlap", //데이터를 주고받을 파일 주소 입력
+                data: data, // 보내는 데이터
+                // processData: false, // 데이터를 queryString 형태로 보내지 않고 DOM 또는 다른 형태로 보낼때 false
+                // dataType: "json", // 지정한 형식으로 받기
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8", // 필수
                 success: function (response) {
-                    console.log("Insert Response Data:", response);
-                    //
-                    // if (response.resCode === 1003) {
-                    //     alert(response.resMsg);
-                    //     location.replace('/account/login');
-                    // }
+                    console.log("Response Data:", response);
+                    if(response === 0){
+                        alert("아이디가 존재합니다.\n다른 아이디를 입력해주세요");
+                        $('input[name="accountUserId"]').focus();
+                        return false;
+                    }else if (response === 1){
+                        alert("사용 가능한 아이디 입니다.");
+                    }
                 },
                 error: function (xhr, e, response) {
-                    console.log("Insert Error:", xhr, e, response);
+                    console.log("Error:", xhr, e, response);
                     alert("에러!!")
                 }
             });
@@ -194,7 +197,7 @@
                         <input type="text" class="inputCus form-control" id="accountUserId" name="accountUserId">
                     </div>
                     <div class="col-4">
-                        <button type="button" id="duplicateCk_btn" class="btn btn-warning">중복체크</button>
+                        <button type="button" id="overlap_btn" class="btn btn-warning">중복체크</button>
                     </div>
                 </div>
                 <%-- //아이디 --%>

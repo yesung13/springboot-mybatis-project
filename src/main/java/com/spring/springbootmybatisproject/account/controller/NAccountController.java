@@ -17,13 +17,22 @@ public class NAccountController {
     @Autowired
     private NAccountService nAccountService;
 
-    // 회원가입 form
+    /**
+     * 회원가입 Form
+     *
+     * @return
+     */
     @GetMapping("/signUp")
     public String accountSignUpForm() {
         return "/account/accountSignUp";
     }
 
-    // 회원가입
+    /**
+     * 회원가입
+     *
+     * @param nAccountVO
+     * @return
+     */
     @PostMapping("singUpProc")
     @ResponseBody
     public ResultVO accountSignUp(NAccountVO nAccountVO) {
@@ -42,13 +51,18 @@ public class NAccountController {
         return result;
     }
 
-    // 회원 아이디 중복체크
-    @PostMapping("/userIdDupCk")
-    public ResultVO userIdDuplicateCk(@RequestParam(value = "accountUserId") String accountUserId){
-        ResultVO result = new ResultVO();
+    /**
+     * 아이디 중복체크 - 요청받은 아이디 갯수 확인
+     *
+     * @param accountUserId
+     * @return
+     */
+    @PostMapping("/userIdOverlap")
+    @ResponseBody
+    public int userIdOverlap(@RequestParam(value = "userId") String accountUserId) {
 
-        nAccountService.userIdDupCk(accountUserId);
-
-        return result;
+        int overlapResult = nAccountService.userIdOverlapCnt(accountUserId);
+        log.info("response overlap controller");
+        return overlapResult;
     }
 }

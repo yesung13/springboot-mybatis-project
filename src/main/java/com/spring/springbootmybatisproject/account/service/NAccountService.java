@@ -4,10 +4,10 @@ import com.spring.springbootmybatisproject.account.model.NAccountVO;
 
 public interface NAccountService {
 
-    /* 아이디 중복체크를 위하여 */
-    void userIdDupCk(String accountUserId);
-
     /* 회원 가입 */
     public abstract void registerSignUp(NAccountVO nAccountVO);
+
+    /* 아이디 중복체크 - 요청받은 아이디 갯수 확인 */
+    public abstract Integer userIdOverlapCnt(String accountUserId);
 
 }
