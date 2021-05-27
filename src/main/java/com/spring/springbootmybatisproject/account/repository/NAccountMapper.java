@@ -11,4 +11,7 @@ public interface NAccountMapper {
 
     /* 아이디 중복체크 - 요청받은 아이디 갯수 확인 */
     public abstract Integer findByDuplicateUserIdCnt(String accountUserId);
+
+    /* 계정 로그인 */
+    public abstract NAccountVO findByAccount(NAccountVO nAccountVO);
 }

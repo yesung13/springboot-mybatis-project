@@ -29,7 +29,11 @@ public class NAccountServiceImpl implements NAccountService {
             overlapResult = 1; // 중복 아이디 없음
         }
 
-
         return overlapResult;
+    }
+
+    @Override
+    public NAccountVO getAccount(NAccountVO nAccountVO) {
+        return nAccountMapper.findByAccount(nAccountVO);
     }
 }

@@ -49,14 +49,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
                 $('#login_btn').click(function () {
-                    let accountEmail = $('input[name="accountEmail"]').val().replace(/ /g, ''); // 모든 공백 제거
+                    let accountUserId = $('input[name="accountUserId"]').val().replace(/ /g, ''); // 모든 공백 제거
                     let accountPassword = $('input[name="accountPassword"]').val().replace(/ /g, '');
 
-                    if (isEmpty(accountEmail)) {
+                    if (isEmpty(accountUserId)) {
                         $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
                         $('#alertMsg').html("아이디를 입력해 주세요!");
                         // alert("아이디를 입력해 주세요!");
-                        $('#accountEmail').val(null).focus();
+                        $('#accountUserId').val(null).focus();
 
                         return false;
                     }
@@ -78,8 +78,9 @@
             return value === "" || value == null;
         }
 
+        /* 로그인 */
         function login() {
-            let requestUrl = '/account/loginProc';
+            let requestUrl = '/nAccount/loginProc';
             let form = $('#form')[0];
             let data = new FormData(form);
             console.log("Insert Request Data:", data);
@@ -91,6 +92,9 @@
                 contentType: false,
                 // cache: false,
                 // timeout: 600000,
+                beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+                },
                 success: function (response) {
                     console.log("Insert Response Data:", response);
                     if (response.resCode === 1000) {
@@ -138,7 +142,7 @@
             <div class="row justify-content-center">
                 <div class="list-group row">
                     <div class="col">
-                        <input type="text" class="list-group-item" id="accountEmail" name="accountEmail"
+                        <input type="text" class="list-group-item" id="accountUserId" name="accountUserId"
                                placeholder="아이디"/>
                         <input type="password" class="list-group-item" id="accountPassword" name="accountPassword"
                                placeholder="패스워드"/>

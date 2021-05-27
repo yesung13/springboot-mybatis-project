@@ -39,7 +39,7 @@
                 <c:when test="${empty sessionScope.account}">
                     <form class="form-inline my-2 my-lg-0">
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/account/login">로그인</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/nAccount/login">로그인</a></li>
                             <li class="nav-item"><a class="nav-link " href="${pageContext.request.contextPath}/nAccount/signUp">회원가입</a></li>
                         </ul>
                     </form>
@@ -48,9 +48,9 @@
                     <form class="form-inline my-2 my-lg-0">
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link" href="javascript:void(0);">
-                                <c:out value="${sessionScope.account.userName}"/>
+                                <c:out value="${sessionScope.account.accountUserNm}"/>
                                 님 로그인중..</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/account/logout">로그아웃</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/nAccount/logout">로그아웃</a></li>
                         </ul>
                     </form>
                 </c:otherwise>

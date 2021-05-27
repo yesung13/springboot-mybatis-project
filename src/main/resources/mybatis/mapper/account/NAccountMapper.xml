@@ -4,8 +4,8 @@
 
     <!-- 회원가입 -->
     <insert id="saveSignUp" parameterType="NAccountVO" useGeneratedKeys="true" keyProperty="accountId">
-        INSERT INTO bbs_new_account(accountid, accountuserid,accountUserNm, accountemail, accountpassword, devcheck)
-        VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck});
+        INSERT INTO bbs_new_account(accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck)
+            VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck});
     </insert>
     <!-- //회원가입 -->
 
@@ -17,5 +17,24 @@
 
     </select>
     <!-- //회원 아이디 중복체크 -->
+
+    <!-- 계정 로그인 -->
+    <select id="findByAccount" parameterType="NAccountVO" resultType="NAccountVO">
+        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, createDt, updateDt
+        FROM bbs_new_account
+        <where>
+            <if test="accountUserId != null and accountPassword != null">
+                AND accountUserId = #{accountUserId} AND accountPassword = #{accountPassword};
+            </if>
+            <!--            <if test="accountEmail != null">-->
+            <!--                AND accountEmail = #{accountEmail}-->
+            <!--            </if>-->
+            <!--            <if test="accountPassword != null">-->
+            <!--                AND accountPassword = #{accountPassword}-->
+            <!--            </if>-->
+        </where>
+    </select>
+    <!-- //계정 로그인 -->
+
 
 </mapper>

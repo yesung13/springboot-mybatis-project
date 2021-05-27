@@ -74,11 +74,14 @@
     <%-- //bootstrap tooltip --%>
 
     <script type="text/javascript">
+        /* 중복체크 확인 여부 변수 선언 */
+        let idCk = 'N';
+
         /* 브라우저가 DOM트리 생성한 직후 실행 */
         //  $(document).ready(function (){} 와 동일
         $(function () {
             $('#signUp_btn').click(function () {
-                return signUp();
+                return signUp(idCk);
             });
 
             $('#overlap_btn').click(function () {
@@ -90,18 +93,13 @@
                 } else {
                     userIdOverlap(inputUserId);
                 }
-
-
             });
-
-
         });
 
         /* 아이디 중복체크 */
         function userIdOverlap(findUserId) {
             console.log("findUserId: ", findUserId)
-            let data = {userId : findUserId};
-            console.log("data: ", data);
+            let data = {userId: findUserId};
             $.ajax({
                 type: "POST", // 데이터 전송 타입
                 url: "/nAccount/userIdOverlap", //데이터를 주고받을 파일 주소 입력
@@ -111,12 +109,14 @@
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8", // 필수
                 success: function (response) {
                     console.log("Response Data:", response);
-                    if(response === 0){
+                    if (response === 0) {
                         alert("아이디가 존재합니다.\n다른 아이디를 입력해주세요");
                         $('input[name="accountUserId"]').focus();
                         return false;
-                    }else if (response === 1){
+                    } else if (response === 1) {
                         alert("사용 가능한 아이디 입니다.");
+                        idCk = "Y"; // 중복검사 확인 여부: Y
+                        console.log("IdCheck:", idCk);
                     }
                 },
                 error: function (xhr, e, response) {
@@ -126,34 +126,40 @@
             });
         }
 
-
         /* 회원가입 완료하여 데이터 전송 */
-        function signUp() {
-            let requestUrl = '/nAccount/singUpProc';
-            let form = $('#form')[0];
-            let data = new FormData(form);
-            console.log("Insert Request Data:", data);
-            $.ajax({
-                type: "POST",
-                url: requestUrl,
-                data: data,
-                processData: false,
-                contentType: false,
-                // cache: false,
-                // timeout: 600000,
-                success: function (response) {
-                    console.log("Insert Response Data:", response);
+        function signUp(idCk) {
+            console.log("IdCheck:", idCk);
 
-                    if (response.resCode === 1003) {
-                        alert(response.resMsg);
-                        location.replace('/account/login');
+            if (idCk === "N"){
+                alert("아이디 중복체크를 해주세요");
+                return false;
+            }else if(idCk === "Y"){
+                let requestUrl = '/nAccount/singUpProc';
+                let form = $('#form')[0];
+                let data = new FormData(form);
+                console.log("Insert Request Data:", data);
+                $.ajax({
+                    type: "POST",
+                    url: requestUrl,
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    // cache: false,
+                    // timeout: 600000,
+                    success: function (response) {
+                        console.log("Insert Response Data:", response);
+
+                        if (response.resCode === 1003) {
+                            alert(response.resMsg);
+                            location.replace('/nAccount/login');
+                        }
+                    },
+                    error: function (xhr, e, response) {
+                        console.log("Insert Error:", xhr, e, response);
+                        alert("에러!!")
                     }
-                },
-                error: function (xhr, e, response) {
-                    console.log("Insert Error:", xhr, e, response);
-                    alert("에러!!")
-                }
-            });
+                });
+            }
         }
 
         /* 이메일 유효성 검사 */

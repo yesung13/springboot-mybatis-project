@@ -10,4 +10,6 @@ public interface NAccountService {
     /* 아이디 중복체크 - 요청받은 아이디 갯수 확인 */
     public abstract Integer userIdOverlapCnt(String accountUserId);
 
+    /* 계정 로그인 */
+   public abstract NAccountVO getAccount(NAccountVO nAccountVO);
 }

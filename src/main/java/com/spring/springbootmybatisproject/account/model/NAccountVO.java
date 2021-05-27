@@ -34,6 +34,12 @@ public class NAccountVO {
     // 개발자구분 - 예비(P), 경력(C)
     private String devCheck;
 
+    // 가입날짜 사용자 가입날짜
+    private String createDt;
+
+    // 수정날짜 사용자 정보 수정 날짜
+    private String updateDt;
+
     @Getter
     @Setter
     @AllArgsConstructor
