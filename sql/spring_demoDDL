@@ -137,7 +137,7 @@ INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `wri
 	(185, 1, 'ㅇㅇㅇㅇ', 'ㅇㅇㅇㅇ', 'admin', 2, 0, '2020-08-04 00:20:28', '2020-08-04 00:20:28', 'N'),
 	(186, 1, 'ㄴㅇㄴㅇ', 'ㄴㅇㄴㅇㄴㅇㄴㅇ', 'admin', 2, 0, '2020-08-04 00:20:36', '2020-08-04 00:20:36', 'N'),
 	(187, 4, 'test', 'test', 'qwe', 6, 2, '2020-08-04 00:45:13', '2020-08-04 00:45:13', 'Q'),
-	(188, 1, '5월 공지사항ㅇㅇㅇㅇㅇㅇ 수정', 'ㅎㅇㅎㅇㅎㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ수정', 'admin', 4, 1, '2021-05-18 10:25:59', '2021-05-18 10:28:41', 'N');
+	(188, 1, '5월 공지사항ㅇㅇㅇㅇㅇㅇ 수정', 'ㅎㅇㅎㅇㅎㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ수정', 'admin', 6, 1, '2021-05-18 10:25:59', '2021-05-18 10:28:41', 'N');
 /*!40000 ALTER TABLE `bbs_board` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_file 구조 내보내기
@@ -169,14 +169,18 @@ CREATE TABLE IF NOT EXISTS `bbs_new_account` (
   `accountEmail` varchar(80) NOT NULL COMMENT '사용자 이메일',
   `accountPassword` varchar(80) NOT NULL COMMENT '사용자 패스워드',
   `devCheck` varchar(5) NOT NULL COMMENT '개발자구분 - 예비(P), 경력(C)',
+  `createDt` datetime NOT NULL DEFAULT current_timestamp() COMMENT '사용자 가입날짜',
+  `updateDt` datetime NOT NULL DEFAULT current_timestamp() COMMENT '사용자 정보 수정 날짜',
   PRIMARY KEY (`accountId`),
-  UNIQUE KEY `UQ_accountUserId` (`accountUserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
+  UNIQUE KEY `UQ_bbs_new_account_1` (`accountUserId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
 
 -- 테이블 데이터 spring_demo.bbs_new_account:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_new_account` DISABLE KEYS */;
-INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountUserNm`, `accountEmail`, `accountPassword`, `devCheck`) VALUES
-	(1, 'test', '테스트', 'test@mail.com', '1234', 'P');
+INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountUserNm`, `accountEmail`, `accountPassword`, `devCheck`, `createDt`, `updateDt`) VALUES
+	(1, 'admin', 'admin', 'admin@gmail.com', '1234', 'P', '2021-05-27 16:39:25', '2021-05-27 16:39:25'),
+	(2, 'test', 'test', 'test@mail.com', '1234', 'P', '2021-05-27 16:50:55', '2021-05-27 16:50:55'),
+	(3, 'test2', '테스트', 'test2', '1234', 'C', '2021-05-27 17:01:00', '2021-05-27 17:01:00');
 /*!40000 ALTER TABLE `bbs_new_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_reply 구조 내보내기
