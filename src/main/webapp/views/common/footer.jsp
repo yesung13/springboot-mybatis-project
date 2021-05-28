@@ -17,17 +17,17 @@
                     <ul class="nav nav-pills float-right">
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="fab fa-facebook"></i>
+                                <img src="/resources/images/facebook.svg" alt="facebook">
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="fab fa-twitter"></i>
+                                <img src="/resources/images/twitter.svg" alt="twitter">
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="fab fa-google-plus-g"></i>
+                                <img src="/resources/images/instagram.svg" alt="instgram">
                             </a>
                         </li>
                     </ul>

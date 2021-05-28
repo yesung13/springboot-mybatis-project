@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.survey.model;
 
 import lombok.*;
+import org.apache.ibatis.type.Alias;
 
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
 @ToString
 @Getter
 @Setter
-
+@Alias("SurveyVO")
 // 설문
 public class SurveyVO {
 

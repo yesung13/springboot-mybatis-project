@@ -68,7 +68,7 @@ public class SurveyICommonCD {
     public static final String IC_IOS = "IOS"; // iOS
     public static final String IC_SEC = "SEC"; // 보안
     public static final String IC_GAM = "GAM"; // 게임
-    public static final String IC_ETC6 = "ETC"; // 기타
+    public static final String IC_ETC6 = "ETC6"; // 기타
 
     // P007
     public static final String IC_WIN = "WIN"; // Window OS
@@ -81,18 +81,16 @@ public class SurveyICommonCD {
     public static final String IC_MAR = "MAR"; // MariaDB
     public static final String IC_MOG = "MOG"; // Mongo DB
     public static final String IC_POS = "POS"; // PostgreSQL
-    public static final String IC_RES = "RES"; // Redis
     public static final String IC_MSS = "MSS"; // MS SQL
-    public static final String IC_ETC8 = "ETC";// 기타
+    public static final String IC_ETC8 = "ETC8";// 기타
 
     // P009
     public static final String IC_ECP = "ECP"; // Eclipse
     public static final String IC_INJ = "INJ"; // IntelliJ
     public static final String IC_VSC = "VSC"; // VS Code
     public static final String IC_VIS = "VIS"; // Visual Studio
-    public static final String IC_PYC = "PYC"; // PyCham
     public static final String IC_ADS = "ADS"; // Android studio
-    public static final String IC_ETC9 = "ETC"; // 기타
+    public static final String IC_ETC9 = "ETC9"; // 기타
 
     // P010
     public static final String IC_JAV = "JAV"; // Java
@@ -103,7 +101,7 @@ public class SurveyICommonCD {
     public static final String IC_PHP = "PHP"; // PHP
     public static final String IC_KOT = "KOT"; // Kotlin
     public static final String IC_TYS = "TYS"; // TypeScript
-    public static final String IC_ETC10 = "ETC"; // 기타
+    public static final String IC_ETC10 = "ETC10"; // 기타
 
     // P011
     public static final String IC_NOD = "NOD"; // Node.js
@@ -113,7 +111,7 @@ public class SurveyICommonCD {
     public static final String IC_ANG = "ANG"; // Angular.js
     public static final String IC_REA = "REA"; // React.js
     public static final String IC_NET = "NET"; // .NET Core
-    public static final String IC_ETC11 = "ETC"; // 기타
+    public static final String IC_ETC11 = "ETC11"; // 기타
 
 
 }

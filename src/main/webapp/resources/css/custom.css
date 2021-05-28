@@ -1,5 +1,34 @@
 /* 구글 웹폰트 */
 @import url("https://fonts.googleapis.com/css?family=Gothic+A1|Nanum+Gothic|Noto+Sans+KR&display=swap");
+
+@font-face {
+    font-family: NanumBarunGothic;
+    src: url("/resources/font/NanumBarunGothic.otf") format("opentype"),
+    url("/resources/font/NanumBarunGothic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: NanumBarunGothicBold;
+    src: url("/resources/font/NanumBarunGothicBold.otf") format("opentype"),
+    url("/resources/font/NanumBarunGothicBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: NanumBarunGothicLight;
+    src: url("/resources/font/NanumBarunGothicLight.otf") format("opentype"),
+    url("/resources/font/NanumBarunGothicLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+* {
+    font-family: "NanumBarunGothic" !important;
+}
+
 #container {
     margin: 20px;
     /*margin: 0 auto; !* 가로로 중앙에 배치 *!*/
@@ -10,16 +39,12 @@
 }
 
 .nav-link {
-    /* font-family: 'Nanum Gothic', sans-serif; */
     font-size: 1.0em;
-    font-weight: 700;
     color: black;
 }
 
 .nav-link:hover {
-    /* font-family: 'Nanum Gothic', sans-serif; */
     font-size: 1.0em;
-    font-weight: 700;
     color: #999999;
 }
 
@@ -43,28 +68,25 @@
 }
 
 .table th {
-    font-family: 'Nanum Gothic', sans-serif;
     font-size: 0.938em;
-    font-weight: 700;
+    /*font-weight: 700;*/
 }
 
 .table td span {
-    font-family: 'Gothic A1', sans-serif;
     font-size: 0.938em;
-    font-weight: 600;
+    /*font-weight: 600;*/
 }
 
 .table td a {
-    font-family: 'Nanum Gothic', sans-serif;
     font-size: 0.938em;
-    font-weight: 700;
+    /*font-weight: 700;*/
     text-decoration: none;
 }
 
 .table .etc span {
-    font-family: 'Gothic A1', sans-serif;
+    /*font-family: 'Gothic A1', sans-serif;*/
     font-size: 0.813em;
-    font-weight: 600;
+    /*font-weight: 600;*/
 }
 
 .userimg {
