@@ -65,7 +65,7 @@
             } else if (btn_id === 'back_2') {
                 $PART2_TAB.click();
             } else if (btn_id === 'next_end') {
-
+                saveSurveyList();
             }
         }
 
@@ -210,6 +210,34 @@
 
             });//ajax end
         }/* //설문 항목 가져오기 */
+
+        /* 설문 항목 저장 */
+        function saveSurveyList() {
+            let form = $('#form').serializeArray();
+            let data = JSON.stringify(form);
+            console.log("Insert Request Data:", data);
+            console.log("Insert Request form:", form);
+            $.ajax({
+                type: "POST",
+                url: "/survey/saveListProc",
+                data: data,
+                dataType: 'json',
+                contentType: "application/json",
+                timeout: 6000,
+                success: function (response) {
+                    console.log("Insert Response Data:", response);
+
+                    // if (response.resCode === 1003) {
+                    //     alert(response.resMsg);
+                    //     location.replace('/nAccount/login');
+                    // }
+                },
+                error: function (xhr, e, response) {
+                    console.log("Insert Error:", xhr, e, response);
+                    alert("에러!!")
+                }
+            });
+        }/* //설문 항목 저장 */
     </script>
 
 </head>
@@ -237,160 +265,164 @@
     </ul>
 
     <!-- Tab panes -->
-    <%--    <c:forEach var="item" items="${surveyList}">--%>
-    <div class="tab-content">
-        <%-- part1. 개발자 정보 --%>
-        <div class="tab-pane fade show active" id="part1" role="tabpanel" aria-labelledby="part1_tab">
-            <%-- 질의 항목 --%>
-            <div class="container jumbotron mt-1">
-                <div class="mb-3"><span class="text-danger">* 필수</span></div>
+    <form id="form">
+        <div class="tab-content">
 
-                <%-- P101 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q1. 전공 / 비전공자인지 선택해주세요. <span class="required">*</span></p>
-                    <div class="itemOutput101 form-group"></div>
-                </div>
-                <%-- //P101 그룹 --%>
 
-                <%-- P102 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q2. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
-                    <div class="itemOutput102 form-group"></div>
-                </div>
-                <%-- //P102 그룹 --%>
+            <%-- part1. 개발자 정보 --%>
+            <div class="tab-pane fade show active" id="part1" role="tabpanel" aria-labelledby="part1_tab">
+                <%-- 질의 항목 --%>
+                <div class="container jumbotron mt-1">
+                    <div id></div>
+                    <div class="mb-3"><span class="text-danger">* 필수</span></div>
 
-                <%-- P103 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q3. 연령대를 선택해주세요. <span class="required">*</span></p>
-                    <div class="itemOutput103 form-group"></div>
-                </div>
-                <%-- //P103 그룹 --%>
+                    <%-- P101 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q1. 전공 / 비전공자인지 선택해주세요. <span class="required">*</span></p>
+                        <div class="itemOutput101 form-group"></div>
+                    </div>
+                    <%-- //P101 그룹 --%>
 
-                <%-- P104 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q4. 경력을 알려주세요. <span>[경력 개발자만 선택]</span></p>
-                    <div class="itemOutput104 form-group"></div>
-                </div>
-                <%-- //P104 그룹 --%>
+                    <%-- P102 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q2. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
+                        <div class="itemOutput102 form-group"></div>
+                    </div>
+                    <%-- //P102 그룹 --%>
 
-                <%-- P105 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q5. 현재 연 소득 범위를 선택해주세요. <span>[경력 개발자만 선택]</span></p>
-                    <div class="itemOutput105 form-group ml-4"></div>
-                </div>
-                <%-- //p105 그룹 --%>
+                    <%-- P103 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q3. 연령대를 선택해주세요. <span class="required">*</span></p>
+                        <div class="itemOutput103 form-group"></div>
+                    </div>
+                    <%-- //P103 그룹 --%>
 
-                <%-- P106 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q6. 현재 직무는 무엇인가요? <span>[최대 2개 선택]</span></p>
-                    <div class="card w-75 h-auto">
-                        <div class="card-body">
-                            <div class="itemOutput106 form-group"></div>
+                    <%-- P104 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q4. 경력을 알려주세요. <span>[경력 개발자만 선택]</span></p>
+                        <div class="itemOutput104 form-group"></div>
+                    </div>
+                    <%-- //P104 그룹 --%>
+
+                    <%-- P105 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q5. 현재 연 소득 범위를 선택해주세요. <span>[경력 개발자만 선택]</span></p>
+                        <div class="itemOutput105 form-group ml-4"></div>
+                    </div>
+                    <%-- //p105 그룹 --%>
+
+                    <%-- P106 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q6. 현재 직무는 무엇인가요? <span>[최대 2개 선택]</span></p>
+                        <div class="card w-75 h-auto">
+                            <div class="card-body">
+                                <div class="itemOutput106 form-group"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <%-- //P106 그룹 --%>
-                <%-- button --%>
-                <div class="row justify-content-end mt-5">
-                    <div class="col-5 mt-5">
-                        <button type="button" class="btnCus btn btn-lg btn-primary float-right" id="next_2"
-                                onclick="pageCtrl_btn(this.id)"><span>다음</span>
-                        </button>
-                    </div>
-                </div>
-                <%-- //button --%>
-            </div>
-            <%-- //질의 항목 --%>
-
-        </div>
-        <%-- //part1. 개발자 정보 --%>
-
-        <%-- part2. 개발 시 사용하는 OS / DB / 에디터 --%>
-        <div class="tab-pane fade" id="part2" role="tabpanel" aria-labelledby="part2_tab">
-            <%-- 질의 항목 --%>
-            <div class="container jumbotron mt-1">
-                <div class="mb-3"><span class="text-danger">* 필수</span></div>
-
-                <%-- P201 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q1. 주로 사용하는 OS는 무엇인가요? <span class="required">*</span></p>
-                    <div class="itemOutput201 form-group"></div>
-                </div>
-                <%-- //P201 그룹 --%>
-
-                <%-- P202 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q2. 주로 사용하는 DB는 무엇인가요? <span class="required">*</span></p>
-                    <div class="itemOutput202 form-group"></div>
-                </div>
-                <%-- //P202 그룹 --%>
-
-                <%-- P203 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q3. 주로 사용하는 에디터는 무엇인가요? <span class="required">*</span></p>
-                    <div class="itemOutput203 form-group"></div>
-                </div>
-                <%-- //P203 그룹 --%>
-                <%-- button --%>
-                <div class="row justify-content-end mt-5">
-                    <div class="col-5 mt-5">
-                        <button type="button" class="btnCus btn btn-lg btn-secondary" id="back_1"
-                                onclick="pageCtrl_btn(this.id)"><span>이전</span></button>
-                        <button type="button" class="btnCus btn btn-lg btn-primary float-right" id="next_3"
-                                onclick="pageCtrl_btn(this.id)"><span>다음</span></button>
-                    </div>
-                </div>
-                <%-- //button --%>
-            </div>
-            <%-- //질의 항목 --%>
-        </div>
-        <%-- //part2. 개발 시 사용하는 OS / DB / 에디터 --%>
-
-        <%-- part3. 개발 시 사용하는 프로그래밍 언어 --%>
-        <div class="tab-pane fade" id="part3" role="tabpanel" aria-labelledby="part3_tab">
-            <%-- 질의 항목 --%>
-            <div class="container jumbotron mt-1">
-                <div class="mb-3"><span class="text-danger">* 필수</span></div>
-
-                <%-- P301그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q1. 자신있는 프로그래밍 언어를 선택해주세요. <span
-                            class="required">*</span><span>[최대 2개 선택]</span></p>
-                    <div class="card w-75 h-auto">
-                        <div class="card-body">
-                            <div class="itemOutput301 form-group"></div>
+                    <%-- //P106 그룹 --%>
+                    <%-- button --%>
+                    <div class="row justify-content-end mt-5">
+                        <div class="col-5 mt-5">
+                            <button type="button" class="btnCus btn btn-lg btn-primary float-right" id="next_2"
+                                    onclick="pageCtrl_btn(this.id)"><span>다음</span>
+                            </button>
                         </div>
                     </div>
+                    <%-- //button --%>
                 </div>
-                <%-- //P301 그룹 --%>
+                <%-- //질의 항목 --%>
 
-                <%-- P302 그룹 --%>
-                <div class="mb-5">
-                    <p class="itemTitle">Q2. 배워보고 싶은 프로그래밍 언어를 선택해주세요. <span
-                            class="required">*</span><span>[최대 2개 선택]</span></p>
-                    <div class="card w-75 h-auto">
-                        <div class="card-body">
-                            <div class="itemOutput302 form-group"></div>
+            </div>
+            <%-- //part1. 개발자 정보 --%>
+
+            <%-- part2. 개발 시 사용하는 OS / DB / 에디터 --%>
+            <div class="tab-pane fade" id="part2" role="tabpanel" aria-labelledby="part2_tab">
+                <%-- 질의 항목 --%>
+                <div class="container jumbotron mt-1">
+                    <div class="mb-3"><span class="text-danger">* 필수</span></div>
+
+                    <%-- P201 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q1. 주로 사용하는 OS는 무엇인가요? <span class="required">*</span></p>
+                        <div class="itemOutput201 form-group"></div>
+                    </div>
+                    <%-- //P201 그룹 --%>
+
+                    <%-- P202 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q2. 주로 사용하는 DB는 무엇인가요? <span class="required">*</span></p>
+                        <div class="itemOutput202 form-group"></div>
+                    </div>
+                    <%-- //P202 그룹 --%>
+
+                    <%-- P203 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q3. 주로 사용하는 에디터는 무엇인가요? <span class="required">*</span></p>
+                        <div class="itemOutput203 form-group"></div>
+                    </div>
+                    <%-- //P203 그룹 --%>
+                    <%-- button --%>
+                    <div class="row justify-content-end mt-5">
+                        <div class="col-5 mt-5">
+                            <button type="button" class="btnCus btn btn-lg btn-secondary" id="back_1"
+                                    onclick="pageCtrl_btn(this.id)"><span>이전</span></button>
+                            <button type="button" class="btnCus btn btn-lg btn-primary float-right" id="next_3"
+                                    onclick="pageCtrl_btn(this.id)"><span>다음</span></button>
                         </div>
                     </div>
+                    <%-- //button --%>
                 </div>
-                <%-- //P302 그룹 --%>
-                <%-- button --%>
-                <div class="row justify-content-end mt-5">
-                    <div class="col-5 mt-5">
-                        <button type="button" class="btnCus btn btn-lg btn-secondary" id="back_2"
-                                onclick="pageCtrl_btn(this.id)"><span>이전</span></button>
-                        <button type="button" class="btnCus btn btn-lg btn-primary float-right " id="next_end"
-                                onclick="pageCtrl_btn(this.id)"><span>완료</span></button>
-                    </div>
-                </div>
-                <%-- //button --%>
+                <%-- //질의 항목 --%>
             </div>
-            <%-- //질의 항목 --%>
+            <%-- //part2. 개발 시 사용하는 OS / DB / 에디터 --%>
+
+            <%-- part3. 개발 시 사용하는 프로그래밍 언어 --%>
+            <div class="tab-pane fade" id="part3" role="tabpanel" aria-labelledby="part3_tab">
+                <%-- 질의 항목 --%>
+                <div class="container jumbotron mt-1">
+                    <div class="mb-3"><span class="text-danger">* 필수</span></div>
+
+                    <%-- P301그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q1. 자신있는 프로그래밍 언어를 선택해주세요. <span
+                                class="required">*</span><span>[최대 2개 선택]</span></p>
+                        <div class="card w-75 h-auto">
+                            <div class="card-body">
+                                <div class="itemOutput301 form-group"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <%-- //P301 그룹 --%>
+
+                    <%-- P302 그룹 --%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q2. 배워보고 싶은 프로그래밍 언어를 선택해주세요. <span
+                                class="required">*</span><span>[최대 2개 선택]</span></p>
+                        <div class="card w-75 h-auto">
+                            <div class="card-body">
+                                <div class="itemOutput302 form-group"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <%-- //P302 그룹 --%>
+                    <%-- button --%>
+                    <div class="row justify-content-end mt-5">
+                        <div class="col-5 mt-5">
+                            <button type="button" class="btnCus btn btn-lg btn-secondary" id="back_2"
+                                    onclick="pageCtrl_btn(this.id)"><span>이전</span></button>
+                            <button type="button" class="btnCus btn btn-lg btn-primary float-right " id="next_end"
+                                    onclick="pageCtrl_btn(this.id)"><span>완료</span></button>
+                        </div>
+                    </div>
+                    <%-- //button --%>
+                </div>
+                <%-- //질의 항목 --%>
+            </div>
+            <%-- //part3. 개발 시 사용하는 프로그래밍 언어 --%>
+
         </div>
-        <%-- //part3. 개발 시 사용하는 프로그래밍 언어 --%>
-    </div>
-    <%--    </c:forEach>--%>
+    </form>
 
 
 </section>

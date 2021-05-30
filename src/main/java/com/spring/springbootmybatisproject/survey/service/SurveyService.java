@@ -8,4 +8,9 @@ public interface SurveyService {
 
     /* 설문 항목 가져오기 */
     public abstract List<SurveyItemVO> getSurveyList();
+
+    /* 설문 항목 저장 */
+    public abstract void saveSurveyList(SurveyItemVO surveyItemVO);
+
+    void saveSurveyList(Long accountId, List<SurveyItemVO.ReqDTO> reqDTOList);
 }

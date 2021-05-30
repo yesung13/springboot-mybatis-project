@@ -34,10 +34,9 @@ public class SurveyItemVO {
     @Getter
     @Setter
     public static class ReqDTO {
-        private String groupCd;
-        private String itemCd;
-        private String itemNm;
-
+        private Long accountId = 1L;
+        private String name;
+        private String value;
     }
 
     @AllArgsConstructor

@@ -3,6 +3,7 @@
 <mapper namespace="com.spring.springbootmybatisproject.survey.repository.SurveyMapper">
 
 
+    <!-- 설문 항목 불러오기 -->
     <select id="findBySurveyListAll" resultType="SurveyItemVO">
         SELECT itemId
              , groupCd
@@ -10,7 +11,15 @@
              , itemNm
              , itemComm
         FROM bbs_survey_item_cd;
-
-
     </select>
+
+    <!-- 설문 항목 저장 -->
+    <!--    <insert id="registerSurveyList" parameterType="SurveyItemVO" useGeneratedKeys="true" keyProperty="itemId">-->
+    <!--        INSERT INTO bbs_survey_item_cd (groupCd, itemCd, itemNm, itemComm)-->
+    <!--        VALUES (#{groupCd},#{itemCd},#{itemNm},)-->
+    <!--    </insert>-->
+
+    <insert id="registerSurveyList">
+
+    </insert>
 </mapper>
