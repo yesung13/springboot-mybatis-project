@@ -2,32 +2,53 @@ package com.spring.springbootmybatisproject.survey.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.ibatis.type.Alias;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-
-// 설문 항목 그룹
+@Alias("SurveyItemVO")
+// 설문 항목코드
 public class SurveyItemVO {
 
-    //그룹 ID
-    private Long groupId;
+    // 항목번호 항목번호
+    private Long itemId;
 
-    // 항목코드
+    // 그룹코드 항목 그룹코드
+    private String groupCd;
+
+    // 항목코드 항목 코드
     private String itemCd;
 
-    // 항목이름
+    // 항목명 노출될 항목명
     private String itemNm;
 
-    // 항목설명
+    // 항목설명 항목 설명
     private String itemComm;
 
-    // SurveyItemCd 모델 복사
-    public void CopyData(SurveyItemVO param) {
-        this.groupId = param.getGroupId();
-        this.itemCd = param.getItemCd();
-        this.itemNm = param.getItemNm();
-        this.itemComm = param.getItemComm();
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class ReqDTO {
+        private String groupCd;
+        private String itemCd;
+        private String itemNm;
+
     }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    public static class ResDTO {
+        private String groupCd;
+        private String itemCd;
+        private String itemNm;
+
+    }
+
+
 }
