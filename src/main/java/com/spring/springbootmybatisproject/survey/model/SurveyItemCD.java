@@ -112,7 +112,7 @@ public class SurveyItemCD {
     public static final String IC_L_PHP = "L_PHP"; // PHP
     public static final String IC_L_KOT = "L_KOT"; // Kotlin
     public static final String IC_L_TYS = "L_TYS"; // TypeScript
-    public static final String IC_L_ETC302 = "ETC302"; // 기타
+    public static final String IC_L_ETC302 = "L_ETC302"; // 기타
 
 
 }
