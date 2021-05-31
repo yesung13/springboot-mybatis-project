@@ -220,7 +220,8 @@
         function saveSurveyList() {
             let form = $('#form').serializeArray();
             let data = JSON.stringify(form);
-            console.log("Insert Request Data:", data);
+
+            console.log("Insert Request data:", data);
             console.log("Insert Request form:", form);
             $.ajax({
                 type: "POST",
@@ -252,6 +253,7 @@
 <c:import url="/views/common/header.jsp"/>
 <%-- 바디 --%>
 <section class="container-xl mt-3">
+    <input id="sessionUid" type="hidden" value="${sessionScope.account.accountId}" name="accountId">
     <div class="my-5"><h1>2021 개발자 실태 조사</h1></div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" id="partTab" role="tablist">
@@ -272,6 +274,7 @@
 
     <!-- Tab panes -->
     <form id="form">
+        <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
         <div class="tab-content">
 
 

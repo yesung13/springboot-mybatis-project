@@ -29,14 +29,20 @@ public class SurveyServiceImpl implements SurveyService {
     public void saveSurveyList(List<SurveyItemVO.ReqDTO> reqDTOList) {
         SurveyVO surveyVO = new SurveyVO();
 
-        char ckBoxAddCk = 'N'; // 체크박스 최대 2개 이상일 경우 체크
+        String ckBoxAddCk = ""; // 체크박스 최대 2개 이상일 경우 체크
+        Long accountId = null;
         for (SurveyItemVO.ReqDTO vo : reqDTOList) {
-            Long accountId = vo.getAccountId();
+            // 리스트에서 accountId 값 추출
+            if (vo.getName().equals("accountId")) {
+                accountId = Long.parseLong(vo.getValue());
+                surveyVO.setAccountId(accountId);
+            }
+
             String groupCd = vo.getName();
             String itemCd = vo.getValue();
+
             log.info("accountId: " + accountId + ", groupCd:" + groupCd + ", itemCd: " + itemCd);
 
-            surveyVO.setAccountId(accountId);
 
             if (groupCd.equals("P101")) {
                 surveyVO.setMajorItem(itemCd);
@@ -57,20 +63,19 @@ public class SurveyServiceImpl implements SurveyService {
             } else if (groupCd.equals("P203")) {
                 surveyVO.setUseEditorItem(itemCd);
             } else if (groupCd.equals("P301")) {
-                if(ckBoxAddCk =='Y'){
+                if (ckBoxAddCk.equals("Y1")) {
                     surveyVO.setConfidentLangItem2(itemCd);
-                    ckBoxAddCk = 'N';
-                }else{
+                } else {
                     surveyVO.setConfidentLangItem(itemCd);
-                    ckBoxAddCk = 'Y';
+                    ckBoxAddCk = "Y1";
                 }
             } else if (groupCd.equals("P302")) {
-                if(ckBoxAddCk =='Y'){
+                if (ckBoxAddCk.equals("Y2")) {
                     surveyVO.setLearnLangItem2(itemCd);
-                    ckBoxAddCk = 'N';
-                }else{
+
+                } else {
                     surveyVO.setLearnLangItem(itemCd);
-                    ckBoxAddCk = 'Y';
+                    ckBoxAddCk = "Y2";
                 }
             }
         }

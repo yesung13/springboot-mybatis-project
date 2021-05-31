@@ -34,7 +34,6 @@ public class SurveyItemVO {
     @Getter
     @Setter
     public static class ReqDTO {
-        private Long accountId;
         private String name;
         private String value;
     }

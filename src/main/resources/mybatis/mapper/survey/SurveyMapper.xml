@@ -14,23 +14,24 @@
     </select>
 
     <!-- 설문 항목 저장 -->
-    <insert id="registerSurveyList" parameterType="SurveyVO" useGeneratedKeys="true" keyProperty="itemId">
-        INSERT INTO bbs_survey ( majorItem
-                                , nonMajorStudyItem
-                                , ageItem
-                                , careerItem
-                                , incomeItem
-                                , jobItem
-                                , useOSItem
-                                , useDBItem
-                                , useEditorItem
-                                , confidentLangItem
-                                , confidentLangItem2
-                                , learnLangItem
-                                , learnLangItem2
-                                , accountId)
-        VALUES ( #{majorItem}, #{nonMajorStudyItem}, #{ageItem}, #{careerItem}, #{incomeItem}
-        , #{jobItem}, #{useOSItem}, #{useDBItem}, #{useEditorItem}, #{confidentLangItem},#{confidentLangItem2}
-        , #{learnLangItem},#{learnLangItem2}, #{accountId});
+    <insert id="registerSurveyList" parameterType="SurveyVO" useGeneratedKeys="true" keyProperty="surveyId">
+        INSERT INTO bbs_survey ( surveyId
+                               , majorItem
+                               , nonMajorStudyItem
+                               , ageItem
+                               , careerItem
+                               , incomeItem
+                               , jobItem
+                               , useOSItem
+                               , useDBItem
+                               , useEditorItem
+                               , confidentLangItem
+                               , confidentLangItem2
+                               , learnLangItem
+                               , learnLangItem2
+                               , accountId)
+        VALUES ( #{surveyId}, #{majorItem}, #{nonMajorStudyItem}, #{ageItem}, #{careerItem}, #{incomeItem}
+               , #{jobItem}, #{useOSItem}, #{useDBItem}, #{useEditorItem}, #{confidentLangItem}, #{confidentLangItem2}
+               , #{learnLangItem}, #{learnLangItem2}, #{accountId});
     </insert>
 </mapper>

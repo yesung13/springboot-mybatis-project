@@ -46,15 +46,10 @@ public class SurveyController {
     @ResponseBody
     public ResultVO saveSurveyList(@RequestBody List<SurveyItemVO.ReqDTO> reqDTOList) {
 
-        log.debug("SurveyController_saveListProc::" + reqDTOList);
-        Long accountId = 1L;
-        for (SurveyItemVO.ReqDTO vo : reqDTOList) {
-            vo.setAccountId(accountId);
-        }
         try {
             surveyService.saveSurveyList(reqDTOList);
             result.setResCode(SFV.INT_RES_CODE_OK);
-            result.setResMsg(SFV.STRING_RES_CODE_OK );
+            result.setResMsg(SFV.STRING_RES_CODE_OK);
 
         } catch (Exception e) {
             result.setResCode(SFV.INT_RES_CODE_FAIL);

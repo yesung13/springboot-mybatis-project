@@ -364,7 +364,7 @@
         <%--        <form id="form" role="form" action="${pageContext.request.contextPath}/board/register" method="post">--%>
         <form id="form" role="form">
             <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
-            <input type="hidden" value="${sessionScope.account.userName}" name="writer">
+            <input type="hidden" value="${sessionScope.account.accountUserNm}" name="writer">
             <table class="table table-bordered">
                 <tr class="thead-light">
                     <th class="tcenter ">
