@@ -45,6 +45,7 @@
 
 .nav-link:hover {
     font-size: 1.0em;
+    font-weight: 700;
     color: #999999;
 }
 

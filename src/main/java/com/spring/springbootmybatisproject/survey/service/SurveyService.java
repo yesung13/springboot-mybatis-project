@@ -10,7 +10,5 @@ public interface SurveyService {
     public abstract List<SurveyItemVO> getSurveyList();
 
     /* 설문 항목 저장 */
-    public abstract void saveSurveyList(SurveyItemVO surveyItemVO);
-
-    void saveSurveyList(Long accountId, List<SurveyItemVO.ReqDTO> reqDTOList);
+    public abstract void saveSurveyList(List<SurveyItemVO.ReqDTO> reqDTOList);
 }

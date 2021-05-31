@@ -39,6 +39,11 @@
         .btnCus {
             width: 200px;
         }
+
+        #title img {
+            width: 2.7em;
+            height: 2.7em;
+        }
     </style>
     <script type="text/javascript">
         $(function () {
@@ -74,9 +79,9 @@
             console.log("groupCode: ", groupCd);
             if (groupCd === "P106") {
                 let $count = jQuery('input:checkbox[name ="P106"]:checked');
-                if ($count.length > 2) {
+                if ($count.length > 1) {
                     $count.prop("checked", false);
-                    alert("최대 2개까지만 선택 가능");
+                    alert("1개만 선택 가능");
                 }
             } else if (groupCd === "P301") {
                 let $count = jQuery('input:checkbox[name ="P301"]:checked');
@@ -223,14 +228,15 @@
                 data: data,
                 dataType: 'json',
                 contentType: "application/json",
-                timeout: 6000,
+                // timeout: 6000,
                 success: function (response) {
                     console.log("Insert Response Data:", response);
-
-                    // if (response.resCode === 1003) {
-                    //     alert(response.resMsg);
-                    //     location.replace('/nAccount/login');
-                    // }
+                    if (response.resCode === 200) {
+                        alert(response.resMsg);
+                        location.replace('/');
+                    } else if (response.resCode === -1) {
+                        alert(response.resMsg);
+                    }
                 },
                 error: function (xhr, e, response) {
                     console.log("Insert Error:", xhr, e, response);
@@ -273,8 +279,13 @@
             <div class="tab-pane fade show active" id="part1" role="tabpanel" aria-labelledby="part1_tab">
                 <%-- 질의 항목 --%>
                 <div class="container jumbotron mt-1">
-                    <div id></div>
-                    <div class="mb-3"><span class="text-danger">* 필수</span></div>
+                    <%-- 타이틀 --%>
+                    <div id="title"><img src="<c:url value="/resources/images/people.svg"/>" alt="people">
+                        <h2>Part1. 개발자 정보</h2>
+                    </div>
+                    <%-- //타이틀 --%>
+
+                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>
 
                     <%-- P101 그룹 --%>
                     <div class="mb-5">
@@ -313,7 +324,7 @@
 
                     <%-- P106 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q6. 현재 직무는 무엇인가요? <span>[최대 2개 선택]</span></p>
+                        <p class="itemTitle">Q6. 현재 직무는 무엇인가요? <span>[경력 개발자만 선택]</span></p>
                         <div class="card w-75 h-auto">
                             <div class="card-body">
                                 <div class="itemOutput106 form-group"></div>
@@ -340,7 +351,13 @@
             <div class="tab-pane fade" id="part2" role="tabpanel" aria-labelledby="part2_tab">
                 <%-- 질의 항목 --%>
                 <div class="container jumbotron mt-1">
-                    <div class="mb-3"><span class="text-danger">* 필수</span></div>
+                    <%-- 타이틀 --%>
+                    <div id="title"><img src="<c:url value="/resources/images/gear.svg"/>" alt="people">
+                        <h2>Part2. 개발 시 사용하는 OS / DB / 에디터</h2>
+                    </div>
+                    <%-- //타이틀 --%>
+
+                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>
 
                     <%-- P201 그룹 --%>
                     <div class="mb-5">
@@ -381,7 +398,13 @@
             <div class="tab-pane fade" id="part3" role="tabpanel" aria-labelledby="part3_tab">
                 <%-- 질의 항목 --%>
                 <div class="container jumbotron mt-1">
-                    <div class="mb-3"><span class="text-danger">* 필수</span></div>
+                    <%-- 타이틀 --%>
+                    <div id="title"><img src="<c:url value="/resources/images/lang.svg"/>" alt="people">
+                        <h2>Part3. 개발 시 사용하는 프로그래밍 언어</h2>
+                    </div>
+                    <%-- //타이틀 --%>
+
+                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>
 
                     <%-- P301그룹 --%>
                     <div class="mb-5">

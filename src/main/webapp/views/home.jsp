@@ -29,29 +29,6 @@
             border: 1px solid #000;
         }
 
-        #container {
-            margin: 20px;
-            /*margin: 0 auto; !* 가로로 중앙에 배치 *!*/
-        }
-
-        .navbar img {
-            vertical-align: middle;
-        }
-
-        .nav-link {
-            /* font-family: 'Nanum Gothic', sans-serif; */
-            font-size: 1.0em;
-            font-weight: 700;
-            color: black;
-        }
-
-        .nav-link:hover {
-            /* font-family: 'Nanum Gothic', sans-serif; */
-            font-size: 1.0em;
-            font-weight: 700;
-            color: #999999;
-        }
-
         .form-inline {
             font-size: 0.813rem;
         }

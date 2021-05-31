@@ -14,12 +14,23 @@
     </select>
 
     <!-- 설문 항목 저장 -->
-    <!--    <insert id="registerSurveyList" parameterType="SurveyItemVO" useGeneratedKeys="true" keyProperty="itemId">-->
-    <!--        INSERT INTO bbs_survey_item_cd (groupCd, itemCd, itemNm, itemComm)-->
-    <!--        VALUES (#{groupCd},#{itemCd},#{itemNm},)-->
-    <!--    </insert>-->
-
-    <insert id="registerSurveyList">
-
+    <insert id="registerSurveyList" parameterType="SurveyVO" useGeneratedKeys="true" keyProperty="itemId">
+        INSERT INTO bbs_survey ( majorItem
+                                , nonMajorStudyItem
+                                , ageItem
+                                , careerItem
+                                , incomeItem
+                                , jobItem
+                                , useOSItem
+                                , useDBItem
+                                , useEditorItem
+                                , confidentLangItem
+                                , confidentLangItem2
+                                , learnLangItem
+                                , learnLangItem2
+                                , accountId)
+        VALUES ( #{majorItem}, #{nonMajorStudyItem}, #{ageItem}, #{careerItem}, #{incomeItem}
+        , #{jobItem}, #{useOSItem}, #{useDBItem}, #{useEditorItem}, #{confidentLangItem},#{confidentLangItem2}
+        , #{learnLangItem},#{learnLangItem2}, #{accountId});
     </insert>
 </mapper>

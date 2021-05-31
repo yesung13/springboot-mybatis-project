@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.survey.repository;
 
 import com.spring.springbootmybatisproject.survey.model.SurveyItemVO;
+import com.spring.springbootmybatisproject.survey.model.SurveyVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,5 @@ public interface SurveyMapper {
 
     /* 설문 항목 저장 */
 //    public abstract void registerSurveyList(SurveyItemVO surveyItemVO);
-    void registerSurveyList(Long accountId, List<SurveyItemVO.ReqDTO> reqDTOList);
-
+    void registerSurveyList(SurveyVO surveyVO);
 }
