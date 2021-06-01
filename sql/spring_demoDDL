@@ -14,7 +14,7 @@
 
 -- spring_demo 데이터베이스 구조 내보내기
 DROP DATABASE IF EXISTS `spring_demo`;
-CREATE DATABASE IF NOT EXISTS `spring_demo` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE IF NOT EXISTS `spring_demo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `spring_demo`;
 
 -- 테이블 spring_demo.bbs_account 구조 내보내기
@@ -173,14 +173,64 @@ CREATE TABLE IF NOT EXISTS `bbs_new_account` (
   `updateDt` datetime NOT NULL DEFAULT current_timestamp() COMMENT '사용자 정보 수정 날짜',
   PRIMARY KEY (`accountId`),
   UNIQUE KEY `UQ_bbs_new_account_1` (`accountUserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
 
--- 테이블 데이터 spring_demo.bbs_new_account:~0 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_new_account:~53 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_new_account` DISABLE KEYS */;
 INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountUserNm`, `accountEmail`, `accountPassword`, `devCheck`, `createDt`, `updateDt`) VALUES
 	(1, 'admin', 'admin', 'admin@gmail.com', '1234', 'P', '2021-05-27 16:39:25', '2021-05-27 16:39:25'),
 	(2, 'test', 'test', 'test@mail.com', '1234', 'P', '2021-05-27 16:50:55', '2021-05-27 16:50:55'),
-	(3, 'test2', '테스트', 'test2', '1234', 'C', '2021-05-27 17:01:00', '2021-05-27 17:01:00');
+	(3, 'test2', '테스트', 'test2', '1234', 'C', '2021-05-27 17:01:00', '2021-05-27 17:01:00'),
+	(4, 'test01', 'accountUserNm 01', 'accountEmail 01', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(5, 'test02', 'accountUserNm 02', 'accountEmail 02', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(6, 'test03', 'accountUserNm 03', 'accountEmail 03', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(7, 'test04', 'accountUserNm 04', 'accountEmail 04', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(8, 'test05', 'accountUserNm 05', 'accountEmail 05', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(9, 'test06', 'accountUserNm 06', 'accountEmail 06', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(10, 'test07', 'accountUserNm 07', 'accountEmail 07', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(11, 'test08', 'accountUserNm 08', 'accountEmail 08', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(12, 'test09', 'accountUserNm 09', 'accountEmail 09', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(13, 'test10', 'accountUserNm 10', 'accountEmail 10', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(14, 'test11', 'accountUserNm 11', 'accountEmail 11', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(15, 'test12', 'accountUserNm 12', 'accountEmail 12', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(16, 'test13', 'accountUserNm 13', 'accountEmail 13', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(17, 'test14', 'accountUserNm 14', 'accountEmail 14', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(18, 'test15', 'accountUserNm 15', 'accountEmail 15', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(19, 'test16', 'accountUserNm 16', 'accountEmail 16', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(20, 'test17', 'accountUserNm 17', 'accountEmail 17', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(21, 'test18', 'accountUserNm 18', 'accountEmail 18', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(22, 'test19', 'accountUserNm 19', 'accountEmail 19', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(23, 'test20', 'accountUserNm 20', 'accountEmail 20', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(24, 'test21', 'accountUserNm 21', 'accountEmail 21', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(25, 'test22', 'accountUserNm 22', 'accountEmail 22', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(26, 'test23', 'accountUserNm 23', 'accountEmail 23', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(27, 'test24', 'accountUserNm 24', 'accountEmail 24', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(28, 'test25', 'accountUserNm 25', 'accountEmail 25', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(29, 'test26', 'accountUserNm 26', 'accountEmail 26', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(30, 'test27', 'accountUserNm 27', 'accountEmail 27', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(31, 'test28', 'accountUserNm 28', 'accountEmail 28', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(32, 'test29', 'accountUserNm 29', 'accountEmail 29', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(33, 'test30', 'accountUserNm 30', 'accountEmail 30', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(34, 'test31', 'accountUserNm 31', 'accountEmail 31', '1234', 'C', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(35, 'test32', 'accountUserNm 32', 'accountEmail 32', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(36, 'test33', 'accountUserNm 33', 'accountEmail 33', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(37, 'test34', 'accountUserNm 34', 'accountEmail 34', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(38, 'test35', 'accountUserNm 35', 'accountEmail 35', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(39, 'test36', 'accountUserNm 36', 'accountEmail 36', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(40, 'test37', 'accountUserNm 37', 'accountEmail 37', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(41, 'test38', 'accountUserNm 38', 'accountEmail 38', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(42, 'test39', 'accountUserNm 39', 'accountEmail 39', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(43, 'test40', 'accountUserNm 40', 'accountEmail 40', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(44, 'test41', 'accountUserNm 41', 'accountEmail 41', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(45, 'test42', 'accountUserNm 42', 'accountEmail 42', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(46, 'test43', 'accountUserNm 43', 'accountEmail 43', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(47, 'test44', 'accountUserNm 44', 'accountEmail 44', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(48, 'test45', 'accountUserNm 45', 'accountEmail 45', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(49, 'test46', 'accountUserNm 46', 'accountEmail 46', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(50, 'test47', 'accountUserNm 47', 'accountEmail 47', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(51, 'test48', 'accountUserNm 48', 'accountEmail 48', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(52, 'test49', 'accountUserNm 49', 'accountEmail 49', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
+	(53, 'test50', 'accountUserNm 50', 'accountEmail 50', '1234', 'P', '2021-06-01 09:31:56', '2021-06-01 09:31:56');
 /*!40000 ALTER TABLE `bbs_new_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_reply 구조 내보내기
@@ -211,42 +261,167 @@ INSERT IGNORE INTO `bbs_reply` (`replyId`, `accountId`, `boardId`, `replyWriter`
 DROP TABLE IF EXISTS `bbs_survey`;
 CREATE TABLE IF NOT EXISTS `bbs_survey` (
   `surveyId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '설문ID',
-  `MajorItem` varchar(10) DEFAULT NULL COMMENT '전공/비전공 항목',
-  `nonMajorStudyItem` varchar(10) DEFAULT NULL COMMENT '비전공자 학습방법',
-  `ageItem` varchar(10) DEFAULT NULL COMMENT '연령대',
-  `careerItem` varchar(10) DEFAULT NULL COMMENT '경력',
-  `IncomeItem` varchar(10) DEFAULT NULL COMMENT '연소득범위',
-  `jobItem` varchar(10) DEFAULT NULL COMMENT '현재 직무',
-  `useOSItem` varchar(10) DEFAULT NULL COMMENT '주로 사용하는 OS',
-  `useDBItem` varchar(10) DEFAULT NULL COMMENT '주로 사용하는 DB',
-  `useEditorItem` varchar(10) DEFAULT NULL COMMENT '주로 사용하는 Editor',
-  `confidentLangItem` varchar(10) DEFAULT NULL COMMENT '자신있는 언어',
-  `learnLangItem` varchar(10) DEFAULT NULL COMMENT '배우고 싶은 언어',
-  `confidentFrmItem` varchar(10) DEFAULT NULL COMMENT '자신있는 프레임워크 / 라이브러리',
-  `learnFrmItem` varchar(10) DEFAULT NULL COMMENT '배우고 싶은 프레임워크 / 라이브러리',
+  `majorItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '전공/비전공 항목',
+  `nonMajorStudyItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '비전공자 학습방법',
+  `ageItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '연령대',
+  `careerItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '경력',
+  `IncomeItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '연소득범위',
+  `jobItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '현재 직무',
+  `useOSItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '주로 사용하는 OS',
+  `useDBItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '주로 사용하는 DB',
+  `useEditorItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '주로 사용하는 Editor',
+  `confidentLangItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '자신있는 언어',
+  `confidentLangItem2` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `learnLangItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '배우고 싶은 언어',
+  `learnLangItem2` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `accountId` bigint(20) NOT NULL COMMENT '계정ID',
   `regDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '설문 등록날짜',
   PRIMARY KEY (`surveyId`),
   UNIQUE KEY `UQ_bbs_survey_1` (`accountId`),
-  CONSTRAINT `FK_bbs_survey_bbs_new_account_accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='설문';
+  CONSTRAINT `FK_bbs_survey_accountId_bbs_new_account_accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`)
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='설문';
 
--- 테이블 데이터 spring_demo.bbs_survey:~0 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_survey:~51 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_survey` DISABLE KEYS */;
+INSERT IGNORE INTO `bbs_survey` (`surveyId`, `majorItem`, `nonMajorStudyItem`, `ageItem`, `careerItem`, `IncomeItem`, `jobItem`, `useOSItem`, `useDBItem`, `useEditorItem`, `confidentLangItem`, `confidentLangItem2`, `learnLangItem`, `learnLangItem2`, `accountId`, `regDatetime`) VALUES
+	(1, 'NMAJ', 'STU', 'AGE2', 'CAR3', 'INC4', 'FUL', 'ETC201', 'MAR', 'VSC', 'PYH', 'CPP', 'L_PYH', 'L_PHP', 2, '2021-05-31 17:14:49'),
+	(2, 'MAJ', NULL, 'AGE2', 'CAR1', 'INC1', 'BAC', 'WIN', 'MYS', 'ECP', 'JAV', 'JAS', 'L_PYH', 'L_JAS', 4, '2021-06-01 14:04:25'),
+	(3, 'MAJ', NULL, 'AGE2', 'CAR1', 'INC2', 'BAC', 'WIN', 'MYS', 'ECP', 'JAV', 'JAS', 'L_PYH', 'L_JAS', 5, '2021-06-01 14:04:25'),
+	(4, 'MAJ', NULL, 'AGE2', 'CAR1', 'INC2', 'BAC', 'WIN', 'MAR', 'ECP', 'JAV', 'JAS', 'L_PYH', 'L_JAS', 6, '2021-06-01 14:04:25'),
+	(5, 'MAJ', NULL, 'AGE2', 'CAR1', 'INC2', 'BAC', 'WIN', 'MAR', 'ECP', 'JAV', 'JAS', 'L_PYH', 'L_PYH', 7, '2021-06-01 14:04:25'),
+	(6, 'MAJ', NULL, 'AGE2', 'CAR2', 'INC2', 'BAC', 'WIN', 'MAR', 'ECP', 'JAV', 'JAS', 'L_KOT', 'L_PYH', 8, '2021-06-01 14:04:25'),
+	(7, 'MAJ', NULL, 'AGE2', 'CAR2', 'INC2', 'BAC', 'WIN', 'MAR', 'ECP', 'JAV', 'JAS', 'L_KOT', 'L_PYH', 9, '2021-06-01 14:04:25'),
+	(8, 'MAJ', NULL, 'AGE2', 'CAR2', 'INC2', 'BAC', 'WIN', 'POS', 'ECP', 'JAV', 'JAS', 'L_KOT', 'L_TYS', 10, '2021-06-01 14:04:25'),
+	(9, 'MAJ', NULL, 'AGE2', 'CAR2', 'INC2', 'BAC', 'WIN', 'POS', 'ECP', 'JAV', 'JAS', 'L_KOT', 'L_TYS', 11, '2021-06-01 14:04:25'),
+	(10, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC2', 'BAC', 'WIN', 'POS', 'INJ', 'JAV', 'JAS', 'L_KOT', 'L_TYS', 12, '2021-06-01 14:04:25'),
+	(11, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC3', 'BAC', 'WIN', 'POS', 'INJ', 'JAV', 'JAS', 'L_KOT', 'L_TYS', 13, '2021-06-01 14:04:25'),
+	(12, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC3', 'BAC', 'WIN', 'ORC', 'INJ', 'JAV', 'JAS', 'L_KOT', 'L_TYS', 14, '2021-06-01 14:04:25'),
+	(13, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC3', 'BAC', 'WIN', 'ORC', 'INJ', 'JAV', 'TYS', 'L_KOT', 'L_TYS', 15, '2021-06-01 14:04:25'),
+	(14, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC3', 'BAC', 'WIN', 'ORC', 'INJ', 'JAV', 'TYS', 'L_KOT', 'L_TYS', 16, '2021-06-01 14:04:25'),
+	(15, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC3', 'BAC', 'WIN', 'ORC', 'INJ', 'JAV', 'KOT', 'L_KOT', 'L_PYH', 17, '2021-06-01 14:04:25'),
+	(16, 'MAJ', NULL, 'AGE2', 'CAR3', 'INC3', 'BAC', 'WIN', 'ORC', 'INJ', 'JAV', 'KOT', 'L_JAV', 'L_PYH', 18, '2021-06-01 14:04:25'),
+	(17, 'MAJ', NULL, 'AGE2', 'CAR4', 'INC3', 'BAC', 'WIN', 'ORC', 'INJ', 'JAV', 'KOT', 'L_JAV', 'L_PYH', 19, '2021-06-01 14:04:25'),
+	(18, 'MAJ', NULL, 'AGE2', 'CAR4', 'INC3', 'BAC', 'WIN', 'MSS', 'INJ', 'JAV', 'JAS', 'L_JAV', 'L_PYH', 20, '2021-06-01 14:04:25'),
+	(19, 'MAJ', NULL, 'AGE2', 'CAR4', 'INC4', 'FRO', 'MAC', 'MSS', 'INJ', 'JAS', 'TYS', 'L_JAV', 'L_PYH', 21, '2021-06-01 14:04:25'),
+	(20, 'MAJ', NULL, 'AGE3', 'CAR4', 'INC4', 'FRO', 'MAC', 'MAR', 'INJ', 'JAS', 'TYS', 'L_JAV', 'L_PYH', 22, '2021-06-01 14:04:25'),
+	(21, 'MAJ', NULL, 'AGE3', 'CAR4', 'INC4', 'FRO', 'MAC', 'MAR', 'INJ', 'JAS', 'TYS', 'L_JAV', 'L_JAS', 23, '2021-06-01 14:04:25'),
+	(22, 'MAJ', NULL, 'AGE3', 'CAR4', 'INC4', 'FRO', 'MAC', 'POS', 'INJ', 'JAS', 'TYS', 'L_JAV', 'L_JAS', 24, '2021-06-01 14:04:25'),
+	(23, 'MAJ', NULL, 'AGE3', 'CAR4', 'INC4', 'FRO', 'MAC', 'POS', 'INJ', 'JAS', 'TYS', 'L_JAV', 'L_JAS', 25, '2021-06-01 14:04:25'),
+	(24, 'MAJ', NULL, 'AGE3', 'CAR4', 'INC4', 'FRO', 'WIN', 'POS', 'INJ', 'JAS', 'TYS', 'L_JAV', 'L_JAS', 26, '2021-06-01 14:04:25'),
+	(25, 'MAJ', NULL, 'AGE3', 'CAR5', 'INC4', 'FRO', 'WIN', 'ORC', 'INJ', 'JAS', 'TYS', 'L_PYH', 'L_JAS', 27, '2021-06-01 14:04:25'),
+	(26, 'MAJ', NULL, 'AGE3', 'CAR5', 'INC4', 'FUL', 'WIN', 'ORC', 'ECP', 'KOT', 'JAV', 'L_PYH', 'L_JAS', 28, '2021-06-01 14:04:25'),
+	(27, 'MAJ', NULL, 'AGE3', 'CAR6', 'INC5', 'FUL', 'WIN', 'ORC', 'ECP', 'KOT', 'JAV', 'L_PYH', 'L_JAS', 29, '2021-06-01 14:04:25'),
+	(28, 'MAJ', NULL, 'AGE3', 'CAR6', 'INC5', 'FUL', 'LNX', 'ORC', 'ECP', 'KOT', 'JAV', 'L_PYH', 'L_CPP', 30, '2021-06-01 14:04:25'),
+	(29, 'NMAJ', NULL, 'AGE3', 'CAR7', 'INC5', 'FUL', 'LNX', 'MOG', 'VSC', 'JAV', 'JAV', 'L_PYH', 'L_CPP', 31, '2021-06-01 14:04:25'),
+	(30, 'NMAJ', NULL, 'AGE3', 'CAR7', 'INC5', 'AND', 'MAC', 'MOG', 'ADS', 'JAV', 'JAS', 'L_KOT', NULL, 32, '2021-06-01 14:04:25'),
+	(31, 'NMAJ', NULL, 'AGE4', 'CAR8', 'INC5', 'AND', 'MAC', 'MAR', 'ADS', 'KOT', 'JAS', 'L_KOT', NULL, 33, '2021-06-01 14:04:25'),
+	(32, 'NMAJ', NULL, 'AGE4', 'CAR8', 'INC6', 'SEC', 'LNX', 'MAR', 'VSC', 'CPP', 'COO', 'L_PYH', NULL, 34, '2021-06-01 14:04:25'),
+	(33, 'NMAJ', NULL, 'AGE4', 'CAR8', 'INC6', 'SEC', 'LNX', 'MAR', 'VSC', 'CPP', 'COO', 'L_PYH', 'L_JAV', 35, '2021-06-01 14:04:25'),
+	(34, 'NMAJ', NULL, 'AGE4', 'CAR8', 'INC6', 'MAI', 'LNX', 'MYS', 'VSC', 'PYH', NULL, 'L_JAV', NULL, 36, '2021-06-01 14:04:25'),
+	(35, 'NMAJ', NULL, 'AGE4', 'CAR8', 'INC6', 'MAI', 'WIN', 'ORC', 'ETC203', 'PYH', NULL, 'L_PYH', 'L_JAV', 37, '2021-06-01 14:04:25'),
+	(36, 'NMAJ', NULL, 'AGE5', 'CAR9', 'INC7', 'MAI', 'WIN', 'ORC', 'ETC203', 'PYH', NULL, 'L_PYH', 'L_JAV', 38, '2021-06-01 14:04:25'),
+	(37, 'NMAJ', NULL, 'AGE5', 'CAR9', 'INC7', 'MAI', 'WIN', 'ORC', 'ETC203', 'PYH', NULL, 'L_PYH', 'L_JAV', 39, '2021-06-01 14:04:25'),
+	(38, 'NMAJ', NULL, 'AGE5', 'CAR9', 'INC7', 'IOS', 'MAC', 'MAR', 'ETC203', 'ETC301', NULL, 'L_KOT', 'L_JAV', 40, '2021-06-01 14:04:25'),
+	(39, 'MAJ', 'STU', 'AGE1', NULL, NULL, NULL, 'WIN', 'POS', 'ECP', 'JAV', 'JAS', 'L_JAV', 'L_CPP', 41, '2021-06-01 14:04:25'),
+	(40, 'MAJ', 'STU', 'AGE1', NULL, NULL, NULL, 'WIN', 'POS', 'ECP', 'JAV', 'JAS', 'L_JAV', 'L_CPP', 42, '2021-06-01 14:04:25'),
+	(41, 'MAJ', 'STU', 'AGE1', NULL, NULL, NULL, 'WIN', 'MAR', 'ECP', 'JAV', 'PYH', 'L_JAV', 'L_CPP', 43, '2021-06-01 14:04:25'),
+	(42, 'MAJ', 'ONL', 'AGE1', NULL, NULL, NULL, 'WIN', 'MAR', 'ECP', 'JAV', 'PYH', 'L_JAV', 'L_PYH', 44, '2021-06-01 14:04:25'),
+	(43, 'MAJ', 'ONL', 'AGE1', NULL, NULL, NULL, 'WIN', 'MAR', 'INJ', 'JAV', NULL, 'L_KOT', 'L_PYH', 45, '2021-06-01 14:04:25'),
+	(44, 'MAJ', 'ONL', 'AGE2', NULL, NULL, NULL, 'WIN', 'ORC', 'INJ', 'JAV', NULL, 'L_KOT', 'L_PYH', 46, '2021-06-01 14:04:25'),
+	(45, 'MAJ', 'ONL', 'AGE2', NULL, NULL, NULL, 'WIN', 'ORC', 'INJ', 'JAS', 'KOT', 'L_KOT', 'L_PYH', 47, '2021-06-01 14:04:25'),
+	(46, 'MAJ', 'ONL', 'AGE2', NULL, NULL, NULL, 'WIN', 'ORC', 'INJ', 'JAS', NULL, 'L_KOT', 'L_PYH', 48, '2021-06-01 14:04:25'),
+	(47, 'MAJ', 'SEF', 'AGE2', NULL, NULL, NULL, 'WIN', 'ORC', 'VSC', 'JAS', NULL, 'L_KOT', 'L_PYH', 49, '2021-06-01 14:04:25'),
+	(48, 'NMAJ', 'SEF', 'AGE2', NULL, NULL, NULL, 'MAC', 'MYS', 'VSC', 'JAS', NULL, 'L_KOT', 'L_PYH', 50, '2021-06-01 14:04:25'),
+	(49, 'NMAJ', 'ONL', 'AGE2', NULL, NULL, NULL, 'MAC', 'MYS', 'VIS', 'PYH', NULL, 'L_KOT', 'L_JAV', 51, '2021-06-01 14:04:25'),
+	(50, 'NMAJ', 'ONL', 'AGE3', NULL, NULL, NULL, 'MAC', 'MYS', 'VIS', 'PYH', NULL, 'L_KOT', 'L_JAV', 52, '2021-06-01 14:04:25'),
+	(51, 'NMAJ', 'ONL', 'AGE3', NULL, NULL, NULL, 'LNX', 'MYS', 'INJ', 'PYH', NULL, 'L_TYS', 'L_JAV', 53, '2021-06-01 14:04:25');
 /*!40000 ALTER TABLE `bbs_survey` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_survey_item_cd 구조 내보내기
 DROP TABLE IF EXISTS `bbs_survey_item_cd`;
 CREATE TABLE IF NOT EXISTS `bbs_survey_item_cd` (
-  `groupId` bigint(10) NOT NULL,
-  `itemCd` varchar(45) NOT NULL,
-  `itemNm` varchar(45) NOT NULL,
-  `itemComm` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`groupId`,`itemCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='설문결과 공통코드';
+  `itemId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '항목번호',
+  `groupCd` varchar(20) NOT NULL COMMENT '항목 그룹코드',
+  `itemCd` varchar(45) NOT NULL COMMENT '항목 코드',
+  `itemNm` varchar(45) NOT NULL COMMENT '노출될 항목명',
+  `itemComm` varchar(100) DEFAULT NULL COMMENT '항목 설명',
+  PRIMARY KEY (`itemId`,`itemCd`)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COMMENT='설문 항목코드';
 
--- 테이블 데이터 spring_demo.bbs_survey_item_cd:~0 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_survey_item_cd:~71 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_survey_item_cd` DISABLE KEYS */;
+INSERT IGNORE INTO `bbs_survey_item_cd` (`itemId`, `groupCd`, `itemCd`, `itemNm`, `itemComm`) VALUES
+	(1, 'P101', 'MAJ', '전공', 'major'),
+	(2, 'P101', 'NMAJ', '비전공', 'nonMajor'),
+	(3, 'P102', 'ACA', '학원', 'academy'),
+	(4, 'P102', 'STU', '스터디', 'study'),
+	(5, 'P102', 'ONL', '온라인 강의', 'onlineLecture'),
+	(6, 'P102', 'SEF', '혼자 학습', 'selfLearning'),
+	(7, 'P103', 'AGE1', '20세미만', 'ageUnder20'),
+	(8, 'P103', 'AGE2', '20-30대', 'age2030'),
+	(9, 'P103', 'AGE3', '30-40대', 'age3040'),
+	(10, 'P103', 'AGE4', '40-50대', 'age4050'),
+	(11, 'P103', 'AGE5', '50세이상', 'age50AndOver'),
+	(12, 'P104', 'CAR1', '1년차', '1stYear'),
+	(13, 'P104', 'CAR2', '2년차', '2ndYear'),
+	(14, 'P104', 'CAR3', '3년차', '3rdYear'),
+	(15, 'P104', 'CAR4', '4년차', '4thYear'),
+	(16, 'P104', 'CAR5', '5년차', '5thYear'),
+	(17, 'P104', 'CAR6', '6년차', '6thYear'),
+	(18, 'P104', 'CAR7', '7년차', '7thYear'),
+	(19, 'P104', 'CAR8', '8년차', '8thYear'),
+	(20, 'P104', 'CAR9', '9년차 이상', '9thYearAndOver'),
+	(21, 'P105', 'INC1', '연소득 2천만원 미만', 'incomeUnder2'),
+	(22, 'P105', 'INC2', '연소득 2천만원 이상 3천만원 미만', 'income23'),
+	(23, 'P105', 'INC3', '연소득 3천만원 이상 4천만원 미만', 'income34'),
+	(24, 'P105', 'INC4', '연소득 4천만원 이상 5천만원 미만', 'income45'),
+	(25, 'P105', 'INC5', '연소득 5천만원 이상 6천만원 미만', 'income56'),
+	(26, 'P105', 'INC6', '연소득 6천만원 이상 7천만원 미만', 'income67'),
+	(27, 'P105', 'INC7', '연소득 7천만원 이상', 'income7AndOver'),
+	(28, 'P106', 'BAC', '서버 및 백엔드', 'backend'),
+	(29, 'P106', 'FRO', '프론트엔드', 'frontend'),
+	(30, 'P106', 'FUL', '풀스택', 'fullstack'),
+	(31, 'P106', 'MAI', '머신러닝 및 인공지능', 'machineLearnAndAi'),
+	(32, 'P106', 'AND', 'Android', 'android'),
+	(33, 'P106', 'IOS', 'ios', 'ios'),
+	(34, 'P106', 'SEC', '보안', 'security'),
+	(35, 'P106', 'GAM', '게임', 'game'),
+	(36, 'P106', 'ETC106', '기타', 'etc106'),
+	(37, 'P201', 'WIN', 'Window OS', 'window'),
+	(38, 'P201', 'MAC', 'Mac OS', 'mac'),
+	(39, 'P201', 'LNX', 'Linux', 'linux'),
+	(40, 'P201', 'ETC201', '기타', 'etc201'),
+	(41, 'P202', 'MYS', 'MySQL', 'mysql'),
+	(42, 'P202', 'ORC', 'Oracle', 'oracle'),
+	(43, 'P202', 'MAR', 'MariaDB', 'maria'),
+	(44, 'P202', 'MOG', 'MongoDB', 'mongo'),
+	(45, 'P202', 'POS', 'PostgreSQL', 'postgre'),
+	(46, 'P202', 'MSS', 'MSSQL', 'mssql'),
+	(47, 'P202', 'ETC202', '기타', 'etc202'),
+	(48, 'P203', 'ECP', 'Eclipse', 'eclipse'),
+	(49, 'P203', 'INJ', 'IntelliJ', 'intelliJ'),
+	(50, 'P203', 'VSC', 'VSCode', 'vsCode'),
+	(51, 'P203', 'VIS', 'Visual Studio', 'visualStudio'),
+	(52, 'P203', 'ADS', 'Android Studio', 'androidStudio'),
+	(53, 'P203', 'ETC203', '기타', 'etc203'),
+	(54, 'P301', 'JAV', 'Java', 'java'),
+	(55, 'P301', 'JAS', 'JavaScript', 'javaScript'),
+	(56, 'P301', 'PYH', 'Python', 'python'),
+	(57, 'P301', 'CPP', 'C++', 'cpp'),
+	(58, 'P301', 'COO', 'C', 'coo'),
+	(59, 'P301', 'PHP', 'PHP', 'php'),
+	(60, 'P301', 'KOT', 'Kotlin', 'kotlin'),
+	(61, 'P301', 'TYS', 'TypeScript', 'typeScript'),
+	(62, 'P301', 'ETC301', '기타', 'etc301'),
+	(63, 'P302', 'L_JAV', 'Java', 'learnJava'),
+	(64, 'P302', 'L_JAS', 'JavaScript', 'learnJavaScript'),
+	(65, 'P302', 'L_PYH', 'Python', 'learnPython'),
+	(66, 'P302', 'L_CPP', 'C++', 'learnCpp'),
+	(67, 'P302', 'L_COO', 'C', 'learnCoo'),
+	(68, 'P302', 'L_PHP', 'PHP', 'learnPhp'),
+	(69, 'P302', 'L_KOT', 'Kotlin', 'learnKotlin'),
+	(70, 'P302', 'L_TYS', 'TypeScript', 'learnTypeScript'),
+	(71, 'P302', 'L_ETC302', '기타', 'learnEtc302');
 /*!40000 ALTER TABLE `bbs_survey_item_cd` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tbl_attach 구조 내보내기
