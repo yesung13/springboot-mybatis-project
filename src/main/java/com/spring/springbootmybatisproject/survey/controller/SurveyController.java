@@ -3,6 +3,7 @@ package com.spring.springbootmybatisproject.survey.controller;
 import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.common.model.ResultVO;
 import com.spring.springbootmybatisproject.survey.model.SurveyItemVO;
+import com.spring.springbootmybatisproject.survey.model.SurveyResult;
 import com.spring.springbootmybatisproject.survey.service.SurveyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,20 @@ public class SurveyController {
         return result;
     }
 
+    @GetMapping("/surveyResults")
+    public String surveyResultForm() {
+        return "/survey/surveyResult";
+    }
+
+    @GetMapping("/surveyResultProc/{d3ChartDiv}")
+    @ResponseBody
+    public List<SurveyResult> surveyResults(@PathVariable(name = "d3ChartDiv") String d3ChartDiv) {
+        List<SurveyResult> surveyResult = null;
+
+        if (d3ChartDiv.equals("barGraph")) {
+            surveyResult = surveyService.getMajorItemResult();
+        }
+        return surveyResult;
+    }
 
 }

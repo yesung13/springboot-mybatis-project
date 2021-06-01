@@ -53,6 +53,7 @@
 
         });
 
+        /* tab 페이지 컨트롤 */
         function pageCtrl_btn(btn_id) {
             console.log(btn_id);
             const $PART1_TAB = jQuery('#part1_tab');

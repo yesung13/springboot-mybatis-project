@@ -1,6 +1,7 @@
 package com.spring.springbootmybatisproject.survey.service;
 
 import com.spring.springbootmybatisproject.survey.model.SurveyItemVO;
+import com.spring.springbootmybatisproject.survey.model.SurveyResult;
 import com.spring.springbootmybatisproject.survey.model.SurveyVO;
 import com.spring.springbootmybatisproject.survey.repository.SurveyMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -80,6 +81,11 @@ public class SurveyServiceImpl implements SurveyService {
             }
         }
         surveyMapper.registerSurveyList(surveyVO);
+    }
+
+    @Override
+    public List<SurveyResult> getMajorItemResult() {
+        return surveyMapper.findBySurveyMajorItemRes();
     }
 }
 

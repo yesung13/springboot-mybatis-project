@@ -10,7 +10,7 @@
              , itemCd
              , itemNm
              , itemComm
-        FROM bbs_survey_item_cd;
+        FROM bbs_survey_item_cd
     </select>
 
     <!-- 설문 항목 저장 -->
@@ -34,4 +34,20 @@
                , #{jobItem}, #{useOSItem}, #{useDBItem}, #{useEditorItem}, #{confidentLangItem}, #{confidentLangItem2}
                , #{learnLangItem}, #{learnLangItem2}, #{accountId});
     </insert>
+
+
+    <select id="findBySurveyMajorItemRes" resultType="SurveyResult">
+        <![CDATA[
+        SELECT (CASE
+                    WHEN bs.majorItem = 'MAJ' THEN '전공'
+                    WHEN bs.majorItem = 'NMAJ' THEN '비전공'
+            END) as majorItem,
+               count(bs.majorItem) as majorValue
+        FROM bbs_new_account ba
+                 LEFT JOIN bbs_survey bs ON ba.accountId = bs.accountId
+        WHERE devCheck = 'P'
+        GROUP BY bs.majorItem
+        HAVING bs.majorItem is not null
+        ]]>
+    </select>
 </mapper>
