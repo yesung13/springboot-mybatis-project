@@ -84,9 +84,16 @@ public class SurveyServiceImpl implements SurveyService {
         surveyMapper.registerSurveyList(surveyVO);
     }
 
+    /* 예비/경력 개발자 전공 여부 조사 결과 - 막대 그래프 */
     @Override
     public List<SurveyResult.barGraphDTO> getMajorItemResult() {
         return surveyMapper.findBySurveyMajorItemRes();
+    }
+
+    /* 비전공자 개발 공부 학습 방법 조사 결과 - 파이그래프 */
+    @Override
+    public List<SurveyResult.pieGraphDTO> getNonMajorStudyItemResult() {
+        return surveyMapper.findBySurveyNonMajorStudyItemRes();
     }
 }
 

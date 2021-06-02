@@ -42,7 +42,7 @@ public class SurveyController {
         return surveyList;
     }
 
-    /* 설문 항목 저장*/
+    /* 설문 항목 저장 */
     @PostMapping("/saveListProc")
     @ResponseBody
     public ResultVO saveSurveyList(@RequestBody List<SurveyItemVO.ReqDTO> reqDTOList) {
@@ -60,18 +60,30 @@ public class SurveyController {
         return result;
     }
 
+    /* 설문 결과 페이지 */
     @GetMapping("/surveyResults")
     public String surveyResultForm() {
         return "/survey/surveyResult";
     }
 
-    @GetMapping("/surveyResultProc/{d3ChartDiv}")
+    /* 예비/경력 개발자 전공 여부 조사 결과 - 막대 그래프 */
+    @GetMapping("/surveyBarGraphProc/{d3ChartDiv}")
     @ResponseBody
-    public List<SurveyResult.barGraphDTO> surveyResults(@PathVariable(name = "d3ChartDiv") String d3ChartDiv) {
+    public List<SurveyResult.barGraphDTO> surveyResultsBarGraph(@PathVariable String d3ChartDiv) {
         List<SurveyResult.barGraphDTO> surveyResult = null;
-
         if (d3ChartDiv.equals("barGraph")) {
             surveyResult = surveyService.getMajorItemResult();
+        }
+        return surveyResult;
+    }
+
+    /* 비전공자 개발 공부 학습 방법 조사 결과 - 파이그래프 */
+    @GetMapping("/surveyPieGraphProc/{d3ChartDiv}")
+    @ResponseBody
+    public List<SurveyResult.pieGraphDTO> surveyResultsPieGraph(@PathVariable String d3ChartDiv) {
+        List<SurveyResult.pieGraphDTO> surveyResult = null;
+        if (d3ChartDiv.equals("pieGraph")) {
+            surveyResult = surveyService.getNonMajorStudyItemResult();
         }
         return surveyResult;
     }

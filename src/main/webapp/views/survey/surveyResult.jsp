@@ -25,15 +25,16 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script>
         $(function () {
-            showD3Chart();
+            showBarGraph();
+            showPieGraph();
         });
 
-        function showD3Chart() {
-            var barGraph = "barGraph";
+        function showBarGraph() {
+            var path = "barGraph";
 
             $.ajax({
                 method: 'GET',
-                url: '/survey/surveyResultProc/' + barGraph,
+                url: '/survey/surveyBarGraphProc/' + path,
                 dataType: 'json',
                 success: function (res) {
                     console.log("success: ", res);
@@ -267,55 +268,56 @@
         <div><h3>비전공자의 개발 공부 학습 방법 조사 결과</h3>
             <h6>설명란....</h6>
         </div>
-        <div class="jumbotronCus justify-content-center">
+        <div class="jumbotronCus">
 
-            <div class="row ">
-                <svg id="pieGraph" width="900" height="400"></svg>
+            <div class="">
+                <%--                <svg id="pieGraph" width="900" height="400"></svg>--%>
+                <svg id="pieGraph2" width="900" height="400"></svg>
+                <script src="${pageContext.request.contextPath}/resources/js/pie-chart.js"></script>
             </div>
-            <script>
-                var data = [1, 2, 4.4, 2, 1, 5, 4];
+            <%--            <script>--%>
+            <%--                var data = [1, 2, 4.4, 2, 1, 5, 4];--%>
 
-                // Selecting SVG using d3.select()
-                var svg = d3.select("#pieGraph");
+            <%--                // Selecting SVG using d3.select()--%>
+            <%--                var svg = d3.select("#pieGraph");--%>
 
-                // Creating Pie generator
-                var pie = d3.pie();
+            <%--                // Creating Pie generator--%>
+            <%--                var pie = d3.pie();--%>
 
-                // Creating arc
-                var arc = d3.arc()
-                    .innerRadius(0) //안쪽 반지름 값, 0이면 완전한 원이되고 값이 있으면 도넛 형태
-                    .outerRadius(150); //바깥쪽 반지름값
+            <%--                // Creating arc--%>
+            <%--                var arc = d3.arc()--%>
+            <%--                    .innerRadius(0) //안쪽 반지름 값, 0이면 완전한 원이되고 값이 있으면 도넛 형태--%>
+            <%--                    .outerRadius(150); //바깥쪽 반지름값--%>
 
-                let g = svg.append("g")
-                    .attr("transform", "translate(150,120)");
+            <%--                let g = svg.append("g")--%>
+            <%--                    .attr("transform", "translate(150,120)");--%>
 
-                // Grouping different arcs
-                var arcs = g.selectAll("arc")
-                    .data(pie(data))
-                    .enter()
-                    .append("g");
+            <%--                // Grouping different arcs--%>
+            <%--                var arcs = g.selectAll("arc")--%>
+            <%--                    .data(pie(data))--%>
+            <%--                    .enter()--%>
+            <%--                    .append("g");--%>
 
-                // Appending path
-                arcs.append("path")
-                    .attr("fill", (data, i) => {
-                        let value = data.data;
-                        return d3.schemeSet3[i + 1];
-                    })
-                    .attr("d", arc);
+            <%--                // Appending path--%>
+            <%--                arcs.append("path")--%>
+            <%--                    .attr("fill", (data, i) => {--%>
+            <%--                        let value = data.data;--%>
+            <%--                        return d3.schemeSet3[i + 1];--%>
+            <%--                    })--%>
+            <%--                    .attr("d", arc);--%>
 
-                // Adding data to each arc
-                arcs.append("text")
-                    .attr("transform", (d) => {
-                        return "translate(" +
-                            arc.centroid(d) + ")";
-                    })
-                    .text(function (d) {
-                        return d.data;
-                    });
-            </script>
+            <%--                // Adding data to each arc--%>
+            <%--                arcs.append("text")--%>
+            <%--                    .attr("transform", (d) => {--%>
+            <%--                        return "translate(" +--%>
+            <%--                            arc.centroid(d) + ")";--%>
+            <%--                    })--%>
+            <%--                    .text(function (d) {--%>
+            <%--                        return d.data;--%>
+            <%--                    });--%>
+            <%--            </script>--%>
         </div>
     </div>
-
 
 
 </section>

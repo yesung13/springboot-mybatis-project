@@ -35,7 +35,7 @@
                , #{learnLangItem}, #{learnLangItem2}, #{accountId});
     </insert>
 
-
+    <!-- 예비/경력 개발자 전공 여부 조사 결과 - 막대 그래프 -->
     <select id="findBySurveyMajorItemRes"
             resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$barGraphDTO">
         <![CDATA[
@@ -45,6 +45,26 @@
         FROM bbs_new_account ba
                  left join bbs_survey bs on ba.accountId = bs.accountId
         GROUP BY ba.devCheck;
+        ]]>
+    </select>
+
+    <!-- 비전공자 개발 공부 학습 방법 조사 결과 - 파이그래프 -->
+    <select id="findBySurveyNonMajorStudyItemRes"
+            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$pieGraphDTO">
+    <![CDATA[
+        SELECT b.nonMajorCnt AS barName, ROUND((b.cnt / a.cnt * 100), 0) AS barVal
+        FROM (SELECT count(*) cnt FROM bbs_survey bs WHERE bs.nonMajorStudyItem <> '') a,
+             (SELECT count(nonMajorStudyItem) cnt,
+                     (CASE
+                          WHEN nonMajorStudyItem = 'ACA' THEN '학원'
+                          WHEN nonMajorStudyItem = 'ONL' THEN '온라인 강의'
+                          WHEN nonMajorStudyItem = 'STU' THEN '스터디 모임'
+                          WHEN nonMajorStudyItem = 'SEF' THEN '혼자 학습'
+                         END) AS              nonMajorCnt
+              FROM bbs_survey
+              WHERE nonMajorStudyItem <> ''
+              GROUP BY nonMajorCnt) b
+        ORDER BY barVal DESC;
         ]]>
     </select>
 </mapper>

@@ -18,6 +18,14 @@ public class SurveyResult {
         private Long barVal2;
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class pieGraphDTO {
+        private String barName;
+        private Long barVal;
+    }
 
 
 //    @AllArgsConstructor
