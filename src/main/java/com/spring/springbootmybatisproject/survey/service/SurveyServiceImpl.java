@@ -28,11 +28,12 @@ public class SurveyServiceImpl implements SurveyService {
     /* 설문 항목 저장 */
     @Override
     public void saveSurveyList(List<SurveyItemVO.ReqDTO> reqDTOList) {
-        SurveyVO surveyVO = new SurveyVO();
 
+        SurveyVO surveyVO = new SurveyVO();
         String ckBoxAddCk = ""; // 체크박스 최대 2개 이상일 경우 체크
         Long accountId = null;
         for (SurveyItemVO.ReqDTO vo : reqDTOList) {
+
             // 리스트에서 accountId 값 추출
             if (vo.getName().equals("accountId")) {
                 accountId = Long.parseLong(vo.getValue());
@@ -84,7 +85,7 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<SurveyResult> getMajorItemResult() {
+    public List<SurveyResult.barGraphDTO> getMajorItemResult() {
         return surveyMapper.findBySurveyMajorItemRes();
     }
 }

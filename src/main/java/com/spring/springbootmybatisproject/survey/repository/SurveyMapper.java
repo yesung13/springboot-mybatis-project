@@ -19,5 +19,5 @@ public interface SurveyMapper {
 //    public abstract void registerSurveyList(SurveyItemVO surveyItemVO);
     void registerSurveyList(SurveyVO surveyVO);
 
-    List<SurveyResult> findBySurveyMajorItemRes();
+    List<SurveyResult.barGraphDTO> findBySurveyMajorItemRes();
 }

@@ -11,7 +11,6 @@ import java.util.Date;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 @Alias("SurveyVO")

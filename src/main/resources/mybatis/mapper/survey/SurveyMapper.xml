@@ -36,18 +36,15 @@
     </insert>
 
 
-    <select id="findBySurveyMajorItemRes" resultType="SurveyResult">
+    <select id="findBySurveyMajorItemRes"
+            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$barGraphDTO">
         <![CDATA[
-        SELECT (CASE
-                    WHEN bs.majorItem = 'MAJ' THEN '전공'
-                    WHEN bs.majorItem = 'NMAJ' THEN '비전공'
-            END) as majorItem,
-               count(bs.majorItem) as majorValue
+        SELECT IF(ba.devCheck = 'C', '경력개발자', '예비개발자')           'barName',
+               count(CASE WHEN bs.majorItem = 'MAJ' THEN 1 END)  'barVal1',
+               count(CASE WHEN bs.majorItem = 'NMAJ' THEN 1 END) 'barVal2'
         FROM bbs_new_account ba
-                 LEFT JOIN bbs_survey bs ON ba.accountId = bs.accountId
-        WHERE devCheck = 'P'
-        GROUP BY bs.majorItem
-        HAVING bs.majorItem is not null
+                 left join bbs_survey bs on ba.accountId = bs.accountId
+        GROUP BY ba.devCheck;
         ]]>
     </select>
 </mapper>

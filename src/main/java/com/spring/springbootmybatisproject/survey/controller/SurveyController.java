@@ -67,8 +67,8 @@ public class SurveyController {
 
     @GetMapping("/surveyResultProc/{d3ChartDiv}")
     @ResponseBody
-    public List<SurveyResult> surveyResults(@PathVariable(name = "d3ChartDiv") String d3ChartDiv) {
-        List<SurveyResult> surveyResult = null;
+    public List<SurveyResult.barGraphDTO> surveyResults(@PathVariable(name = "d3ChartDiv") String d3ChartDiv) {
+        List<SurveyResult.barGraphDTO> surveyResult = null;
 
         if (d3ChartDiv.equals("barGraph")) {
             surveyResult = surveyService.getMajorItemResult();
