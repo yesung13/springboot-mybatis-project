@@ -37,7 +37,7 @@
 
     <!-- 예비/경력 개발자 전공 여부 조사 결과 - 막대 그래프 -->
     <select id="findBySurveyMajorItemRes"
-            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$barGraphDTO">
+            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$BarGraphDTO">
         <![CDATA[
         SELECT IF(ba.devCheck = 'C', '경력개발자', '예비개발자')           'barName',
                count(CASE WHEN bs.majorItem = 'MAJ' THEN 1 END)  'barVal1',
@@ -50,9 +50,9 @@
 
     <!-- 비전공자 개발 공부 학습 방법 조사 결과 - 파이그래프 -->
     <select id="findBySurveyNonMajorStudyItemRes"
-            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$pieGraphDTO">
+            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$PieGraphDTO">
     <![CDATA[
-        SELECT b.nonMajorCnt AS barName, ROUND((b.cnt / a.cnt * 100), 0) AS barVal
+        SELECT b.nonMajorCnt AS pieName, ROUND((b.cnt / a.cnt * 100), 0) AS pieVal
         FROM (SELECT count(*) cnt FROM bbs_survey bs WHERE bs.nonMajorStudyItem <> '') a,
              (SELECT count(nonMajorStudyItem) cnt,
                      (CASE
@@ -64,7 +64,7 @@
               FROM bbs_survey
               WHERE nonMajorStudyItem <> ''
               GROUP BY nonMajorCnt) b
-        ORDER BY barVal DESC;
+        ORDER BY pieVal DESC;
         ]]>
     </select>
 </mapper>

@@ -1,5 +1,5 @@
 function showPieGraph() {
-    var path = "pieGraph";
+    const path = "pieGraph";
 
     $.ajax({
         method: 'GET',
@@ -18,85 +18,130 @@ function showPieGraph() {
 
 function drawPieGraph(res) {
     // pie-chart.js
-    const width = 400;
-    const height = 400;
     const data = res;
-    console.log("pie res:", res);
-    // const data = [
-    //     {name: 'A', value: 1000, color: '#efa86b'},
-    //     {name: 'B', value: 1500, color: '#c1484f'},
-    //     {name: 'C', value: 1300, color: '#d35d50'},
-    //     {name: 'D', value: 900, color: '#f4c17c'},
-    //     {name: 'E', value: 400, color: '#fae8a4'},
-    //     {name: 'F', value: 1200, color: '#df7454'},
-    //     {name: 'G', value: 1100, color: '#e88d5d'},
-    //     {name: 'H', value: 600, color: '#f8d690'}
-    // ];
+    console.log("Pie Data:", res);
 
-    const arc = d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2);
-// .arc() 새로운 기본값의 아치(호) 생성
-// .innerRadius() 안쪽 반지름 값, 0이면 완전한 원이되고 값이 있으면 도넛 형태가 됩니다.
-// .outerRadius() 바깥쪽 반지름값
+    const svg = d3.select("#pieGraph"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        radius = Math.min(width, height) / 2,
+        g = svg.append("g").attr("transform", "translate(" + radius + ",200 )");
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    const pie = d3.pie()
+        // .sort(null)
+        // data의 value 큰값 > 작은값 순으로 정렬합니다. ex. 반대 순서는 a.value - b.value
+        .sort((a, b) => b.pieVal - a.pieVal)
+        .value(function (d) {
+            return d.pieVal;
+        });
+
+    const path = d3.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(30);
+
+    const label = d3.arc()
+        .outerRadius(radius + 10)
+        .innerRadius(radius + 10);
+
+    svg.append("text")
+        .attr("transform", "translate(20,30)")
+        .attr("font-size", "0.9em")
+        .text("전체 (100%)");
+
+    const arc = g.selectAll(".arc")
+        .data(pie(data))
+        .enter().append("g")
+        .attr("class", "arc")
+        .attr('stroke', 'white');
+
+    arc.append("path")
+        .attr("d", path)
+        // .attr("fill", function(d) { return color(d.data.pieName); });
+        .attr("fill", (data, i) => {
+            // let value=data.data;
+            return d3.schemeSet3[i];
+            // return d3.schemeCategory10[i+4];
+        }); // 파이 색상
+
+    // Setup legend
+    const legendDotSize = 70;
+    const legendWrapper = svg.append("g")
+        .attr("class", "legend")
+        // .attr("transform", function(d) { return "translate("+radius*2+",20)"; });
+        .attr("transform", function (d) {
+            return "translate(600,20)";
+        });
+
+    // The text of the legend
+    const legendText = legendWrapper.selectAll("text")
+        .data(data);
+
+    legendText.enter().append("text")
+        .attr("y", function (d, i) {
+            return i * legendDotSize + 20;
+        })
+        .attr("x", 60)
+        .merge(legendText)
+        .attr("font-size", "1.2em")
+        .text(function (d) {
+            return d.pieName;
+            // return d.pieName + '(' + d.pieVal + '%)';
+        });
+
+    legendText.exit().remove();
+
+    // The dots of the legend
+    const legendDot = legendWrapper.selectAll("rect")
+        .data(data);
+
+    legendDot.enter().append("rect")
+        .attr("y", function (d, i) {
+            return i * legendDotSize;
+        })
+        .attr("rx", legendDotSize * 0.5)
+        .attr("ry", legendDotSize * 0.5)
+        .attr("width", legendDotSize * 0.5)
+        .attr("height", legendDotSize * 0.5)
+        .merge(legendDot)
+        // .style("fill", function(d) { return color(d.label); })
+        .style("fill", (data, i) => {
+            return d3.schemeSet3[i];
+        });
+
+    legendDot.exit().remove();
+
+    const arcs = pie(data);
 
     const arcLabel = (() => {
-        const radius = Math.min(width, height) / 2 * 0.8;
+        const radius = Math.min(width, height) / 2 * 0.6;
         return d3.arc().innerRadius(radius).outerRadius(radius);
     })();
 // 라벨이 위치할 반지름 값을 설정합니다.
 
-    const pie = d3.pie()
-        // 새로운 기본값의 파이 모양의 생성
-        .sort((a, b) => b.value - a.value)
-        // data의 value 큰값 > 작은값 순으로 정렬합니다. ex. 반대 순서는 a.value - b.value
-        .value(d => d.value);
-
-    const arcs = pie(data);
-
-    const svg = d3.select('#pieGraph2').style('width', width).style('height', height)
-        .attr('text-anchor', 'middle')
-        // text-anchor 텍스트의 정렬을 설정합니다 ( start | middle | end | inherit )
-        .style('font-size', '12px sans-serif');
-
-    const g = svg.append('g')
-        .attr('transform', `translate(${width / 2}, ${height / 2})`);
-// 우선 차트를 그릴 그룹 엘리먼트를 추가합니다.
-// 위치값을 각각 2로 나누는건 반지름 값을 기준으로 한바퀴 돌며 path를 그리기 때문인거 같습니다.
-
-    g.selectAll('path')
-        .data(arcs)
-        .enter().append('path')
-        // 이전과 동일하게 가상 path 요소를 만들고 그래프 데이터와 매핑하여 엘리먼트를 추가합니다.
-        .attr('fill', d => d.data.color)
-        // 다른 그래프와 다르게 .data 라는 객체가 추가되어 있는데, 위에 arcs 변수를 선언할때
-        // .pie(data)가 {data, value, index, startAngle, endAngle, padAngle} 의 값을 가지고 있습니다.
-        .attr('stroke', 'white')
-        .attr('d', arc)
-        .append('title')
-        .text(d => `${d.data.name}: ${d.data.value}`);
-// 각각 페스의 자식으로 title의 엘리먼트에 텍스트로 출력합니다.
-// 실제로 뷰에 출력되지는 않지만 시멘틱하게 각각의 요소의 설명 문자열을 제공합니다.
 
     const text = g.selectAll('text')
         .data(arcs)
         .enter().append('text')
         .attr('transform', d => `translate(${arcLabel.centroid(d)})`)
-        .attr('dy', '0.35em');
-// 라벨을 취가하기 위한 text 엘리먼트를 만들고 위치를 지정합니다.
+        .attr('dy', '1em');
+    // 라벨을 취가하기 위한 text 엘리먼트를 만들고 위치를 지정합니다.
 
-    text.append('tspan')
-        .attr('x', 0)
-        .attr('y', '-0.7em')
-        .style('font-weight', 'bold')
-        .text(d => d.data.name)
-// 해당 데이터 항목의 이름을 두꺼운 글씨로 출력합니다. ex. A
+    // text.append('tspan')
+    //     .attr('x', 0)
+    //     .attr('y', '-0.7em')
+    //     .style('font-weight', 'bold')
+    //     .text(d => d.data.pieName)
+    // // 해당 데이터 항목의 이름을 두꺼운 글씨로 출력합니다. ex. A
 
     text.filter(d => (d.endAngle - d.startAngle > 0.25)).append('tspan')
-        .attr('x', 0)
-        .attr('y', '0.7em')
+        .attr('x', '-1.0em')
+        .attr('y', '-0.3em')
         .attr('fill-opacity', 0.7)
-        .text(d => d.data.value);
-// 해당 데이터의 수치값을 투명도를 주어 출력합니다. ex. 1000
-
-    svg.node();
+        .style('font-size', '1.7em')
+        .style('font-weight', 'bold')
+        .text(d => d.data.pieVal + '%');
+    // 해당 데이터의 수치값을 투명도를 주어 출력합니다. ex. 1000
 }
 

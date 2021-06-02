@@ -6,13 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 public class SurveyResult {
+    private SurveyResult() {
+        throw new IllegalStateException("SurveyResult class");
+    }
 
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class barGraphDTO {
+    public static class BarGraphDTO {
         private String barName;
         private Long barVal1;
         private Long barVal2;
@@ -22,18 +26,9 @@ public class SurveyResult {
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class pieGraphDTO {
-        private String barName;
-        private Long barVal;
+    public static class PieGraphDTO {
+        private String pieName;
+        private Long pieVal;
     }
 
-
-//    @AllArgsConstructor
-//    @NoArgsConstructor
-//    @Getter
-//    @Setter
-//    public static class d3BarGraphDTO{
-//        private String majorItem;
-//        private Long majorValue;
-//    }
 }
