@@ -23,6 +23,7 @@
         }
     </style>
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
         $(function () {
             showBarGraph();
@@ -111,7 +112,7 @@
         <%--        </script>--%>
     </div>
 
-    <div><h1>Par1. 개발자 정보</h1></div>
+    <div><h1>Part1. 개발자 정보</h1></div>
     <%-- 막대 그래프 - 예비/경력 개발자 전공 여부 --%>
     <div class="mt-5">
         <div>
@@ -272,9 +273,63 @@
 
             <div class="">
                 <svg id="pieGraph" width="900" height="400"></svg>
-                <script src="${pageContext.request.contextPath}/resources/js/pie-chart.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/d3/pie-chart.js/"></script>
             </div>
         </div>
+    </div>
+    <div class="mt-5"><h1>Part3. 개발 시 사용하는 프로그래밍 언어</h1></div>
+    <div class="mt-5">
+        <div><h3>직무별 자신있는 프로그래밍 언어 조사 결과</h3>
+            <h6>설명란....</h6>
+        </div>
+        <div class="jumbotron">
+
+            <%--                <svg id="horizonBarChart" width="900" height="400"></svg>--%>
+            <%--                <script src="${pageContext.request.contextPath}/resources/js/d3/horizonBar-chart2.js"></script>--%>
+
+            <div id="chart" style="width: 800px;height: 800px"></div>
+            <script>
+                window.addEventListener('resize', function (event) {
+                    $("#chart").width(window.innerWidth * 0.9);
+                    $("#chart").height(window.innerHeight);
+                });
+            </script>
+            <script src="${pageContext.request.contextPath}/resources/js/d3/horizonBar-chart.js/"></script>
+            <script>
+                var groupChartData = [
+                    {"JAV": 8, "JAS": 15, "over": "백엔드"},
+                    {"JAV": 7, "JAS": 2, "over": "프론트엔드"},
+                    {"JAV": 4, "JAS": 5, "over": "풀스택"},
+                    {"JAV": 19, "JAS": 8, "over": "머신러닝"},
+                    {"JAV": 3, "JAS": 7, "over": "안드로이드"},
+                    {"JAV": 6, "JAS": 1, "over": "ios"},
+                    {"JAV": 7, "JAS": 6, "over": "보안"},
+                    {"JAV": 13, "JAS": 2, "over": "게임"},
+                    {"JAV": 1, "JAS": 8, "over": "기타"},
+                ];
+                console.log("groupChartData: ", groupChartData);
+                var columnsInfo = {"JAV": "Java", "JAS": "JavaScript"};
+
+                const colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
+                $("#chart").empty();
+                var barChartConfig = {
+                    mainDiv: "#chart",
+                    colorRange: colors,
+                    data: groupChartData,
+                    columnsInfo: columnsInfo,
+                    xAxis: "runs",
+                    yAxis: "over",
+                    label: {
+                        xAxis: "runs",
+                        yAxis: "over"
+                    },
+                    requireLegend: true
+                };
+                horizontalGroupBarChart(barChartConfig);
+            </script>
+
+        </div>
+
     </div>
 
 
