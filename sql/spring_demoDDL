@@ -13,12 +13,10 @@
 
 
 -- spring_demo 데이터베이스 구조 내보내기
-DROP DATABASE IF EXISTS `spring_demo`;
 CREATE DATABASE IF NOT EXISTS `spring_demo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `spring_demo`;
 
 -- 테이블 spring_demo.bbs_account 구조 내보내기
-DROP TABLE IF EXISTS `bbs_account`;
 CREATE TABLE IF NOT EXISTS `bbs_account` (
   `accountId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
   `accountEmail` varchar(80) COLLATE utf8mb4_bin NOT NULL COMMENT '계정이메일',
@@ -45,7 +43,6 @@ INSERT IGNORE INTO `bbs_account` (`accountId`, `accountEmail`, `accountPassword`
 /*!40000 ALTER TABLE `bbs_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_attach 구조 내보내기
-DROP TABLE IF EXISTS `bbs_attach`;
 CREATE TABLE IF NOT EXISTS `bbs_attach` (
   `uuid` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `uploadPath` varchar(200) COLLATE utf8mb4_bin NOT NULL,
@@ -70,7 +67,6 @@ INSERT IGNORE INTO `bbs_attach` (`uuid`, `uploadPath`, `fileName`, `filetype`, `
 /*!40000 ALTER TABLE `bbs_attach` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_board 구조 내보내기
-DROP TABLE IF EXISTS `bbs_board`;
 CREATE TABLE IF NOT EXISTS `bbs_board` (
   `boardId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
   `accountId` bigint(20) NOT NULL COMMENT '계정ID',
@@ -141,7 +137,6 @@ INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `wri
 /*!40000 ALTER TABLE `bbs_board` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_file 구조 내보내기
-DROP TABLE IF EXISTS `bbs_file`;
 CREATE TABLE IF NOT EXISTS `bbs_file` (
   `fileId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
   `boardId` bigint(20) NOT NULL COMMENT '게시판ID',
@@ -161,7 +156,6 @@ CREATE TABLE IF NOT EXISTS `bbs_file` (
 /*!40000 ALTER TABLE `bbs_file` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_new_account 구조 내보내기
-DROP TABLE IF EXISTS `bbs_new_account`;
 CREATE TABLE IF NOT EXISTS `bbs_new_account` (
   `accountId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '계정ID',
   `accountUserId` varchar(80) NOT NULL COMMENT '사용자 아이디',
@@ -234,20 +228,19 @@ INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountUser
 /*!40000 ALTER TABLE `bbs_new_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_reply 구조 내보내기
-DROP TABLE IF EXISTS `bbs_reply`;
 CREATE TABLE IF NOT EXISTS `bbs_reply` (
   `replyId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'idx',
   `accountId` bigint(20) NOT NULL COMMENT '계정ID',
   `boardId` bigint(20) NOT NULL COMMENT '게시판ID',
-  `replyWriter` varchar(60) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '댓글작성자',
-  `replyContent` varchar(2000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '댓글내용',
+  `replyWriter` varchar(60) DEFAULT NULL COMMENT '댓글작성자',
+  `replyContent` varchar(2000) DEFAULT NULL COMMENT '댓글내용',
   `replyDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '댓글생성일시',
   PRIMARY KEY (`replyId`),
   KEY `accountId` (`accountId`),
   KEY `boardId` (`boardId`),
   CONSTRAINT `accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_account` (`accountId`) ON DELETE CASCADE,
   CONSTRAINT `boardId` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='게시판댓글';
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COMMENT='게시판댓글';
 
 -- 테이블 데이터 spring_demo.bbs_reply:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_reply` DISABLE KEYS */;
@@ -258,28 +251,27 @@ INSERT IGNORE INTO `bbs_reply` (`replyId`, `accountId`, `boardId`, `replyWriter`
 /*!40000 ALTER TABLE `bbs_reply` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_survey 구조 내보내기
-DROP TABLE IF EXISTS `bbs_survey`;
 CREATE TABLE IF NOT EXISTS `bbs_survey` (
   `surveyId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '설문ID',
-  `majorItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '전공/비전공 항목',
-  `nonMajorStudyItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '비전공자 학습방법',
-  `ageItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '연령대',
-  `careerItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '경력',
-  `IncomeItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '연소득범위',
-  `jobItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '현재 직무',
-  `useOSItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '주로 사용하는 OS',
-  `useDBItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '주로 사용하는 DB',
-  `useEditorItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '주로 사용하는 Editor',
-  `confidentLangItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '자신있는 언어',
-  `confidentLangItem2` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `learnLangItem` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '배우고 싶은 언어',
-  `learnLangItem2` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `majorItem` varchar(10) DEFAULT NULL COMMENT '전공/비전공 항목',
+  `nonMajorStudyItem` varchar(10) DEFAULT NULL COMMENT '비전공자 학습방법',
+  `ageItem` varchar(10) DEFAULT NULL COMMENT '연령대',
+  `careerItem` varchar(10) DEFAULT NULL COMMENT '경력',
+  `IncomeItem` varchar(10) DEFAULT NULL COMMENT '연소득범위',
+  `jobItem` varchar(10) DEFAULT NULL COMMENT '현재 직무',
+  `useOSItem` varchar(10) DEFAULT NULL COMMENT '주로 사용하는 OS',
+  `useDBItem` varchar(10) DEFAULT NULL COMMENT '주로 사용하는 DB',
+  `useEditorItem` varchar(10) DEFAULT NULL COMMENT '주로 사용하는 Editor',
+  `confidentLangItem` varchar(10) DEFAULT NULL COMMENT '자신있는 언어',
+  `confidentLangItem2` varchar(10) DEFAULT NULL,
+  `learnLangItem` varchar(10) DEFAULT NULL COMMENT '배우고 싶은 언어',
+  `learnLangItem2` varchar(10) DEFAULT NULL,
   `accountId` bigint(20) NOT NULL COMMENT '계정ID',
   `regDatetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '설문 등록날짜',
   PRIMARY KEY (`surveyId`),
   UNIQUE KEY `UQ_bbs_survey_1` (`accountId`),
   CONSTRAINT `FK_bbs_survey_accountId_bbs_new_account_accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='설문';
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COMMENT='설문';
 
 -- 테이블 데이터 spring_demo.bbs_survey:~51 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_survey` DISABLE KEYS */;
@@ -338,7 +330,6 @@ INSERT IGNORE INTO `bbs_survey` (`surveyId`, `majorItem`, `nonMajorStudyItem`, `
 /*!40000 ALTER TABLE `bbs_survey` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_survey_item_cd 구조 내보내기
-DROP TABLE IF EXISTS `bbs_survey_item_cd`;
 CREATE TABLE IF NOT EXISTS `bbs_survey_item_cd` (
   `itemId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '항목번호',
   `groupCd` varchar(20) NOT NULL COMMENT '항목 그룹코드',
@@ -425,7 +416,6 @@ INSERT IGNORE INTO `bbs_survey_item_cd` (`itemId`, `groupCd`, `itemCd`, `itemNm`
 /*!40000 ALTER TABLE `bbs_survey_item_cd` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tbl_attach 구조 내보내기
-DROP TABLE IF EXISTS `tbl_attach`;
 CREATE TABLE IF NOT EXISTS `tbl_attach` (
   `uuid` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '파일UUID',
   `uploadPath` varchar(200) COLLATE utf8mb4_bin NOT NULL COMMENT '파일경로',
@@ -440,7 +430,6 @@ CREATE TABLE IF NOT EXISTS `tbl_attach` (
 /*!40000 ALTER TABLE `tbl_attach` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tb_sys_qna 구조 내보내기
-DROP TABLE IF EXISTS `tb_sys_qna`;
 CREATE TABLE IF NOT EXISTS `tb_sys_qna` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `accountEmail` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '계정이메일',
@@ -471,7 +460,6 @@ INSERT IGNORE INTO `tb_sys_qna` (`id`, `accountEmail`, `userPhoneNumber`, `reply
 /*!40000 ALTER TABLE `tb_sys_qna` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tb_user 구조 내보내기
-DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE IF NOT EXISTS `tb_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `accountId` bigint(20) NOT NULL COMMENT '계정ID',
@@ -493,7 +481,6 @@ CREATE TABLE IF NOT EXISTS `tb_user` (
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tb_user_account 구조 내보내기
-DROP TABLE IF EXISTS `tb_user_account`;
 CREATE TABLE IF NOT EXISTS `tb_user_account` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `accountEmail` varchar(80) COLLATE utf8mb4_bin NOT NULL COMMENT '계정이메일',
@@ -519,7 +506,6 @@ CREATE TABLE IF NOT EXISTS `tb_user_account` (
 /*!40000 ALTER TABLE `tb_user_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tb_user_phone_number 구조 내보내기
-DROP TABLE IF EXISTS `tb_user_phone_number`;
 CREATE TABLE IF NOT EXISTS `tb_user_phone_number` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `userPhoneNumber` varchar(20) COLLATE utf8mb4_bin NOT NULL COMMENT '사용자폰번호',
