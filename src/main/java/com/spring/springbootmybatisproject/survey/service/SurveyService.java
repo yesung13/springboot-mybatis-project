@@ -18,4 +18,7 @@ public interface SurveyService {
 
     /* 비전공자 개발 공부 학습 방법 조사 결과 - 파이그래프 */
     List<SurveyResult.PieGraphDTO> getNonMajorStudyItemResult();
+
+    /* 직무별 자신있는 프로그래밍 언어 조사 결과 - 가로 막대 그래프 */
+    List<SurveyResult.HorizonBarDTO> getConfidentLangForJobItemResult();
 }

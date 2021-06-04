@@ -1,5 +1,6 @@
-function horizontalGroupBarChart(config) {
+function drawHorizonBarChart(config) {
     function setReSizeEvent(data) {
+        console.log("drawHorizonBarChart IN")
         var resizeTimer;
         var interval = 500;
         window.removeEventListener('resize', function () {
@@ -47,10 +48,13 @@ function drawHorizontalGroupBarChartChart(config) {
     var requireLegend = config.requireLegend;
     d3.select(mainDiv).append("svg").attr("width", $(mainDiv).width()).attr("height", $(mainDiv).height() * 0.80);
     var svg = d3.select(mainDiv + " svg"),
-        margin = { top: 20, right: 20, bottom: 40, left: 40 },
+        margin = { top: 20, right: 20, bottom: 40, left: 60 }, // svg 마진 설정
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
+    console.log(
+        "data: ", data, " col: ", columnsInfo, " xAxis: ", xAxis, " yAxis: ", yAxis
+    )
 
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -59,7 +63,7 @@ function drawHorizontalGroupBarChartChart(config) {
         createHorizontalGroupBarChartLegend(mainDiv, columnsInfo, colorRange);
     }
 
-
+/* 문제 위치 */
     var y0 = d3.scaleBand()
         .rangeRound([height, 0])
         .paddingInner(0.1);
@@ -76,8 +80,10 @@ function drawHorizontalGroupBarChartChart(config) {
     var z = d3.scaleOrdinal()
         .range(colorRange);
 
+    /* 문제 위치 */
     var keys = Object.keys(columnsInfo);
     y0.domain(data.map(function (d) {
+        console.log("문제 위치:");
         return d[yAxis];
     }));
     y1.domain(keys).rangeRound([0, y0.bandwidth()]);
@@ -157,6 +163,7 @@ function drawHorizontalGroupBarChartChart(config) {
         .attr("y", margin.bottom * 0.7)
         .attr("dx", "0.32em")
         .attr("fill", "#000")
+        .attr("font-size", "15px") // 추가
         .attr("font-weight", "bold")
         .attr("text-anchor", "start")
         .text(label.xAxis);
@@ -170,6 +177,7 @@ function drawHorizontalGroupBarChartChart(config) {
         .attr("dy", "0.71em")
         .attr("fill", "#000")
         .attr("transform", "rotate(-90)")
+        .attr("font-size", "15px") // 추가
         .attr("font-weight", "bold")
         // .attr("text-anchor", "start")
         .text(label.yAxis);
@@ -232,7 +240,7 @@ var horBarTooltip = {
                 return "#efefef"
             })
             .style("font-size", function (d) {
-                return 10;
+                return 10; //tooltip 사이즈
             })
             .style("font-family", function (d) {
                 return "arial";

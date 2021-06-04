@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -84,6 +85,17 @@ public class SurveyController {
         List<SurveyResult.PieGraphDTO> surveyResult = null;
         if (d3ChartDiv.equals("pieGraph")) {
             surveyResult = surveyService.getNonMajorStudyItemResult();
+        }
+        return surveyResult;
+    }
+
+    /* 직무별 자신있는 프로그래밍 언어 조사 결과 - 가로 막대 그래프 */
+    @GetMapping("/surveyHorizonBarChart/{d3ChartDiv}")
+    @ResponseBody
+    public List<SurveyResult.HorizonBarDTO> surveyResultsHorizonBarChart(@PathVariable String d3ChartDiv) {
+        List<SurveyResult.HorizonBarDTO> surveyResult = new ArrayList<>();
+        if (d3ChartDiv.equals("horizonBarChart")) {
+            surveyResult = surveyService.getConfidentLangForJobItemResult();
         }
         return surveyResult;
     }

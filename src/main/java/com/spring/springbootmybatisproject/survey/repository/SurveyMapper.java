@@ -23,4 +23,8 @@ public interface SurveyMapper {
 
     /* 비전공자 개발 공부 학습 방법 조사 결과 - 파이그래프 */
     List<SurveyResult.PieGraphDTO> findBySurveyNonMajorStudyItemRes();
+
+//    List<HashMap<String, Object>> findBySurveyConfidentLangForJobItemRes();
+
+    List<SurveyResult.HorizonBarDTO> findSurveyConfidentLangForJobItemRes();
 }

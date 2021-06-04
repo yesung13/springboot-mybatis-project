@@ -296,36 +296,66 @@
             </script>
             <script src="${pageContext.request.contextPath}/resources/js/d3/horizonBar-chart.js/"></script>
             <script>
-                var groupChartData = [
-                    {"JAV": 8, "JAS": 15, "over": "백엔드"},
-                    {"JAV": 7, "JAS": 2, "over": "프론트엔드"},
-                    {"JAV": 4, "JAS": 5, "over": "풀스택"},
-                    {"JAV": 19, "JAS": 8, "over": "머신러닝"},
-                    {"JAV": 3, "JAS": 7, "over": "안드로이드"},
-                    {"JAV": 6, "JAS": 1, "over": "ios"},
-                    {"JAV": 7, "JAS": 6, "over": "보안"},
-                    {"JAV": 13, "JAS": 2, "over": "게임"},
-                    {"JAV": 1, "JAS": 8, "over": "기타"},
-                ];
-                console.log("groupChartData: ", groupChartData);
-                var columnsInfo = {"JAV": "Java", "JAS": "JavaScript"};
-
-                const colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
-                $("#chart").empty();
-                var barChartConfig = {
-                    mainDiv: "#chart",
-                    colorRange: colors,
-                    data: groupChartData,
-                    columnsInfo: columnsInfo,
-                    xAxis: "runs",
-                    yAxis: "over",
-                    label: {
-                        xAxis: "runs",
-                        yAxis: "over"
+                const path = "horizonBarChart";
+                $.ajax({
+                    method: 'GET',
+                    url: '/survey/surveyHorizonBarChart/' + path,
+                    dataType: 'json',
+                    success: function (res) {
+                        // console.log("success: ", res);
+                        horizonBarConf(res);
                     },
-                    requireLegend: true
-                };
-                horizontalGroupBarChart(barChartConfig);
+                    error: function (xhr, e, response) {
+                        console.log("Error:", xhr, e, response);
+                        alert("horizonBarChart 에러!")
+                    }
+                });
+
+                function horizonBarConf(res) {
+                    var groupChartData1 = [
+                        {"dataCnt1": 17, "dataCnt2": 12, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":3, "dataCnt8":2, "dataCnt9":0,"itemCd":"BAC"},
+                        {"dataCnt1": 0, "dataCnt2": 7, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":7, "dataCnt9":0,"itemCd":"FRO"},
+                        {"dataCnt1": 4, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":4, "dataCnt8":0, "dataCnt9":0,"itemCd":"FUL"},
+                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"MAI"},
+                        {"dataCnt1": 1, "dataCnt2": 2, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":1, "dataCnt8":0, "dataCnt9":0,"itemCd":"AND"},
+                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"IOS"},
+                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":1, "dataCnt5":1, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"SEC"},
+                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"GAM"},
+                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"ETC106"}
+                    ];
+                    console.log("groupChartData1 Sample: ", groupChartData1);
+                    var groupChartData = res;
+                    // var groupChartData = JSON.stringify(res);
+                    console.log("groupChartData: ", res);
+                    var columnsInfo = {
+                        "dataCnt1": "Java",
+                        "dataCnt2": "JavaScript",
+                        "dataCnt3": "Python",
+                        "dataCnt4": "C++",
+                        "dataCnt5": "C",
+                        "dataCnt6": "PHP",
+                        "dataCnt7": "Kotlin",
+                        "dataCnt8": "TypeScript",
+                        "dataCnt9": "ETC"
+                    };
+
+                    const colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
+                    $("#chart").empty();
+                    var barChartConfig = {
+                        mainDiv: "#chart",
+                        colorRange: colors,
+                        data: groupChartData,
+                        columnsInfo: columnsInfo,
+                        xAxis: "data",
+                        yAxis: "itemCd", /* 문제 위치 */
+                        label: {
+                            xAxis: "data",
+                            yAxis: "itemCd"
+                        },
+                        requireLegend: true
+                    };
+                    drawHorizonBarChart(barChartConfig);
+                }
             </script>
 
         </div>

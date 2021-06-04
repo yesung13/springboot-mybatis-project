@@ -67,4 +67,353 @@
         ORDER BY pieVal DESC;
         ]]>
     </select>
+    <!--    <select id="findBySurveyConfidentLangForJobItemRes" resultType="java.util.HashMap">-->
+<!--        WITH TMP AS (-->
+<!--            SELECT jobItem,-->
+<!--                   confidentLangItem,-->
+<!--                   COUNT(1) AS CNT-->
+<!--            FROM (-->
+<!--                     SELECT jobItem, confidentLangItem-->
+<!--                     FROM bbs_survey A,-->
+<!--                          bbs_new_account B-->
+<!--                     WHERE A.accountId = B.accountId-->
+<!--                       AND B.devCheck = 'C'-->
+
+<!--                     UNION ALL-->
+
+<!--                     SELECT jobItem, confidentLangItem2 AS CONFIDENTLANGITEM-->
+<!--                     FROM bbs_survey A,-->
+<!--                          bbs_new_account B-->
+<!--                     WHERE A.accountId = B.accountId-->
+<!--                       AND B.devCheck = 'C'-->
+<!--                 ) AS AA-->
+
+<!--            GROUP BY jobItem, confidentLangItem-->
+<!--            ORDER BY jobItem, confidentLangItem-->
+<!--        )-->
+
+<!--        SELECT SUB.itemCd AS JOB_CD, MAIN.CONFILANG AS LANG_CD, MAIN.CNT-->
+<!--        FROM (-->
+<!--                 SELECT  jobItem, confidentLangItem AS CONFILANG, CNT-->
+
+<!--                 FROM (SELECT jobItem, confidentLangItem, CNT-->
+<!--                       FROM TMP-->
+<!--                      ) AS BB-->
+
+<!--             ) AS MAIN-->
+<!--                 RIGHT OUTER JOIN bbs_survey_item_cd AS SUB ON MAIN.jobItem = SUB.itemCd-->
+<!--        WHERE SUB.groupCd = 'P106';-->
+<!--    </select>-->
+
+    <select id="findSurveyConfidentLangForJobItemRes"
+            resultType="com.spring.springbootmybatisproject.survey.model.SurveyResult$HorizonBarDTO">
+        <![CDATA[
+        WITH TMP AS
+                 (SELECT JOBITEM,
+                         CONFIDENTLANGITEM,
+                         COUNT(1) AS CNT
+
+                  FROM (SELECT JOBITEM,
+                               CONFIDENTLANGITEM
+                        FROM BBS_SURVEY A,
+                             BBS_NEW_ACCOUNT B
+                        WHERE A.ACCOUNTID = B.ACCOUNTID
+
+                        UNION ALL
+
+                        SELECT JOBITEM, CONFIDENTLANGITEM2 AS CONFIDENTLANGITEM
+                        FROM BBS_SURVEY A,
+                             BBS_NEW_ACCOUNT B
+                        WHERE A.ACCOUNTID = B.ACCOUNTID) as aa
+                  GROUP BY JOBITEM, CONFIDENTLANGITEM
+                  ORDER BY JOBITEM, CONFIDENTLANGITEM)
+
+        select ITEMCD,
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'JAV' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'JAV'
+                   end )as data1,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'JAV'  then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'JAV'  then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'JAV'  then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'JAV'  then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'JAV'  then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'JAV' then SUBSTRING_INDEX( SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'JAV' then SUBSTRING_INDEX( SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'JAV' then SUBSTRING_INDEX( SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'JAV' then SUBSTRING_INDEX( SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt1,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'JAS'
+                   end) as data2,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'JAS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt2,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'PYH'
+                   end) as data3,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'PYH' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt3,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'CPP'
+                   end) as data4,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'CPP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt4,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'COO'
+                   end) as data5,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'COO' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt5,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 17), ',' , -1)
+
+                   else 'PHP'
+                   end) as data6,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'PHP' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',', 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt6,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'KOT'
+                   end) as data7,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'KOT' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt7,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'TYS'
+                   end) as data8,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'TYS' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt8,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1)
+
+                   else 'ETC301'
+                   end) as data9,
+
+               (case
+
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 1) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 2) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 3) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 4) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 5) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 6) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 7) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 8) , ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 9) , ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 10), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 11), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 12), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 13), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 14), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 15), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 16), ',' , -1)
+                   when SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 17), ',' , -1) = 'ETC301' then SUBSTRING_INDEX(SUBSTRING_INDEX(DATA, ',' , 18), ',' , -1)
+
+                   else '0'
+                   end) as dataCnt9
+
+
+        from (SELECT MAIN.DATA, SUB.itemCd
+              FROM (
+                       SELECT GROUP_CONCAT(DATA ORDER BY DATA, jobItem DESC SEPARATOR ',') as DATA, jobItem
+
+                       FROM (SELECT CONCAT(confidentLangItem, ',', CNT) AS DATA,
+                                    jobItem
+                             FROM TMP
+                            ) AS BB
+
+                       GROUP BY jobItem
+                   ) AS MAIN
+                       RIGHT OUTER JOIN bbs_survey_item_cd AS SUB ON MAIN.jobItem = SUB.itemCd
+              WHERE SUB.groupCd = 'P106') AS CC;
+        ]]>
+    </select>
+
 </mapper>
