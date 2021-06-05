@@ -50,6 +50,10 @@
             console.log("start");
             getSurveyList();
 
+            $('#surveyResult_btn').click(function () {
+                location.replace("/survey/surveyResults");
+            });
+
 
         });
 
@@ -235,7 +239,7 @@
                     console.log("Insert Response Data:", response);
                     if (response.resCode === 200) {
                         alert(response.resMsg);
-                        location.replace('/');
+                        location.replace('/survey/surveyResults');
                     } else if (response.resCode === -1) {
                         alert(response.resMsg);
                     }
@@ -255,7 +259,13 @@
 <%-- 바디 --%>
 <section class="container-xl mt-3">
     <input id="sessionUid" type="hidden" value="${sessionScope.account.accountId}" name="accountId">
-    <div class="my-5"><h1>2021 개발자 실태 조사</h1></div>
+    <div class="my-5 row justify-content-between">
+        <div class="col-10"><h1>2021 개발자 실태 조사</h1></div>
+        <div class="col-2">
+            <button type="button" id="surveyResult_btn" class="btn btn-outline-success btn-block">결과보기</button>
+        </div>
+    </div>
+
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" id="partTab" role="tablist">
         <li class="nav-item">

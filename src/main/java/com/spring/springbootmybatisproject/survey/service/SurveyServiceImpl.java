@@ -103,6 +103,7 @@ public class SurveyServiceImpl implements SurveyService {
 
         List<SurveyResult.HorizonBarDTO> surveyResult = surveyMapper.findSurveyConfidentLangForJobItemRes();
 
+        // 그래프 Y축에 노출되는 name 변경
         for (SurveyResult.HorizonBarDTO vo : surveyResult) {
             if (vo.getItemCd().equals("BAC")) {
                 vo.setItemCd("벡엔드");
@@ -111,7 +112,7 @@ public class SurveyServiceImpl implements SurveyService {
             }else if(vo.getItemCd().equals("FUL")) {
                 vo.setItemCd("풀스택");
             }else if(vo.getItemCd().equals("MAI")){
-                 vo.setItemCd("머신러닝/AI");
+                 vo.setItemCd("머신러닝AI");
             }else if(vo.getItemCd().equals("AND")){
                 vo.setItemCd("Android");
             }else if(vo.getItemCd().equals("IOS")){
