@@ -34,7 +34,7 @@ public class SurveyResult {
     @Setter
     public static class HorizonBarDTO{
 
-        private String ITEMCD;
+        private String itemCd;
 
 //        private String data1;
         private Integer dataCnt1;

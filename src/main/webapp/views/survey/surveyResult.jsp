@@ -21,6 +21,15 @@
             background-color: #e9ecef;
             border-radius: 0.3rem;
         }
+        .jumbotronCus2{
+            min-width: 1000px;
+            height: 1300px;
+            padding: 4rem 2rem;
+            margin-bottom: 2rem;
+            background-color: #e9ecef;
+            border-radius: 0.3rem;
+        }
+
     </style>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -282,15 +291,11 @@
         <div><h3>직무별 자신있는 프로그래밍 언어 조사 결과</h3>
             <h6>설명란....</h6>
         </div>
-        <div class="jumbotron">
-
-            <%--                <svg id="horizonBarChart" width="900" height="400"></svg>--%>
-            <%--                <script src="${pageContext.request.contextPath}/resources/js/d3/horizonBar-chart2.js"></script>--%>
-
-            <div id="chart" style="width: 800px;height: 800px"></div>
+        <div class="jumbotronCus2">
+            <div id="chart" style="width: 960px;height: 1500px"></div>
             <script>
                 window.addEventListener('resize', function (event) {
-                    $("#chart").width(window.innerWidth * 0.9);
+                    $("#chart").width(window.innerWidth * 0.5);
                     $("#chart").height(window.innerHeight);
                 });
             </script>
@@ -312,20 +317,20 @@
                 });
 
                 function horizonBarConf(res) {
-                    var groupChartData1 = [
-                        {"dataCnt1": 17, "dataCnt2": 12, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":3, "dataCnt8":2, "dataCnt9":0,"itemCd":"BAC"},
-                        {"dataCnt1": 0, "dataCnt2": 7, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":7, "dataCnt9":0,"itemCd":"FRO"},
-                        {"dataCnt1": 4, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":4, "dataCnt8":0, "dataCnt9":0,"itemCd":"FUL"},
-                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"MAI"},
-                        {"dataCnt1": 1, "dataCnt2": 2, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":1, "dataCnt8":0, "dataCnt9":0,"itemCd":"AND"},
-                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"IOS"},
-                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":1, "dataCnt5":1, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"SEC"},
-                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"GAM"},
-                        {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemCd":"ETC106"}
-                    ];
-                    console.log("groupChartData1 Sample: ", groupChartData1);
+                    // var groupChartData1 = [
+                    //     {"dataCnt1": 17, "dataCnt2": 12, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":3, "dataCnt8":2, "dataCnt9":0,"itemcd":"BAC"},
+                    //     {"dataCnt1": 0, "dataCnt2": 7, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":7, "dataCnt9":0,"itemcd":"FRO"},
+                    //     {"dataCnt1": 4, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":4, "dataCnt8":0, "dataCnt9":0,"itemcd":"FUL"},
+                    //     {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemcd":"MAI"},
+                    //     {"dataCnt1": 1, "dataCnt2": 2, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":1, "dataCnt8":0, "dataCnt9":0,"itemcd":"AND"},
+                    //     {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemcd":"IOS"},
+                    //     {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":1, "dataCnt5":1, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemcd":"SEC"},
+                    //     {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemcd":"GAM"},
+                    //     {"dataCnt1": 0, "dataCnt2": 0, "dataCnt3":0, "dataCnt4":0, "dataCnt5":0, "dataCnt6":0, "dataCnt7":0, "dataCnt8":0, "dataCnt9":0,"itemcd":"ETC106"}
+                    // ];
+                    // console.log("groupChartData1 Sample: ", groupChartData1);
+
                     var groupChartData = res;
-                    // var groupChartData = JSON.stringify(res);
                     console.log("groupChartData: ", res);
                     var columnsInfo = {
                         "dataCnt1": "Java",
@@ -349,8 +354,8 @@
                         xAxis: "data",
                         yAxis: "itemCd", /* 문제 위치 */
                         label: {
-                            xAxis: "data",
-                            yAxis: "itemCd"
+                            xAxis: "Total",
+                            yAxis: "프로그래밍 언어"
                         },
                         requireLegend: true
                     };
@@ -361,8 +366,6 @@
         </div>
 
     </div>
-
-
 </section>
 
 

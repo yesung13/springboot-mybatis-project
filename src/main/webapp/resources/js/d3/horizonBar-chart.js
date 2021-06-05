@@ -20,6 +20,7 @@ function drawHorizonBarChart(config) {
     drawHorizontalGroupBarChartChart(config);
     setReSizeEvent(config);
 }
+
 function createHorizontalGroupBarChartLegend(mainDiv, columnsInfo, colorRange) {
     var z = d3.scaleOrdinal()
         .range(colorRange);
@@ -48,14 +49,11 @@ function drawHorizontalGroupBarChartChart(config) {
     var requireLegend = config.requireLegend;
     d3.select(mainDiv).append("svg").attr("width", $(mainDiv).width()).attr("height", $(mainDiv).height() * 0.80);
     var svg = d3.select(mainDiv + " svg"),
-        margin = { top: 20, right: 20, bottom: 40, left: 60 }, // svg 마진 설정
+        margin = {top: 20, right: 20, bottom: 60, left: 60}, // svg 마진 설정
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
-    console.log(
-        "data: ", data, " col: ", columnsInfo, " xAxis: ", xAxis, " yAxis: ", yAxis
-    )
-
+    console.log(data.map)
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     if (requireLegend != null && requireLegend !== false) {
@@ -63,27 +61,28 @@ function drawHorizontalGroupBarChartChart(config) {
         createHorizontalGroupBarChartLegend(mainDiv, columnsInfo, colorRange);
     }
 
-/* 문제 위치 */
-    var y0 = d3.scaleBand()
+    /* 문제 위치 */
+    let y0 = d3.scaleBand()
         .rangeRound([height, 0])
         .paddingInner(0.1);
 
 
-    var y1 = d3.scaleBand()
-        .padding(0.05);
+    let y1 = d3.scaleBand()
+        .padding(0.05); // horizon bar 사이 간격
 
 
-    var x = d3.scaleLinear()
+    let x = d3.scaleLinear()
         .rangeRound([0, width]);
 
 
-    var z = d3.scaleOrdinal()
+    let z = d3.scaleOrdinal()
         .range(colorRange);
 
     /* 문제 위치 */
-    var keys = Object.keys(columnsInfo);
+    const keys = Object.keys(columnsInfo);
     y0.domain(data.map(function (d) {
-        console.log("문제 위치:");
+        console.log("문제 위치2 : ", d[yAxis]);
+        console.log("문제 위치2 : ", d);
         return d[yAxis];
     }));
     y1.domain(keys).rangeRound([0, y0.bandwidth()]);
@@ -107,7 +106,7 @@ function drawHorizontalGroupBarChartChart(config) {
     var rect = element.selectAll("rect")
         .data(function (d, i) {
             return keys.map(function (key) {
-                return { key: key, value: d[key], index: key + "_" + i + "_" + d[yAxis] };
+                return {key: key, value: d[key], index: key + "_" + i + "_" + d[yAxis]};
             });
         })
         .enter().append("rect")
@@ -160,8 +159,8 @@ function drawHorizontalGroupBarChartChart(config) {
         .call(d3.axisBottom(x).ticks(maxTicks))
         .append("text")
         .attr("x", width / 2)
-        .attr("y", margin.bottom * 0.7)
-        .attr("dx", "0.32em")
+        .attr("y", margin.bottom * 0.9)
+        .attr("dx", "-0.6em")
         .attr("fill", "#000")
         .attr("font-size", "15px") // 추가
         .attr("font-weight", "bold")
@@ -172,17 +171,18 @@ function drawHorizontalGroupBarChartChart(config) {
         .attr("class", "axis")
         .call(d3.axisLeft(y0).ticks(null, "s"))
         .append("text")
-        .attr("x", height * 0.4 * -1)
-        .attr("y", margin.left * 0.8 * -1)//y(y.ticks().pop()) + 0.5)
-        .attr("dy", "0.71em")
+        .attr("x", height * 0.3 * -1)
+        .attr("y", margin.left * 0.9 * -1)//y(y.ticks().pop()) + 0.5)
+        .attr("dy", "0.4em")
         .attr("fill", "#000")
         .attr("transform", "rotate(-90)")
         .attr("font-size", "15px") // 추가
         .attr("font-weight", "bold")
-        // .attr("text-anchor", "start")
+        .attr("text-anchor", "start")
         .text(label.yAxis);
 
 }
+
 var helpers = {
     getDimensions: function (id) {
         var el = document.getElementById(id);
@@ -194,7 +194,7 @@ var helpers = {
         } else {
             console.log("error: getDimensions() " + id + " not found.");
         }
-        return { w: w, h: h };
+        return {w: w, h: h};
     }
 }
 var horBarTooltip = {
@@ -232,7 +232,7 @@ var horBarTooltip = {
         element.selectAll("g")
             .data(function (d, i) {
                 return keys.map(function (key) {
-                    return { key: key, value: d[key], index: key + "_" + i + "_" + d[pie.yAxis] };
+                    return {key: key, value: d[key], index: key + "_" + i + "_" + d[pie.yAxis]};
                 });
             })
             .append("text")
@@ -240,7 +240,7 @@ var horBarTooltip = {
                 return "#efefef"
             })
             .style("font-size", function (d) {
-                return 10; //tooltip 사이즈
+                return "20px"; //tooltip 사이즈
             })
             .style("font-family", function (d) {
                 return "arial";
@@ -253,10 +253,11 @@ var horBarTooltip = {
                 });
             });
 
+        // tooltip 여백 사이
         element.selectAll("g rect")
             .attr("width", function (d, i) {
                 var dims = helpers.getDimensions(pie.cssPrefix + "tooltip" + d.index);
-                return dims.w + (2 * 4);
+                return dims.w + (3 * 4);
             })
             .attr("height", function (d, i) {
                 var dims = helpers.getDimensions(pie.cssPrefix + "tooltip" + d.index);

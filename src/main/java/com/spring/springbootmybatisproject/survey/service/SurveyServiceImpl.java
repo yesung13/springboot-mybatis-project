@@ -96,121 +96,35 @@ public class SurveyServiceImpl implements SurveyService {
         return surveyMapper.findBySurveyNonMajorStudyItemRes();
     }
 
+
     /* 직무별 자신있는 프로그래밍 언어 조사 결과 - 가로 막대 그래프 */
-//    @Override
-//    public List<SurveyResult.HorizonBarDTO> getConfidentLangForJobItemResult() {
-//        List<HashMap<String, Object>> listMap = surveyMapper.findBySurveyConfidentLangForJobItemRes();
-//
-//        log.info("Map Data::{}", listMap);
-//
-//        // 리스트 결과
-//
-//        List<SurveyResult.HorizonBarDTO> surveyResult = new ArrayList<SurveyResult.HorizonBarDTO>();
-//        SurveyResult.HorizonBarDTO dto = new SurveyResult.HorizonBarDTO();
-//
-//        String[] jobCheckArr = {"BAC", "FRO", "FUL", "MAI", "AND", "IOS", "SEC", "GAM", "ETC106"};
-//        String[] langCheCkArr = {"JAV", "JAS", "PYH", "CPP", "COO", "PHP", "KOT", "TYS", "ETC301"};
-//
-//
-//        for (HashMap<String, Object> map : listMap) {
-//            log.info("Map::{}", map);
-//            // if문 시작
-//            if ("BAC".equals(map.get("JOB_CD"))) {
-//                dto.setGroup1(String.valueOf(map.get("JOB_CD")));
-//
-//                if (map.get("LANG_CD") != null) {
-//                    if ("JAV".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm1(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal1((Long) map.get("CNT"));
-//
-//                    } else if ("JAS".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm2(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal2((Long) map.get("CNT"));
-//
-//                    } else if ("PYH".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm3(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal3((Long) map.get("CNT"));
-//
-//                    } else if ("CPP".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm4(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal4((Long) map.get("CNT"));
-//
-//                    } else if ("COO".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm5(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal5((Long) map.get("CNT"));
-//
-//                    } else if ("PHP".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm6(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal6((Long) map.get("CNT"));
-//
-//                    } else if ("KOT".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm7(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal7((Long) map.get("CNT"));
-//
-//                    } else if ("TYS".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm8(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal8((Long) map.get("CNT"));
-//
-//                    } else if ("ETC301".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm9(String.valueOf(map.get("LANG_CD")));
-//                        dto.setGroupVal9((Long) map.get("CNT"));
-//                    }
-//                } else {
-//                    if ("JAV".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm1("JAV");
-//                        dto.setGroupVal1(0L);
-//
-//                    } else if ("JAS".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm2("JAS");
-//                        dto.setGroupVal2(0L);
-//
-//                    } else if ("PYH".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm3("PYH");
-//                        dto.setGroupVal3(0L);
-//
-//                    } else if ("CPP".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm4("CPP");
-//                        dto.setGroupVal4(0L);
-//
-//                    } else if ("COO".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm5("COO");
-//                        dto.setGroupVal5(0L);
-//
-//                    } else if ("PHP".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm6("PHP");
-//                        dto.setGroupVal6(0L);
-//
-//                    } else if ("KOT".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm7("KOT");
-//                        dto.setGroupVal7(0L);
-//
-//                    } else if ("TYS".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm8("TYS");
-//                        dto.setGroupVal8(0L);
-//
-//                    } else if ("ETC301".equals(map.get("LANG_CD"))) {
-//                        dto.setGroupNm9("ETC301");
-//                        dto.setGroupVal9(0L);
-//                    }
-//                }
-//            }
-//            // if문 끝
-//
-//        }
-//
-//        surveyResult.add(dto);
-//        return surveyResult;
-//
-//
-////        Map<String, String> map = new HashMap<String, String>();
-////        map.put("test", "success");
-////        return map;
-//
-//    }
-
-
     @Override
     public List<SurveyResult.HorizonBarDTO> getConfidentLangForJobItemResult() {
-        return surveyMapper.findSurveyConfidentLangForJobItemRes();
+
+        List<SurveyResult.HorizonBarDTO> surveyResult = surveyMapper.findSurveyConfidentLangForJobItemRes();
+
+        for (SurveyResult.HorizonBarDTO vo : surveyResult) {
+            if (vo.getItemCd().equals("BAC")) {
+                vo.setItemCd("벡엔드");
+            }else if(vo.getItemCd().equals("FRO")){
+                vo.setItemCd("프론트엔드");
+            }else if(vo.getItemCd().equals("FUL")) {
+                vo.setItemCd("풀스택");
+            }else if(vo.getItemCd().equals("MAI")){
+                 vo.setItemCd("머신러닝/AI");
+            }else if(vo.getItemCd().equals("AND")){
+                vo.setItemCd("Android");
+            }else if(vo.getItemCd().equals("IOS")){
+                vo.setItemCd("ios");
+            }else if(vo.getItemCd().equals("SEC")){
+                vo.setItemCd("보안");
+            }else if(vo.getItemCd().equals("GAM")) {
+                vo.setItemCd("게임");
+            }else if(vo.getItemCd().equals("ETC106")){
+                vo.setItemCd("기타");
+            }
+        }
+
+        return surveyResult;
     }
 }
