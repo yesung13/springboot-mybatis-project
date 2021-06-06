@@ -83,7 +83,7 @@
             let requestUrl = '/nAccount/loginProc';
             let form = $('#form')[0];
             let data = new FormData(form);
-            console.log("Insert Request Data:", data);
+            console.log("Login Request Data:", data);
             $.ajax({
                 type: "POST",
                 url: requestUrl,
@@ -92,11 +92,11 @@
                 contentType: false,
                 // cache: false,
                 // timeout: 600000,
-                beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
-                },
+                // beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                <%--    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");--%>
+                // },
                 success: function (response) {
-                    console.log("Insert Response Data:", response);
+                    console.log("Login Response Data:", response);
                     if (response.resCode === 1000) {
                         alert(response.resMsg);
                         location.replace('/');

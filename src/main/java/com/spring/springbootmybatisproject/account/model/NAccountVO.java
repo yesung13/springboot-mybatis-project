@@ -34,29 +34,14 @@ public class NAccountVO {
     // 개발자구분 - 예비(P), 경력(C)
     private String devCheck;
 
+    // 인가 구분
+    private String role;
+
     // 가입날짜 사용자 가입날짜
     private String createDt;
 
     // 수정날짜 사용자 정보 수정 날짜
     private String updateDt;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class ReqDTO{
-        private Long accountId;
-        private String accountUserId;
-    }
-
-    // NAccount 모델 복사
-    public void CopyData(NAccountVO param)
-    {
-        this.accountId = param.getAccountId();
-        this.accountUserId = param.getAccountUserId();
-        this.accountUserNm = param.getAccountUserNm();
-        this.accountEmail = param.getAccountEmail();
-        this.accountPassword = param.getAccountPassword();
-        this.devCheck = param.getDevCheck();
-    }
 
 }

@@ -9,8 +9,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<%-- spring security 사용 시 Ajax 통신을 위한 코드 --%>
-<meta name="_csrf" content="${_csrf.token}"/>
+<%-- spring security 사용 시 Ajax 통신을 위한 코드 [방법1] --%>
+<%--<meta name="_csrf" content="${_csrf.token}"/>--%>
 <%-- //spring security 사용 시 Ajax 통신을 CSRF 위한 코드 --%>
 
 <%-- favicon error --%>
@@ -34,8 +34,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 <%-- //이 순서대로 사용 --%>
 
-<%-- spring security 사용 시 Ajax 통신을 위한 코드 --%>
-<script src="${pageContext.request.contextPath}/resources/js/csrf.js"></script>
+<%-- spring security 사용 시 Ajax 통신을 위한 코드 [방법2]--%>
+<%--<script src="${pageContext.request.contextPath}/resources/js/csrf.js"></script>--%>
 <%-- //spring security 사용 시 Ajax 통신을 CSRF 위한 코드 --%>
 
 

@@ -96,15 +96,20 @@ public class NAccountController {
         if (accountUserId != null && accountPassword != null) {
             NAccountVO loginAccount = nAccountService.getAccount(nAccountVO);
 
+
+//            UserDetails test = nAccountService.loadUserByUsername(accountUserId);
+//            log.info("test UserDetail: {}", test);
+
             try {
                 String dbAccountUserId = loginAccount.getAccountUserId();
                 String dbAccountPassword = loginAccount.getAccountPassword();
 
                 if (dbAccountUserId != null && dbAccountPassword != null) {
-
+//
                     HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
                     session.setAttribute("account", loginAccount); //세션 등록
                     model.addAttribute("account", loginAccount);
+
                     result.setResCode(SFV.INT_RES_CODE_A_LOGIN_SUCCESS);
                     result.setResMsg(SFV.STRING_RES_A_LOGIN_SUCCESS);
 
@@ -129,4 +134,12 @@ public class NAccountController {
         session.invalidate();
         return "redirect:/nAccount/login";
     }
+//
+//    @GetMapping("/logout")
+//    public String accountLogout(HttpServletRequest request, HttpServletResponse response) {
+//
+//        // SecurityContextLogoutHandler() 는 security 에서 기본으로 재공해줌
+//        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+//        return "redirect:/nAccount/login";
+//    }
 }

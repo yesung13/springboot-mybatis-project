@@ -18,14 +18,26 @@
     </select>
     <!-- //회원 아이디 중복체크 -->
 
+    <!-- 회원 계정 -->
+    <select id="findByAccountUserId" parameterType="String" resultType="NAccountVO">
+        SELECT *
+        FROM bbs_new_account
+        WHERE accountUserId = #{accountUserId};
+    </select>
+
     <!-- 계정 로그인 -->
     <select id="findByAccount" parameterType="NAccountVO" resultType="NAccountVO">
-        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, createDt, updateDt
+        <![CDATA[
+        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, role, createDt, updateDt
         FROM bbs_new_account
+        ]]>
         <where>
             <if test="accountUserId != null and accountPassword != null">
-                AND accountUserId = #{accountUserId} AND accountPassword = #{accountPassword};
+                AND accountUserId = #{accountUserId}
             </if>
+            <!--            <if test="accountUserId != null and accountPassword != null">-->
+            <!--                AND accountUserId = #{accountUserId} AND accountPassword = #{accountPassword};-->
+            <!--            </if>-->
             <!--            <if test="accountEmail != null">-->
             <!--                AND accountEmail = #{accountEmail}-->
             <!--            </if>-->
@@ -33,6 +45,7 @@
             <!--                AND accountPassword = #{accountPassword}-->
             <!--            </if>-->
         </where>
+
     </select>
     <!-- //계정 로그인 -->
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springbootmybatisproject.securitydemo.repository.UserRepository">
+
+
+    <select id="findByName" resultType="UserEntity">
+        SELECT *
+        FROM test.TB_USER
+        WHERE name = #{name};
+    </select>
+
+    <insert id="save" parameterType="UserEntity" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO test.TB_USER(userId, name, password, role)
+        VALUES (#{userId}, #{name}, #{password}, #{role});
+    </insert>
+
+</mapper>
