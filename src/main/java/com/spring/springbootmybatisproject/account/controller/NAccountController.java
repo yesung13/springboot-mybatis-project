@@ -93,13 +93,10 @@ public class NAccountController {
 //            System.out.println("bindingResult>>>>" + bindingResult.getModel());
 //        }
 
+
+
         if (accountUserId != null && accountPassword != null) {
             NAccountVO loginAccount = nAccountService.getAccount(nAccountVO);
-
-
-//            UserDetails test = nAccountService.loadUserByUsername(accountUserId);
-//            log.info("test UserDetail: {}", test);
-
             try {
                 String dbAccountUserId = loginAccount.getAccountUserId();
                 String dbAccountPassword = loginAccount.getAccountPassword();

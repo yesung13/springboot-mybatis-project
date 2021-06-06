@@ -17,6 +17,27 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     private SurveyMapper surveyMapper;
 
+    @Override
+    public SurveyVO.ResDTO getSurveyJoinCk(Long accountId) {
+
+        SurveyVO.ResDTO dto = new SurveyVO.ResDTO();
+        Integer res = surveyMapper.findBySurveyJoinCk(accountId);
+
+        log.info("res: {}", res);
+
+        String joinCk;
+        if (res == 1) {
+            joinCk = "Y";
+            dto.setResult(joinCk);
+            dto.setMessage("이미 참여하셨습니다.\n감사합니다.");
+        } else {
+            joinCk = "N";
+            dto.setResult(joinCk);
+            dto.setMessage("참여 가능하십니다.(1회 진행 가능)\n진행하시겠습니까?");
+        }
+
+        return dto;
+    }
 
     /* 설문 항목 가져오기 */
     @Override
@@ -107,21 +128,21 @@ public class SurveyServiceImpl implements SurveyService {
         for (SurveyResult.HorizonBarDTO vo : surveyResult) {
             if (vo.getItemCd().equals("BAC")) {
                 vo.setItemCd("벡엔드");
-            }else if(vo.getItemCd().equals("FRO")){
+            } else if (vo.getItemCd().equals("FRO")) {
                 vo.setItemCd("프론트엔드");
-            }else if(vo.getItemCd().equals("FUL")) {
+            } else if (vo.getItemCd().equals("FUL")) {
                 vo.setItemCd("풀스택");
-            }else if(vo.getItemCd().equals("MAI")){
-                 vo.setItemCd("머신러닝AI");
-            }else if(vo.getItemCd().equals("AND")){
+            } else if (vo.getItemCd().equals("MAI")) {
+                vo.setItemCd("머신러닝AI");
+            } else if (vo.getItemCd().equals("AND")) {
                 vo.setItemCd("Android");
-            }else if(vo.getItemCd().equals("IOS")){
+            } else if (vo.getItemCd().equals("IOS")) {
                 vo.setItemCd("ios");
-            }else if(vo.getItemCd().equals("SEC")){
+            } else if (vo.getItemCd().equals("SEC")) {
                 vo.setItemCd("보안");
-            }else if(vo.getItemCd().equals("GAM")) {
+            } else if (vo.getItemCd().equals("GAM")) {
                 vo.setItemCd("게임");
-            }else if(vo.getItemCd().equals("ETC106")){
+            } else if (vo.getItemCd().equals("ETC106")) {
                 vo.setItemCd("기타");
             }
         }

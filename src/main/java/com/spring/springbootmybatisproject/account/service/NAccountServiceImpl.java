@@ -3,21 +3,20 @@ package com.spring.springbootmybatisproject.account.service;
 import com.spring.springbootmybatisproject.account.model.NAccountVO;
 import com.spring.springbootmybatisproject.account.repository.NAccountMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class NAccountServiceImpl implements NAccountService {
 
-    @Autowired
-    private  NAccountMapper nAccountMapper;
-//    private final PasswordEncoder passwordEncoder;
-//
-//    public NAccountServiceImpl(NAccountMapper nAccountMapper, PasswordEncoder passwordEncoder) {
-//        this.nAccountMapper = nAccountMapper;
-//        this.passwordEncoder = passwordEncoder;
-//    }
+    private final NAccountMapper nAccountMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    public NAccountServiceImpl(NAccountMapper nAccountMapper, PasswordEncoder passwordEncoder) {
+        this.nAccountMapper = nAccountMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     /* 회원가입 */
     @Override
@@ -25,12 +24,12 @@ public class NAccountServiceImpl implements NAccountService {
         // 패스워드 암호화 처리
 
         //security 암호화
-//        String pw = nAccountVO.getAccountPassword();
-//        String enPw = passwordEncoder.encode(pw);
-//
-//        boolean matchResult = passwordEncoder.matches(pw, enPw);
-//        log.info("pw: {}\nenPw: {}\nmatchResult: {}", pw, enPw, matchResult);
-//        nAccountVO.setAccountPassword(enPw);
+        String pw = nAccountVO.getAccountPassword();
+        String enPw = passwordEncoder.encode(pw);
+
+        boolean matchResult = passwordEncoder.matches(pw, enPw);
+        log.info("pw: {}\nenPw: {}\nmatchResult: {}", pw, enPw, matchResult);
+        nAccountVO.setAccountPassword(enPw);
         nAccountMapper.saveSignUp(nAccountVO);
     }
 
@@ -57,11 +56,11 @@ public class NAccountServiceImpl implements NAccountService {
 
         // 패스워드 복호화 처리
         // security 암호화
-//        String rawPw = nAccountVO.getAccountPassword();
-//        String encodedPw = accountResult.getAccountPassword();
-//
-//        boolean matchResult = passwordEncoder.matches(rawPw, encodedPw); // req 패스워드와 db에 저장된 패스워드 비교
-//        log.info("Pw: {}\nEnPw: {}\nMatchResult: {}", rawPw, encodedPw, matchResult);
+        String rawPw = nAccountVO.getAccountPassword();
+        String encodedPw = accountResult.getAccountPassword();
+
+        boolean matchResult = passwordEncoder.matches(rawPw, encodedPw); // req 패스워드와 db에 저장된 패스워드 비교
+        log.info("Pw: {}\nEnPw: {}\nMatchResult: {}", rawPw, encodedPw, matchResult);
 
         // 권한앞에 "ROLE_" 추가
 //        String addRole = "ROLE_" + accountResult.getRole();

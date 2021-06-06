@@ -12,6 +12,9 @@ import java.util.List;
 @Mapper
 public interface SurveyMapper {
 
+    /* 설문 조사 참여 여부 */
+    public abstract Integer findBySurveyJoinCk(Long accountId);
+
     /* 설문 항목 가져오기 */
     public abstract List<SurveyItemVO> findBySurveyListAll();
 

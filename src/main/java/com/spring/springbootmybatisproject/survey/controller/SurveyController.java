@@ -4,6 +4,7 @@ import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.common.model.ResultVO;
 import com.spring.springbootmybatisproject.survey.model.SurveyItemVO;
 import com.spring.springbootmybatisproject.survey.model.SurveyResult;
+import com.spring.springbootmybatisproject.survey.model.SurveyVO;
 import com.spring.springbootmybatisproject.survey.service.SurveyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,30 @@ public class SurveyController {
 
     @Autowired
     private SurveyService surveyService;
+
+
+    /* 설문조사 참여 여부 페이지 - Main */
+    @GetMapping("/main")
+    public String surveyMainForm() {
+        return "/survey/surveyMain";
+    }
+
+    /* 설문조사 참여 여부 체크 */
+    @PostMapping("/surveyJoinCk")
+    @ResponseBody
+    public SurveyVO.ResDTO surveyJoinCheck(@RequestBody SurveyVO surveyVO) {
+
+        Long accountId = surveyVO.getAccountId();
+        SurveyVO.ResDTO result = new SurveyVO.ResDTO();
+        if (accountId != null) {
+            SurveyVO.ResDTO dto = surveyService.getSurveyJoinCk(accountId);
+            result.setMessage(dto.getMessage());
+            result.setResult(dto.getResult());
+        }
+        log.info("result {}", result);
+        return result;
+
+    }
 
     @GetMapping("/list")
     public String surveyListForm() {

@@ -20,9 +20,11 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(authCheckInterceptor())
                 .addPathPatterns("/board/**") // 적용할 url
                 .addPathPatterns("/account/list")
-                .addPathPatterns("/survey/**")
+                .addPathPatterns("/survey/list")
                 .excludePathPatterns("/account") // 제외할 url
-                .excludePathPatterns("/home"); // 제외할 url
+                .excludePathPatterns("/home") // 제외할 url
+                .excludePathPatterns("/survey/main") // 제외할 url
+                .excludePathPatterns("/survey/surveyResults"); // 제외할 url
 //        WebMvcConfigurer.super.addInterceptors(registry);
     }
 

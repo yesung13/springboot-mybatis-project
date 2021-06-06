@@ -4,6 +4,8 @@ import com.spring.springbootmybatisproject.account.model.NAccountVO;
 
 public interface NAccountService {
 
+
+
     /* 회원 가입 */
     public abstract void registerSignUp(NAccountVO nAccountVO);
 

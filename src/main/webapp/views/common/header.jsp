@@ -8,6 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
+<%--    <script>--%>
+<%--        /*<![CDATA[*/--%>
+<%--        const accountId = ${sessionScope.account.accountId};--%>
+<%--        /*]]*/--%>
+<%--    </script>--%>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Spring Demo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
@@ -28,43 +33,41 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/board/list">QnA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/survey/list">설문조사</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/survey/main">설문조사</a>
                 </li>
                 <%--                <li class="nav-item">--%>
                 <%--                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>--%>
                 <%--                </li>--%>
 
             </ul>
-            <sec:authorize access="isAnonymous()"> <%-- 비로그인 시 참 --%>
-                <c:choose>
-                    <c:when test="${empty sessionScope.account}">
-                        <form class="form-inline my-2 my-lg-0">
-                            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                                <li class="nav-item"><a class="nav-link"
-                                                        href="${pageContext.request.contextPath}/nAccount/login">로그인</a>
-                                </li>
-                                <li class="nav-item"><a class="nav-link "
-                                                        href="${pageContext.request.contextPath}/nAccount/signUp">회원가입</a>
-                                </li>
-                            </ul>
-                        </form>
-                    </c:when>
-                    <c:otherwise>
-                        <form class="form-inline my-2 my-lg-0">
-                            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <c:choose>
+                <c:when test="${empty sessionScope.account}">
+                    <form class="form-inline my-2 my-lg-0">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item"><a class="nav-link"
+                                                    href="${pageContext.request.contextPath}/nAccount/login">로그인</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link "
+                                                    href="${pageContext.request.contextPath}/nAccount/signUp">회원가입</a>
+                            </li>
+                        </ul>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <form class="form-inline my-2 my-lg-0">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
-                                <li class="nav-item"><a class="nav-link" href="javascript:void(0);">
-                                    <c:out value="${sessionScope.account.accountUserNm}"/>
-                                    님</a></li>
-                                <li class="nav-item"><a class="nav-link"
-                                                        href="${pageContext.request.contextPath}/nAccount/logout">로그아웃</a>
-                                </li>
+                            <li class="nav-item"><a class="nav-link" href="javascript:void(0);">
+                                <c:out value="${sessionScope.account.accountUserNm}"/>
+                                님</a></li>
+                            <li class="nav-item"><a class="nav-link"
+                                                    href="${pageContext.request.contextPath}/nAccount/logout">로그아웃</a>
+                            </li>
 
-                            </ul>
-                        </form>
-                    </c:otherwise>
-                </c:choose>
-            </sec:authorize>
+                        </ul>
+                    </form>
+                </c:otherwise>
+            </c:choose>
         </div>
     </nav>
 </header>
