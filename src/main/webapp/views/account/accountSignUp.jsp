@@ -81,6 +81,7 @@
         //  $(document).ready(function (){} 와 동일
         $(function () {
             $('#signUp_btn').click(function () {
+
                 return signUp(idCk);
             });
 
@@ -94,6 +95,7 @@
                     userIdOverlap(inputUserId);
                 }
             });
+
         });
 
         /* 아이디 중복체크 */
@@ -126,14 +128,35 @@
             });
         }
 
+        /* 이메일 체크 */
+
+        // function isEmail(asValue){
+        //     var inputEmail = ($('input[name="accountEmail"]').val());
+        //     /* 이메일 유효성 검사 */
+        //     if (isEmpty(inputEmail)) {
+        //         $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+        //         $('#alertMsg').html("이메일을 입력해 주세요!");
+        //         // alert("아이디를 입력해 주세요!");
+        //         $('#accountEmail').val(null).focus();
+        //         return false;
+        //     }else{
+        //         isEmail(inputEmail);
+        //     }
+        //     let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        //     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+        // }
+
+
         /* 회원가입 완료하여 데이터 전송 */
         function signUp(idCk) {
+
+
             console.log("IdCheck:", idCk);
 
-            if (idCk === "N"){
+            if (idCk === "N") {
                 alert("아이디 중복체크를 해주세요");
                 return false;
-            }else if(idCk === "Y"){
+            } else if (idCk === "Y") {
                 let requestUrl = '/nAccount/singUpProc';
                 let form = $('#form')[0];
                 let data = new FormData(form);
@@ -162,12 +185,6 @@
             }
         }
 
-        /* 이메일 유효성 검사 */
-        function isEmail(asValue) {
-            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-            return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
-
-        }
 
     </script>
 
@@ -185,6 +202,14 @@
         <div class="row justify-content-center" style="padding-bottom: 80px">
             <h1>회원가입</h1>
         </div>
+        <div class="row justify-content-center">
+            <%-- 유효성 검사 토스트 창 --%>
+            <div class="alert alert-danger text-center" role="alert">
+                <span id="alertMsg"></span>
+            </div>
+            <%-- //유효성 검사 토스트 창 --%>
+        </div>
+
 
         <div class="row justify-content-center">
             <%-- form --%>
@@ -241,7 +266,7 @@
                         <span class="spanCus">E-Mail</span>
                     </div>
                     <div class="col-5">
-                        <input type="text" class="inputCus form-control" name="accountEmail">
+                        <input type="text" class="inputCus form-control" name="accountEmail" id="accountEmail">
                     </div>
                 </div>
                 <%-- //이메일 --%>

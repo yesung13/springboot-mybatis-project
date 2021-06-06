@@ -6,10 +6,10 @@ package com.spring.springbootmybatisproject.survey.model;
  */
 
 // 설문 항목코드
-public class SurveyItemCD {
+public class SItemCD {
 
     // 그룹코드 - Group Code
-    public static final String G_P001 = "P1O1";
+    public static final String G_P101 = "P1O1";
     public static final String G_P102 = "P102";
     public static final String G_P103 = "P1O3";
     public static final String G_P104 = "P1O4";

@@ -75,9 +75,10 @@
             } else if (btn_id === 'back_2') {
                 $PART2_TAB.click();
             } else if (btn_id === 'next_end') {
-                saveSurveyList();
+                itemsCk();
             }
         }
+
 
         /* checkbox 최대 갯수 체크 */
         function ckBxCtrl(groupCd) {
@@ -133,32 +134,32 @@
                         /* Part1. 개발자 정보 */
                         if (groupCd === 'P101') {
                             part101 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P102') {
                             part102 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P103') {
                             part103 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P104') {
                             part104 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P105') {
                             part105 += '<div class="form-check mb-2">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P106') {
                             part106 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                + '<input class="form-check-input" type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
 
@@ -167,17 +168,17 @@
                         /* Part2. 개발 시 사용하는 OS / DB / 에디터  */
                         else if (groupCd === 'P201') {
                             part201 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>'
                         } else if (groupCd === 'P202') {
                             part202 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>'
                         } else if (groupCd === 'P203') {
                             part203 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input" type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>'
                         }/* //Part2. 개발 시 사용하는 OS / DB / 에디터  */
@@ -185,12 +186,12 @@
                         /* Part3. 개발 시 사용하는 프로그래밍 언어  */
                         else if (groupCd === 'P301') {
                             part301 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                + '<input class="form-check-input" type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P302') {
                             part302 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                + '<input class="form-check-input" type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else {/* //Part3. 개발 시 사용하는 프로그래밍 언어  */
@@ -221,6 +222,57 @@
             });//ajax end
         }/* //설문 항목 가져오기 */
 
+        /* 설문 미입력 항목 체크 */
+        function itemsCk() {
+
+            if(!$('input:checked[name="P101"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 101");
+                return false;
+            }
+            if(!$('input:checked[name="P102"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 102");
+                return false;
+            }
+            if(!$('input:checked[name="P103"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 103");
+                return false;
+            }
+            if(!$('input:checked[name="P104"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 104");
+                return false;
+            }
+            if(!$('input:checked[name="P105"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 105");
+                return false;
+            }
+            if(!$('input:checked[name="P106"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 106");
+                return false;
+            }
+            if(!$('input:checked[name="P201"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 201");
+                return false;
+            }
+            if(!$('input:checked[name="P202"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 202");
+                return false;
+            }
+            if(!$('input:checked[name="P203"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 203");
+                return false;
+            }
+            if(!$('input:checked[name="P301"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 301");
+                return false;
+            }
+            if(!$('input:checked[name="P302"]').is(':checked')){
+                alert("미입력 항목이 있습니다. 302");
+                return false;
+            }
+
+            saveSurveyList();
+        }
+
         /* 설문 항목 저장 */
         function saveSurveyList() {
             let form = $('#form').serializeArray();
@@ -241,6 +293,8 @@
                         alert(response.resMsg);
                         location.replace('/survey/surveyResults');
                     } else if (response.resCode === -1) {
+                        alert(response.resMsg);
+                    } else if (response.resCode === 999) {
                         alert(response.resMsg);
                     }
                 },
@@ -299,11 +353,11 @@
                     </div>
                     <%-- //타이틀 --%>
 
-                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>
+<%--                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>--%>
 
                     <%-- P101 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q1. 전공 / 비전공자인지 선택해주세요. <span class="required">*</span></p>
+                        <p class="itemTitle">Q1. 전공 / 비전공자인지 선택해주세요. <%-- <span class="required">*</span></p> --%>
                         <div class="itemOutput101 form-group"></div>
                     </div>
                     <%-- //P101 그룹 --%>
@@ -317,7 +371,7 @@
 
                     <%-- P103 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q3. 연령대를 선택해주세요. <span class="required">*</span></p>
+                        <p class="itemTitle">Q3. 연령대를 선택해주세요. <%-- <span class="required">*</span></p> --%>
                         <div class="itemOutput103 form-group"></div>
                     </div>
                     <%-- //P103 그룹 --%>
@@ -371,25 +425,25 @@
                     </div>
                     <%-- //타이틀 --%>
 
-                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>
+<%--                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>--%>
 
                     <%-- P201 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q1. 주로 사용하는 OS는 무엇인가요? <span class="required">*</span></p>
+                        <p class="itemTitle">Q1. 주로 사용하는 OS는 무엇인가요? <%-- <span class="required">*</span></p> --%>
                         <div class="itemOutput201 form-group"></div>
                     </div>
                     <%-- //P201 그룹 --%>
 
                     <%-- P202 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q2. 주로 사용하는 DB는 무엇인가요? <span class="required">*</span></p>
+                        <p class="itemTitle">Q2. 주로 사용하는 DB는 무엇인가요? <%-- <span class="required">*</span></p> --%>
                         <div class="itemOutput202 form-group"></div>
                     </div>
                     <%-- //P202 그룹 --%>
 
                     <%-- P203 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q3. 주로 사용하는 에디터는 무엇인가요? <span class="required">*</span></p>
+                        <p class="itemTitle">Q3. 주로 사용하는 에디터는 무엇인가요? <%-- <span class="required">*</span></p> --%>
                         <div class="itemOutput203 form-group"></div>
                     </div>
                     <%-- //P203 그룹 --%>
@@ -418,7 +472,7 @@
                     </div>
                     <%-- //타이틀 --%>
 
-                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>
+<%--                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>--%>
 
                     <%-- P301그룹 --%>
                     <div class="mb-5">

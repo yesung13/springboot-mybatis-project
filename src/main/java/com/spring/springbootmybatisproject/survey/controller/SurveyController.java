@@ -73,6 +73,56 @@ public class SurveyController {
     @ResponseBody
     public ResultVO saveSurveyList(@RequestBody List<SurveyItemVO.ReqDTO> reqDTOList) {
 
+//
+//        if(reqDTOList.isEmpty() || reqDTOList.size() < 12){
+//            result.setResMsg("미입력한 항목이 있습니다. \n확인 후 완료해주세요.");
+//            result.setResCode(999);
+//            return result;
+//        }
+
+
+//        for (SurveyItemVO.ReqDTO dto : reqDTOList) {
+//            String name = dto.getName();
+//            log.info("name {}", name);
+//
+//            if (!name.equals("P1O1")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P102")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P103")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P104")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P105")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P106")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P201")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P202")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P203")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P301")) {
+//                surveyItemCkRes();
+//            }
+//            if (!name.equals("P302")) {
+//                surveyItemCkRes();
+//            }
+
+
+//        }
+
+
         try {
             surveyService.saveSurveyList(reqDTOList);
             result.setResCode(SFV.INT_RES_CODE_OK);
