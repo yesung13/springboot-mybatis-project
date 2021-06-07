@@ -106,8 +106,9 @@
                         $('#alertMsg').html(response.resMsg);
                         // window.location.reload();
                     } else if (response.resCode === 1002) {
-                        alert(response.resMsg);
-                        window.location.reload();
+                        $('.alert').fadeIn(400).delay(2000).fadeOut(400);
+                        $('#alertMsg').html(response.resMsg);
+                        // window.location.reload();
                     }
                 },
                 error: function (xhr, e, response) {

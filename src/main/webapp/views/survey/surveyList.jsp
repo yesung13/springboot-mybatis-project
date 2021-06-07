@@ -348,7 +348,7 @@
                 <%-- 질의 항목 --%>
                 <div class="container jumbotron mt-1">
                     <%-- 타이틀 --%>
-                    <div id="title"><img src="<c:url value="/resources/images/people.svg"/>" alt="people">
+                    <div class="mb-5" id="title"><img src="<c:url value="/resources/images/people.svg"/>" alt="people">
                         <h2>Part1. 개발자 정보</h2>
                     </div>
                     <%-- //타이틀 --%>
@@ -420,7 +420,7 @@
                 <%-- 질의 항목 --%>
                 <div class="container jumbotron mt-1">
                     <%-- 타이틀 --%>
-                    <div id="title"><img src="<c:url value="/resources/images/gear.svg"/>" alt="people">
+                    <div class="mb-5" id="title"><img src="<c:url value="/resources/images/gear.svg"/>" alt="people">
                         <h2>Part2. 개발 시 사용하는 OS / DB / 에디터</h2>
                     </div>
                     <%-- //타이틀 --%>
@@ -467,7 +467,7 @@
                 <%-- 질의 항목 --%>
                 <div class="container jumbotron mt-1">
                     <%-- 타이틀 --%>
-                    <div id="title"><img src="<c:url value="/resources/images/lang.svg"/>" alt="people">
+                    <div class="mb-5" id="title"><img src="<c:url value="/resources/images/lang.svg"/>" alt="people">
                         <h2>Part3. 개발 시 사용하는 프로그래밍 언어</h2>
                     </div>
                     <%-- //타이틀 --%>
@@ -476,8 +476,7 @@
 
                     <%-- P301그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q1. 자신있는 프로그래밍 언어를 선택해주세요. <span
-                                class="required">*</span><span>[최대 2개 선택]</span></p>
+                        <p class="itemTitle">Q1. 자신있는 프로그래밍 언어를 선택해주세요.<span>[최대 2개 선택]</span></p>
                         <div class="card w-75 h-auto">
                             <div class="card-body">
                                 <div class="itemOutput301 form-group"></div>
@@ -488,8 +487,7 @@
 
                     <%-- P302 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q2. 배워보고 싶은 프로그래밍 언어를 선택해주세요. <span
-                                class="required">*</span><span>[최대 2개 선택]</span></p>
+                        <p class="itemTitle">Q2. 배워보고 싶은 프로그래밍 언어를 선택해주세요.<span>[최대 2개 선택]</span></p>
                         <div class="card w-75 h-auto">
                             <div class="card-body">
                                 <div class="itemOutput302 form-group"></div>

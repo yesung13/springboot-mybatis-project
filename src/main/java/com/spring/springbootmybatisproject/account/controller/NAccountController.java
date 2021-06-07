@@ -94,7 +94,6 @@ public class NAccountController {
 //        }
 
 
-
         if (accountUserId != null && accountPassword != null) {
             NAccountVO loginAccount = nAccountService.getAccount(nAccountVO);
             try {
@@ -111,11 +110,11 @@ public class NAccountController {
                     result.setResMsg(SFV.STRING_RES_A_LOGIN_SUCCESS);
 
                 } else {
-
+                    // 아이디 또는 패스워드가 일치하지 않는 경우
                     result.setResCode(SFV.INT_RES_CODE_A_LOGIN_CHECK);
                     result.setResMsg(SFV.STRING_RES_A_LOGIN_CHECK);
                 }
-            } catch (NullPointerException e) { // 아이디 또는 패스워드가 일치하지 않는 경우
+            } catch (NullPointerException e) {
                 result.setResCode(SFV.INT_RES_CODE_A_LOGIN_FAIL);
                 result.setResMsg(SFV.STRING_RES_A_LOGIN_FAIL);
                 e.printStackTrace();

@@ -54,13 +54,21 @@ public class NAccountServiceImpl implements NAccountService {
 
         NAccountVO accountResult = nAccountMapper.findByAccount(nAccountVO);
 
-        // 패스워드 복호화 처리
-        // security 암호화
-        String rawPw = nAccountVO.getAccountPassword();
-        String encodedPw = accountResult.getAccountPassword();
+        try {
+            // 패스워드 복호화 처리
+            // security 암호화
+            String rawPw = nAccountVO.getAccountPassword();
+            String encodedPw = accountResult.getAccountPassword();
+            boolean matchResult = passwordEncoder.matches(rawPw, encodedPw); // req 패스워드와 db에 저장된 패스워드 비교
+            log.info("Pw: {}\nEnPw: {}\nMatchResult: {}", rawPw, encodedPw, matchResult);
 
-        boolean matchResult = passwordEncoder.matches(rawPw, encodedPw); // req 패스워드와 db에 저장된 패스워드 비교
-        log.info("Pw: {}\nEnPw: {}\nMatchResult: {}", rawPw, encodedPw, matchResult);
+            if (!matchResult) {
+                accountResult.setAccountPassword(null);
+            }
+        } catch (NullPointerException e) {
+            return accountResult;
+        }
+
 
         // 권한앞에 "ROLE_" 추가
 //        String addRole = "ROLE_" + accountResult.getRole();

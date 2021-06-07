@@ -24,7 +24,8 @@ public class MvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/account") // 제외할 url
                 .excludePathPatterns("/home") // 제외할 url
                 .excludePathPatterns("/survey/main") // 제외할 url
-                .excludePathPatterns("/survey/surveyResults"); // 제외할 url
+                .excludePathPatterns("/survey/surveyResults") // 제외할 url
+                .excludePathPatterns("/board/list"); // 제외할 url
 //        WebMvcConfigurer.super.addInterceptors(registry);
     }
 
