@@ -1,11 +1,8 @@
 package com.spring.springbootmybatisproject.account.service;
 
 import com.spring.springbootmybatisproject.account.model.NAccountVO;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface NAccountService extends UserDetailsService {
-
-
+public interface NAccountService {
 
     /* 회원 가입 */
     public abstract void registerSignUp(NAccountVO nAccountVO);
