@@ -95,6 +95,7 @@
 <c:import url="/views/common/header.jsp"/>
 
 <section class="container my-5 py-5">
+
     <div class="container jumbotron mt-5">
         <div class="align-content-center">
             <div class="row justify-content-center mt-5">

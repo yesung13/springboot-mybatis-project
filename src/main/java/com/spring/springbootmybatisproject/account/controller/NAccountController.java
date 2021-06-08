@@ -102,9 +102,6 @@ public class NAccountController {
 
                 if (dbAccountUserId != null && dbAccountPassword != null) {
 
-//                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//                    UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal()
-
                     HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
                     session.setAttribute("account", loginAccount); //세션 등록
                     model.addAttribute("account", loginAccount);

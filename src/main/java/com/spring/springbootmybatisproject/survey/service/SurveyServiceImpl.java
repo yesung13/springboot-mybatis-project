@@ -42,7 +42,6 @@ public class SurveyServiceImpl implements SurveyService {
     /* 설문 항목 가져오기 */
     @Override
     public List<SurveyItemVO> getSurveyList() {
-
         return surveyMapper.findBySurveyListAll();
     }
 
@@ -64,7 +63,7 @@ public class SurveyServiceImpl implements SurveyService {
             String groupCd = vo.getName();
             String itemCd = vo.getValue();
 
-            log.info("accountId: " + accountId + ", groupCd:" + groupCd + ", itemCd: " + itemCd);
+            log.info("SaveSurveyList::: accountId: {}, groupCd: {}, itemCd: {}",accountId, groupCd, itemCd);
 
 
             if (groupCd.equals("P101")) {

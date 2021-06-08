@@ -31,11 +31,6 @@
             color: #0062cc;
         }
 
-        .itemTitle .required {
-            font-size: xx-large;
-            color: #dc3545;
-        }
-
         .btnCus {
             width: 200px;
         }
@@ -46,8 +41,13 @@
         }
     </style>
     <script type="text/javascript">
+        const devCk = '<c:out value="${sessionScope.account.devCheck}"/>'
+
         $(function () {
             console.log("start");
+
+            console.log("devCheck::", devCk);
+
             getSurveyList();
 
             $('#surveyResult_btn').click(function () {
@@ -138,30 +138,40 @@
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P102') {
-                            part102 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
+                            if (devCk === 'P') {
+                                part102 += '<div class="form-check form-check-inline ml-4">'
+                                    + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                    + '</div>';
+                            }
+
                         } else if (groupCd === 'P103') {
                             part103 += '<div class="form-check form-check-inline ml-4">'
                                 + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
+
                         } else if (groupCd === 'P104') {
-                            part104 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
+                            if (devCk === 'C') {
+                                part104 += '<div class="form-check form-check-inline ml-4">'
+                                    + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                    + '</div>';
+                            }
                         } else if (groupCd === 'P105') {
-                            part105 += '<div class="form-check mb-2">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
+                            if (devCk === 'C') {
+                                part105 += '<div class="form-check mb-2">'
+                                    + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                    + '</div>';
+                            }
                         } else if (groupCd === 'P106') {
-                            part106 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
+                            if (devCk === 'C') {
+                                part106 += '<div class="form-check form-check-inline mx-4 my-2">'
+                                    + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                    + '</div>';
+                            }
 
                         }/* //Part1. 개발자 정보 */
 
@@ -225,48 +235,52 @@
         /* 설문 미입력 항목 체크 */
         function itemsCk() {
 
-            if(!$('input:checked[name="P101"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 101");
+            if (!$('input:checked[name="P101"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q1]");
                 return false;
             }
-            if(!$('input:checked[name="P102"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 102");
+            if (devCk === 'P') {
+                if (!$('input:checked[name="P102"]').is(':checked')) {
+                    alert("미입력 항목이 있습니다. [Part1 - Q1-1]");
+                    return false;
+                }
+            }
+            if (!$('input:checked[name="P103"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q2]");
                 return false;
             }
-            if(!$('input:checked[name="P103"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 103");
+            if (devCk === 'C') {
+                if (!$('input:checked[name="P104"]').is(':checked')) {
+                    alert("미입력 항목이 있습니다. [Part1 - Q3]");
+                    return false;
+                }
+                if (!$('input:checked[name="P105"]').is(':checked')) {
+                    alert("미입력 항목이 있습니다. [Part1 - Q4]");
+                    return false;
+                }
+                if (!$('input:checked[name="P106"]').is(':checked')) {
+                    alert("미입력 항목이 있습니다. [Part1 - Q5]");
+                    return false;
+                }
+            }
+            if (!$('input:checked[name="P201"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part2 - Q1]");
                 return false;
             }
-            if(!$('input:checked[name="P104"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 104");
+            if (!$('input:checked[name="P202"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part2 - Q2]");
                 return false;
             }
-            if(!$('input:checked[name="P105"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 105");
+            if (!$('input:checked[name="P203"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part2 - Q3]");
                 return false;
             }
-            if(!$('input:checked[name="P106"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 106");
+            if (!$('input:checked[name="P301"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part3 - Q1]");
                 return false;
             }
-            if(!$('input:checked[name="P201"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 201");
-                return false;
-            }
-            if(!$('input:checked[name="P202"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 202");
-                return false;
-            }
-            if(!$('input:checked[name="P203"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 203");
-                return false;
-            }
-            if(!$('input:checked[name="P301"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 301");
-                return false;
-            }
-            if(!$('input:checked[name="P302"]').is(':checked')){
-                alert("미입력 항목이 있습니다. 302");
+            if (!$('input:checked[name="P302"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part3 - Q2]");
                 return false;
             }
 
@@ -353,53 +367,55 @@
                     </div>
                     <%-- //타이틀 --%>
 
-<%--                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>--%>
-
                     <%-- P101 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q1. 전공 / 비전공자인지 선택해주세요. <%-- <span class="required">*</span></p> --%>
+                        <p class="itemTitle">Q1. 전공 / 비전공자인지 선택해주세요.</p>
                         <div class="itemOutput101 form-group"></div>
                     </div>
                     <%-- //P101 그룹 --%>
 
                     <%-- P102 그룹 --%>
-                    <div class="mb-5">
-                        <p class="itemTitle">Q2. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
-                        <div class="itemOutput102 form-group"></div>
-                    </div>
+                    <c:if test="${sessionScope.account.devCheck eq 'P'}">
+                        <div class="mb-5">
+                            <p class="itemTitle">Q1 - 1. 비전공자일 경우 학습하신 방법을 선택해주세요.</p>
+                            <div class="itemOutput102 form-group"></div>
+                        </div>
+                    </c:if>
                     <%-- //P102 그룹 --%>
 
                     <%-- P103 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q3. 연령대를 선택해주세요. <%-- <span class="required">*</span></p> --%>
+                        <p class="itemTitle">Q2. 연령대를 선택해주세요.</p>
                         <div class="itemOutput103 form-group"></div>
                     </div>
                     <%-- //P103 그룹 --%>
 
-                    <%-- P104 그룹 --%>
-                    <div class="mb-5">
-                        <p class="itemTitle">Q4. 경력을 알려주세요. <span>[경력 개발자만 선택]</span></p>
-                        <div class="itemOutput104 form-group"></div>
-                    </div>
-                    <%-- //P104 그룹 --%>
+                    <c:if test="${sessionScope.account.devCheck eq 'C'}">
+                        <%-- P104 그룹 --%>
+                        <div class="mb-5">
+                            <p class="itemTitle">Q3. 경력을 알려주세요.</p>
+                            <div class="itemOutput104 form-group"></div>
+                        </div>
+                        <%-- //P104 그룹 --%>
 
-                    <%-- P105 그룹 --%>
-                    <div class="mb-5">
-                        <p class="itemTitle">Q5. 현재 연 소득 범위를 선택해주세요. <span>[경력 개발자만 선택]</span></p>
-                        <div class="itemOutput105 form-group ml-4"></div>
-                    </div>
-                    <%-- //p105 그룹 --%>
+                        <%-- P105 그룹 --%>
+                        <div class="mb-5">
+                            <p class="itemTitle">Q4. 현재 연 소득 범위를 선택해주세요.</p>
+                            <div class="itemOutput105 form-group ml-4"></div>
+                        </div>
+                        <%-- //p105 그룹 --%>
 
-                    <%-- P106 그룹 --%>
-                    <div class="mb-5">
-                        <p class="itemTitle">Q6. 현재 직무는 무엇인가요? <span>[경력 개발자만 선택]</span></p>
-                        <div class="card w-75 h-auto">
-                            <div class="card-body">
-                                <div class="itemOutput106 form-group"></div>
+                        <%-- P106 그룹 --%>
+                        <div class="mb-5">
+                            <p class="itemTitle">Q5. 현재 직무는 무엇인가요?</p>
+                            <div class="card w-75 h-auto">
+                                <div class="card-body">
+                                    <div class="itemOutput106 form-group"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <%-- //P106 그룹 --%>
+                        <%-- //P106 그룹 --%>
+                    </c:if>
                     <%-- button --%>
                     <div class="row justify-content-end mt-5">
                         <div class="col-5 mt-5">
@@ -425,25 +441,23 @@
                     </div>
                     <%-- //타이틀 --%>
 
-<%--                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>--%>
-
                     <%-- P201 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q1. 주로 사용하는 OS는 무엇인가요? <%-- <span class="required">*</span></p> --%>
+                        <p class="itemTitle">Q1. 주로 사용하는 OS는 무엇인가요?</p>
                         <div class="itemOutput201 form-group"></div>
                     </div>
                     <%-- //P201 그룹 --%>
 
                     <%-- P202 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q2. 주로 사용하는 DB는 무엇인가요? <%-- <span class="required">*</span></p> --%>
+                        <p class="itemTitle">Q2. 주로 사용하는 DB는 무엇인가요?</p>
                         <div class="itemOutput202 form-group"></div>
                     </div>
                     <%-- //P202 그룹 --%>
 
                     <%-- P203 그룹 --%>
                     <div class="mb-5">
-                        <p class="itemTitle">Q3. 주로 사용하는 에디터는 무엇인가요? <%-- <span class="required">*</span></p> --%>
+                        <p class="itemTitle">Q3. 주로 사용하는 에디터는 무엇인가요?</p>
                         <div class="itemOutput203 form-group"></div>
                     </div>
                     <%-- //P203 그룹 --%>
@@ -471,8 +485,6 @@
                         <h2>Part3. 개발 시 사용하는 프로그래밍 언어</h2>
                     </div>
                     <%-- //타이틀 --%>
-
-<%--                    <div class="mt-5 mb-3"><span class="text-danger">* 필수</span></div>--%>
 
                     <%-- P301그룹 --%>
                     <div class="mb-5">

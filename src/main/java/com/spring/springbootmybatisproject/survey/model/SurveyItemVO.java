@@ -29,6 +29,10 @@ public class SurveyItemVO {
     // 항목설명 항목 설명
     private String itemComm;
 
+    // 계정 개발자 구분
+    private String devCheck;
+
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter

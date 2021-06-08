@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
-<%--    <script>--%>
-<%--        /*<![CDATA[*/--%>
-<%--        const accountId = ${sessionScope.account.accountId};--%>
-<%--        /*]]*/--%>
-<%--    </script>--%>
+    <%--    <script>--%>
+    <%--        /*<![CDATA[*/--%>
+    <%--        const accountId = ${sessionScope.account.accountId};--%>
+    <%--        /*]]*/--%>
+    <%--    </script>--%>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Spring Demo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
@@ -57,11 +57,16 @@
                     <form class="form-inline my-2 my-lg-0">
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
-                            <li class="nav-item"><a class="nav-link" href="javascript:void(0);">
-                                <c:out value="${sessionScope.account.accountUserNm}"/>
-                                님</a></li>
-                            <li class="nav-item"><a class="nav-link"
-                                                    href="${pageContext.request.contextPath}/nAccount/logout">로그아웃</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);">
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.devCheck eq 'P'}">[예비 개발자] </c:when>
+                                        <c:when test="${sessionScope.account.devCheck eq 'C'}">[경력 개발자] </c:when>
+                                    </c:choose>
+                                    <c:out value="${sessionScope.account.accountUserNm}"/> 님</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/nAccount/logout">로그아웃</a>
                             </li>
 
                         </ul>
