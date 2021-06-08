@@ -2,10 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springbootmybatisproject.account.repository.NAccountMapper">
 
+    <resultMap id="User" type="com.spring.springbootmybatisproject.account.model.NAccountVO">
+        <result property="accountId" column="accountId"/>
+        <result property="accountUserId" column="accountUserId"/>
+        <result property="accountUserNm" column="accountUserNm"/>
+        <result property="accountEmail" column="accountEmail"/>
+        <result property="devCheck" column="devCheck"/>
+        <result property="role" column="role"/>
+        <result property="active" column="active"/>
+        <result property="createDt" column="createDt"/>
+        <result property="updateDt" column="updateDt"/>
+    </resultMap>
+
     <!-- 회원가입 -->
     <insert id="saveSignUp" parameterType="NAccountVO" useGeneratedKeys="true" keyProperty="accountId">
-        INSERT INTO bbs_new_account(accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck)
-            VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck});
+        INSERT INTO bbs_new_account(accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck,
+                                    active, role)
+            VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck},
+                   #{active}, #{role});
     </insert>
     <!-- //회원가입 -->
 
@@ -18,17 +32,17 @@
     </select>
     <!-- //회원 아이디 중복체크 -->
 
-    <!-- 회원 계정 -->
-    <select id="findByAccountUserId" parameterType="String" resultType="NAccountVO">
-        SELECT *
-        FROM bbs_new_account
-        WHERE accountUserId = #{accountUserId};
-    </select>
+    <!--    &lt;!&ndash; 회원 계정 &ndash;&gt;-->
+    <!--    <select id="findByAccountUserId" parameterType="String" resultType="NAccountVO">-->
+    <!--        SELECT *-->
+    <!--        FROM bbs_new_account-->
+    <!--        WHERE accountUserId = #{accountUserId};-->
+    <!--    </select>-->
 
     <!-- 계정 로그인 -->
     <select id="findByAccount" parameterType="NAccountVO" resultType="NAccountVO">
         <![CDATA[
-        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, role, createDt, updateDt
+        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, active, role, createDt, updateDt
         FROM bbs_new_account
         ]]>
         <where>
@@ -49,5 +63,14 @@
     </select>
     <!-- //계정 로그인 -->
 
+    <select id="findUserByLoginId" resultMap="User">
+
+        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, active, role, createDt,
+        updateDt
+        FROM bbs_new_account
+        <where>
+            <if test=" accountUserId != null and accountUserId != '' ">AND accountUserId = #{accountUserId}</if>
+        </where>
+    </select>
 
 </mapper>

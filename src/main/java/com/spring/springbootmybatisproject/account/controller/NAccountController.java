@@ -4,8 +4,10 @@ import com.spring.springbootmybatisproject.SFV;
 import com.spring.springbootmybatisproject.account.model.NAccountVO;
 import com.spring.springbootmybatisproject.account.service.NAccountService;
 import com.spring.springbootmybatisproject.common.model.ResultVO;
+import com.spring.springbootmybatisproject.security.model.domain.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -101,10 +103,18 @@ public class NAccountController {
                 String dbAccountPassword = loginAccount.getAccountPassword();
 
                 if (dbAccountUserId != null && dbAccountPassword != null) {
-//
+
+//                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//                    UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal()
+                    UserPrincipal auth = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+                    System.out.println(auth.getName());
+
                     HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
                     session.setAttribute("account", loginAccount); //세션 등록
                     model.addAttribute("account", loginAccount);
+
+
 
                     result.setResCode(SFV.INT_RES_CODE_A_LOGIN_SUCCESS);
                     result.setResMsg(SFV.STRING_RES_A_LOGIN_SUCCESS);

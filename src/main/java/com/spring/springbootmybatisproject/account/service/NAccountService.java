@@ -1,8 +1,9 @@
 package com.spring.springbootmybatisproject.account.service;
 
 import com.spring.springbootmybatisproject.account.model.NAccountVO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface NAccountService {
+public interface NAccountService extends UserDetailsService {
 
 
 

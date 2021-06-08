@@ -357,7 +357,8 @@
                         <span class="spanCus">패스워드</span>
                     </div>
                     <div class="col-5">
-                        <input type="password" class="inputCus form-control" name="accountPassword">
+                        <input type="password" class="inputCus form-control" name="accountPassword"
+                               id="accountPassword">
                     </div>
                 </div>
                 <%-- //패스워드 --%>

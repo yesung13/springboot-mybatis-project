@@ -146,6 +146,7 @@ public class SurveyController {
     @GetMapping("/surveyBarGraphProc/{d3ChartDiv}")
     @ResponseBody
     public List<SurveyResult.BarGraphDTO> surveyResultsBarGraph(@PathVariable String d3ChartDiv) {
+
         List<SurveyResult.BarGraphDTO> surveyResult = null;
         if (d3ChartDiv.equals("barGraph")) {
             surveyResult = surveyService.getMajorItemResult();

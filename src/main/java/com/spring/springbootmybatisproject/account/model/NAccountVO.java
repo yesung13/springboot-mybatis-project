@@ -37,6 +37,9 @@ public class NAccountVO {
     // 인가 구분
     private String role;
 
+    // 계정 활성
+    private int active;
+
     // 가입날짜 사용자 가입날짜
     private String createDt;
 

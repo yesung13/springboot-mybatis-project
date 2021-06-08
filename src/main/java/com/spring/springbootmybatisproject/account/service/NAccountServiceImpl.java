@@ -2,7 +2,12 @@ package com.spring.springbootmybatisproject.account.service;
 
 import com.spring.springbootmybatisproject.account.model.NAccountVO;
 import com.spring.springbootmybatisproject.account.repository.NAccountMapper;
+import com.spring.springbootmybatisproject.security.model.domain.UserPrincipal;
+import com.spring.springbootmybatisproject.security.model.entity.Role;
+import com.spring.springbootmybatisproject.security.repository.RoleMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +17,12 @@ public class NAccountServiceImpl implements NAccountService {
 
     private final NAccountMapper nAccountMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoleMapper roleMapper;
 
-    public NAccountServiceImpl(NAccountMapper nAccountMapper, PasswordEncoder passwordEncoder) {
+    public NAccountServiceImpl(NAccountMapper nAccountMapper, PasswordEncoder passwordEncoder, RoleMapper roleMapper) {
         this.nAccountMapper = nAccountMapper;
         this.passwordEncoder = passwordEncoder;
+        this.roleMapper = roleMapper;
     }
 
     /* 회원가입 */
@@ -30,7 +37,13 @@ public class NAccountServiceImpl implements NAccountService {
         boolean matchResult = passwordEncoder.matches(pw, enPw);
         log.info("pw: {}\nenPw: {}\nmatchResult: {}", pw, enPw, matchResult);
         nAccountVO.setAccountPassword(enPw);
+        nAccountVO.setActive(1);
+
+        Role role = roleMapper.getRoleInfo("USER");
+        nAccountVO.setRole(role.getRole());
+
         nAccountMapper.saveSignUp(nAccountVO);
+
     }
 
     /* 아이디 중복체크 - 요청받은 아이디 갯수 확인 */
@@ -78,16 +91,11 @@ public class NAccountServiceImpl implements NAccountService {
 
         return accountResult;
     }
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String accountUserId) throws UsernameNotFoundException {
-//
-//        NAccountVO user = nAccountMapper.findByAccountUserId(accountUserId);
-//
-//        log.info("user: {}", user);
-//
-//        return new User(user.getAccountUserId(), user.getAccountPassword(), Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
-//
-//    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        NAccountVO user = nAccountMapper.findUserByLoginId(username);
+        return new UserPrincipal(user);
+    }
 
 }
