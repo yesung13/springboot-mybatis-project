@@ -48,7 +48,12 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-                $('#login_btn').click(function () {
+                let $login_btn = $('#login_btn');
+                let $inputId = $('#accountUserId')
+                let $inputPw = $('#accountPassword');
+
+
+                $login_btn.click(function () {
                     let accountUserId = $('input[name="accountUserId"]').val().replace(/ /g, ''); // 모든 공백 제거
                     let accountPassword = $('input[name="accountPassword"]').val().replace(/ /g, '');
 
@@ -69,6 +74,22 @@
                         return false;
                     }
                     return login();
+                });
+
+                // 로그인 페이지에서 아이디 입력 후 엔터키 이벤트
+                $inputId.keypress(function (keyNum) {
+                    if (keyNum.which === 13) {
+                        $inputPw.focus(); // 패스워드 input으로
+                    }
+                    return false;
+                });
+
+                // 로그인 페이지에서 패스워드 입력 후 엔터키 이벤트
+                $inputPw.keypress(function (keyNum) {
+                    if (keyNum.which === 13) {
+                        $login_btn.click();
+                    }
+                    return false;
                 });
             }
         );

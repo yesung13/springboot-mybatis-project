@@ -299,7 +299,7 @@
                 <div class="row mb-4 pt-4">
                     <div class="col-3 text-left">
                         <button type="button" class="btn mb-2" data-toggle="tooltip" data-placement="top"
-                                title="4~12자의 영문 소문자만 사용 가능합니다.">
+                                title="영어 소문자,숫자 4-12자리">
                             <img src="${pageContext.request.contextPath}/resources/images/exclamation-circle-fill.svg"
                                  alt="ref">
                         </button>
