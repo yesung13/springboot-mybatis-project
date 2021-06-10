@@ -1,5 +1,5 @@
 /* 구글 웹폰트 */
-@import url("https://fonts.googleapis.com/css?family=Gothic+A1|Nanum+Gothic|Noto+Sans+KR&display=swap");
+/*@import url("https://fonts.googleapis.com/css?family=Gothic+A1|Nanum+Gothic|Noto+Sans+KR&display=swap");*/
 
 @font-face {
     font-family: NanumBarunGothic;
@@ -27,6 +27,11 @@
 
 * {
     font-family: "NanumBarunGothic" !important;
+}
+
+#cancel_img {
+    width: 1rem;
+    height: 1rem;
 }
 
 #container {

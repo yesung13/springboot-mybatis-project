@@ -65,7 +65,8 @@
                         // jQuery(this).ajaxStart(function () {
                         //     jQuery("#loading-mask").show();
                         // });
-                        jQuery("#loading-mask").show();
+                        // jQuery("#loading-mask").show();
+                        jQuery("#loading-mask").fadeIn(400);
                     },
                     success: function (res) {
                         jQuery("#loading-mask").fadeOut(600);
@@ -83,7 +84,7 @@
 
                     },
                     error: function (xhr) {
-
+                        alert("설문 참여 여부 체크 에러!", xhr);
                     }
                 });
             }

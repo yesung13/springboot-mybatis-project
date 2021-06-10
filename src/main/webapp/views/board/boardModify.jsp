@@ -11,15 +11,25 @@
 <head>
     <title>글수정:${boardListDetail.title}</title>
     <style>
+        .btn-outline-light {
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+
+        .btn-outline-light:hover {
+            color: #212529 !important;
+            background-color: #b9bbbe !important;
+        }
+
         .table td span {
-            font-family: 'Gothic A1', sans-serif;
+            /*font-family: 'Gothic A1', sans-serif;*/
             font-size: 0.813em;
             font-weight: 500;
             color: gray;
         }
 
         .table td a {
-            font-family: 'Nanum Gothic', sans-serif;
+            /*font-family: 'Nanum Gothic', sans-serif;*/
             font-size: 0.938em;
             font-weight: 700;
             text-decoration: none;
@@ -37,16 +47,16 @@
 
         .uploadResult ul {
             display: flex;
-            flex-flow: row;
-            justify-content: center;
-            align-items: center;
+            flex-flow: column;
+            justify-content: start;
+            align-items: start;
         }
 
         .uploadResult ul li {
             list-style: none;
             padding: 10px;
-            align-content: center;
-            text-align: center;
+            align-content: start;
+            text-align: start;
         }
 
         .uploadResult ul li img {
@@ -84,6 +94,7 @@
     </style>
     <script type="text/javascript">
         const boardId = ${boardListDetail.boardId};
+
         $(document).ready(function () {
 
             $("button").on("click", function (e) {
@@ -136,8 +147,8 @@
 
                             str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "' >";
                             str += "<div>";
-                            str += "<span> " + attach.fileName + "</span>";
-                            str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><i class='fa fa-times'></i></button><br>";
+                            str += "<span> " + attach.fileName + "</span>&nbsp;";
+                            str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-outline-light rounded-circle'><img id='cancel_img' src='/resources/images/x.svg'></button><br>";
                             str += "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>";
                             str += "</div>";
                             str += "</li>";
@@ -146,8 +157,8 @@
 
                             str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "' >";
                             str += "<div>";
-                            str += "<span> " + attach.fileName + "</span><br/>";
-                            str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-warning rounded-circle'><i class='fa fa-times'></i></button><br>";
+                            str += "<span> " + attach.fileName + "</span>&nbsp;";
+                            str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-outline-light rounded-circle'><img id='cancel_img' src='/resources/images/x.svg'></button><br>";
                             str += "<img src='/resources/images/attach.png'></a>";
                             str += "</div>";
                             str += "</li>";
@@ -239,8 +250,8 @@
                         let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
                         str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
                         str += "<div>";
-                        str += "<span> " + obj.fileName + "</span>";
-                        str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><i class='fa fa-times'></i></button><br />";
+                        str += "<span> " + obj.fileName + "</span>&nbsp;";
+                        str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-outline-light rounded-circle'><img id='cancel_img' src='/resources/images/x.svg'></button><br />";
                         str += "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>";
                         str += "</div>";
                         str += "</li>";
@@ -250,8 +261,8 @@
 
                         str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "' >"
                         str += "<div>";
-                        str += "<span> " + obj.fileName + "</span>";
-                        str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-warning rounded-circle'><i class='fa fa-times'></i></button><br />";
+                        str += "<span> " + obj.fileName + "</span>&nbsp;";
+                        str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-outline-light rounded-circle'><img id='cancel_img' src='/resources/images/x.svg'></button><br />";
                         str += "<img src='/resources/images/attach.png'></a>";
                         str += "</div>";
                         str += "</li>";
@@ -372,7 +383,7 @@
         <form id="form">
             <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
             <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
-            <input type="hidden" value="${sessionScope.account.userName}" name="writer">
+            <input type="hidden" value="${sessionScope.account.accountUserNm}" name="writer">
             <table class="table table-bordered">
                 <tr class="thead-light">
                     <th class="tcenter">
@@ -398,7 +409,7 @@
                         </div>
                     </td>
                 </tr>
-                <c:if test="${account.accountId == 1}">
+                <c:if test="${sessionScope.account.accountId == 1}">
                     <tr class="thead-light">
                         <th class="tcenter ">
                             <label for="boardType">공지여부</label>

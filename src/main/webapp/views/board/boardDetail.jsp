@@ -24,15 +24,15 @@
         .uploadResult ul {
             display: flex;
             flex-flow: row;
-            justify-content: center;
-            align-items: center;
+            justify-content: start;
+            align-items: start;
         }
 
         .uploadResult ul li {
             list-style: none;
             padding: 10px;
             align-content: center;
-            text-align: center;
+            text-align: start;
         }
 
         .uploadResult ul div span {
@@ -207,7 +207,7 @@
 
         // 댓글 쓰기
         function replyWrite_btn() {
-            let form = $('#form')[0];
+            let form = $('#boardDetailForm')[0];
             let data = new FormData(form);
             $.ajax({
                 url: '/board/replyWrite',
@@ -372,7 +372,7 @@
                 </td>
             </tr>
 
-            <tr class="text-center thead-light border-bottom">
+            <tr class="text-right thead-light border-bottom">
                 <td colspan="4">
                     <span>
                         <small class="text-muted font-weight-bold"
@@ -411,11 +411,11 @@
             </tr>
             <%-- 댓글 쓰기 --%>
             <tr class="tcenter" id="changeUpdateForm">
-                <form id="form">
+                <form id="boardDetailForm">
                     <%-- 게시글 정보 hidden으로 넘기기 --%>
                     <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
-                    <input type="hidden" name="accountId" value="${account.accountId}">
-                    <input type="hidden" name="replyWriter" value="${account.userName}">
+                    <input type="hidden" name="accountId" value="${sessionScope.account.accountId}">
+                    <input type="hidden" name="replyWriter" value="${sessionScope.account.accountUserNm}">
                     <th>
                         <div class="pt-2"><strong id="replyWriter" class="text-muted">댓글 작성자</strong></div>
                     </th>
@@ -444,7 +444,7 @@
                                 <div><strong>${item.replyWriter}</strong></div>
                             </th>
                             <th>
-                                <c:if test="${account.accountId eq item.accountId}">
+                                <c:if test="${sessionScope.account.accountId eq item.accountId}">
                                     <%--드롭다운 시작--%>
                                     <div class="dropdown">
                                         <button class="float-right btn btn-link" id="dropdownBtn" type="button"
@@ -480,7 +480,7 @@
         <div class="d-flex justify-content-end">
             <div class="mt-2">
                 <c:choose>
-                    <c:when test="${account.accountId eq boardListDetail.accountId}">
+                    <c:when test="${sessionScope.account.accountId eq boardListDetail.accountId}">
                         <input type="button" value="삭제" class="btn btn-outline-secondary" id="delete_btn"/>
                         <input type="button" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
                         <input type="button" value="목록" id="list_btn" class="btn btn-outline-secondary"/>

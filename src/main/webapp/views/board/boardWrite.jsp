@@ -16,6 +16,16 @@
 <head>
     <title>글쓰기</title>
     <style>
+        .btn-outline-light {
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+
+        .btn-outline-light:hover {
+            color: #212529 !important;
+            background-color: #b9bbbe !important;
+        }
+
         .table td span {
             font-family: 'Gothic A1', sans-serif;
             font-size: 0.813em;
@@ -39,18 +49,25 @@
         .uploadResult ul {
             display: flex;
             flex-flow: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: start;
+            align-items: start;
         }
 
         .uploadResult ul li {
             list-style: none;
             padding: 10px;
+            align-content: start;
+            text-align: start;
         }
 
 
         .uploadResult ul li img {
             width: 30px;
+        }
+
+        .uploadResult ul li span {
+            color: blue;
+            font-weight: bold;
         }
 
         .bigPicture {
@@ -179,8 +196,8 @@
                     if (obj.image) {
                         let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
                         str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>" +
-                            "<span> " + obj.fileName + "</span>" +
-                            "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
+                            "<span> " + obj.fileName + "</span>&nbsp;" +
+                            "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-outline-light rounded-circle'><img id='cancel_img' src='/resources/images/x.svg'></button><br>" +
                             "<img class='rounded' src='/board/display?fileName=" + fileCallPath + "'>" +
                             "</div></li>";
                     } else {
@@ -190,8 +207,8 @@
                         let fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
 
                         str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>" +
-                            "<span> " + obj.fileName + "</span>" +
-                            "<button type='button'  data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-warning rounded-circle'><span aria-hidden='true'>&times;</span></button><br>" +
+                            "<span> " + obj.fileName + "</span>&nbsp;" +
+                            "<button type='button'  data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-outline-light rounded-circle'><img id='cancel_img' src='/resources/images/x.svg'></button><br>" +
                             "<img src='/resources/images/attach.png'></a>" +
                             "<div></li>"
                     }
@@ -389,7 +406,7 @@
                         </div>
                     </td>
                 </tr>
-                <c:if test="${account.accountId == 1}">
+                <c:if test="${sessionScope.account.accountId == 1}">
                     <tr class="thead-light">
                         <th class="tcenter ">
                             <label for="boardType">공지여부</label>

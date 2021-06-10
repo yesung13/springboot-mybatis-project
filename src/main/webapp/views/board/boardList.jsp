@@ -13,7 +13,7 @@
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
-    <title>QnA</title>
+    <title>게시판</title>
     <script type="text/javascript">
         // 게시글 검색
         let keywordCheck_btn = function () {
@@ -59,7 +59,7 @@
 <section id="container">
     <table>
         <tr>
-            <th><h2>QnA</h2></th>
+            <th><h2>게시판</h2></th>
         </tr>
     </table>
     <!-- 검색창 -->

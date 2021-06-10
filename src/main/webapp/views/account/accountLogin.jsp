@@ -81,7 +81,6 @@
                     if (keyNum.which === 13) {
                         $inputPw.focus(); // 패스워드 input으로
                     }
-                    return false;
                 });
 
                 // 로그인 페이지에서 패스워드 입력 후 엔터키 이벤트
@@ -89,7 +88,6 @@
                     if (keyNum.which === 13) {
                         $login_btn.click();
                     }
-                    return false;
                 });
             }
         );

@@ -19,7 +19,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authCheckInterceptor())
                 .addPathPatterns("/board/**") // 적용할 url
-                .addPathPatterns("/account/list")
+                .addPathPatterns("/admin/list")
                 .addPathPatterns("/survey/list")
                 .excludePathPatterns("/account") // 제외할 url
                 .excludePathPatterns("/home") // 제외할 url

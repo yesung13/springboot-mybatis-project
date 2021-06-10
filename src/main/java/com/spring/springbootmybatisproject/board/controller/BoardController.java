@@ -41,16 +41,6 @@ public class BoardController {
      */
     @GetMapping("/list")
     public ModelAndView boardList(Model model, @RequestParam(defaultValue = "1") int curPage, BoardVO boardVO) {
-        // 저장한 세션 정보 가져오기
-//        HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
-//        AccountVO loginAccount = (AccountVO) session.getAttribute("account");
-//
-//        if(loginAccount != null){
-//           String accountEmail = loginAccount.getAccountEmail();
-//           String userName = loginAccount.getUserName();
-//           model.addAttribute("userEmail", accountEmail);
-//           model.addAttribute("userName", userName);
-//        }
 
         // 전체 리스트 개수
         int listCnt = boardService.getBoardListTotalCnt(boardVO);
@@ -304,14 +294,14 @@ public class BoardController {
 
         attachList.forEach(boardAttachVO -> {
             try {
-//                Path file = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // window OS
-                Path file = Paths.get("/Users/yoonjaeseung/upload" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // mac OS
+                Path file = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // window OS
+//                Path file = Paths.get("/Users/yoonjaeseung/upload" + boardAttachVO.getUploadPath() + "\\" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // mac OS
                 Files.deleteIfExists(file);
 
                 if (Files.probeContentType(file).startsWith("image")) {
 
-//                    Path thumbnail = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // window OS
-                    Path thumbnail = Paths.get("/Users/yoonjaeseung/upload" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // mac OS
+                    Path thumbnail = Paths.get("C:\\upload\\" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // window OS
+//                    Path thumbnail = Paths.get("/Users/yoonjaeseung/upload" + boardAttachVO.getUploadPath() + "\\s_" + boardAttachVO.getUuid() + "_" + boardAttachVO.getFileName()); // mac OS
                     Files.delete(thumbnail);
                 }
 

@@ -20,7 +20,7 @@
                writer,
                viewCnt,
                replyCnt,
-               DATE_FORMAT(boardDatetime, '%Y-%m-%d %H:%i:%s') AS boardDatetime,
+               DATE_FORMAT(boardDatetime, '%Y-%m-%d') AS boardDatetime,
                boardType
         FROM bbs_board
         WHERE boardType ='Q'
@@ -30,7 +30,15 @@
 
     <!-- 공지 게시물 목록 -->
     <select id="findNotice" resultType="BoardVO">
-        SELECT boardId, title, content, writer, viewCnt, replyCnt, boardDatetime, boardUpDatetime, boardType
+        SELECT boardId
+             , title
+             , content
+             , writer
+             , viewCnt
+             , replyCnt
+             , DATE_FORMAT(boardDatetime, '%Y-%m-%d') AS boardDatetime
+             , DATE_FORMAT(boardDatetime, '%Y-%m-%d') AS boardUpDatetime
+             , boardType
         FROM bbs_board
         WHERE boardType = 'N'
         ORDER BY boardUpDatetime DESC

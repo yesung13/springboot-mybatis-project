@@ -138,12 +138,12 @@
                                 + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
                                 + '</div>';
                         } else if (groupCd === 'P102') {
-                            if (devCk === 'P') {
-                                part102 += '<div class="form-check form-check-inline ml-4">'
-                                    + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                    + '</div>';
-                            }
+                            // if (devCk === 'P') {
+                            part102 += '<div class="form-check form-check-inline ml-4">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                + '</div>';
+                            // }
 
                         } else if (groupCd === 'P103') {
                             part103 += '<div class="form-check form-check-inline ml-4">'
@@ -239,12 +239,12 @@
                 alert("미입력 항목이 있습니다. [Part1 - Q1]");
                 return false;
             }
-            if (devCk === 'P') {
-                if (!$('input:checked[name="P102"]').is(':checked')) {
-                    alert("미입력 항목이 있습니다. [Part1 - Q1-1]");
-                    return false;
-                }
+            // if (devCk === 'P') {
+            if (!$('input:checked[name="P102"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q1-1]");
+                return false;
             }
+            // }
             if (!$('input:checked[name="P103"]').is(':checked')) {
                 alert("미입력 항목이 있습니다. [Part1 - Q2]");
                 return false;
@@ -375,12 +375,12 @@
                     <%-- //P101 그룹 --%>
 
                     <%-- P102 그룹 --%>
-                    <c:if test="${sessionScope.account.devCheck eq 'P'}">
-                        <div class="mb-5">
-                            <p class="itemTitle">Q1 - 1. 비전공자일 경우 학습하신 방법을 선택해주세요.</p>
-                            <div class="itemOutput102 form-group"></div>
-                        </div>
-                    </c:if>
+                    <%--                    <c:if test="${sessionScope.account.devCheck eq 'P'}">--%>
+                    <div class="mb-5">
+                        <p class="itemTitle">Q1 - 1. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
+                        <div class="itemOutput102 form-group"></div>
+                    </div>
+                    <%--                    </c:if>--%>
                     <%-- //P102 그룹 --%>
 
                     <%-- P103 그룹 --%>

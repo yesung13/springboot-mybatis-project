@@ -51,7 +51,7 @@
             margin-top: 100px;
         }
 
-        #form {
+        #accountSignUpForm {
             min-width: 760px;
             width: 700px;
             height: 100%;
@@ -294,7 +294,7 @@
 
         <div class="row justify-content-center">
             <%-- form --%>
-            <form id="form" class="border-top border-bottom pl-5">
+            <form id="accountSignUpForm" class="border-top border-bottom pl-5">
                 <%-- 아이디 --%>
                 <div class="row mb-4 pt-4">
                     <div class="col-3 text-left">
