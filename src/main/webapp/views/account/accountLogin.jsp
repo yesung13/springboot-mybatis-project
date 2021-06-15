@@ -14,8 +14,8 @@
     <title>로그인</title>
     <style>
         a img {
-            width: 2.0rem;
-            height: 2.0rem;
+            width: 5.0rem;
+            height: 3.0rem;
         }
 
         a span {
@@ -73,7 +73,7 @@
                         $('#accountPassword').val(null).focus();
                         return false;
                     }
-                    return login();
+                    // return login();
                 });
 
                 // 로그인 페이지에서 아이디 입력 후 엔터키 이벤트
@@ -109,11 +109,11 @@
                 data: data,
                 processData: false,
                 contentType: false,
-                // cache: false,
+                         // cache: false,
                 // timeout: 600000,
-                // beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                <%--beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/--%>
                 <%--    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");--%>
-                // },
+                <%--},--%>
                 success: function (response) {
                     console.log("Login Response Data:", response);
                     if (response.resCode === 1000) {
@@ -131,7 +131,7 @@
                     }
                 },
                 error: function (xhr, e, response) {
-                    console.log("Insert Error:", xhr, e, response);
+                    console.log("Login Process Error:", xhr, e, response);
                     alert("에러!!")
                 }
             });
@@ -151,17 +151,19 @@
 
             <div class="row navbar navbar-light" style="padding-top: 80px">
                 <a class="col navbar-brand" href="/">
-                    <img src="${pageContext.request.contextPath}/resources/images/cubes-solid.svg"
+                    <img src="${pageContext.request.contextPath}/resources/images/spring-logo.png"
                          class="d-inline-block align-baseline" alt="logo">
                     <span class="d-inline-block align-bottom">Spring Demo</span>
                 </a>
             </div>
 
         </div>
-        <form id="form">
+<%--        <form id="form">--%> <%-- security 적용 전--%>
+        <form id="form" action="/nAccount/loginProc" method="POST">
             <div class="row justify-content-center">
                 <div class="list-group row">
                     <div class="col">
+<%--                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
                         <input type="text" class="list-group-item" id="accountUserId" name="accountUserId"
                                placeholder="아이디"/>
                         <input type="password" class="list-group-item" id="accountPassword" name="accountPassword"
@@ -172,7 +174,9 @@
             <div class="row justify-content-center mt-3">
                 <div class="row">
                     <div class="col">
-                        <input type="button" id="login_btn" class="btn btn-secondary" value="L O G I N"/>
+                        <%-- security 적용 전--%>
+<%--                        <input type="button" id="login_btn" class="btn btn-secondary" value="L O G I N"/>--%>
+                        <input type="submit" id="login_btn" class="btn btn-secondary" value="L O G I N"/>
                     </div>
                 </div>
             </div>

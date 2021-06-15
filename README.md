@@ -16,6 +16,7 @@
     * 로그인 성공된 사용자만 게시글 열람 가능
     * 설문조사 등록 (0614)
         * 로그인 된 회원만 가능
+    * Spring Security 적용 (0615)
   - **ETC**
        * logback
        * log4jdbc.log4j2
