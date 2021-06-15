@@ -2,8 +2,6 @@ package com.spring.springbootmybatisproject.account.service;
 
 import com.spring.springbootmybatisproject.account.model.NAccountVO;
 import com.spring.springbootmybatisproject.account.repository.NAccountMapper;
-import com.spring.springbootmybatisproject.security.model.entity.Role;
-import com.spring.springbootmybatisproject.security.repository.RoleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,12 +12,11 @@ public class NAccountServiceImpl implements NAccountService {
 
     private final NAccountMapper nAccountMapper;
     private final PasswordEncoder passwordEncoder;
-    private final RoleMapper roleMapper;
 
-    public NAccountServiceImpl(NAccountMapper nAccountMapper, PasswordEncoder passwordEncoder, RoleMapper roleMapper) {
+
+    public NAccountServiceImpl(NAccountMapper nAccountMapper, PasswordEncoder passwordEncoder) {
         this.nAccountMapper = nAccountMapper;
         this.passwordEncoder = passwordEncoder;
-        this.roleMapper = roleMapper;
     }
 
     /* 회원가입 */
@@ -35,9 +32,8 @@ public class NAccountServiceImpl implements NAccountService {
         log.info("pw: {}\nenPw: {}\nmatchResult: {}", pw, enPw, matchResult);
         nAccountVO.setAccountPassword(enPw);
         nAccountVO.setActive(1);
-
-        Role role = roleMapper.getRoleInfo("USER");
-        nAccountVO.setRole(role.getRole());
+        nAccountVO.setRoles("USER");
+        nAccountVO.setDelYn("N");
 
         nAccountMapper.saveSignUp(nAccountVO);
 
@@ -58,41 +54,29 @@ public class NAccountServiceImpl implements NAccountService {
         return overlapResult;
     }
 
-    /* 로그인 정보*/
-    @Override
-    public NAccountVO getAccount(NAccountVO nAccountVO) {
-
-        NAccountVO accountResult = nAccountMapper.findByAccount(nAccountVO);
-
-        try {
-            // 패스워드 복호화 처리
-            // security 암호화
-            String rawPw = nAccountVO.getAccountPassword();
-            String encodedPw = accountResult.getAccountPassword();
-            boolean matchResult = passwordEncoder.matches(rawPw, encodedPw); // req 패스워드와 db에 저장된 패스워드 비교
-            log.info("Pw: {}\nEnPw: {}\nMatchResult: {}", rawPw, encodedPw, matchResult);
-
-            if (!matchResult) {
-                accountResult.setAccountPassword(null);
-            }
-        } catch (NullPointerException e) {
-            return accountResult;
-        }
-
-
-        // 권한앞에 "ROLE_" 추가
-//        String addRole = "ROLE_" + accountResult.getRole();
-//        accountResult.setRole(addRole);
-//        log.info("ROLE: {}", addRole);
-        log.info("ROLE: {}", accountResult.getRole());
-
-        return accountResult;
-    }
-
+    /* spring security 적용 전*/
+    /* 로그인 정보 */
 //    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        NAccountVO user = nAccountMapper.findUserByLoginId(username);
-//        return new UserPrincipal(user);
+//    public NAccountVO getAccount(NAccountVO nAccountVO) {
+//
+//        NAccountVO accountResult = nAccountMapper.findByAccount(nAccountVO);
+//
+//        try {
+//            // 패스워드 복호화 처리
+//            // security 암호화
+//            String rawPw = nAccountVO.getAccountPassword();
+//            String encodedPw = accountResult.getAccountPassword();
+//            boolean matchResult = passwordEncoder.matches(rawPw, encodedPw); // req 패스워드와 db에 저장된 패스워드 비교
+//            log.info("Pw: {}\nEnPw: {}\nMatchResult: {}", rawPw, encodedPw, matchResult);
+//
+//            if (!matchResult) {
+//                accountResult.setAccountPassword(null);
+//            }
+//        } catch (NullPointerException e) {
+//            return accountResult;
+//        }
+//
+//        return accountResult;
 //    }
 
 }

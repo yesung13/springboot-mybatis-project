@@ -7,13 +7,7 @@ import com.spring.springbootmybatisproject.common.model.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -75,63 +69,63 @@ public class NAccountController {
     // 로그인 page
     @GetMapping("/login")
     public String accountLoginForm() {
-        return "account/accountLogin";
+        return "/account/accountLogin";
     }
 
     // 계정 로그인
-    @PostMapping("/loginProc")
-    @ResponseBody
-    public ResultVO accountLogin(@Valid NAccountVO nAccountVO, BindingResult bindingResult, Model model,
-                                 HttpServletRequest req) throws Exception {
-        ResultVO result = new ResultVO();
-        String accountUserId = nAccountVO.getAccountUserId();
-        String accountPassword = nAccountVO.getAccountPassword();
-
-        /* 추후 설정 */
-//        if (bindingResult.hasFieldErrors("accountUserId") || bindingResult.hasFieldErrors("accountPassword")) {
-//            model.addAttribute(bindingResult.getModel());
-//            System.out.println("bindingResult>>>>" + bindingResult.getModel());
+//    @PostMapping("/loginProc")
+//    @ResponseBody
+//    public ResultVO accountLogin(@Valid NAccountVO nAccountVO, BindingResult bindingResult, Model model,
+//                                 HttpServletRequest req) throws Exception {
+//        ResultVO result = new ResultVO();
+//        String accountUserId = nAccountVO.getAccountUserId();
+//        String accountPassword = nAccountVO.getAccountPassword();
+//
+//        /* 추후 설정 */
+////        if (bindingResult.hasFieldErrors("accountUserId") || bindingResult.hasFieldErrors("accountPassword")) {
+////            model.addAttribute(bindingResult.getModel());
+////            System.out.println("bindingResult>>>>" + bindingResult.getModel());
+////        }
+//
+//
+//        if (accountUserId != null && accountPassword != null) {
+//            NAccountVO loginAccount = nAccountService.getAccount(nAccountVO);
+//            try {
+//                String dbAccountUserId = loginAccount.getAccountUserId();
+//                String dbAccountPassword = loginAccount.getAccountPassword();
+//
+//                if (dbAccountUserId != null && dbAccountPassword != null) {
+//
+//                    HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
+//                    session.setAttribute("account", loginAccount); //세션 등록
+//                    model.addAttribute("account", loginAccount);
+//
+//
+//
+//                    result.setResCode(SFV.INT_RES_CODE_A_LOGIN_SUCCESS);
+//                    result.setResMsg(SFV.STRING_RES_A_LOGIN_SUCCESS);
+//
+//                } else {
+//                    // 아이디 또는 패스워드가 일치하지 않는 경우
+//                    result.setResCode(SFV.INT_RES_CODE_A_LOGIN_CHECK);
+//                    result.setResMsg(SFV.STRING_RES_A_LOGIN_CHECK);
+//                }
+//            } catch (NullPointerException e) {
+//                result.setResCode(SFV.INT_RES_CODE_A_LOGIN_FAIL);
+//                result.setResMsg(SFV.STRING_RES_A_LOGIN_FAIL);
+//                e.printStackTrace();
+//
+//            }
 //        }
-
-
-        if (accountUserId != null && accountPassword != null) {
-            NAccountVO loginAccount = nAccountService.getAccount(nAccountVO);
-            try {
-                String dbAccountUserId = loginAccount.getAccountUserId();
-                String dbAccountPassword = loginAccount.getAccountPassword();
-
-                if (dbAccountUserId != null && dbAccountPassword != null) {
-
-                    HttpSession session = req.getSession(true); // 세션을 가져오기(없으면 생성한다)
-                    session.setAttribute("account", loginAccount); //세션 등록
-                    model.addAttribute("account", loginAccount);
-
-
-
-                    result.setResCode(SFV.INT_RES_CODE_A_LOGIN_SUCCESS);
-                    result.setResMsg(SFV.STRING_RES_A_LOGIN_SUCCESS);
-
-                } else {
-                    // 아이디 또는 패스워드가 일치하지 않는 경우
-                    result.setResCode(SFV.INT_RES_CODE_A_LOGIN_CHECK);
-                    result.setResMsg(SFV.STRING_RES_A_LOGIN_CHECK);
-                }
-            } catch (NullPointerException e) {
-                result.setResCode(SFV.INT_RES_CODE_A_LOGIN_FAIL);
-                result.setResMsg(SFV.STRING_RES_A_LOGIN_FAIL);
-                e.printStackTrace();
-
-            }
-        }
-        return result;
-    }
+//        return result;
+//    }
 
     /* 계정 로그아웃 */
-    @GetMapping("/logout")
-    public String accountLogout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/nAccount/login";
-    }
+//    @GetMapping("/logout")
+//    public String accountLogout(HttpSession session) {
+//        session.invalidate();
+//        return "redirect:/nAccount/login";
+//    }
 //
 //    @GetMapping("/logout")
 //    public String accountLogout(HttpServletRequest request, HttpServletResponse response) {

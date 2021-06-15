@@ -8,7 +8,7 @@
         <result property="accountUserNm" column="accountUserNm"/>
         <result property="accountEmail" column="accountEmail"/>
         <result property="devCheck" column="devCheck"/>
-        <result property="role" column="role"/>
+        <result property="roles" column="roles"/>
         <result property="active" column="active"/>
         <result property="createDt" column="createDt"/>
         <result property="updateDt" column="updateDt"/>
@@ -17,9 +17,9 @@
     <!-- 회원가입 -->
     <insert id="saveSignUp" parameterType="NAccountVO" useGeneratedKeys="true" keyProperty="accountId">
         INSERT INTO bbs_new_account(accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck,
-                                    active, role)
+                                    active, roles, permissions, delYn)
             VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck},
-                   #{active}, #{role});
+                   #{active}, #{roles}, #{permissions}, #{delYn});
     </insert>
     <!-- //회원가입 -->
 
@@ -32,12 +32,12 @@
     </select>
     <!-- //회원 아이디 중복체크 -->
 
-    <!--    &lt;!&ndash; 회원 계정 &ndash;&gt;-->
-    <!--    <select id="findByAccountUserId" parameterType="String" resultType="NAccountVO">-->
-    <!--        SELECT *-->
-    <!--        FROM bbs_new_account-->
-    <!--        WHERE accountUserId = #{accountUserId};-->
-    <!--    </select>-->
+    <!-- 회원 계정 -->
+    <select id="findByAccountUserId" parameterType="String" resultType="NAccountVO">
+        SELECT *
+        FROM bbs_new_account
+        WHERE accountUserId = #{accountUserId};
+    </select>
 
     <!-- 계정 로그인 -->
     <select id="findByAccount" parameterType="NAccountVO" resultType="NAccountVO">

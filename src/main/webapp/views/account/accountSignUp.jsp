@@ -229,7 +229,7 @@
                 return false;
             } else if (idCk === "Y") {
                 let requestUrl = '/nAccount/singUpProc';
-                let form = $('#form')[0];
+                let form = $('#accountSignUpForm')[0];
                 let data = new FormData(form);
                 console.log("Insert Request Data:", data);
                 $.ajax({

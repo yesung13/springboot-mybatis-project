@@ -11,5 +11,5 @@ public interface NAccountService {
     public abstract Integer userIdOverlapCnt(String accountUserId);
 
     /* 계정 로그인 */
-    public abstract NAccountVO getAccount(NAccountVO nAccountVO);
+//    public abstract NAccountVO getAccount(NAccountVO nAccountVO);
 }
