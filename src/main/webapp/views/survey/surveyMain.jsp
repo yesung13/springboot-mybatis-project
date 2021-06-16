@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
@@ -29,7 +30,7 @@
     <script type="text/javascript">
         $(function () {
             /*<![CDATA[*/
-            <%--const accountId = ${sessionScope.account.accountId};--%>
+            <%--const accountId = ${userInfo.accountId};--%>
             /*]]*/
             const accountId = jQuery('#accountId').val();
             console.log("accountId:::", accountId);
@@ -94,6 +95,9 @@
 <body>
 <%-- 헤더(navbar) --%>
 <c:import url="/views/common/header.jsp"/>
+<%-- security 계정 정보 --%>
+<sec:authentication property="principal" var="userInfo"/>
+<%-- //security 계정 정보 --%>
 
 <section class="container my-5 py-5">
 
@@ -115,7 +119,7 @@
                             결과보기
                         </button>
                     </div>
-                    <input type="hidden" value="${sessionScope.account.accountId}" id="accountId" name="accountId">
+                    <input type="hidden" value="${userInfo.accountId}" id="accountId" name="accountId">
                 </div>
             </div>
             <div id="loading-mask"></div>

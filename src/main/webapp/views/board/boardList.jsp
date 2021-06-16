@@ -5,10 +5,7 @@
   Time: 오후 4:11
   To change this template use File | Settings | File Templates.
 --%>
-<%--
-    애로사항
-    - 검색 시 페이징 처리 수정 필요
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>

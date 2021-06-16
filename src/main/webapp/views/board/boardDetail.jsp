@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: berno
@@ -11,6 +11,8 @@
     - 글 삭제 시 disk 파일 삭제 안됨.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
@@ -337,6 +339,9 @@
 <body class="body">
 <%-- 헤더 --%>
 <jsp:include page="/views/common/header.jsp"/>
+<%-- security 계정 정보 --%>
+<sec:authentication property="principal" var="userInfo"/>
+<%-- //security 계정 정보 --%>
 
 <%-- 바디: 게시글 --%>
 <section class="mt-2">
@@ -414,8 +419,8 @@
                 <form id="boardDetailForm">
                     <%-- 게시글 정보 hidden으로 넘기기 --%>
                     <input type="hidden" name="boardId" value="${boardListDetail.boardId}">
-                    <input type="hidden" name="accountId" value="${sessionScope.account.accountId}">
-                    <input type="hidden" name="replyWriter" value="${sessionScope.account.accountUserNm}">
+                    <input type="hidden" name="accountId" value="${userInfo.accountId}">
+                    <input type="hidden" name="replyWriter" value="${userInfo.accountUserNm}">
                     <th>
                         <div class="pt-2"><strong id="replyWriter" class="text-muted">댓글 작성자</strong></div>
                     </th>
@@ -444,7 +449,7 @@
                                 <div><strong>${item.replyWriter}</strong></div>
                             </th>
                             <th>
-                                <c:if test="${sessionScope.account.accountId eq item.accountId}">
+                                <c:if test="${userInfo.accountId eq item.accountId}">
                                     <%--드롭다운 시작--%>
                                     <div class="dropdown">
                                         <button class="float-right btn btn-link" id="dropdownBtn" type="button"
@@ -480,7 +485,7 @@
         <div class="d-flex justify-content-end">
             <div class="mt-2">
                 <c:choose>
-                    <c:when test="${sessionScope.account.accountId eq boardListDetail.accountId}">
+                    <c:when test="${userInfo.accountId eq boardListDetail.accountId}">
                         <input type="button" value="삭제" class="btn btn-outline-secondary" id="delete_btn"/>
                         <input type="button" value="수정" class="btn btn-outline-secondary mx-1" id="modify_btn"/>
                         <input type="button" value="목록" id="list_btn" class="btn btn-outline-secondary"/>

@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // HttpSecurity 작성시 반드시 순서 고려 -> 위에서 부터 permitAll 인 경우 하위 접근제한자들이 작동하지 않음
 //        http
 //                .cors().disable()      // cors 비활성화
 //                .csrf().disable()      // csrf 비활성화
@@ -71,8 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/nAccount/**").permitAll()
                 .antMatchers("/home").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/board/**").hasRole("USER")
-                .antMatchers("/survey/**").hasRole("USER")
+                .antMatchers("/board/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/survey/**").hasAnyRole("USER", "ADMIN")
 //                .anyRequest() // 위 지정한 URL 이외 모든 URL
 //                .authenticated() // 인증된 사용자만 접근 가능
             .and()

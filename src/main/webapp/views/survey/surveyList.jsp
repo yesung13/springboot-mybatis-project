@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: yys
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html lang="en">
 <head>
@@ -41,7 +43,7 @@
         }
     </style>
     <script type="text/javascript">
-        const devCk = '<c:out value="${sessionScope.account.devCheck}"/>'
+        const devCk = '<c:out value="${userInfo.devCheck}"/>'
 
         $(function () {
             console.log("start");
@@ -324,9 +326,13 @@
 <body>
 <%-- 헤더(navbar) --%>
 <c:import url="/views/common/header.jsp"/>
+<%-- security 계정 정보 --%>
+<sec:authentication property="principal" var="userInfo"/>
+<%-- //security 계정 정보 --%>
+
 <%-- 바디 --%>
 <section class="container-xl mt-3">
-    <input id="sessionUid" type="hidden" value="${sessionScope.account.accountId}" name="accountId">
+    <input id="sessionUid" type="hidden" value="${userInfo.accountId}" name="accountId">
     <div class="my-5 row justify-content-between">
         <div class="col-10"><h1>2021 개발자 실태 조사</h1></div>
         <div class="col-2">
@@ -353,7 +359,7 @@
 
     <!-- Tab panes -->
     <form id="form">
-        <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
+        <input type="hidden" value="${userInfo.accountId}" name="accountId">
         <div class="tab-content">
 
 
@@ -375,7 +381,7 @@
                     <%-- //P101 그룹 --%>
 
                     <%-- P102 그룹 --%>
-                    <%--                    <c:if test="${sessionScope.account.devCheck eq 'P'}">--%>
+                    <%--                    <c:if test="${userInfo.devCheck eq 'P'}">--%>
                     <div class="mb-5">
                         <p class="itemTitle">Q1 - 1. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
                         <div class="itemOutput102 form-group"></div>
@@ -390,7 +396,7 @@
                     </div>
                     <%-- //P103 그룹 --%>
 
-                    <c:if test="${sessionScope.account.devCheck eq 'C'}">
+                    <c:if test="${userInfo.devCheck eq 'C'}">
                         <%-- P104 그룹 --%>
                         <div class="mb-5">
                             <p class="itemTitle">Q3. 경력을 알려주세요.</p>

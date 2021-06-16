@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: SAMSUNG
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
@@ -172,6 +174,9 @@
     </script>
 </head>
 <body>
+<%-- security 계정 정보 --%>
+<sec:authentication property="principal" var="userInfo"/>
+<%-- //security 계정 정보 --%>
 
 <%-- 바디 --%>
 <section>
@@ -179,8 +184,8 @@
         <h3 class="text-center">[admin] 공지사항 등록</h3>
         <%--        <form id="form" role="form" action="${pageContext.request.contextPath}/board/register" method="post">--%>
         <form id="form" role="form">
-            <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
-            <input type="hidden" value="${sessionScope.account.accountUserNm}" name="writer">
+            <input type="hidden" value="${userInfo.accountId}" name="accountId">
+            <input type="hidden" value="${userInfo.accountUserNm}" name="writer">
             <table class="table table-bordered">
                 <tr>
                     <th class="tcenter bg-info">

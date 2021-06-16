@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: berno
@@ -11,6 +12,7 @@
     - 파일 첨부 시 [취소] 버튼 구현해야 됨
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@include file="/views/common/htmlHead.jsp" %>
 <html>
 <head>
@@ -373,6 +375,9 @@
 
 <%-- 헤더 --%>
 <jsp:include page="/views/common/header.jsp"/>
+<%-- security 계정 정보 --%>
+<sec:authentication property="principal" var="userInfo"/>
+<%-- //security 계정 정보 --%>
 
 <%-- 바디 --%>
 <section>
@@ -380,8 +385,8 @@
         <h3 class="text-center">글쓰기</h3>
         <%--        <form id="form" role="form" action="${pageContext.request.contextPath}/board/register" method="post">--%>
         <form id="form" role="form">
-            <input type="hidden" value="${sessionScope.account.accountId}" name="accountId">
-            <input type="hidden" value="${sessionScope.account.accountUserNm}" name="writer">
+            <input type="hidden" value="${userInfo.accountId}" name="accountId">
+            <input type="hidden" value="${userInfo.accountUserNm}" name="writer">
             <table class="table table-bordered">
                 <tr class="thead-light">
                     <th class="tcenter ">
@@ -406,7 +411,7 @@
                         </div>
                     </td>
                 </tr>
-                <c:if test="${sessionScope.account.accountId == 1}">
+                <c:if test="${userInfo.accountId == 1}">
                     <tr class="thead-light">
                         <th class="tcenter ">
                             <label for="boardType">공지여부</label>

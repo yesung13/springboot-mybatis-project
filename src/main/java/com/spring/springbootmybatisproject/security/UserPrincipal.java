@@ -17,7 +17,7 @@ public class UserPrincipal implements UserDetails {
 
     private final NAccountVO nAccountVO;
 
-    public UserPrincipal(NAccountVO nAccountVO){
+    public UserPrincipal(NAccountVO nAccountVO) {
         this.nAccountVO = nAccountVO;
     }
 
@@ -70,11 +70,16 @@ public class UserPrincipal implements UserDetails {
         return this.nAccountVO.getActive() == 1;
     }
 
-    public String getName(){
+    // 계정 정보 추가 Getter
+    public Long getAccountId() {
+        return nAccountVO.getAccountId();
+    }
+
+    public String getAccountUserNm() {
         return nAccountVO.getAccountUserNm();
     }
 
-    public String getDevCheck(){
+    public String getDevCheck() {
         return nAccountVO.getDevCheck();
     }
 }
