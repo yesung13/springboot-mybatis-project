@@ -67,7 +67,7 @@ public class NAccountController {
     }
 
     // 로그인 page
-    @GetMapping("/login")
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String accountLoginForm() {
         return "/account/accountLogin";
     }

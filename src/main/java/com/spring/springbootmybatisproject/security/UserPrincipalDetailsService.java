@@ -21,8 +21,13 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String accountUserId) throws UsernameNotFoundException {
         NAccountVO nAccountVO = this.nAccountMapper.findByAccountUserId(accountUserId);
-        UserPrincipal userPrincipal = new UserPrincipal(nAccountVO);
 
+        // 사용자 정보 없으면 null 처리
+        if (nAccountVO == null) {
+            return null;
+        }
+
+        UserPrincipal userPrincipal = new UserPrincipal(nAccountVO);
         return userPrincipal;
     }
 }

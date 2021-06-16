@@ -3,6 +3,7 @@ package com.spring.springbootmybatisproject.config;
 import com.spring.springbootmybatisproject.security.CustomAuthenticationFailureHandler;
 import com.spring.springbootmybatisproject.security.UserPrincipalDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserPrincipalDetailsService userPrincipalDetailsService;
@@ -26,8 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
+        log.info("authenticationFailureHandler()");
         return new CustomAuthenticationFailureHandler();
     }
+
     /* database authentication을 사용하기위해 DaoAuthenticationProvider를 정의 */
     @Bean
     DaoAuthenticationProvider authenticationProvider(){

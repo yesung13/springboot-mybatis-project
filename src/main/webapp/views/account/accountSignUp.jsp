@@ -12,8 +12,8 @@
     <title>회원가입</title>
     <style>
         img {
-            width: 1.2rem;
-            height: 1.2rem;
+            width: 3rem;
+            height: 2rem;
         }
 
         .spanCus {
@@ -275,7 +275,7 @@
     <div class="container_custom">
         <div class="row navbar navbar-light" style="padding-top: 20px">
             <a class="col navbar-brand" href="/">
-                <img src="${pageContext.request.contextPath}/resources/images/cubes-solid.svg"
+                <img src="${pageContext.request.contextPath}/resources/images/spring-logo.png"
                      class="d-inline-block align-baseline" alt="logo">
                 <span class="d-inline-block align-bottom">Spring Demo</span>
             </a>

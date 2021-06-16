@@ -73,22 +73,24 @@
                         $('#accountPassword').val(null).focus();
                         return false;
                     }
-                    // return login();
+
                 });
 
-                // 로그인 페이지에서 아이디 입력 후 엔터키 이벤트
-                $inputId.keypress(function (keyNum) {
-                    if (keyNum.which === 13) {
-                        $inputPw.focus(); // 패스워드 input으로
-                    }
-                });
+                /* spring security 적용 전 */
+                // // 로그인 페이지에서 아이디 입력 후 엔터키 이벤트
+                // $inputId.keypress(function (keyNum) {
+                //     if (keyNum.which === 13) {
+                //         $inputPw.focus(); // 패스워드 input으로
+                //     }
+                // });
 
                 // 로그인 페이지에서 패스워드 입력 후 엔터키 이벤트
-                $inputPw.keypress(function (keyNum) {
-                    if (keyNum.which === 13) {
-                        $login_btn.click();
-                    }
-                });
+                // $inputPw.keypress(function (keyNum) {
+                //     if (keyNum.which === 13) {
+                //         $login_btn.click();
+                //     }
+                // });
+                /* //spring security 적용 전 */
             }
         );
 
@@ -97,45 +99,6 @@
             return value === "" || value == null;
         }
 
-        /* 로그인 */
-        function login() {
-            let requestUrl = '/nAccount/loginProc';
-            let form = $('#form')[0];
-            let data = new FormData(form);
-            console.log("Login Request Data:", data);
-            $.ajax({
-                type: "POST",
-                url: requestUrl,
-                data: data,
-                processData: false,
-                contentType: false,
-                // cache: false,
-                // timeout: 600000,
-                <%--beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/--%>
-                <%--    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");--%>
-                <%--},--%>
-                success: function (response) {
-                    console.log("Login Response Data:", response);
-                    if (response.resCode === 1000) {
-                        alert(response.resMsg);
-                        location.replace('/');
-                    } else if (response.resCode === 1001) {
-                        // alert(response.resMsg);
-                        $('.alert').fadeIn(400).delay(2000).fadeOut(400);
-                        $('#alertMsg').html(response.resMsg);
-                        // window.location.reload();
-                    } else if (response.resCode === 1002) {
-                        $('.alert').fadeIn(400).delay(2000).fadeOut(400);
-                        $('#alertMsg').html(response.resMsg);
-                        // window.location.reload();
-                    }
-                },
-                error: function (xhr, e, response) {
-                    console.log("Login Process Error:", xhr, e, response);
-                    alert("에러!!")
-                }
-            });
-        }
     </script>
     <%-- end --%>
 </head>
@@ -147,12 +110,14 @@
             <div class="alert alert-danger text-center" role="alert">
                 <span id="alertMsg"></span>
             </div>
-            <%-- //유효성 검사 토스트 창 --%>
             <c:if test="${requestScope.loginFailMsg != null}">
-                <div class="alert-danger text-center" role="alert">
-                    <span><c:out value="${requestScope.loginFailMsg}"/></span>
-                </div>
+                <span><c:out value="${requestScope.loginFailMsg}"/></span>
             </c:if>
+            <%-- //유효성 검사 토스트 창 --%>
+
+            <%--            <div class="alert-danger text-center" role="alert">--%>
+
+            <%--            </div>--%>
 
 
             <div class="row navbar navbar-light" style="padding-top: 80px">
@@ -164,7 +129,7 @@
             </div>
 
         </div>
-        <%--        <form id="form">--%> <%-- security 적용 전--%>
+        <%--        <form id="form">  &lt;%&ndash;security 적용 전&ndash;%&gt;--%>
         <form id="form" action="/nAccount/loginProc" method="POST">
             <div class="row justify-content-center">
                 <div class="list-group row">

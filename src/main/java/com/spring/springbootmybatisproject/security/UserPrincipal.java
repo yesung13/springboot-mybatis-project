@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class UserPrincipal implements UserDetails {
 
+    // 안만들어도 상관없지만 Warning이 발생함
+    private static final long serialVersionUID = 1L;
+
     private final NAccountVO nAccountVO;
 
     public UserPrincipal(NAccountVO nAccountVO) {
@@ -40,31 +43,37 @@ public class UserPrincipal implements UserDetails {
         return authorities;
     }
 
+    // pw
     @Override
     public String getPassword() {
         return this.nAccountVO.getAccountPassword();
     }
 
+    // id
     @Override
     public String getUsername() {
         return this.nAccountVO.getAccountUserId();
     }
 
+    // 계정 만료 여부
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    // 계정 잠김 여부
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    // 패스워드 만료 여부
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // 계정 활성 여부 (활성 : 1, 비활성 : 0)
     @Override
     public boolean isEnabled() {
         return this.nAccountVO.getActive() == 1;
