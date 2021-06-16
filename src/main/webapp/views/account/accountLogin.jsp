@@ -109,7 +109,7 @@
                 data: data,
                 processData: false,
                 contentType: false,
-                         // cache: false,
+                // cache: false,
                 // timeout: 600000,
                 <%--beforeSend: function (xhr){   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/--%>
                 <%--    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");--%>
@@ -148,6 +148,12 @@
                 <span id="alertMsg"></span>
             </div>
             <%-- //유효성 검사 토스트 창 --%>
+            <c:if test="${requestScope.loginFailMsg != null}">
+                <div class="alert-danger text-center" role="alert">
+                    <span><c:out value="${requestScope.loginFailMsg}"/></span>
+                </div>
+            </c:if>
+
 
             <div class="row navbar navbar-light" style="padding-top: 80px">
                 <a class="col navbar-brand" href="/">
@@ -158,12 +164,12 @@
             </div>
 
         </div>
-<%--        <form id="form">--%> <%-- security 적용 전--%>
+        <%--        <form id="form">--%> <%-- security 적용 전--%>
         <form id="form" action="/nAccount/loginProc" method="POST">
             <div class="row justify-content-center">
                 <div class="list-group row">
                     <div class="col">
-<%--                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
+                        <%--                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />--%>
                         <input type="text" class="list-group-item" id="accountUserId" name="accountUserId"
                                placeholder="아이디"/>
                         <input type="password" class="list-group-item" id="accountPassword" name="accountPassword"
@@ -175,7 +181,7 @@
                 <div class="row">
                     <div class="col">
                         <%-- security 적용 전--%>
-<%--                        <input type="button" id="login_btn" class="btn btn-secondary" value="L O G I N"/>--%>
+                        <%--                        <input type="button" id="login_btn" class="btn btn-secondary" value="L O G I N"/>--%>
                         <input type="submit" id="login_btn" class="btn btn-secondary" value="L O G I N"/>
                     </div>
                 </div>

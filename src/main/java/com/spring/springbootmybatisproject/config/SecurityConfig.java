@@ -1,5 +1,6 @@
 package com.spring.springbootmybatisproject.config;
 
+import com.spring.springbootmybatisproject.security.CustomAuthenticationFailureHandler;
 import com.spring.springbootmybatisproject.security.UserPrincipalDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -20,6 +22,28 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserPrincipalDetailsService userPrincipalDetailsService;
+//    private final CustomAuthenticationFailureHandler authenticationFailureHandler;
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+    /* database authentication을 사용하기위해 DaoAuthenticationProvider를 정의 */
+    @Bean
+    DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+
+        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
+
+        return daoAuthenticationProvider;
+    }
+
+    // 패스워드 암호화
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -39,19 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .roles("MANAGER").authorities("ACCESS_TEST1");
     }
 
-    /* database authentication을 사용하기위해 DaoAuthenticationProvider를 정의 */
-    @Bean
-    DaoAuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-
-        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
-
-        return daoAuthenticationProvider;
-    }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/d3/**", "/font/**"); // 인증 무시
+        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/d3/**", "/font/**", "/resources/**"); // 인증 무시
     }
 
     @Override
@@ -81,20 +95,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/nAccount/loginProc") // <form action> 일 경우 사용
                 .loginPage("/nAccount/login").permitAll() // 로그인이 수행 될 페이지
                 .defaultSuccessUrl("/home") // 로그인 성공 시 이동 페이지
-//                .failureUrl() // 로그인 실패 시 보여주는 화면
+//                .failureUrl("login?error").permitAll() // 로그인 실패 시 보여주는 화면
+                .failureHandler(authenticationFailureHandler())
                 .usernameParameter("accountUserId")
                 .passwordParameter("accountPassword")
 //                .successHandler()
             .and()
             .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/nAccount/login");
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/nAccount/login")
+                .invalidateHttpSession(true);
+//            .and()
+//            .exceptionHandling().accessDeniedPage("");
 
     }
 
-    // 패스워드 암호화
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 }
