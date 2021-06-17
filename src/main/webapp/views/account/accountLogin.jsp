@@ -41,58 +41,63 @@
             min-width: 300px;
             max-height: 60px;
             position: fixed;
-            display: none
+            display: none;
+        }
+
+        .errorAlert {
+            min-width: 300px;
+            max-height: 60px;
+            position: fixed;
+            display: none;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
         }
 
 
     </style>
     <script type="text/javascript">
+
         $(document).ready(function () {
-                let $login_btn = $('#login_btn');
-                let $inputId = $('#accountUserId')
-                let $inputPw = $('#accountPassword');
+            let login_btn = $('#login_btn');
+            let inputId = $('#accountUserId')
+            let inputPw = $('#accountPassword');
 
+            // 로그인 submit
+            login_btn.click(function () {
 
-                $login_btn.click(function () {
-                    let accountUserId = $('input[name="accountUserId"]').val().replace(/ /g, ''); // 모든 공백 제거
-                    let accountPassword = $('input[name="accountPassword"]').val().replace(/ /g, '');
+                let accountUserId = $('input[name="accountUserId"]').val().replace(/ /g, ''); // 모든 공백 제거
+                let accountPassword = $('input[name="accountPassword"]').val().replace(/ /g, '');
 
-                    if (isEmpty(accountUserId)) {
-                        $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
-                        $('#alertMsg').html("아이디를 입력해 주세요!");
-                        // alert("아이디를 입력해 주세요!");
-                        $('#accountUserId').val(null).focus();
+                if (isEmpty(accountUserId)) {
+                    $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#alertMsg').html("아이디를 입력해 주세요!");
+                    // alert("아이디를 입력해 주세요!");
+                    inputId.val(null).focus();
 
-                        return false;
-                    }
+                    return false;
+                }
 
-                    if (isEmpty(accountPassword)) {
-                        $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
-                        $('#alertMsg').html("패스워드를 입력해 주세요!");
-                        // alert("패스워드를 입력해 주세요!");
-                        $('#accountPassword').val(null).focus();
-                        return false;
-                    }
+                if (isEmpty(accountPassword)) {
+                    $('.alert').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#alertMsg').html("패스워드를 입력해 주세요!");
+                    // alert("패스워드를 입력해 주세요!");
+                    inputPw.val(null).focus();
+                    return false;
+                }
+            });
 
-                });
+            // 로그인 후 실패 에러
+            let errorMsg = '<c:out value="${requestScope.loginFailMsg}"/>';
+            let getFlag = '<c:out value="${requestScope.flag}"/>';
 
-                /* spring security 적용 전 */
-                // // 로그인 페이지에서 아이디 입력 후 엔터키 이벤트
-                // $inputId.keypress(function (keyNum) {
-                //     if (keyNum.which === 13) {
-                //         $inputPw.focus(); // 패스워드 input으로
-                //     }
-                // });
-
-                // 로그인 페이지에서 패스워드 입력 후 엔터키 이벤트
-                // $inputPw.keypress(function (keyNum) {
-                //     if (keyNum.which === 13) {
-                //         $login_btn.click();
-                //     }
-                // });
-                /* //spring security 적용 전 */
+            if (getFlag === "Y") {
+                $('.errorAlert').fadeIn(400).delay(2000).fadeOut(400);
+                $('#showError').html(errorMsg);
             }
-        );
+
+        });
 
         // 값 체크
         let isEmpty = function (value) {
@@ -110,15 +115,13 @@
             <div class="alert alert-danger text-center" role="alert">
                 <span id="alertMsg"></span>
             </div>
-            <c:if test="${requestScope.loginFailMsg != null}">
-                <span><c:out value="${requestScope.loginFailMsg}"/></span>
-            </c:if>
             <%-- //유효성 검사 토스트 창 --%>
 
-            <%--            <div class="alert-danger text-center" role="alert">--%>
-
-            <%--            </div>--%>
-
+            <%-- 로그인 후 실패 에러 창 --%>
+            <div class="errorAlert alert-danger text-center">
+                <span id="showError"></span>
+            </div>
+            <%-- //로그인 후 실패 에러 창 --%>
 
             <div class="row navbar navbar-light" style="padding-top: 80px">
                 <a class="col navbar-brand" href="/">
@@ -130,7 +133,7 @@
 
         </div>
         <%--        <form id="form">  &lt;%&ndash;security 적용 전&ndash;%&gt;--%>
-        <form id="form" action="/nAccount/loginProc" method="POST">
+        <form id="loginForm" action="<c:url value="/nAccount/login"/>" method="POST">
             <div class="row justify-content-center">
                 <div class="list-group row">
                     <div class="col">

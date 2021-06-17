@@ -96,21 +96,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticated() // 인증된 사용자만 접근 가능
             .and()
             .formLogin()
-                .loginProcessingUrl("/nAccount/loginProc") // <form action> 일 경우 사용
+//                .loginProcessingUrl("/nAccount/login") // <form action> 일 경우 사용
                 .loginPage("/nAccount/login").permitAll() // 로그인이 수행 될 페이지
                 .defaultSuccessUrl("/home") // 로그인 성공 시 이동 페이지
-//                .failureUrl("login?error").permitAll() // 로그인 실패 시 보여주는 화면
+                .failureUrl("/nAccount/login?error=true") // 로그인 실패 시 보여주는 화면
+                //                .successHandler()
                 .failureHandler(authenticationFailureHandler())
                 .usernameParameter("accountUserId")
                 .passwordParameter("accountPassword")
-//                .successHandler()
             .and()
             .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/nAccount/login")
-                .invalidateHttpSession(true);
-//            .and()
-//            .exceptionHandling().accessDeniedPage("");
+                .invalidateHttpSession(true)
+            .and()
+            .exceptionHandling()
+                .accessDeniedPage("/access-denied");
 
     }
 
