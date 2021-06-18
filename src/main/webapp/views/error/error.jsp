@@ -41,9 +41,9 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <h1 class="display-2 text-danger"><c:out value="${errorCode}"/> Error Occurred! </h1>
-        <h5 class="text-light mb-5"><c:out value="${errorMessage}"/>&nbsp;An error has occurred. Please contact th
-            administrator</h5>
+        <h1 class="display-2 text-danger"><c:out value="${errorCode}"/>&nbsp;<c:out value="${errorMessage}"/></h1>
+        <h3 class="display-2 text-danger">&nbsp;Error Occurred!</h3>
+        <h5 class="text-light mb-5">잘못된 접근입니다. 관리자에게 문의하세요.</h5>
         <button id="error-back" class="btn btn-lg btn-info mb-5">Back</button>
     </div>
 </div>

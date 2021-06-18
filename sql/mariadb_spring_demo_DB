@@ -57,12 +57,13 @@ CREATE TABLE IF NOT EXISTS `bbs_attach` (
   CONSTRAINT `FK_bbs_board_TO_bbs_attach` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='파일2';
 
--- 테이블 데이터 spring_demo.bbs_attach:~9 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_attach:~10 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_attach` DISABLE KEYS */;
 INSERT IGNORE INTO `bbs_attach` (`uuid`, `uploadPath`, `fileName`, `filetype`, `boardId`) VALUES
 	('0676c8a4-16c5-4497-90f3-ac6dedb5e3d1', '2021\\06\\10', 'welcome.png', '1', 198),
 	('22b5d83e-0e3c-4bd1-bae0-c6642c0df4e3', '2020\\08\\03', 'img3.jpeg', '1', 182),
 	('3a0b8c85-9cd7-4777-95af-bc3d7bf11dd7', '2020\\08\\03', 'img2.jpg', '1', 182),
+	('4976de0d-f834-4eec-ba1e-f425ca3b909b', '2021\\06\\16', 'spring_icon.png', '1', 200),
 	('5d1969ef-026f-40b3-9ff7-aa05cef4879e', '2020\\08\\03', 'test-excel.xlsx', '0', 180),
 	('70d11893-04b6-47f0-b991-b0a53867f406', '2021\\05\\18', 'mariadb_test_export_20200827.txt', '0', 188),
 	('7447a07b-2794-463f-abba-824259d22925', '2020\\08\\03', 'test2.xlsx', '0', 183),
@@ -87,9 +88,9 @@ CREATE TABLE IF NOT EXISTS `bbs_board` (
   PRIMARY KEY (`boardId`),
   KEY `FK_bbs_account_TO_bbs_board` (`accountId`),
   CONSTRAINT `FK_bbs_board_bbs_new_account` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=utf8mb4 COMMENT='게시판';
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COMMENT='게시판';
 
--- 테이블 데이터 spring_demo.bbs_board:~50 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_board:~51 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_board` DISABLE KEYS */;
 INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `writer`, `viewCnt`, `replyCnt`, `boardDatetime`, `boardUpDatetime`, `boardType`) VALUES
 	(140, 2, '게시판 테스트1', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
@@ -127,7 +128,7 @@ INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `wri
 	(172, 2, '게시판 테스트33', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
 	(173, 2, '게시판 테스트34', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
 	(174, 2, '게시판 테스트35', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
-	(175, 2, '게시판 테스트36', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
+	(175, 2, '게시판 테스트36', '게시판 테스트 입니다', 'test', 1, 1, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
 	(176, 2, '게시판 테스트37', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
 	(177, 2, '게시판 테스트38', '게시판 테스트 입니다', 'test', 1, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
 	(178, 2, '게시판 테스트39', '게시판 테스트 입니다', 'test', 0, 0, '2020-08-03 23:19:14', '2020-08-03 23:19:14', 'Q'),
@@ -139,9 +140,10 @@ INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `wri
 	(185, 1, 'ㅇㅇㅇㅇ', 'ㅇㅇㅇㅇ', 'admin', 2, 0, '2020-08-04 00:20:28', '2020-08-04 00:20:28', 'N'),
 	(186, 1, 'ㄴㅇㄴㅇ', 'ㄴㅇㄴㅇㄴㅇㄴㅇ', 'admin', 5, 0, '2020-08-04 00:20:36', '2020-08-04 00:20:36', 'N'),
 	(187, 4, 'test', 'test', 'qwe', 8, 2, '2020-08-04 00:45:13', '2020-08-04 00:45:13', 'Q'),
-	(188, 1, '5월 공지사항ㅇㅇㅇㅇㅇㅇ 수정', 'ㅎㅇㅎㅇㅎㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ수정', 'admin', 24, 1, '2021-05-18 10:25:59', '2021-05-18 10:28:41', 'N'),
+	(188, 1, '5월 공지사항ㅇㅇㅇㅇㅇㅇ 수정', 'ㅎㅇㅎㅇㅎㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ수정', 'admin', 26, 1, '2021-05-18 10:25:59', '2021-05-18 10:28:41', 'N'),
 	(197, 182, 'test120', '설문조사는 어떻게 해요?', '테스트120', 1, 0, '2021-06-10 13:28:10', '2021-06-10 13:31:51', 'Q'),
-	(198, 182, '파일 업로드 테스트 0610 -> 수정', '파일 업로드 테스트 중 입니다. 0610 -> 수정', '테스트120', 6, 1, '2021-06-10 13:50:18', '2021-06-10 15:09:08', 'Q');
+	(198, 182, '파일 업로드 테스트 0610 -> 수정', '파일 업로드 테스트 중 입니다. 0610 -> 수정', '테스트120', 10, 1, '2021-06-10 13:50:18', '2021-06-10 15:09:08', 'Q'),
+	(200, 1, '테스트', '테스트', '관리자', 1, 0, '2021-06-16 11:05:24', '2021-06-16 11:05:24', 'N');
 /*!40000 ALTER TABLE `bbs_board` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_file 구조 내보내기
@@ -169,142 +171,148 @@ DROP TABLE IF EXISTS `bbs_new_account`;
 CREATE TABLE IF NOT EXISTS `bbs_new_account` (
   `accountId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '계정ID',
   `accountUserId` varchar(80) NOT NULL COMMENT '사용자 아이디',
+  `accountPassword` varchar(225) NOT NULL COMMENT '사용자 패스워드',
   `accountUserNm` varchar(45) NOT NULL COMMENT '사용자 이름',
   `accountEmail` varchar(80) NOT NULL COMMENT '사용자 이메일',
-  `accountPassword` varchar(225) NOT NULL COMMENT '사용자 패스워드',
   `devCheck` varchar(5) NOT NULL COMMENT '개발자구분 - 예비(P), 경력(C)',
-  `active` int(11) NOT NULL DEFAULT 0 COMMENT '계정 활성여부',
-  `role` varchar(45) NOT NULL DEFAULT 'ROLE_USER' COMMENT '인가 구분',
+  `active` tinyint(1) unsigned NOT NULL COMMENT '계정 활성여부 - 1(true), 0(false)',
+  `roles` varchar(45) NOT NULL COMMENT '인가 구분',
+  `permissions` varchar(50) DEFAULT NULL COMMENT 'URL 접근권한',
   `createDt` datetime NOT NULL DEFAULT current_timestamp() COMMENT '사용자 가입날짜',
   `updateDt` datetime NOT NULL DEFAULT current_timestamp() COMMENT '사용자 정보 수정 날짜',
+  `delYn` varchar(10) NOT NULL DEFAULT 'N' COMMENT '계정 삭제 여부',
   PRIMARY KEY (`accountId`),
   UNIQUE KEY `UQ_bbs_new_account_1` (`accountUserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
+) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
 
--- 테이블 데이터 spring_demo.bbs_new_account:~121 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_new_account:~124 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_new_account` DISABLE KEYS */;
-INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountUserNm`, `accountEmail`, `accountPassword`, `devCheck`, `active`, `role`, `createDt`, `updateDt`) VALUES
-	(1, 'admin', 'admin', 'admin@gmail.com', '$2a$10$uSMafkOzK8ZqtPQDqFmhYejmCwqhHX7i3lwnWcZXfEmUaNAjuKON6', 'P', 1, 'USER', '2021-05-27 16:39:25', '2021-05-27 16:39:25'),
-	(2, 'test', 'test', 'test@mail.com', '1234', 'P', 1, 'USER', '2021-05-27 16:50:55', '2021-05-27 16:50:55'),
-	(3, 'test2', '테스트', 'test2', '1234', 'C', 1, 'USER', '2021-05-27 17:01:00', '2021-05-27 17:01:00'),
-	(4, 'test01', 'accountUserNm 01', 'accountEmail 01', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(5, 'test02', 'accountUserNm 02', 'accountEmail 02', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(6, 'test03', 'accountUserNm 03', 'accountEmail 03', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(7, 'test04', 'accountUserNm 04', 'accountEmail 04', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(8, 'test05', 'accountUserNm 05', 'accountEmail 05', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(9, 'test06', 'accountUserNm 06', 'accountEmail 06', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(10, 'test07', 'accountUserNm 07', 'accountEmail 07', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(11, 'test08', 'accountUserNm 08', 'accountEmail 08', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(12, 'test09', 'accountUserNm 09', 'accountEmail 09', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(13, 'test10', 'accountUserNm 10', 'accountEmail 10', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(14, 'test11', 'accountUserNm 11', 'accountEmail 11', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(15, 'test12', 'accountUserNm 12', 'accountEmail 12', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(16, 'test13', 'accountUserNm 13', 'accountEmail 13', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(17, 'test14', 'accountUserNm 14', 'accountEmail 14', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(18, 'test15', 'accountUserNm 15', 'accountEmail 15', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(19, 'test16', 'accountUserNm 16', 'accountEmail 16', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(20, 'test17', 'accountUserNm 17', 'accountEmail 17', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(21, 'test18', 'accountUserNm 18', 'accountEmail 18', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(22, 'test19', 'accountUserNm 19', 'accountEmail 19', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(23, 'test20', 'accountUserNm 20', 'accountEmail 20', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(24, 'test21', 'accountUserNm 21', 'accountEmail 21', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(25, 'test22', 'accountUserNm 22', 'accountEmail 22', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(26, 'test23', 'accountUserNm 23', 'accountEmail 23', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(27, 'test24', 'accountUserNm 24', 'accountEmail 24', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(28, 'test25', 'accountUserNm 25', 'accountEmail 25', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(29, 'test26', 'accountUserNm 26', 'accountEmail 26', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(30, 'test27', 'accountUserNm 27', 'accountEmail 27', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(31, 'test28', 'accountUserNm 28', 'accountEmail 28', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(32, 'test29', 'accountUserNm 29', 'accountEmail 29', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(33, 'test30', 'accountUserNm 30', 'accountEmail 30', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(34, 'test31', 'accountUserNm 31', 'accountEmail 31', '1234', 'C', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(35, 'test32', 'accountUserNm 32', 'accountEmail 32', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(36, 'test33', 'accountUserNm 33', 'accountEmail 33', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(37, 'test34', 'accountUserNm 34', 'accountEmail 34', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(38, 'test35', 'accountUserNm 35', 'accountEmail 35', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(39, 'test36', 'accountUserNm 36', 'accountEmail 36', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(40, 'test37', 'accountUserNm 37', 'accountEmail 37', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(41, 'test38', 'accountUserNm 38', 'accountEmail 38', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(42, 'test39', 'accountUserNm 39', 'accountEmail 39', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(43, 'test40', 'accountUserNm 40', 'accountEmail 40', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(44, 'test41', 'accountUserNm 41', 'accountEmail 41', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(45, 'test42', 'accountUserNm 42', 'accountEmail 42', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(46, 'test43', 'accountUserNm 43', 'accountEmail 43', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(47, 'test44', 'accountUserNm 44', 'accountEmail 44', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(48, 'test45', 'accountUserNm 45', 'accountEmail 45', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(49, 'test46', 'accountUserNm 46', 'accountEmail 46', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(50, 'test47', 'accountUserNm 47', 'accountEmail 47', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(51, 'test48', 'accountUserNm 48', 'accountEmail 48', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(52, 'test49', 'accountUserNm 49', 'accountEmail 49', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(53, 'test50', 'accountUserNm 50', 'accountEmail 50', '1234', 'P', 1, 'USER', '2021-06-01 09:31:56', '2021-06-01 09:31:56'),
-	(54, 'test54', 'accountUserNm54', 'accountEmail01', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(55, 'test55', 'accountUserNm55', 'accountEmail02', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(56, 'test56', 'accountUserNm56', 'accountEmail03', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(57, 'test57', 'accountUserNm57', 'accountEmail04', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(58, 'test58', 'accountUserNm58', 'accountEmail05', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(59, 'test59', 'accountUserNm59', 'accountEmail06', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(60, 'test60', 'accountUserNm60', 'accountEmail07', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(61, 'test61', 'accountUserNm61', 'accountEmail08', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(62, 'test62', 'accountUserNm62', 'accountEmail09', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(63, 'test63', 'accountUserNm63', 'accountEmail10', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(64, 'test64', 'accountUserNm64', 'accountEmail11', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(65, 'test65', 'accountUserNm65', 'accountEmail12', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(66, 'test66', 'accountUserNm66', 'accountEmail13', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(67, 'test67', 'accountUserNm67', 'accountEmail14', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(68, 'test68', 'accountUserNm68', 'accountEmail15', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(69, 'test69', 'accountUserNm69', 'accountEmail16', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(70, 'test70', 'accountUserNm70', 'accountEmail17', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(71, 'test71', 'accountUserNm71', 'accountEmail18', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(72, 'test72', 'accountUserNm72', 'accountEmail19', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(73, 'test73', 'accountUserNm73', 'accountEmail20', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(74, 'test74', 'accountUserNm74', 'accountEmail21', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(75, 'test75', 'accountUserNm75', 'accountEmail22', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(76, 'test76', 'accountUserNm76', 'accountEmail23', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(77, 'test77', 'accountUserNm77', 'accountEmail24', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(78, 'test78', 'accountUserNm78', 'accountEmail25', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(79, 'test79', 'accountUserNm79', 'accountEmail26', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(80, 'test80', 'accountUserNm80', 'accountEmail27', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(81, 'test81', 'accountUserNm81', 'accountEmail28', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(82, 'test82', 'accountUserNm82', 'accountEmail29', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(83, 'test83', 'accountUserNm83', 'accountEmail30', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(84, 'test84', 'accountUserNm84', 'accountEmail31', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(85, 'test85', 'accountUserNm85', 'accountEmail32', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(86, 'test86', 'accountUserNm86', 'accountEmail33', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(87, 'test87', 'accountUserNm87', 'accountEmail34', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(88, 'test88', 'accountUserNm88', 'accountEmail35', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(89, 'test89', 'accountUserNm89', 'accountEmail36', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(90, 'test90', 'accountUserNm90', 'accountEmail37', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(91, 'test91', 'accountUserNm91', 'accountEmail38', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(92, 'test92', 'accountUserNm92', 'accountEmail39', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(93, 'test93', 'accountUserNm93', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(94, 'test94', 'accountUserNm94', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(95, 'test95', 'accountUserNm95', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(96, 'test96', 'accountUserNm96', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(97, 'test97', 'accountUserNm97', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(98, 'test98', 'accountUserNm98', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(99, 'test99', 'accountUserNm99', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(100, 'test100', 'accountUserNm100', 'accountEmail40', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(101, 'test101', 'accountUserNm101', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(102, 'test102', 'accountUserNm102', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(103, 'test103', 'accountUserNm103', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(104, 'test104', 'accountUserNm104', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(105, 'test105', 'accountUserNm105', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(106, 'test106', 'accountUserNm106', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(107, 'test107', 'accountUserNm107', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(108, 'test108', 'accountUserNm108', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(109, 'test109', 'accountUserNm109', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(110, 'test110', 'accountUserNm110', 'accountEmail100', '1234', 'P', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(111, 'test111', 'accountUserNm111', 'accountEmail110', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(112, 'test112', 'accountUserNm112', 'accountEmail110', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(113, 'test113', 'accountUserNm113', 'accountEmail110', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(114, 'test114', 'accountUserNm114', 'accountEmail110', '1234', 'C', 1, 'USER', '2021-06-07 09:12:45', '2021-06-07 09:12:45'),
-	(176, 'test123', 'test123', '222@nate.com', '$2a$10$cdoW.s6qturPLGJeFJGTWupap.woqh5gpQyJq31sKMv2SYnzdIpOu', 'C', 1, 'USER', '2021-06-07 10:15:16', '2021-06-07 10:15:16'),
-	(177, 'test115', '테스트', 'test115@naver.com', '$2a$10$ioYYKzqn8xEsITzOA.7Qc.7FMTbC7ef7bnCPWn/dDl5L7bzw3BQTm', 'C', 1, 'USER', '2021-06-07 10:59:56', '2021-06-07 10:59:56'),
-	(178, 'test116', '테스트116', 'test116@aaa.com', '$2a$10$Q6gwMzg5J13A5dJIccEGzuLj5tuNsqh0uypzRJBAp9.ZjegijWuGC', 'C', 1, 'USER', '2021-06-08 16:18:59', '2021-06-08 16:18:59'),
-	(179, 'test117', '테스트117', 'test117@naver.com', '$2a$10$hqdlCCrQIhgXsVsFgvqm/ezmwYAmq/7zgI2XAJzS/YvP.7xgVM.vG', 'P', 1, 'USER', '2021-06-08 17:43:21', '2021-06-08 17:43:21'),
-	(180, 'test118', '테스트118', 'test118@naver.com', '$2a$10$RGIaIJTlDKN/jGPRxvrVpeYdNyHRYnsOF2tP8YkEJnB4Kpnohzyk6', 'P', 1, 'USER', '2021-06-09 09:17:30', '2021-06-09 09:17:30'),
-	(181, 'test119', '테스트119', 'test119@naver.com', '$2a$10$sI93CgFUJXbSx0CGvZAx3efPZv8A3.TculAO8y57ooB0nrQQDDnU2', 'P', 1, 'USER', '2021-06-09 09:23:12', '2021-06-09 09:23:12'),
-	(182, 'test120', '테스트120', 'test120@naver.com', '$2a$10$uSMafkOzK8ZqtPQDqFmhYejmCwqhHX7i3lwnWcZXfEmUaNAjuKON6', 'C', 1, 'USER', '2021-06-09 09:25:02', '2021-06-09 09:25:02');
+INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountPassword`, `accountUserNm`, `accountEmail`, `devCheck`, `active`, `roles`, `permissions`, `createDt`, `updateDt`, `delYn`) VALUES
+	(1, 'admin', '$2a$10$uSMafkOzK8ZqtPQDqFmhYejmCwqhHX7i3lwnWcZXfEmUaNAjuKON6', '관리자', 'admin@gmail.com', 'A', 1, 'ADMIN', NULL, '2021-05-27 16:39:25', '2021-05-27 16:39:25', 'N'),
+	(2, 'test', '1234', 'test', 'test@mail.com', 'P', 1, 'USER', NULL, '2021-05-27 16:50:55', '2021-05-27 16:50:55', 'N'),
+	(3, 'test2', '1234', '테스트', 'test2', 'C', 1, 'USER', NULL, '2021-05-27 17:01:00', '2021-05-27 17:01:00', 'N'),
+	(4, 'test01', '1234', 'accountUserNm 01', 'accountEmail 01', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(5, 'test02', '1234', 'accountUserNm 02', 'accountEmail 02', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(6, 'test03', '1234', 'accountUserNm 03', 'accountEmail 03', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(7, 'test04', '1234', 'accountUserNm 04', 'accountEmail 04', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(8, 'test05', '1234', 'accountUserNm 05', 'accountEmail 05', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(9, 'test06', '1234', 'accountUserNm 06', 'accountEmail 06', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(10, 'test07', '1234', 'accountUserNm 07', 'accountEmail 07', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(11, 'test08', '1234', 'accountUserNm 08', 'accountEmail 08', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(12, 'test09', '1234', 'accountUserNm 09', 'accountEmail 09', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(13, 'test10', '1234', 'accountUserNm 10', 'accountEmail 10', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(14, 'test11', '1234', 'accountUserNm 11', 'accountEmail 11', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(15, 'test12', '1234', 'accountUserNm 12', 'accountEmail 12', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(16, 'test13', '1234', 'accountUserNm 13', 'accountEmail 13', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(17, 'test14', '1234', 'accountUserNm 14', 'accountEmail 14', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(18, 'test15', '1234', 'accountUserNm 15', 'accountEmail 15', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(19, 'test16', '1234', 'accountUserNm 16', 'accountEmail 16', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(20, 'test17', '1234', 'accountUserNm 17', 'accountEmail 17', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(21, 'test18', '1234', 'accountUserNm 18', 'accountEmail 18', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(22, 'test19', '1234', 'accountUserNm 19', 'accountEmail 19', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(23, 'test20', '1234', 'accountUserNm 20', 'accountEmail 20', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(24, 'test21', '1234', 'accountUserNm 21', 'accountEmail 21', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(25, 'test22', '1234', 'accountUserNm 22', 'accountEmail 22', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(26, 'test23', '1234', 'accountUserNm 23', 'accountEmail 23', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(27, 'test24', '1234', 'accountUserNm 24', 'accountEmail 24', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(28, 'test25', '1234', 'accountUserNm 25', 'accountEmail 25', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(29, 'test26', '1234', 'accountUserNm 26', 'accountEmail 26', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(30, 'test27', '1234', 'accountUserNm 27', 'accountEmail 27', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(31, 'test28', '1234', 'accountUserNm 28', 'accountEmail 28', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(32, 'test29', '1234', 'accountUserNm 29', 'accountEmail 29', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(33, 'test30', '1234', 'accountUserNm 30', 'accountEmail 30', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(34, 'test31', '1234', 'accountUserNm 31', 'accountEmail 31', 'C', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(35, 'test32', '1234', 'accountUserNm 32', 'accountEmail 32', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(36, 'test33', '1234', 'accountUserNm 33', 'accountEmail 33', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(37, 'test34', '1234', 'accountUserNm 34', 'accountEmail 34', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(38, 'test35', '1234', 'accountUserNm 35', 'accountEmail 35', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(39, 'test36', '1234', 'accountUserNm 36', 'accountEmail 36', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(40, 'test37', '1234', 'accountUserNm 37', 'accountEmail 37', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(41, 'test38', '1234', 'accountUserNm 38', 'accountEmail 38', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(42, 'test39', '1234', 'accountUserNm 39', 'accountEmail 39', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(43, 'test40', '1234', 'accountUserNm 40', 'accountEmail 40', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(44, 'test41', '1234', 'accountUserNm 41', 'accountEmail 41', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(45, 'test42', '1234', 'accountUserNm 42', 'accountEmail 42', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(46, 'test43', '1234', 'accountUserNm 43', 'accountEmail 43', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(47, 'test44', '1234', 'accountUserNm 44', 'accountEmail 44', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(48, 'test45', '1234', 'accountUserNm 45', 'accountEmail 45', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(49, 'test46', '1234', 'accountUserNm 46', 'accountEmail 46', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(50, 'test47', '1234', 'accountUserNm 47', 'accountEmail 47', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(51, 'test48', '1234', 'accountUserNm 48', 'accountEmail 48', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(52, 'test49', '1234', 'accountUserNm 49', 'accountEmail 49', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(53, 'test50', '1234', 'accountUserNm 50', 'accountEmail 50', 'P', 1, 'USER', NULL, '2021-06-01 09:31:56', '2021-06-01 09:31:56', 'N'),
+	(54, 'test54', '1234', 'accountUserNm54', 'accountEmail01', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(55, 'test55', '1234', 'accountUserNm55', 'accountEmail02', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(56, 'test56', '1234', 'accountUserNm56', 'accountEmail03', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(57, 'test57', '1234', 'accountUserNm57', 'accountEmail04', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(58, 'test58', '1234', 'accountUserNm58', 'accountEmail05', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(59, 'test59', '1234', 'accountUserNm59', 'accountEmail06', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(60, 'test60', '1234', 'accountUserNm60', 'accountEmail07', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(61, 'test61', '1234', 'accountUserNm61', 'accountEmail08', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(62, 'test62', '1234', 'accountUserNm62', 'accountEmail09', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(63, 'test63', '1234', 'accountUserNm63', 'accountEmail10', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(64, 'test64', '1234', 'accountUserNm64', 'accountEmail11', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(65, 'test65', '1234', 'accountUserNm65', 'accountEmail12', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(66, 'test66', '1234', 'accountUserNm66', 'accountEmail13', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(67, 'test67', '1234', 'accountUserNm67', 'accountEmail14', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(68, 'test68', '1234', 'accountUserNm68', 'accountEmail15', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(69, 'test69', '1234', 'accountUserNm69', 'accountEmail16', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(70, 'test70', '1234', 'accountUserNm70', 'accountEmail17', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(71, 'test71', '1234', 'accountUserNm71', 'accountEmail18', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(72, 'test72', '1234', 'accountUserNm72', 'accountEmail19', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(73, 'test73', '1234', 'accountUserNm73', 'accountEmail20', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(74, 'test74', '1234', 'accountUserNm74', 'accountEmail21', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(75, 'test75', '1234', 'accountUserNm75', 'accountEmail22', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(76, 'test76', '1234', 'accountUserNm76', 'accountEmail23', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(77, 'test77', '1234', 'accountUserNm77', 'accountEmail24', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(78, 'test78', '1234', 'accountUserNm78', 'accountEmail25', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(79, 'test79', '1234', 'accountUserNm79', 'accountEmail26', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(80, 'test80', '1234', 'accountUserNm80', 'accountEmail27', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(81, 'test81', '1234', 'accountUserNm81', 'accountEmail28', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(82, 'test82', '1234', 'accountUserNm82', 'accountEmail29', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(83, 'test83', '1234', 'accountUserNm83', 'accountEmail30', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(84, 'test84', '1234', 'accountUserNm84', 'accountEmail31', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(85, 'test85', '1234', 'accountUserNm85', 'accountEmail32', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(86, 'test86', '1234', 'accountUserNm86', 'accountEmail33', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(87, 'test87', '1234', 'accountUserNm87', 'accountEmail34', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(88, 'test88', '1234', 'accountUserNm88', 'accountEmail35', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(89, 'test89', '1234', 'accountUserNm89', 'accountEmail36', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(90, 'test90', '1234', 'accountUserNm90', 'accountEmail37', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(91, 'test91', '1234', 'accountUserNm91', 'accountEmail38', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(92, 'test92', '1234', 'accountUserNm92', 'accountEmail39', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(93, 'test93', '1234', 'accountUserNm93', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(94, 'test94', '1234', 'accountUserNm94', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(95, 'test95', '1234', 'accountUserNm95', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(96, 'test96', '1234', 'accountUserNm96', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(97, 'test97', '1234', 'accountUserNm97', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(98, 'test98', '1234', 'accountUserNm98', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(99, 'test99', '1234', 'accountUserNm99', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(100, 'test100', '1234', 'accountUserNm100', 'accountEmail40', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(101, 'test101', '1234', 'accountUserNm101', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(102, 'test102', '1234', 'accountUserNm102', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(103, 'test103', '1234', 'accountUserNm103', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(104, 'test104', '1234', 'accountUserNm104', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(105, 'test105', '1234', 'accountUserNm105', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(106, 'test106', '1234', 'accountUserNm106', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(107, 'test107', '1234', 'accountUserNm107', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(108, 'test108', '1234', 'accountUserNm108', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(109, 'test109', '1234', 'accountUserNm109', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(110, 'test110', '1234', 'accountUserNm110', 'accountEmail100', 'P', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(111, 'test111', '1234', 'accountUserNm111', 'accountEmail110', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(112, 'test112', '1234', 'accountUserNm112', 'accountEmail110', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(113, 'test113', '1234', 'accountUserNm113', 'accountEmail110', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(114, 'test114', '1234', 'accountUserNm114', 'accountEmail110', 'C', 1, 'USER', NULL, '2021-06-07 09:12:45', '2021-06-07 09:12:45', 'N'),
+	(176, 'test123', '$2a$10$cdoW.s6qturPLGJeFJGTWupap.woqh5gpQyJq31sKMv2SYnzdIpOu', 'test123', '222@nate.com', 'C', 1, 'USER', NULL, '2021-06-07 10:15:16', '2021-06-07 10:15:16', 'N'),
+	(177, 'test115', '$2a$10$ioYYKzqn8xEsITzOA.7Qc.7FMTbC7ef7bnCPWn/dDl5L7bzw3BQTm', '테스트', 'test115@naver.com', 'C', 1, 'USER', NULL, '2021-06-07 10:59:56', '2021-06-07 10:59:56', 'N'),
+	(178, 'test116', '$2a$10$Q6gwMzg5J13A5dJIccEGzuLj5tuNsqh0uypzRJBAp9.ZjegijWuGC', '테스트116', 'test116@aaa.com', 'C', 1, 'USER', NULL, '2021-06-08 16:18:59', '2021-06-08 16:18:59', 'N'),
+	(179, 'test117', '$2a$10$hqdlCCrQIhgXsVsFgvqm/ezmwYAmq/7zgI2XAJzS/YvP.7xgVM.vG', '테스트117', 'test117@naver.com', 'P', 1, 'USER', NULL, '2021-06-08 17:43:21', '2021-06-08 17:43:21', 'N'),
+	(180, 'test118', '$2a$10$RGIaIJTlDKN/jGPRxvrVpeYdNyHRYnsOF2tP8YkEJnB4Kpnohzyk6', '테스트118', 'test118@naver.com', 'P', 1, 'USER', NULL, '2021-06-09 09:17:30', '2021-06-09 09:17:30', 'N'),
+	(181, 'test119', '$2a$10$sI93CgFUJXbSx0CGvZAx3efPZv8A3.TculAO8y57ooB0nrQQDDnU2', '테스트119', 'test119@naver.com', 'P', 1, 'USER', NULL, '2021-06-09 09:23:12', '2021-06-09 09:23:12', 'N'),
+	(182, 'test120', '$2a$10$uSMafkOzK8ZqtPQDqFmhYejmCwqhHX7i3lwnWcZXfEmUaNAjuKON6', '테스트120', 'test120@naver.com', 'C', 1, 'USER', NULL, '2021-06-09 09:25:02', '2021-06-09 09:25:02', 'N'),
+	(183, 'user1', '$2a$10$hTg1WiRTVp1MFyynRpEIYOUtah5Mm4PNfctYMMMGJljY6AMlRiD1S', '유저1', 'user1@naver.com', 'C', 1, 'USER', '', '2021-06-15 15:25:12', '2021-06-15 15:25:12', 'N'),
+	(185, 'nakjun637', '$2a$10$yhTyEroSlV63AqH.oYh5Se4bhKsZMVDmmCWDsgVGAs99ZpCcE46tW', '성낙준', 'tjdskrwns123@naver.com', 'C', 1, 'USER', '', '2021-06-16 10:25:24', '2021-06-16 10:25:24', 'N'),
+	(186, 'user2', '$2a$10$vPuUcL9dSq/U8FDTRtPkoeCDTTx5uN4m5mzSzu2ck1Pc4TkpbqY6a', '유저2', 'user2@naver.com', 'P', 0, 'USER', '', '2021-06-16 11:09:15', '2021-06-16 11:09:15', 'N'),
+	(193, 'user4', '$2a$10$HYtXeEz3dSBntlHxUc52Ve2kythawf3LQp78BdJmGyt9ewDd4OyJa', '유저사', 'user4@naver.com', 'C', 1, 'USER', '', '2021-06-18 15:06:04', '2021-06-18 15:06:04', 'N');
 /*!40000 ALTER TABLE `bbs_new_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_reply 구조 내보내기
@@ -321,15 +329,17 @@ CREATE TABLE IF NOT EXISTS `bbs_reply` (
   KEY `boardId` (`boardId`),
   CONSTRAINT `FK_bbs_reply_bbs_new_account` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`) ON DELETE CASCADE,
   CONSTRAINT `boardId` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='게시판댓글';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COMMENT='게시판댓글';
 
--- 테이블 데이터 spring_demo.bbs_reply:~3 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_reply:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_reply` DISABLE KEYS */;
 INSERT IGNORE INTO `bbs_reply` (`replyId`, `accountId`, `boardId`, `replyWriter`, `replyContent`, `replyDatetime`) VALUES
 	(26, 1, 187, 'admin', '수정이 된다0518', '2020-08-04 01:14:14'),
 	(28, 4, 187, 'qwe', 'dfdfdf', '2020-08-04 01:14:41'),
 	(31, 1, 188, 'admin', 'ㅀㅀㄹ수정이 되는군요', '2021-05-18 10:32:27'),
-	(38, 182, 198, '테스트120', '댓글 0610 작성 -> 수정', '2021-06-10 16:07:37');
+	(38, 182, 198, '테스트120', '댓글 0610 작성 -> 수정', '2021-06-10 16:07:37'),
+	(39, 183, 198, '유저1', '댓글 0616 작성 -> 수정', '2021-06-16 10:48:00'),
+	(41, 183, 175, '유저1', '댓글 작성 0616', '2021-06-16 10:49:08');
 /*!40000 ALTER TABLE `bbs_reply` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_survey 구조 내보내기
@@ -356,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `bbs_survey` (
   CONSTRAINT `FK_bbs_survey_accountId_bbs_new_account_accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COMMENT='설문';
 
--- 테이블 데이터 spring_demo.bbs_survey:~116 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_survey:~112 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_survey` DISABLE KEYS */;
 INSERT IGNORE INTO `bbs_survey` (`surveyId`, `majorItem`, `nonMajorStudyItem`, `ageItem`, `careerItem`, `IncomeItem`, `jobItem`, `useOSItem`, `useDBItem`, `useEditorItem`, `confidentLangItem`, `confidentLangItem2`, `learnLangItem`, `learnLangItem2`, `accountId`, `regDatetime`) VALUES
 	(1, 'NMAJ', 'ACA', 'AGE2', 'CAR3', 'INC4', NULL, 'ETC201', 'MAR', 'VSC', 'PYH', 'CPP', 'L_PYH', 'L_PHP', 2, '2021-05-31 17:14:49'),
@@ -572,11 +582,31 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 spring_demo.role:~1 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.role:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT IGNORE INTO `role` (`role_id`, `role`) VALUES
 	(1, 'USER');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
+
+-- 테이블 spring_demo.tbl_account 구조 내보내기
+DROP TABLE IF EXISTS `tbl_account`;
+CREATE TABLE IF NOT EXISTS `tbl_account` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'index',
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유저 아이디',
+  `password` varchar(225) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유저 패스워드',
+  `active` int(11) NOT NULL DEFAULT 0 COMMENT '유저 상태',
+  `roles` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유저 권한',
+  `permissions` varchar(225) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='시큐리티 테스트 계정 테이블';
+
+-- 테이블 데이터 spring_demo.tbl_account:~3 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `tbl_account` DISABLE KEYS */;
+INSERT IGNORE INTO `tbl_account` (`id`, `username`, `password`, `active`, `roles`, `permissions`) VALUES
+	(1, 'user', '$2a$10$wrY.azSPLPUTAkcEzBj0vOTrAAXF2rxNBCUynuxwt6xhDlwqk5QAu', 1, 'USER', ''),
+	(2, 'admin', '$2a$10$fTAHJGBKDOamJ3NyCsxAxuWdJSQ1zNuhmLrPJzDVTN9pbPlPckfvu', 1, 'ADMIN', 'ACCESS_TEST1,ACCESS_TEST2'),
+	(3, 'manager', '$2a$10$4Z/SEP7KRZj0QPNudP0Wvuta987HD3V1.E.BumV7UZnDHSCLv7YmC', 1, 'MANAGER', 'ACCESS_TEST1');
+/*!40000 ALTER TABLE `tbl_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.tbl_attach 구조 내보내기
 DROP TABLE IF EXISTS `tbl_attach`;
@@ -721,7 +751,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 spring_demo.user_role:~3 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.user_role:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
 INSERT IGNORE INTO `user_role` (`user_id`, `role_id`) VALUES
 	(3, 1),

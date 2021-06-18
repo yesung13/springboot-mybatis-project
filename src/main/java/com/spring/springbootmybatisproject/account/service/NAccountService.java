@@ -12,4 +12,7 @@ public interface NAccountService {
 
     /* 계정 로그인 */
 //    public abstract NAccountVO getAccount(NAccountVO nAccountVO);
+
+    /* 회원 탈퇴 */
+    void deleteAccountInfo(NAccountVO nAccountVO);
 }

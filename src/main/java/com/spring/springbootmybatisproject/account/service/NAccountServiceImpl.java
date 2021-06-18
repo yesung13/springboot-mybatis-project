@@ -84,4 +84,10 @@ public class NAccountServiceImpl implements NAccountService {
 //        return accountResult;
 //    }
 
+    /* 회원 탈퇴
+    * 탈퇴 시 delYn = N, active = false 로 update 해줘야함 */
+    @Override
+    public void deleteAccountInfo(NAccountVO nAccountVO) {
+        nAccountMapper.deleteByAccountUserId(nAccountVO);
+    }
 }

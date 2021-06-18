@@ -88,6 +88,9 @@ public class UserPrincipal implements UserDetails {
         return nAccountVO.getAccountUserNm();
     }
 
+    public String getAccountEmail() {
+        return nAccountVO.getAccountEmail();}
+
     public String getDevCheck() {
         return nAccountVO.getDevCheck();
     }

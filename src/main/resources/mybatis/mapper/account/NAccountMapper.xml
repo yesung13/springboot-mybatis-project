@@ -21,6 +21,7 @@
             VALUE (#{accountId}, #{accountUserId}, #{accountUserNm}, #{accountEmail}, #{accountPassword}, #{devCheck},
                    #{active}, #{roles}, #{permissions}, #{delYn});
     </insert>
+
     <!-- //회원가입 -->
 
     <!-- 회원 아이디 중복체크 -->
@@ -83,5 +84,10 @@
             <if test=" accountUserId != null and accountUserId != '' ">AND accountUserId = #{accountUserId}</if>
         </where>
     </select>
+
+    <!-- 회원 탈퇴 -->
+    <update id="deleteByAccountUserId" parameterType="NAccountVO">
+#         UPDATE bbs_new_account SET
+    </update>
 
 </mapper>

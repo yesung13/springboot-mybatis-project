@@ -27,7 +27,7 @@
                 </li>
                 <sec:authorize access="hasRole('ADMIN')">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/list">회원관리</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMain">관리자페이지</a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
@@ -47,7 +47,7 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('USER')">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">마이페이지</a>
+                        <a class="nav-link" href="<c:url value="/user/profile"/>">마이페이지</a>
                     </li>
                 </sec:authorize>
 

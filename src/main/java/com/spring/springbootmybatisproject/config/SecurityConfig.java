@@ -90,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/nAccount/**").permitAll()
                 .antMatchers("/home").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/board/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/survey/**").hasAnyRole("USER", "ADMIN")
 //                .anyRequest() // 위 지정한 URL 이외 모든 URL

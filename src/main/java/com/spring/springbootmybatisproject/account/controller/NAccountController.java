@@ -135,4 +135,18 @@ public class NAccountController {
 //        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 //        return "redirect:/nAccount/login";
 //    }
+
+    //회원 탈퇴
+    @PostMapping("/delAccountProc")
+    @ResponseBody
+    public ResultVO deleteAccount(NAccountVO nAccountVO){
+
+        if(nAccountVO.getAccountId() != null){
+            nAccountService.deleteAccountInfo(nAccountVO);
+        }
+
+        ResultVO result = new ResultVO();
+        return result;
+
+    }
 }
