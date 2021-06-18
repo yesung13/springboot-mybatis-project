@@ -31,7 +31,7 @@ public class CustomErrorController implements ErrorController {
         model.addAttribute("errorCode", "403");
         model.addAttribute("errorMessage", "Forbidden");
 
-        return "/error/error";
+        return getErrorPath() + "/error";
     }
 
     private String errorHandleImpl(HttpServletRequest request, Model model) {
@@ -42,7 +42,7 @@ public class CustomErrorController implements ErrorController {
         model.addAttribute("errorCode", status.toString());
         model.addAttribute("errorMessage", httpStatus.getReasonPhrase());
 
-        return "/error/error";
+        return getErrorPath() + "/error";
     }
 
 

@@ -81,67 +81,69 @@
         //  $(document).ready(function (){} 와 동일
         $(document).ready(function () {
             $('#signUp_btn').click(function () {
-                let inputUserId = $('input[name="accountUserId"]').val().replace(/ /g, '');
-                let inputUserNm = $('input[name="accountUserNm"]').val().replace(/ /g, '');
-                let inputPassword = $('input[name="accountPassword"]').val().replace(/ /g, '');
-                let inputEmail = $('input[name="accountEmail"]').val().replace(/ /g, '');
+                let inputUserId = $('input[name="accountUserId"]').val();
+                let inputPassword = $('input[name="accountPassword"]').val();
+                let inputUserNm = $('input[name="accountUserNm"]').val();
+                let inputEmail = $('input[name="accountEmail"]').val();
 
                 if (common.isEmpty(inputUserId)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#toast').fadeIn(1000).delay(2000).fadeOut(1000); //fade out after 1(1000) seconds
                     $('#alertMsg').html("아이디를 입력해 주세요!");
                     $('#accountUserId').val(null).focus();
                     return false;
                 }
-                if (common.isEmpty(inputUserNm)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
-                    $('#alertMsg').html("이름을 입력해 주세요!");
-                    $('#accountUserNm').val(null).focus();
-                    return false;
-                }
-                if (common.isEmpty(inputEmail)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
-                    $('#alertMsg').html("이메일을 입력해 주세요!");
-                    $('#accountEmail').val(null).focus();
-                    return false;
-                }
 
                 if (common.isEmpty(inputPassword)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#toast').fadeIn(1000).delay(2000).fadeOut(1000);
                     $('#alertMsg').html("패스워드를 입력해 주세요!");
                     $('#accountPassword').val(null).focus();
                     return false;
                 }
 
+                if (common.isEmpty(inputUserNm)) {
+                    $('#toast').fadeIn(1000).delay(2000).fadeOut(1000);
+                    $('#alertMsg').html("이름을 입력해 주세요!");
+                    $('#accountUserNm').val(null).focus();
+                    return false;
+                }
+                if (common.isEmpty(inputEmail)) {
+                    $('#toast').fadeIn(1000).delay(2000).fadeOut(1000);
+                    $('#alertMsg').html("이메일을 입력해 주세요!");
+                    $('#accountEmail').val(null).focus();
+                    return false;
+                }
+
                 if (!$('input:checked[name="devCheck"]').is(':checked')) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#toast').fadeIn(1000).delay(2000).fadeOut(1000);
                     $('#alertMsg').html("개발자 구분을 선택해주세요.");
                     return false;
                 }
                 if (!isUserId(inputUserId)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#toast').fadeIn(2000).delay(2000).fadeOut(2000);
                     $('#alertMsg').html("아이디는 영어 소문자,숫자 4-12자리");
                     $('#accountUserId').val(null).focus();
                     return false;
                 }
 
+                if (!isPasswd(inputPassword)) {
+                    $('#toast').fadeIn(2000).delay(2000).fadeOut(2000);
+                    $('#alertMsg').html("패스워드 형식이 올바르지 않습니다. " +
+                        "패스워드는 최소 4자리 숫자, 문자, 특수문자 각각 1개 이상 포함.");
+                    $('#accountPassword').val(null).focus();
+                    return false;
+                }
+
                 if (!isName(inputUserNm)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
-                    $('#alertMsg').html("이름은 한글만 입력 가능합니다.");
+                    $('#toast').fadeIn(2000).delay(2000).fadeOut(2000);
+                    $('#alertMsg').html("이름 형식이 올바르지 않습니다. 이름은 한글만 입력 가능합니다.");
                     $('#accountUserNm').val(null).focus();
                     return false;
                 }
 
                 if (!isEmail(inputEmail)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
+                    $('#toast').fadeIn(2000).delay(2000).fadeOut(2000);
                     $('#alertMsg').html("이메일 형식이 올바르지 않습니다.");
                     $('#accountEmail').val(null).focus();
-                    return false;
-                }
-
-                if (!isPasswd(inputPassword)) {
-                    $('#toast').fadeIn(400).delay(1000).fadeOut(400); //fade out after 3 seconds
-                    $('#alertMsg').html("패스워드는 최소 4자리 숫자, 문자, 특수문자 각각 1개 이상 포함.");
-                    $('#accountPassword').val(null).focus();
                     return false;
                 }
 
@@ -150,14 +152,15 @@
 
             });
 
+            // 중복체크 버튼 클릭 시
             $('#overlap_btn').click(function () {
                 let inputUserId = $('#accountUserId').val();
-                if (inputUserId.replace(/\s| {2}/gi, "").length === 0) { // 미입력 또는 공백 입력 방
-                    alert("아이디를 입력해주세요");
+                if (isUserId(inputUserId)) {
+                    userIdOverlap(inputUserId);
+                } else {
+                    alert("아이디 형식이 올바르지 않습니다.");
                     $('input[name="accountUserId"]').focus();
                     return false;
-                } else {
-                    userIdOverlap(inputUserId);
                 }
             });
 
@@ -193,35 +196,48 @@
             });
         }
 
+        const pattern = /\s/gi;
+
         /* 아이디 유효성 검사 */
         function isUserId(id) {
-            var regex = /^[a-z][a-z\d]{4,12}$/; // 영어 소문자,숫자 4-12자리
+            if (id.match(pattern)) {// 문자열에 위치한 모든 공백 제거
+                return false;
+            }
+            var regex = /^[a-z][a-z\d]{3,11}$/; // 영어 소문자,숫자 4-12자리
             return regex.test(id);
-        }
-
-        /* 이름 유효성 검사 */
-        function isName(name) {
-            var regex = /[가-힣]{2,}/;
-            return regex.test(name)
-        }
-
-        /* 이메일 유효성 검사 */
-        function isEmail(asValue) {
-            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-            return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
         }
 
         /* 패스워드 유효성 검사 */
         function isPasswd(pw) {
+            if (pw.match(pattern)) {
+                return false;
+            }
             // var regex = /^[A-Za-z\d]{8,12}$/; // 영어 소문자,숫자 4-12자리
             var regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{4,}$/; // 최소 4자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
+
             return regex.test(pw);
+        }
+
+        /* 이름 유효성 검사 */
+        function isName(name) {
+            if (name.match(pattern)) {
+                return false;
+            }
+            var regex = /^[가-힣]{2,}$/;
+            return regex.test(name)
+        }
+
+        /* 이메일 유효성 검사 */
+        function isEmail(email) {
+            if (email.match(pattern)) {
+                return false;
+            }
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            return regExp.test(email); // 형식에 맞는 경우 true 리턴
         }
 
         /* 회원가입 완료하여 데이터 전송 */
         function signUp(idCk) {
-
-
             console.log("IdCheck:", idCk);
 
             if (idCk === "N") {
@@ -284,15 +300,15 @@
         <div class="row justify-content-center pb-5">
             <h1>회원가입</h1>
         </div>
-        <div class="row mb-5  justify-content-center">
+        <div class="row mb-5 justify-content-center">
             <%-- 유효성 검사 토스트 창 --%>
-            <div class="alert alert-danger text-center" role="alert" id="toast">
+            <div class="alert alert-danger text-center mb-5" role="alert" id="toast">
                 <span id="alertMsg"></span>
             </div>
             <%-- //유효성 검사 토스트 창 --%>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center pt-3">
             <%-- form --%>
             <form id="accountSignUpForm" class="border-top border-bottom pl-5">
                 <%-- 아이디 --%>
@@ -313,6 +329,23 @@
                     </div>
                 </div>
                 <%-- //아이디 --%>
+
+                <%-- 패스워드 --%>
+                <div class="row mb-4">
+                    <div class="col-3 text-left">
+                        <button type="button" class="btn mb-2" data-toggle="tooltip" data-placement="top"
+                                title="영문 대 소문자, 특수문자 사용하세요.">
+                            <img src="${pageContext.request.contextPath}/resources/images/exclamation-circle-fill.svg"
+                                 alt="ref">
+                        </button>
+                        <span class="spanCus">패스워드</span>
+                    </div>
+                    <div class="col-5">
+                        <input type="password" class="inputCus form-control" name="accountPassword"
+                               id="accountPassword">
+                    </div>
+                </div>
+                <%-- //패스워드 --%>
 
                 <%-- 이름 --%>
                 <div class="row mb-4">
@@ -345,23 +378,6 @@
                     </div>
                 </div>
                 <%-- //이메일 --%>
-
-                <%-- 패스워드 --%>
-                <div class="row mb-4">
-                    <div class="col-3 text-left">
-                        <button type="button" class="btn mb-2" data-toggle="tooltip" data-placement="top"
-                                title="영문 대 소문자, 특수문자 사용하세요.">
-                            <img src="${pageContext.request.contextPath}/resources/images/exclamation-circle-fill.svg"
-                                 alt="ref">
-                        </button>
-                        <span class="spanCus">패스워드</span>
-                    </div>
-                    <div class="col-5">
-                        <input type="password" class="inputCus form-control" name="accountPassword"
-                               id="accountPassword">
-                    </div>
-                </div>
-                <%-- //패스워드 --%>
 
                 <%-- 개발자 구분 - 예비(P), 경력(C) --%>
                 <div class="row justify-content-center mb-5 ml-5 pl-1">

@@ -34,7 +34,18 @@
 
     <!-- 회원 계정 -->
     <select id="findByAccountUserId" parameterType="String" resultType="NAccountVO">
-        SELECT *
+        SELECT accountId
+             , accountUserId
+             , accountPassword
+             , accountUserNm
+             , accountEmail
+             , devCheck
+             , IF(active = 1, 'true', 'false') as active
+             , roles
+             , permissions
+             , createDt
+             , updateDt
+             , delYn
         FROM bbs_new_account
         WHERE accountUserId = #{accountUserId};
     </select>
@@ -42,7 +53,7 @@
     <!-- 계정 로그인 -->
     <select id="findByAccount" parameterType="NAccountVO" resultType="NAccountVO">
         <![CDATA[
-        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, active, role, createDt, updateDt
+        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, active, roles, createDt, updateDt
         FROM bbs_new_account
         ]]>
         <where>

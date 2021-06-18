@@ -22,16 +22,21 @@ public class NAccountServiceImpl implements NAccountService {
     /* 회원가입 */
     @Override
     public void registerSignUp(NAccountVO nAccountVO) {
-        // 패스워드 암호화 처리
 
-        //security 암호화
+        String regex = "/^\\s+|\\s+$/g";
+
+        String userId = nAccountVO.getAccountUserId();
+
+//        userId.replace(regex, " ")
+
+        // Bcrypt 패스워드 암호화 처리
         String pw = nAccountVO.getAccountPassword();
         String enPw = passwordEncoder.encode(pw);
 
         boolean matchResult = passwordEncoder.matches(pw, enPw);
         log.info("pw: {}\nenPw: {}\nmatchResult: {}", pw, enPw, matchResult);
         nAccountVO.setAccountPassword(enPw);
-        nAccountVO.setActive(1);
+        nAccountVO.setActive(true);
         nAccountVO.setRoles("USER");
         nAccountVO.setDelYn("N");
 

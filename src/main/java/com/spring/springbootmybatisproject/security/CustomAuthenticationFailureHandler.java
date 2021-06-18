@@ -29,16 +29,16 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             errorMsg = "아이디 또는 비밀번호가 틀립니다.";
 
         } else if (exception instanceof LockedException) {
-            errorMsg = "잠긴 계정입니다..";
+            errorMsg = "잠긴 계정입니다. 관리자에게 문의히세요.";
 
         } else if (exception instanceof DisabledException) {
-            errorMsg = "비활성화된 계정입니다..";
+            errorMsg = "비활성화된 계정입니다. 관리자에게 문의히세요.";
 
         } else if (exception instanceof AccountExpiredException) {
-            errorMsg = "만료된 계정입니다.";
+            errorMsg = "만료된 계정입니다. 관리자에게 문의히세요.";
 
         } else if (exception instanceof CredentialsExpiredException) {
-            errorMsg = "비밀번호가 만료되었습니다.";
+            errorMsg = "비밀번호가 만료되었습니다. 관리자에게 문의히세요.";
         } else {
             errorMsg = "알 수 없는 이유로 로그인을 실패하였습니다. 관리자에게 문의히세요.";
         }

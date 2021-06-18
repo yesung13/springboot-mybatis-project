@@ -38,6 +38,8 @@
 <%--<script src="${pageContext.request.contextPath}/resources/js/csrf.js"></script>--%>
 <%-- //spring security 사용 시 Ajax 통신을 CSRF 위한 코드 --%>
 
+<%-- fontawesome 사용--%>
+<script src="${pageContext.request.contextPath}/resources/lib/fontawesome-free-5.15.3-web/js/all.js" crossorigin="anonymous"></script>
 
 
 

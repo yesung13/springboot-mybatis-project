@@ -73,10 +73,10 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
-    // 계정 활성 여부 (활성 : 1, 비활성 : 0)
+    // 계정 활성 여부 (활성 : true, 비활성 : false)
     @Override
     public boolean isEnabled() {
-        return this.nAccountVO.getActive() == 1;
+        return nAccountVO.isActive();
     }
 
     // 계정 정보 추가 Getter

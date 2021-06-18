@@ -26,20 +26,20 @@ public class NAccountVO {
     // 사용자 아이디
     private String accountUserId;
 
+    // 사용자 패스워드
+    private String accountPassword;
+
     // 사용자 이름
     private String accountUserNm;
 
     // 사용자 이메일
     private String accountEmail;
 
-    // 사용자 패스워드
-    private String accountPassword;
-
     // 개발자구분 - 예비(P), 경력(C)
     private String devCheck;
 
     // 계정 활성
-    private int active;
+    private boolean active;
 
     // 인가 구분
     private String roles = "";
