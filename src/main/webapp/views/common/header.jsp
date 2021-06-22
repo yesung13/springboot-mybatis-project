@@ -30,11 +30,11 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMain">관리자페이지</a>
                     </li>
                 </sec:authorize>
-                <sec:authorize access="isAuthenticated()">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/board/list">게시판</a>
-                    </li>
-                </sec:authorize>
+                <%--                <sec:authorize access="isAuthenticated()">--%>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/board/list">게시판</a>
+                </li>
+                <%--                </sec:authorize>--%>
                 <sec:authorize access="hasAnyRole('USER', 'ADMIN')">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/survey/main">설문조사</a>

@@ -76,18 +76,31 @@
     <!-- //계정 로그인 -->
 
     <select id="findUserByLoginId" resultMap="User">
-
-        SELECT accountId, accountUserId, accountUserNm, accountEmail, accountPassword, devCheck, active, role, createDt,
-        updateDt
+        <![CDATA[
+        SELECT accountId
+            , accountUserId
+            , accountUserNm
+            , accountEmail
+            , accountPassword
+            , devCheck
+            , active
+            , roles
+            , createDt
+            , updateDt
         FROM bbs_new_account
+        ]]>
         <where>
             <if test=" accountUserId != null and accountUserId != '' ">AND accountUserId = #{accountUserId}</if>
         </where>
     </select>
 
     <!-- 회원 탈퇴 -->
-    <update id="deleteByAccountUserId" parameterType="NAccountVO">
-#         UPDATE bbs_new_account SET
+    <update id="findByAccountIdAndUpdateDelYn" parameterType="NAccountVO">
+        UPDATE bbs_new_account BNA
+        SET BNA.active = #{active},
+            BNA.delYn  = #{delYn},
+            BNA.updateDt = #{updateDt}
+        WHERE BNA.accountId = #{accountId};
     </update>
 
 </mapper>

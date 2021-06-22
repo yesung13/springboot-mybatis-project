@@ -29,9 +29,6 @@
     </style>
     <script type="text/javascript">
         $(function () {
-            /*<![CDATA[*/
-            <%--const accountId = ${userInfo.accountId};--%>
-            /*]]*/
             const accountId = jQuery('#accountId').val();
             console.log("accountId:::", accountId);
             // console.log("accountId:::", accountId);

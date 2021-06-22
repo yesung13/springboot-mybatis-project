@@ -124,7 +124,7 @@
             <%-- //로그인 후 실패 에러 창 --%>
 
             <div class="row navbar navbar-light" style="padding-top: 80px">
-                <a class="col navbar-brand" href="/">
+                <a class="col navbar-brand" href="/home">
                     <img src="${pageContext.request.contextPath}/resources/images/spring-logo.png"
                          class="d-inline-block align-baseline" alt="logo">
                     <span class="d-inline-block align-bottom">Spring Demo</span>

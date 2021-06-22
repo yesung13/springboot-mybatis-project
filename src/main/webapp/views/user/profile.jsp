@@ -150,14 +150,14 @@
 </html>
 <script>
     $('#delAccount_btn').click(function () {
-        if(confirm("회원 탈퇴를 진행하시겠습니까?")){
+        if (confirm("회원 탈퇴를 진행하시겠습니까?")) {
             return delAccount();
-        }else{
+        } else {
             return false;
         }
     });
 
-    function delAccount(){
+    function delAccount() {
         let requestUrl = '/nAccount/delAccountProc';
         let form = $('#accountInfoForm')[0];
         let data = new FormData(form);
@@ -168,19 +168,23 @@
             data: data,
             processData: false,
             contentType: false,
-            // cache: false,
-            // timeout: 600000,
+            // cache:"false", // 브라우저 캐쉬 막기
             success: function (response) {
                 console.log("Delete Account Response Data:", response);
 
-                if (response.resCode === 1003) {
+                if (response.resCode === 1004) {
                     alert(response.resMsg);
                     location.replace('/nAccount/login');
+                } else if (response.resCode === -1) {
+                    alert(response.resMsg);
+                    location.reload();
                 }
             },
             error: function (xhr, e, response) {
                 console.log("Delete Account Error:", xhr, e, response);
-                alert("회원 탈퇴 에러!!")
+                if (response.resCode === -1) {
+                    alert(response.resMsg);
+                }
             }
         });
     }

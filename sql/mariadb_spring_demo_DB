@@ -69,7 +69,9 @@ INSERT IGNORE INTO `bbs_attach` (`uuid`, `uploadPath`, `fileName`, `filetype`, `
 	('7447a07b-2794-463f-abba-824259d22925', '2020\\08\\03', 'test2.xlsx', '0', 183),
 	('8426055d-5f18-40a1-935e-8ec38cc394b4', '2020\\08\\03', 'img5.jpeg', '1', 180),
 	('90bb8545-7c43-46b9-a437-ad21a0c41263', '2020\\08\\04', 'test2.xlsx', '0', 187),
-	('be0a5d0c-f964-4ae2-a52a-0f0115b2440b', '2021\\06\\10', 'spring_icon.png', '1', 198);
+	('9e10d103-b682-4585-8837-b6e81a02c5c9', '2021\\06\\22', 'aaaaaaa.txt', '0', 201),
+	('be0a5d0c-f964-4ae2-a52a-0f0115b2440b', '2021\\06\\10', 'spring_icon.png', '1', 198),
+	('f94a85e7-47e5-415b-b5c4-26c878f667b8', '2021\\06\\22', 'logo.png', '1', 201);
 /*!40000 ALTER TABLE `bbs_attach` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_board 구조 내보내기
@@ -88,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `bbs_board` (
   PRIMARY KEY (`boardId`),
   KEY `FK_bbs_account_TO_bbs_board` (`accountId`),
   CONSTRAINT `FK_bbs_board_bbs_new_account` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COMMENT='게시판';
+) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8mb4 COMMENT='게시판';
 
 -- 테이블 데이터 spring_demo.bbs_board:~51 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_board` DISABLE KEYS */;
@@ -142,8 +144,9 @@ INSERT IGNORE INTO `bbs_board` (`boardId`, `accountId`, `title`, `content`, `wri
 	(187, 4, 'test', 'test', 'qwe', 8, 2, '2020-08-04 00:45:13', '2020-08-04 00:45:13', 'Q'),
 	(188, 1, '5월 공지사항ㅇㅇㅇㅇㅇㅇ 수정', 'ㅎㅇㅎㅇㅎㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ수정', 'admin', 26, 1, '2021-05-18 10:25:59', '2021-05-18 10:28:41', 'N'),
 	(197, 182, 'test120', '설문조사는 어떻게 해요?', '테스트120', 1, 0, '2021-06-10 13:28:10', '2021-06-10 13:31:51', 'Q'),
-	(198, 182, '파일 업로드 테스트 0610 -> 수정', '파일 업로드 테스트 중 입니다. 0610 -> 수정', '테스트120', 10, 1, '2021-06-10 13:50:18', '2021-06-10 15:09:08', 'Q'),
-	(200, 1, '테스트', '테스트', '관리자', 1, 0, '2021-06-16 11:05:24', '2021-06-16 11:05:24', 'N');
+	(198, 182, '파일 업로드 테스트 0610 -> 수정', '파일 업로드 테스트 중 입니다. 0610 -> 수정', '테스트120', 11, 1, '2021-06-10 13:50:18', '2021-06-10 15:09:08', 'Q'),
+	(200, 1, '테스트', '테스트', '관리자', 2, 0, '2021-06-16 11:05:24', '2021-06-16 11:05:24', 'N'),
+	(201, 186, '글쓰기 test 0622', '글쓰기 test 본문 0622 ', '유저이', 2, 1, '2021-06-22 13:57:53', '2021-06-22 13:57:53', 'Q');
 /*!40000 ALTER TABLE `bbs_board` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_file 구조 내보내기
@@ -183,9 +186,9 @@ CREATE TABLE IF NOT EXISTS `bbs_new_account` (
   `delYn` varchar(10) NOT NULL DEFAULT 'N' COMMENT '계정 삭제 여부',
   PRIMARY KEY (`accountId`),
   UNIQUE KEY `UQ_bbs_new_account_1` (`accountUserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COMMENT='new 계정';
 
--- 테이블 데이터 spring_demo.bbs_new_account:~124 rows (대략적) 내보내기
+-- 테이블 데이터 spring_demo.bbs_new_account:~119 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_new_account` DISABLE KEYS */;
 INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountPassword`, `accountUserNm`, `accountEmail`, `devCheck`, `active`, `roles`, `permissions`, `createDt`, `updateDt`, `delYn`) VALUES
 	(1, 'admin', '$2a$10$uSMafkOzK8ZqtPQDqFmhYejmCwqhHX7i3lwnWcZXfEmUaNAjuKON6', '관리자', 'admin@gmail.com', 'A', 1, 'ADMIN', NULL, '2021-05-27 16:39:25', '2021-05-27 16:39:25', 'N'),
@@ -311,8 +314,9 @@ INSERT IGNORE INTO `bbs_new_account` (`accountId`, `accountUserId`, `accountPass
 	(182, 'test120', '$2a$10$uSMafkOzK8ZqtPQDqFmhYejmCwqhHX7i3lwnWcZXfEmUaNAjuKON6', '테스트120', 'test120@naver.com', 'C', 1, 'USER', NULL, '2021-06-09 09:25:02', '2021-06-09 09:25:02', 'N'),
 	(183, 'user1', '$2a$10$hTg1WiRTVp1MFyynRpEIYOUtah5Mm4PNfctYMMMGJljY6AMlRiD1S', '유저1', 'user1@naver.com', 'C', 1, 'USER', '', '2021-06-15 15:25:12', '2021-06-15 15:25:12', 'N'),
 	(185, 'nakjun637', '$2a$10$yhTyEroSlV63AqH.oYh5Se4bhKsZMVDmmCWDsgVGAs99ZpCcE46tW', '성낙준', 'tjdskrwns123@naver.com', 'C', 1, 'USER', '', '2021-06-16 10:25:24', '2021-06-16 10:25:24', 'N'),
-	(186, 'user2', '$2a$10$vPuUcL9dSq/U8FDTRtPkoeCDTTx5uN4m5mzSzu2ck1Pc4TkpbqY6a', '유저2', 'user2@naver.com', 'P', 0, 'USER', '', '2021-06-16 11:09:15', '2021-06-16 11:09:15', 'N'),
-	(193, 'user4', '$2a$10$HYtXeEz3dSBntlHxUc52Ve2kythawf3LQp78BdJmGyt9ewDd4OyJa', '유저사', 'user4@naver.com', 'C', 1, 'USER', '', '2021-06-18 15:06:04', '2021-06-18 15:06:04', 'N');
+	(186, 'user2', '$2a$10$vPuUcL9dSq/U8FDTRtPkoeCDTTx5uN4m5mzSzu2ck1Pc4TkpbqY6a', '유저이', 'user2@naver.com', 'P', 1, 'USER', '', '2021-06-16 11:09:15', '2021-06-22 11:30:13', 'N'),
+	(193, 'user4', '$2a$10$HYtXeEz3dSBntlHxUc52Ve2kythawf3LQp78BdJmGyt9ewDd4OyJa', '유저사', 'user4@naver.com', 'C', 1, 'USER', '', '2021-06-18 15:06:04', '2021-06-18 15:06:04', 'N'),
+	(194, 'user5', '$2a$10$oWmGtgMehmMIjd9kSU9ZnOe5kKB0Un3fE79NhPFzpsvaY0J4UT4h2', '유저오', 'user5@naver.com', 'C', 1, 'USER', '', '2021-06-22 13:43:51', '2021-06-22 13:43:51', 'N');
 /*!40000 ALTER TABLE `bbs_new_account` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_reply 구조 내보내기
@@ -329,7 +333,7 @@ CREATE TABLE IF NOT EXISTS `bbs_reply` (
   KEY `boardId` (`boardId`),
   CONSTRAINT `FK_bbs_reply_bbs_new_account` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`) ON DELETE CASCADE,
   CONSTRAINT `boardId` FOREIGN KEY (`boardId`) REFERENCES `bbs_board` (`boardId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COMMENT='게시판댓글';
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COMMENT='게시판댓글';
 
 -- 테이블 데이터 spring_demo.bbs_reply:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_reply` DISABLE KEYS */;
@@ -339,7 +343,8 @@ INSERT IGNORE INTO `bbs_reply` (`replyId`, `accountId`, `boardId`, `replyWriter`
 	(31, 1, 188, 'admin', 'ㅀㅀㄹ수정이 되는군요', '2021-05-18 10:32:27'),
 	(38, 182, 198, '테스트120', '댓글 0610 작성 -> 수정', '2021-06-10 16:07:37'),
 	(39, 183, 198, '유저1', '댓글 0616 작성 -> 수정', '2021-06-16 10:48:00'),
-	(41, 183, 175, '유저1', '댓글 작성 0616', '2021-06-16 10:49:08');
+	(41, 183, 175, '유저1', '댓글 작성 0616', '2021-06-16 10:49:08'),
+	(42, 186, 201, '유저이', '댓글 작성 0622 -> 수정', '2021-06-22 13:58:16');
 /*!40000 ALTER TABLE `bbs_reply` ENABLE KEYS */;
 
 -- 테이블 spring_demo.bbs_survey 구조 내보내기
@@ -364,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `bbs_survey` (
   PRIMARY KEY (`surveyId`),
   UNIQUE KEY `UQ_bbs_survey_1` (`accountId`),
   CONSTRAINT `FK_bbs_survey_accountId_bbs_new_account_accountId` FOREIGN KEY (`accountId`) REFERENCES `bbs_new_account` (`accountId`)
-) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COMMENT='설문';
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8mb4 COMMENT='설문';
 
 -- 테이블 데이터 spring_demo.bbs_survey:~112 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `bbs_survey` DISABLE KEYS */;

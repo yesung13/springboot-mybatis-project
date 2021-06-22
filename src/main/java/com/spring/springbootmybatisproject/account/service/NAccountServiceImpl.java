@@ -6,6 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Service
 @Slf4j
 public class NAccountServiceImpl implements NAccountService {
@@ -85,9 +89,23 @@ public class NAccountServiceImpl implements NAccountService {
 //    }
 
     /* 회원 탈퇴
-    * 탈퇴 시 delYn = N, active = false 로 update 해줘야함 */
+     * 탈퇴 시 delYn = Y, active = false 로 update */
     @Override
-    public void deleteAccountInfo(NAccountVO nAccountVO) {
-        nAccountMapper.deleteByAccountUserId(nAccountVO);
+    public void updateAccountInfoDelYn(NAccountVO nAccountVO) {
+
+        NAccountVO vo = new NAccountVO();
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateResult = format.format(date);
+
+        if (nAccountVO != null) {
+            vo.setAccountId(nAccountVO.getAccountId());
+            vo.setAccountUserId(nAccountVO.getAccountUserId());
+            vo.setActive(false);
+            vo.setDelYn("Y");
+            vo.setUpdateDt(dateResult);
+        }
+
+        nAccountMapper.findByAccountIdAndUpdateDelYn(vo);
     }
 }

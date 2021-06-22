@@ -139,14 +139,30 @@ public class NAccountController {
     //회원 탈퇴
     @PostMapping("/delAccountProc")
     @ResponseBody
-    public ResultVO deleteAccount(NAccountVO nAccountVO){
-
-        if(nAccountVO.getAccountId() != null){
-            nAccountService.deleteAccountInfo(nAccountVO);
-        }
+    public ResultVO deleteAccount(NAccountVO nAccountVO) {
 
         ResultVO result = new ResultVO();
+
+        try {
+            if (nAccountVO.getAccountId() != null) {
+                nAccountService.updateAccountInfoDelYn(nAccountVO);
+            }
+            result.setResCode(SFV.INT_RES_A_DELACCOUNT_SUCCESS);
+            result.setResMsg(SFV.STRING_RES_A_DELACCOUNT_SUCCESS);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            log.error("deleteAccount Controller NPE");
+            result.setResMsg("존재하지 않는 회원입니다. 확인 후 탈퇴 진행해주세요.");
+            result.setResCode(SFV.INT_RES_CODE_FAIL);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResMsg("회원탈퇴 시스템 에러");
+            result.setResCode(SFV.INT_RES_CODE_FAIL);
+        }
+
+
         return result;
+
 
     }
 }

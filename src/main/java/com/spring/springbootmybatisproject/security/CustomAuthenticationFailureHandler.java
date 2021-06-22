@@ -32,7 +32,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             errorMsg = "잠긴 계정입니다. 관리자에게 문의히세요.";
 
         } else if (exception instanceof DisabledException) {
-            errorMsg = "비활성화된 계정입니다. 관리자에게 문의히세요.";
+//            errorMsg = "비활성화된 계정입니다. 관리자에게 문의히세요.";
+            errorMsg = "존재하지 않은 계정입니다. 관리자에게 문의히세요.";
 
         } else if (exception instanceof AccountExpiredException) {
             errorMsg = "만료된 계정입니다. 관리자에게 문의히세요.";

@@ -63,7 +63,7 @@ public class SurveyServiceImpl implements SurveyService {
             String groupCd = vo.getName();
             String itemCd = vo.getValue();
 
-            log.info("SaveSurveyList::: accountId: {}, groupCd: {}, itemCd: {}",accountId, groupCd, itemCd);
+            log.info("SaveSurveyList::: accountId: {}, groupCd: {}, itemCd: {}", accountId, groupCd, itemCd);
 
 
             if (groupCd.equals("P101")) {

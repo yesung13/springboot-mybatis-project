@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: yys
@@ -42,286 +41,6 @@
             height: 2.7em;
         }
     </style>
-    <script type="text/javascript">
-        const devCk = '<c:out value="${userInfo.devCheck}"/>'
-
-        $(function () {
-            console.log("start");
-
-            console.log("devCheck::", devCk);
-
-            getSurveyList();
-
-            $('#surveyResult_btn').click(function () {
-                location.replace("/survey/surveyResults");
-            });
-
-
-        });
-
-        /* tab 페이지 컨트롤 */
-        function pageCtrl_btn(btn_id) {
-            console.log(btn_id);
-            const $PART1_TAB = jQuery('#part1_tab');
-            const $PART2_TAB = jQuery('#part2_tab');
-            const $PART3_TAB = jQuery('#part3_tab');
-
-            if (btn_id === 'next_1') {
-                $PART1_TAB.click();
-            } else if (btn_id === 'next_2') {
-                $PART2_TAB.click();
-            } else if (btn_id === 'next_3') {
-                $PART3_TAB.click();
-            } else if (btn_id === 'back_1') {
-                $PART1_TAB.click();
-            } else if (btn_id === 'back_2') {
-                $PART2_TAB.click();
-            } else if (btn_id === 'next_end') {
-                itemsCk();
-            }
-        }
-
-
-        /* checkbox 최대 갯수 체크 */
-        function ckBxCtrl(groupCd) {
-            console.log("groupCode: ", groupCd);
-            if (groupCd === "P106") {
-                let $count = jQuery('input:checkbox[name ="P106"]:checked');
-                if ($count.length > 1) {
-                    $count.prop("checked", false);
-                    alert("1개만 선택 가능");
-                }
-            } else if (groupCd === "P301") {
-                let $count = jQuery('input:checkbox[name ="P301"]:checked');
-                if ($count.length > 2) {
-                    $count.prop("checked", false);
-                    alert("최대 2개까지만 선택 가능");
-                }
-            } else if (groupCd === "P302") {
-                let $count = jQuery('input:checkbox[name ="P302"]:checked');
-                if ($count.length > 2) {
-                    $count.prop("checked", false);
-                    alert("최대 2개까지만 선택 가능");
-                }
-            }
-        }/* //checkbox 최대 갯수 체크 */
-
-        /* 설문 항목 가져오기 */
-        function getSurveyList() {
-            $.ajax({
-                method: 'GET',
-                url: '/survey/listProc',
-                dataType: 'json',
-                success: function (res) {
-                    console.log("success: ", res);
-                    //변수 선언
-                    let part101 = '';
-                    let part102 = '';
-                    let part103 = '';
-                    let part104 = '';
-                    let part105 = '';
-                    let part106 = '';
-                    let part201 = '';
-                    let part202 = '';
-                    let part203 = '';
-                    let part301 = '';
-                    let part302 = '';
-
-                    $.each(res, function (idx, item) {
-                        let groupCd = item.groupCd;
-                        let itemCd = item.itemCd;
-                        let itemNm = item.itemNm;
-                        let itemComm = item.itemComm;
-
-                        /* Part1. 개발자 정보 */
-                        if (groupCd === 'P101') {
-                            part101 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
-                        } else if (groupCd === 'P102') {
-                            // if (devCk === 'P') {
-                            part102 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
-                            // }
-
-                        } else if (groupCd === 'P103') {
-                            part103 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
-
-                        } else if (groupCd === 'P104') {
-                            if (devCk === 'C') {
-                                part104 += '<div class="form-check form-check-inline ml-4">'
-                                    + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                    + '</div>';
-                            }
-                        } else if (groupCd === 'P105') {
-                            if (devCk === 'C') {
-                                part105 += '<div class="form-check mb-2">'
-                                    + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                    + '</div>';
-                            }
-                        } else if (groupCd === 'P106') {
-                            if (devCk === 'C') {
-                                part106 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                    + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
-                                    + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                    + '</div>';
-                            }
-
-                        }/* //Part1. 개발자 정보 */
-
-                        /* Part2. 개발 시 사용하는 OS / DB / 에디터  */
-                        else if (groupCd === 'P201') {
-                            part201 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>'
-                        } else if (groupCd === 'P202') {
-                            part202 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>'
-                        } else if (groupCd === 'P203') {
-                            part203 += '<div class="form-check form-check-inline ml-4">'
-                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>'
-                        }/* //Part2. 개발 시 사용하는 OS / DB / 에디터  */
-
-                        /* Part3. 개발 시 사용하는 프로그래밍 언어  */
-                        else if (groupCd === 'P301') {
-                            part301 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
-                        } else if (groupCd === 'P302') {
-                            part302 += '<div class="form-check form-check-inline mx-4 my-2">'
-                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
-                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
-                                + '</div>';
-                        } else {/* //Part3. 개발 시 사용하는 프로그래밍 언어  */
-                            console.error("Response Error")
-                            alert("데이터가 없습니다.")
-                            return false;
-                        }
-
-                    });//each end
-                    $('.itemOutput101').html(part101);
-                    $('.itemOutput102').html(part102);
-                    $('.itemOutput103').html(part103);
-                    $('.itemOutput104').html(part104);
-                    $('.itemOutput105').html(part105);
-                    $('.itemOutput106').html(part106);
-                    $('.itemOutput201').html(part201);
-                    $('.itemOutput202').html(part202);
-                    $('.itemOutput203').html(part203);
-                    $('.itemOutput301').html(part301);
-                    $('.itemOutput302').html(part302);
-
-                },
-                error: function (xhr, e, response) {
-                    console.log("Error:", xhr, e, response);
-                    alert("에러!!")
-                }
-
-            });//ajax end
-        }/* //설문 항목 가져오기 */
-
-        /* 설문 미입력 항목 체크 */
-        function itemsCk() {
-
-            if (!$('input:checked[name="P101"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part1 - Q1]");
-                return false;
-            }
-            // if (devCk === 'P') {
-            if (!$('input:checked[name="P102"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part1 - Q1-1]");
-                return false;
-            }
-            // }
-            if (!$('input:checked[name="P103"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part1 - Q2]");
-                return false;
-            }
-            if (devCk === 'C') {
-                if (!$('input:checked[name="P104"]').is(':checked')) {
-                    alert("미입력 항목이 있습니다. [Part1 - Q3]");
-                    return false;
-                }
-                if (!$('input:checked[name="P105"]').is(':checked')) {
-                    alert("미입력 항목이 있습니다. [Part1 - Q4]");
-                    return false;
-                }
-                if (!$('input:checked[name="P106"]').is(':checked')) {
-                    alert("미입력 항목이 있습니다. [Part1 - Q5]");
-                    return false;
-                }
-            }
-            if (!$('input:checked[name="P201"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part2 - Q1]");
-                return false;
-            }
-            if (!$('input:checked[name="P202"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part2 - Q2]");
-                return false;
-            }
-            if (!$('input:checked[name="P203"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part2 - Q3]");
-                return false;
-            }
-            if (!$('input:checked[name="P301"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part3 - Q1]");
-                return false;
-            }
-            if (!$('input:checked[name="P302"]').is(':checked')) {
-                alert("미입력 항목이 있습니다. [Part3 - Q2]");
-                return false;
-            }
-
-            saveSurveyList();
-        }
-
-        /* 설문 항목 저장 */
-        function saveSurveyList() {
-            let form = $('#form').serializeArray();
-            let data = JSON.stringify(form);
-
-            console.log("Insert Request data:", data);
-            console.log("Insert Request form:", form);
-            $.ajax({
-                type: "POST",
-                url: "/survey/saveListProc",
-                data: data,
-                dataType: 'json',
-                contentType: "application/json",
-                // timeout: 6000,
-                success: function (response) {
-                    console.log("Insert Response Data:", response);
-                    if (response.resCode === 200) {
-                        alert(response.resMsg);
-                        location.replace('/survey/surveyResults');
-                    } else if (response.resCode === -1) {
-                        alert(response.resMsg);
-                    } else if (response.resCode === 999) {
-                        alert(response.resMsg);
-                    }
-                },
-                error: function (xhr, e, response) {
-                    console.log("Insert Error:", xhr, e, response);
-                    alert("에러!!")
-                }
-            });
-        }/* //설문 항목 저장 */
-    </script>
-
 </head>
 <body>
 <%-- 헤더(navbar) --%>
@@ -381,12 +100,12 @@
                     <%-- //P101 그룹 --%>
 
                     <%-- P102 그룹 --%>
-                    <%--                    <c:if test="${userInfo.devCheck eq 'P'}">--%>
-                    <div class="mb-5">
-                        <p class="itemTitle">Q1 - 1. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
-                        <div class="itemOutput102 form-group"></div>
-                    </div>
-                    <%--                    </c:if>--%>
+                    <c:if test="${userInfo.devCheck eq 'P'}">
+                        <div class="mb-5">
+                            <p class="itemTitle">Q1 - 1. 비전공자일 경우 학습하신 방법을 선택해주세요. <span>[비전공자만 선택]</span></p>
+                            <div class="itemOutput102 form-group"></div>
+                        </div>
+                    </c:if>
                     <%-- //P102 그룹 --%>
 
                     <%-- P103 그룹 --%>
@@ -536,4 +255,283 @@
 <%-- 푸터 --%>
 <jsp:include page="/views/common/footer.jsp"/>
 </body>
+<script type="text/javascript">
+    const devCk = '<c:out value="${userInfo.devCheck}"/>'
+
+    $(function () {
+        console.log("start");
+
+        console.log("devCheck::", devCk);
+
+        getSurveyList();
+
+        $('#surveyResult_btn').click(function () {
+            location.replace("/survey/surveyResults");
+        });
+
+
+    });
+
+    /* tab 페이지 컨트롤 */
+    function pageCtrl_btn(btn_id) {
+        console.log(btn_id);
+        const $PART1_TAB = jQuery('#part1_tab');
+        const $PART2_TAB = jQuery('#part2_tab');
+        const $PART3_TAB = jQuery('#part3_tab');
+
+        if (btn_id === 'next_1') {
+            $PART1_TAB.click();
+        } else if (btn_id === 'next_2') {
+            $PART2_TAB.click();
+        } else if (btn_id === 'next_3') {
+            $PART3_TAB.click();
+        } else if (btn_id === 'back_1') {
+            $PART1_TAB.click();
+        } else if (btn_id === 'back_2') {
+            $PART2_TAB.click();
+        } else if (btn_id === 'next_end') {
+            itemsCk();
+        }
+    }
+
+
+    /* checkbox 최대 갯수 체크 */
+    function ckBxCtrl(groupCd) {
+        console.log("groupCode: ", groupCd);
+        if (groupCd === "P106") {
+            let $count = jQuery('input:checkbox[name ="P106"]:checked');
+            if ($count.length > 1) {
+                $count.prop("checked", false);
+                alert("1개만 선택 가능");
+            }
+        } else if (groupCd === "P301") {
+            let $count = jQuery('input:checkbox[name ="P301"]:checked');
+            if ($count.length > 2) {
+                $count.prop("checked", false);
+                alert("최대 2개까지만 선택 가능");
+            }
+        } else if (groupCd === "P302") {
+            let $count = jQuery('input:checkbox[name ="P302"]:checked');
+            if ($count.length > 2) {
+                $count.prop("checked", false);
+                alert("최대 2개까지만 선택 가능");
+            }
+        }
+    }/* //checkbox 최대 갯수 체크 */
+
+    /* 설문 항목 가져오기 */
+    function getSurveyList() {
+        $.ajax({
+            method: 'GET',
+            url: '/survey/listProc',
+            dataType: 'json',
+            success: function (res) {
+                console.log("success: ", res);
+                //변수 선언
+                let part101 = '';
+                let part102 = '';
+                let part103 = '';
+                let part104 = '';
+                let part105 = '';
+                let part106 = '';
+                let part201 = '';
+                let part202 = '';
+                let part203 = '';
+                let part301 = '';
+                let part302 = '';
+
+                $.each(res, function (idx, item) {
+                    let groupCd = item.groupCd;
+                    let itemCd = item.itemCd;
+                    let itemNm = item.itemNm;
+                    let itemComm = item.itemComm;
+
+                    /* Part1. 개발자 정보 */
+                    if (groupCd === 'P101') {
+                        part101 += '<div class="form-check form-check-inline ml-4">'
+                            + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>';
+                    } else if (groupCd === 'P102') {
+                        if (devCk === 'P') {
+                            part102 += '<div class="form-check form-check-inline ml-4">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                + '</div>';
+                        }
+
+                    } else if (groupCd === 'P103') {
+                        part103 += '<div class="form-check form-check-inline ml-4">'
+                            + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>';
+
+                    } else if (groupCd === 'P104') {
+                        if (devCk === 'C') {
+                            part104 += '<div class="form-check form-check-inline ml-4">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                + '</div>';
+                        }
+                    } else if (groupCd === 'P105') {
+                        if (devCk === 'C') {
+                            part105 += '<div class="form-check mb-2">'
+                                + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                + '</div>';
+                        }
+                    } else if (groupCd === 'P106') {
+                        if (devCk === 'C') {
+                            part106 += '<div class="form-check form-check-inline mx-4 my-2">'
+                                + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                                + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                                + '</div>';
+                        }
+
+                    }/* //Part1. 개발자 정보 */
+
+                    /* Part2. 개발 시 사용하는 OS / DB / 에디터  */
+                    else if (groupCd === 'P201') {
+                        part201 += '<div class="form-check form-check-inline ml-4">'
+                            + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>'
+                    } else if (groupCd === 'P202') {
+                        part202 += '<div class="form-check form-check-inline ml-4">'
+                            + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>'
+                    } else if (groupCd === 'P203') {
+                        part203 += '<div class="form-check form-check-inline ml-4">'
+                            + '<input class="form-check-input " type="radio" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '">'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>'
+                    }/* //Part2. 개발 시 사용하는 OS / DB / 에디터  */
+
+                    /* Part3. 개발 시 사용하는 프로그래밍 언어  */
+                    else if (groupCd === 'P301') {
+                        part301 += '<div class="form-check form-check-inline mx-4 my-2">'
+                            + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>';
+                    } else if (groupCd === 'P302') {
+                        part302 += '<div class="form-check form-check-inline mx-4 my-2">'
+                            + '<input class="form-check-input " type="checkbox" name="' + groupCd + '" id="' + itemComm + '" value="' + itemCd + '" onclick=ckBxCtrl("' + groupCd + '")>'
+                            + '<label class="form-check-label" for="' + itemComm + '"><span class="spanCus">' + itemNm + '</span></label>'
+                            + '</div>';
+                    } else {/* //Part3. 개발 시 사용하는 프로그래밍 언어  */
+                        console.error("Response Error")
+                        alert("데이터가 없습니다.")
+                        return false;
+                    }
+
+                });//each end
+                $('.itemOutput101').html(part101);
+                $('.itemOutput102').html(part102);
+                $('.itemOutput103').html(part103);
+                $('.itemOutput104').html(part104);
+                $('.itemOutput105').html(part105);
+                $('.itemOutput106').html(part106);
+                $('.itemOutput201').html(part201);
+                $('.itemOutput202').html(part202);
+                $('.itemOutput203').html(part203);
+                $('.itemOutput301').html(part301);
+                $('.itemOutput302').html(part302);
+
+            },
+            error: function (xhr, e, response) {
+                console.log("Error:", xhr, e, response);
+                alert("에러!!")
+            }
+
+        });//ajax end
+    }/* //설문 항목 가져오기 */
+
+    /* 설문 미입력 항목 체크 */
+    function itemsCk() {
+
+        if (!$('input:checked[name="P101"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part1 - Q1]");
+            return false;
+        }
+        if (devCk === 'P') {
+            if (!$('input:checked[name="P102"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q1-1]");
+                return false;
+            }
+        }
+        if (!$('input:checked[name="P103"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part1 - Q2]");
+            return false;
+        }
+        if (devCk === 'C') {
+            if (!$('input:checked[name="P104"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q3]");
+                return false;
+            }
+            if (!$('input:checked[name="P105"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q4]");
+                return false;
+            }
+            if (!$('input:checked[name="P106"]').is(':checked')) {
+                alert("미입력 항목이 있습니다. [Part1 - Q5]");
+                return false;
+            }
+        }
+        if (!$('input:checked[name="P201"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part2 - Q1]");
+            return false;
+        }
+        if (!$('input:checked[name="P202"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part2 - Q2]");
+            return false;
+        }
+        if (!$('input:checked[name="P203"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part2 - Q3]");
+            return false;
+        }
+        if (!$('input:checked[name="P301"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part3 - Q1]");
+            return false;
+        }
+        if (!$('input:checked[name="P302"]').is(':checked')) {
+            alert("미입력 항목이 있습니다. [Part3 - Q2]");
+            return false;
+        }
+
+        saveSurveyList();
+    }
+
+    /* 설문 항목 저장 */
+    function saveSurveyList() {
+        let form = $('#form').serializeArray();
+        let data = JSON.stringify(form);
+
+        console.log("Insert Request data:", data);
+        console.log("Insert Request form:", form);
+        $.ajax({
+            type: "POST",
+            url: "/survey/saveListProc",
+            data: data,
+            dataType: 'json',
+            contentType: "application/json",
+            // timeout: 6000,
+            success: function (response) {
+                console.log("Insert Response Data:", response);
+                if (response.resCode === 200) {
+                    alert(response.resMsg);
+                    location.replace('/survey/surveyResults');
+                } else if (response.resCode === -1) {
+                    alert(response.resMsg);
+                } else if (response.resCode === 999) {
+                    alert(response.resMsg);
+                }
+            },
+            error: function (xhr, e, response) {
+                console.log("Insert Error:", xhr, e, response);
+                alert("에러!!")
+            }
+        });
+    }/* //설문 항목 저장 */
+</script>
 </html>

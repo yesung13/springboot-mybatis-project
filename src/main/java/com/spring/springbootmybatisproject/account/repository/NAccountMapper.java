@@ -23,6 +23,7 @@ public interface NAccountMapper {
     /* 로그인 시 Security 에서 계정 정보 조회 */
     NAccountVO findUserByLoginId(@Param("accountUserId") String accountUserId);
 
-    /* 회원 탈퇴 */
-    void deleteByAccountUserId(NAccountVO nAccountVO);
+    /* 회원 탈퇴
+     * 탈퇴 시 delYn = Y, active = false 로 update */
+    void findByAccountIdAndUpdateDelYn(NAccountVO nAccountVO);
 }

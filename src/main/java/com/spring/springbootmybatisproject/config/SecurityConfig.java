@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable() // csrf 비활성화 - 미설정 시 모든 POST가 /login 쪽으로 포워딩 됨.
             .authorizeRequests() // 페이지 인증 해제
                 .antMatchers("/resources/**", "/nAccount/**").permitAll()
-                .antMatchers("/home").permitAll()
+                .antMatchers("/home", "/board/list").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/board/**").hasAnyRole("USER", "ADMIN")

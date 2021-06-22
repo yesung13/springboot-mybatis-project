@@ -24,11 +24,14 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String accountUserId) throws UsernameNotFoundException {
         NAccountVO nAccountVO = this.nAccountMapper.findByAccountUserId(accountUserId);
 
-        log.info("=======active: {}", nAccountVO.isActive());
+        log.info("[Login Info] :: {}", nAccountVO.toString());
 
         // 사용자 정보 없으면 null 처리
-        if (nAccountVO == null) {
+        if (nAccountVO.getAccountUserId() == null) {
+            log.info("[Login Info] :: 계정 정보 없음");
             return null;
+        } else if (!nAccountVO.isActive() && nAccountVO.getDelYn().equals("Y")){
+            log.info("[Login Info] :: USERID: {} 삭제된 계정", nAccountVO.getAccountUserId());
         }
 
         UserPrincipal userPrincipal = new UserPrincipal(nAccountVO);

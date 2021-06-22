@@ -28,6 +28,7 @@ public class SurveyController {
     /* 설문조사 참여 여부 페이지 - Main */
     @GetMapping("/main")
     public String surveyMainForm() {
+
         return "/survey/surveyMain";
     }
 
