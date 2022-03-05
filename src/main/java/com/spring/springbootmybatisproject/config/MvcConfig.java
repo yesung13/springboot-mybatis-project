@@ -6,8 +6,10 @@
 //import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 //import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //
-/* Spring Security 적용 전 사용 2021.06.16 */
+//
+///* Spring Security 적용 전 사용 2021.06.16 */
 //@Configuration
+//@Deprecated
 //public class MvcConfig implements WebMvcConfigurer {
 //
 //    @Bean
@@ -27,7 +29,7 @@
 //                .excludePathPatterns("/survey/main") // 제외할 url
 //                .excludePathPatterns("/survey/surveyResults") // 제외할 url
 //                .excludePathPatterns("/board/list"); // 제외할 url
-////        WebMvcConfigurer.super.addInterceptors(registry);
+//        WebMvcConfigurer.super.addInterceptors(registry);
 //    }
 //
 //
