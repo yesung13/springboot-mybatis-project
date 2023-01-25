@@ -20,5 +20,8 @@
   - **ETC**
        * logback
        * log4jdbc.log4j2
+  - **테스트 계정**
+       * 모든 테스트 계정 암호: new1234!
+
        
     

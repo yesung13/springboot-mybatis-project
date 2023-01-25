@@ -24,7 +24,7 @@ spring:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       jdbc-url: jdbc:log4jdbc:mariadb://127.0.0.1:3306/spring_demo
       username: root
-      password: root
+      password: 1234
     sql-script-encoding: UTF-8 # SQL 인코딩 옵션
   # java config 자동 설정 시
   #    driver-class-name: org.mariadb.jdbc.Driver
