@@ -10,6 +10,7 @@
 //import java.io.IOException;
 ///* Spring Security 적용 전 사용 2021.06.16 */
 //@Slf4j
+//@Deprecated
 //public class AuthCheckInterceptor extends HandlerInterceptorAdapter {
 ////    private final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 //

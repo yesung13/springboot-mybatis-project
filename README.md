@@ -2,7 +2,7 @@
     | Mybatis를 이용한 게시판
   - **환경**
     * Spring boot(_Gradle 5.4.1_)
-    * MariaDB 10.5
+    * MariaDB 10.5 -> 10.10(230125)
     * jQuery
     
   - **기능** (`reference file` 폴더 참조)
@@ -20,5 +20,8 @@
   - **ETC**
        * logback
        * log4jdbc.log4j2
+  - **테스트 계정**
+       * 모든 테스트 계정 암호: new1234!
+
        
     
